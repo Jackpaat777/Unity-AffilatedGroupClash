@@ -31,6 +31,7 @@ public class GameManager : MonoBehaviour
         baseObject[1].SetActive(true);
     }
 
+    // 버튼을 통한 이동
     public void CameraMove(string type)
     {
         // Set Speed By Button
@@ -42,6 +43,16 @@ public class GameManager : MonoBehaviour
 
     void Update()
     {
+        // 키보드를 통한 이동
+        if (Input.GetKey(KeyCode.RightArrow))
+            camSpeed = 2;
+        if (Input.GetKey(KeyCode.LeftArrow))
+            camSpeed = -2;
+        if (Input.GetKey(KeyCode.RightArrow) && Input.GetKey(KeyCode.LeftArrow))
+            camSpeed = 0;
+        if (Input.GetKeyUp(KeyCode.RightArrow) || Input.GetKeyUp(KeyCode.LeftArrow))
+            camSpeed = 0;
+
         // Camera Move
         // 화면 밖으로 이동하려고 하면 Move 중지
         if ((camSpeed == -2f && camTrans.position.x > -2.5) || (camSpeed == 2f && camTrans.position.x < 2.5))
