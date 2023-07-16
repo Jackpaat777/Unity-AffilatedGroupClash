@@ -8,6 +8,7 @@ public class ObjectManager : MonoBehaviour
 
     public GameObject[] bluePrefabs;
     public GameObject[] redPrefabs;
+    public GameObject[] bulletPrefabs;
 
     void Awake()
     {

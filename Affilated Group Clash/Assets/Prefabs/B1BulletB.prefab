@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: -5772219939082505784}
   - component: {fileID: 650020561937586682}
   m_Layer: 8
-  m_Name: BAB
+  m_Name: B1BulletB
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -27,7 +27,7 @@ Transform:
   m_GameObject: {fileID: 7508681836831870246}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0.3, z: 0}
-  m_LocalScale: {x: 0.3, y: 0.3, z: 1}
+  m_LocalScale: {x: 0.5, y: 0.5, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
@@ -47,7 +47,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   speed: 15
   isHit: 0
-  dmg: 0
+  dmg: 2
 --- !u!212 &650020561937586682
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -89,12 +89,12 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 2
-  m_Sprite: {fileID: -2269638749862755701, guid: 3765a367fb48f9040bca18add088d6d3, type: 3}
+  m_Sprite: {fileID: -858802401, guid: 4b69496437d406247b5c69afb9fddf6a, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
-  m_Size: {x: 0.8, y: 0.35}
+  m_Size: {x: 0.35, y: 0.2}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1

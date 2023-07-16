@@ -17,7 +17,6 @@ public class GameManager : MonoBehaviour
     public float camSpeed;
     public bool isMove;
 
-
     void Awake()
     {
         instance = this;
