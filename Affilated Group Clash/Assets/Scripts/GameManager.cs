@@ -43,12 +43,12 @@ public class GameManager : MonoBehaviour
     // 버튼을 통한 유닛 생성
     public void MakeBlueUnit(int idx)
     {
-        GameObject unitB = ObjectManager.instance.bakChiB_blue_Prefabs[idx];
+        GameObject unitB = ObjectManager.instance.bakChiA_blue_Prefabs[idx];
         Instantiate(unitB);
     }
     public void MakRedUnit(int idx)
     {
-        GameObject unitR = ObjectManager.instance.bakChiA_red_Prefabs[idx];
+        GameObject unitR = ObjectManager.instance.bakChiB_red_Prefabs[idx];
         Instantiate(unitR);
     }
 

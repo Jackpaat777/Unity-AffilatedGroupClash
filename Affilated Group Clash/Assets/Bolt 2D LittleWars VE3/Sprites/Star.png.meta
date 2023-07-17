@@ -224,6 +224,27 @@ TextureImporter:
       indices: 
       edges: []
       weights: []
+    - serializedVersion: 2
+      name: Star 4
+      rect:
+        serializedVersion: 2
+        x: 35
+        y: 0
+        width: 1
+        height: 1
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 2e9561ca0a48c234a9f2ccad98783bcc
+      internalID: -895251615
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
     outline: []
     physicsShape: []
     bones: []
@@ -235,6 +256,7 @@ TextureImporter:
     weights: []
     secondaryTextures: []
     nameFileIdTable:
+      Star 4: -895251615
       Star 1: 1789727790
       Star 3: 1649097632
       Star 2: 428583947

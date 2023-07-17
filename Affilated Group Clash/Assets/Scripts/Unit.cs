@@ -15,8 +15,12 @@ public enum UnitType
 
 public enum UnitDetail
 {
-    Sword, Guard, Vampire, Bomb, Archer, Sniper,
-    Farmer, Guitar, Wizard, Book, Noblilty
+    // Bullet B 사용 유닛
+    Archer, Sniper, Farmer, Guitar, Wizard,
+    // Bullet T 사용 유닛
+    Bomb, Drum, Book, Vampire, Punch,
+    Sword, Guard,
+    Noblilty
 }
 
 public enum UnitState
@@ -47,6 +51,7 @@ public class Unit : MonoBehaviour
 
     public bool isFront;
     float attackTimer;
+    float buffTimer;
     float stopTimer;
     float moneyTimer;
     bool isHit;
@@ -228,8 +233,8 @@ public class Unit : MonoBehaviour
                 isFront = true;
             }
 
-            // 폭탄의 경우
-            else if (unitDetail == UnitDetail.Bomb)
+            // 폭탄의 경우 / 드럼의 경우
+            else if (unitDetail == UnitDetail.Bomb || unitDetail == UnitDetail.Drum)
                 BombAttack();
         }
         else
@@ -300,19 +305,47 @@ public class Unit : MonoBehaviour
 
         // 공격속도에 따라서 어택
         attackTimer += Time.deltaTime;
-        if (attackTimer > unitAtkSpeed)
-        {
-            // 뱀파이어는 공격 시 체력 회복
-            if (unitDetail == UnitDetail.Vampire)
-            {
-                unitHp += unitAtk;
-                unitHp = unitHp > unitMaxHp ? unitMaxHp : unitHp;
-            }
-            enemyLogic.DoHit(unitAtk);
+        if (attackTimer < unitAtkSpeed)
+            return;
 
-            anim.SetTrigger("doAttack");
-            attackTimer = 0;
+
+        // Skill
+        int idx = (int)unitDetail - (int)UnitDetail.Bomb;
+        // 뱀파이어는 공격 시 체력 회복
+        if (unitDetail == UnitDetail.Vampire)
+        {
+            // 회복 이펙트
+            GameObject bullet = ObjectManager.instance.bulletTPrefabs[idx];
+            Instantiate(bullet, transform.position + Vector3.up * 0.5f, Quaternion.identity);
+            SetBuffType("HP", 1);
         }
+        // 펀치는 상대 체력이 3이하면 즉사시킴
+        else if (unitDetail == UnitDetail.Punch)
+        {
+            // 즉사
+            if (enemyLogic.unitHp <= 5)
+            {
+                enemyLogic.DoHit(5);
+                // 이펙트
+                if (gameObject.layer == 8)
+                {
+                    GameObject bullet = ObjectManager.instance.bulletTPrefabs[idx];
+                    Vector3 vec = new Vector3(0.5f, 0.5f);
+                    Instantiate(bullet, transform.position + vec, Quaternion.identity);
+                }
+                else if (gameObject.layer == 9)
+                {
+                    GameObject bullet = ObjectManager.instance.bulletTPrefabs[idx];
+                    Vector3 vec = new Vector3(-0.5f, 0.5f);
+                    Instantiate(bullet, transform.position + vec, Quaternion.identity);
+                }
+            }
+        }
+
+        // Attack
+        enemyLogic.DoHit(unitAtk);
+        anim.SetTrigger("doAttack");
+        attackTimer = 0;
     }
     void ShotAttack(Transform targetTrans)
     {
@@ -326,9 +359,8 @@ public class Unit : MonoBehaviour
             return;
 
         // Bullet
-        GameObject bullet = ObjectManager.instance.bulletBPrefabs[0];
-        int idx = (int)unitDetail - (int)UnitDetail.Archer;
-
+        GameObject bullet = null;
+        int idx = (int)unitDetail;
         if (gameObject.layer == 8)          // 블루 팀 유닛일 경우
         {
             // 자신을 기준으로 총알 발사
@@ -338,7 +370,7 @@ public class Unit : MonoBehaviour
                 Instantiate(bullet, transform.position + Vector3.up * 0.3f, Quaternion.identity);
             }
             // 타겟를 기준으로 총알 발사
-            else if (unitDetail == UnitDetail.Wizard || unitDetail == UnitDetail.Book)
+            else if (unitDetail == UnitDetail.Wizard)
             {
                 bullet = ObjectManager.instance.bulletBPrefabs[idx];
                 Instantiate(bullet, targetTrans.position, Quaternion.identity);
@@ -351,7 +383,7 @@ public class Unit : MonoBehaviour
                 bullet = ObjectManager.instance.bulletRPrefabs[idx];
                 Instantiate(bullet, transform.position + Vector3.up * 0.3f, Quaternion.identity);
             }
-            else if (unitDetail == UnitDetail.Wizard || unitDetail == UnitDetail.Book)
+            else if (unitDetail == UnitDetail.Wizard)
             {
                 bullet = ObjectManager.instance.bulletRPrefabs[idx];
                 Instantiate(bullet, targetTrans.position, Quaternion.identity);
@@ -361,28 +393,67 @@ public class Unit : MonoBehaviour
         Bullet bulletLogic = bullet.GetComponent<Bullet>();
         bulletLogic.dmg = unitAtk;
 
+        // Skill
+        if (unitDetail == UnitDetail.Guitar)
+        {
+            SetBuffType("ATS", 0.05f);
+        }
 
+        // Attack
         anim.SetTrigger("doAttack");
         attackTimer = 0;
-
-        if (isHit)
-        {
-            anim.SetTrigger("doHit");
-            isHit = false;
-        }
     }
     void BombAttack()
     {
-        // 자폭
-        DoHit(unitMaxHp);
-
         // 폭발 이펙트 가져오기
-        GameObject bomb = ObjectManager.instance.bulletTPrefabs[0];
+        GameObject bomb = null;
+        int idx = (int)unitDetail - (int)UnitDetail.Bomb;
+        if (unitDetail == UnitDetail.Bomb)
+        {
+            // 자폭
+            DoHit(unitMaxHp);
+            bomb = ObjectManager.instance.bulletTPrefabs[idx];
+            Instantiate(bomb, transform.position, Quaternion.identity);
+        }
+        else // 공속에 영향을 받는 유닛들
+        {
+            // 멈춤
+            isFront = true;
+            DoStop();
+
+            // 공격속도에 따라서 실행
+            attackTimer += Time.deltaTime;
+            if (attackTimer < unitAtkSpeed)
+                return;
+
+            if (gameObject.layer == 8)
+            {
+                if (unitDetail == UnitDetail.Drum)
+                {
+                    bomb = ObjectManager.instance.bulletTPrefabs[idx];
+                    Instantiate(bomb, transform.position + Vector3.right * 0.5f, Quaternion.identity);
+                }
+            }
+            else if (gameObject.layer == 9)
+            {
+                if (unitDetail == UnitDetail.Drum)
+                {
+                    bomb = ObjectManager.instance.bulletTPrefabs[idx];
+                    Instantiate(bomb, transform.position + Vector3.left * 0.5f, Quaternion.identity);
+                }
+            }
+            
+            // Attack
+            anim.SetTrigger("doAttack");
+            attackTimer = 0;
+        }
+        
+
+        // Bullet에 값 넘겨주기
         Bullet bombLogic = bomb.GetComponent<Bullet>();
         bombLogic.unitDetail = unitDetail;
         bombLogic.layer = gameObject.layer;
         bombLogic.dmg = unitAtk;
-        Instantiate(bomb, transform.position, Quaternion.identity);
     }
 
     // ======================================================= 버프 함수
@@ -396,38 +467,32 @@ public class Unit : MonoBehaviour
         // Bullet
         string type = "";
         float value = 0f;
-        //int idx = (int)unitDetail - (int)UnitDetail.Archer;
+        int idx = (int)unitDetail - (int)UnitDetail.Bomb;
 
-        //if (gameObject.layer == 8)          // 블루 팀 유닛일 경우
-        //{
-        //    // 타겟를 기준으로 발사
-        //    if (unitDetail == UnitDetail.Book)
-        //    {
-        //        type = "ATK";
-        //        value = 1;
-        //        GameObject bullet = ObjectManager.instance.bulletTPrefabs[1];
-        //        Instantiate(bullet, allyLogic.transform.position, Quaternion.identity);
-        //    }
-        //}
-        //else if (gameObject.layer == 9)     // 레드 팀 유닛일 경우
-        //{
-        //    if (unitDetail == UnitDetail.Book)
-        //    {
-        //        type = "HP";
-        //        value = 1;
-        //        GameObject bullet = ObjectManager.instance.bulletTPrefabs[1];
-        //        Instantiate(bullet, allyLogic.transform.position, Quaternion.identity);
-        //    }
-        //}
-
-        // 타겟를 기준으로 발사
-        if (unitDetail == UnitDetail.Book)
+        if (gameObject.layer == 8)          // 블루 팀 유닛일 경우
         {
-            type = "HP";
-            value = 1;
-            GameObject bullet = ObjectManager.instance.bulletTPrefabs[1];
-            Instantiate(bullet, allyLogic.transform.position, Quaternion.identity);
+            // 타겟을 기준으로 발사
+            if (unitDetail == UnitDetail.Book)
+            {
+                type = "HP";
+                value = 1;
+                GameObject bullet = ObjectManager.instance.bulletTPrefabs[idx];
+                Vector3 vec = new Vector3(-0.5f, 0.5f);
+                Instantiate(bullet, allyLogic.transform.position + vec, Quaternion.identity);
+            }
         }
+        else if (gameObject.layer == 9)     // 레드 팀 유닛일 경우
+        {
+            if (unitDetail == UnitDetail.Book)
+            {
+                type = "HP";
+                value = 1;
+                GameObject bullet = ObjectManager.instance.bulletTPrefabs[idx];
+                Vector3 vec = new Vector3(0.5f, 0.5f);
+                Instantiate(bullet, allyLogic.transform.position + vec, Quaternion.identity);
+            }
+        }
+
         // 버프 발동
         allyLogic.SetBuffType(type, value);
         anim.SetTrigger("doAttack");
@@ -453,7 +518,8 @@ public class Unit : MonoBehaviour
                 unitAtk += valueInt;
                 break;
             case "ATS":
-                unitAtkSpeed += value;
+                unitAtkSpeed -= value;
+                unitAtkSpeed = unitAtkSpeed < 0.3f ? 0.3f : unitAtkSpeed;
                 break;
             case "RNG":
                 unitRange += value;

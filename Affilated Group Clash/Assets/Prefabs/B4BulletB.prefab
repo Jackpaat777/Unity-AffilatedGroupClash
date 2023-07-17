@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 650020561937586682}
   - component: {fileID: -579570274476907790}
   m_Layer: 8
-  m_Name: B1BulletB
+  m_Name: B4BulletB
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -46,11 +46,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 30ead440f59d51b448294cf7b9ac1e78, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  unitDetail: 0
+  layer: 0
+  dmg: 1
   speed: 15
   isHit: 0
-  dmg: 1
   isRotate: 0
-  isBuff: 0
+  isNotAtk: 0
 --- !u!212 &650020561937586682
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -92,12 +94,12 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 2
-  m_Sprite: {fileID: 1390065522, guid: 4b69496437d406247b5c69afb9fddf6a, type: 3}
+  m_Sprite: {fileID: -1212375976, guid: 4b69496437d406247b5c69afb9fddf6a, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
-  m_Size: {x: 0.35, y: 0.2}
+  m_Size: {x: 2, y: 1.25}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1

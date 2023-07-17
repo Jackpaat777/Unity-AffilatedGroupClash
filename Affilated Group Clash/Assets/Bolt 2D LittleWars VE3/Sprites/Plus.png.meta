@@ -224,6 +224,27 @@ TextureImporter:
       indices: 
       edges: []
       weights: []
+    - serializedVersion: 2
+      name: Plus 4
+      rect:
+        serializedVersion: 2
+        x: 38
+        y: 0
+        width: 1
+        height: 1
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 9879f2090e14d5f4ba6f19cd5b723805
+      internalID: 267319495
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
     outline: []
     physicsShape: []
     bones: []
@@ -238,6 +259,7 @@ TextureImporter:
       Plus 2: -2045038623
       Plus 3: -56305815
       Plus 1: 1696786150
+      Plus 4: 267319495
       Plus 0: -1723160067
   spritePackingTag: 
   pSDRemoveMatte: 0

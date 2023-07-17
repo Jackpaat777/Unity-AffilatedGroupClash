@@ -15,7 +15,7 @@ public class Bullet : MonoBehaviour
     public float speed;
     public bool isHit;
     public bool isRotate;
-    public bool isBuff;
+    public bool isNotAtk;
 
 
     Rigidbody2D rigid;
@@ -46,17 +46,13 @@ public class Bullet : MonoBehaviour
         if (!isHit)
         {
             ScanEnemy();
-            //if (isBuff)
-            //    ScanAlly();
-            //else
-            //    ScanEnemy();
         }
     }
 
     void ScanEnemy()
     {
-        // 버프용 Bullet인 경우
-        if (isBuff)
+        // 버프용 Bullet인 경우 바로 제거
+        if (isNotAtk)
         {
             if (speed == 0)
                 Destroy(gameObject, 3f);
@@ -99,59 +95,19 @@ public class Bullet : MonoBehaviour
         }
     }
 
-    //void ScanAlly()
-    //{
-    //    Vector2 dir = Vector2.zero;
-    //    string allyLayer = "";
-
-    //    if (gameObject.layer == 8)      // Blue 팀 유닛
-    //    {
-    //        dir = Vector2.right;
-    //        allyLayer = "Blue";
-    //    }
-    //    else if (gameObject.layer == 9) // Red 팀 유닛
-    //    {
-    //        dir = Vector2.left;
-    //        allyLayer = "Red";
-    //    }
-
-    //    // RayCast
-    //    RaycastHit2D rayHit = Physics2D.Raycast(transform.position, dir, 0.3f, LayerMask.GetMask(allyLayer));
-
-    //    // 아군이 감지됨
-    //    if (rayHit.collider != null)
-    //    {
-    //        // 아군 오브젝트 가져오기
-    //        Unit allyLogic = rayHit.collider.gameObject.GetComponent<Unit>();
-
-    //        isHit = true;
-    //        allyLogic.DoBuff("HP", 1);
-
-
-    //        if (speed == 0)
-    //            Destroy(gameObject, 3f);
-    //        else
-    //            Destroy(gameObject);
-    //    }
-    //}
-
     // 광역공격 트리거
-    void OnTriggerStay2D(Collider2D collision)
+    void OnTriggerEnter2D(Collider2D collision)
     {
-        if (unitDetail == UnitDetail.Bomb)
+        if (unitDetail == UnitDetail.Bomb || unitDetail == UnitDetail.Drum)
         {
-            if (layer == 8 && collision.gameObject.layer == 9)
-            {
-                Unit unitLogic = collision.GetComponent<Unit>();
-                unitLogic.DoHit(dmg);
-            }
-            else if (layer == 9 && collision.gameObject.layer == 8)
+            // 적군일 경우
+            if ((layer == 8 && collision.gameObject.layer == 9) || (layer == 9 && collision.gameObject.layer == 8))
             {
                 Unit unitLogic = collision.GetComponent<Unit>();
                 unitLogic.DoHit(dmg);
             }
 
-            Destroy(gameObject, 1.5f);
+            Destroy(gameObject, 1f);
         }
     }
 }
