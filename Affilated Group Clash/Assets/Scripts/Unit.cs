@@ -4,17 +4,19 @@ using UnityEditor;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
-public enum UnitName
+public enum UnitType
 {
-    Sword,
-    Guard,
-    Vampire,
-    Bomb,
-    Range,
-    Sniper,
-    Guitar,
-    Wizard,
-    Noblilty
+    Warrior,
+    Tanker,
+    Ranger,
+    Buffer,
+    Special
+}
+
+public enum UnitDetail
+{
+    Sword, Guard, Vampire, Bomb, Archer, Sniper,
+    Farmer, Guitar, Wizard, Book, Noblilty
 }
 
 public enum UnitState
@@ -28,14 +30,18 @@ public enum UnitState
 
 public class Unit : MonoBehaviour
 {
-
-    public UnitName unitName;
+    [Header("---------------[Stat]")]
+    public UnitType unitType;
+    public UnitDetail unitDetail;
+    public int unitCost;
+    public int unitMaxHp;
     public int unitHp;
     public int unitAtk;
-    public float unitSpeed;
+    public float unitAtkSpeed;
     public float unitRange;
-    public float unitAttackSpeed;
+    public float unitSpeed;
 
+    [Header("---------------[Game]")]
     public ParticleSystem dustObject;
     public UnitState unitState; // 유닛의 상태마다 다른 로직을 실행하도록
 
@@ -52,77 +58,77 @@ public class Unit : MonoBehaviour
         anim = GetComponent<Animator>();
 
         // 유닛 설정
-        UnitSetting();
+        //UnitSetting();
 
-        // 첫 상태
+        // 상태 설정
         isFront = false;
         DoMove();
     }
     void UnitSetting()
     {
         // Attack Speed는 낮을수록 좋음
-        switch (unitName)
+        switch (unitDetail)
         {
-            case UnitName.Sword:
+            case UnitDetail.Sword:
                 unitHp = 13;
                 unitAtk = 2;
-                unitAttackSpeed = 1f;
+                unitAtkSpeed = 1f;
+                unitRange = 0.7f;
+                unitSpeed = 0.9f;
+                break;
+            case UnitDetail.Guard:
+                unitHp = 20;
+                unitAtk = 1;
+                unitAtkSpeed = 0.8f;
                 unitRange = 0.7f;
                 unitSpeed = 1f;
                 break;
-            case UnitName.Guard:
-                unitHp = 20;
-                unitAtk = 1;
-                unitAttackSpeed = 0.8f;
-                unitRange = 0.7f;
-                unitSpeed = 0.8f;
-                break;
-            case UnitName.Vampire:
+            case UnitDetail.Vampire:
                 unitHp = 10;
                 unitAtk = 2;
-                unitAttackSpeed = 1.3f;
+                unitAtkSpeed = 1.3f;
                 unitRange = 1f;
                 unitSpeed = 0.8f;
                 break;
-            case UnitName.Bomb:
+            case UnitDetail.Bomb:
                 unitHp = 2;
                 unitAtk = 20;
-                unitAttackSpeed = 0;
+                unitAtkSpeed = 0;
                 unitRange = 0.7f;
                 unitSpeed = 0.8f;
                 break;
-            case UnitName.Range:
+            case UnitDetail.Archer:
                 unitHp = 5;
                 unitAtk = 1;
-                unitAttackSpeed = 1f;
+                unitAtkSpeed = 1f;
                 unitRange = 2.5f;
                 unitSpeed = 1f;
                 break;
-            case UnitName.Sniper:
+            case UnitDetail.Sniper:
                 unitHp = 4;
                 unitAtk = 2;
-                unitAttackSpeed = 1.3f;
+                unitAtkSpeed = 1.3f;
                 unitRange = 5f;
                 unitSpeed = 0.5f;
                 break;
-            case UnitName.Guitar:
+            case UnitDetail.Guitar:
                 unitHp = 6;
                 unitAtk = 1;
-                unitAttackSpeed = 0.8f;
+                unitAtkSpeed = 0.8f;
                 unitRange = 3f;
-                unitSpeed = 0.8f;
+                unitSpeed = 0.7f;
                 break;
-            case UnitName.Wizard:
+            case UnitDetail.Wizard:
                 unitHp = 1;
                 unitAtk = 1;
-                unitAttackSpeed = 1f;
+                unitAtkSpeed = 1f;
                 unitRange = 3.5f;
                 unitSpeed = 0f;
                 break;
-            case UnitName.Noblilty:
+            case UnitDetail.Noblilty:
                 unitHp = 5;
                 unitAtk = 0;
-                unitAttackSpeed = 0f;
+                unitAtkSpeed = 0f;
                 unitRange = 1f;
                 unitSpeed = 0.8f;
                 break;
@@ -136,15 +142,13 @@ public class Unit : MonoBehaviour
 
     void Update()
     {
-        // 마법사
-        if (unitName == UnitName.Wizard)
-            return;
         // 귀족
-        if (unitName == UnitName.Noblilty)
+        if (unitDetail == UnitDetail.Noblilty)
         {
             moneyTimer += Time.deltaTime;
-            if (moneyTimer > 1.5f)
+            if (moneyTimer > unitAtkSpeed)
             {
+                DoStop();
                 Debug.Log("+Coin");
                 anim.SetTrigger("doAttack");
                 moneyTimer = 0;
@@ -179,6 +183,7 @@ public class Unit : MonoBehaviour
         //ScanAlly();
     }
 
+    // ======================================================= 타겟 감지 함수
     void ScanEnemy()
     {
         if (unitState == UnitState.Die)
@@ -207,24 +212,25 @@ public class Unit : MonoBehaviour
             // 적 오브젝트 가져오기
             Unit enemyLogic = rayHit.collider.gameObject.GetComponent<Unit>();
 
-            // 근접 유닛의 경우
-            if (unitName == UnitName.Sword || unitName == UnitName.Guard || unitName == UnitName.Vampire)
+            // 근접 유닛의 경우 (Unit 변수 필요)
+            if (unitType == UnitType.Warrior || unitType == UnitType.Tanker)
                 DirectAttack(enemyLogic);
 
-            // 원거리 유닛의 경우
-            if (unitName == UnitName.Range || unitName == UnitName.Wizard || unitName == UnitName.Sniper || unitName == UnitName.Guitar)
+            // 원거리 유닛의 경우 (Transform 변수 필요)
+            else if (unitType == UnitType.Ranger)
                 ShotAttack(enemyLogic.transform);
 
-            // 폭탄의 경우
-            if (unitName == UnitName.Bomb)
-                BombAttack();
-
-            // 귀족의 경우
-            if (unitName == UnitName.Noblilty)
+            // 버퍼의 경우
+            else if (unitType == UnitType.Buffer)
             {
+                // 멈춤 (공격X)
                 DoStop();
                 isFront = true;
             }
+
+            // 폭탄의 경우
+            else if (unitDetail == UnitDetail.Bomb)
+                BombAttack();
         }
         else
         {
@@ -232,7 +238,7 @@ public class Unit : MonoBehaviour
         }
 
         // 폭탄 레이
-        if (unitName == UnitName.Bomb)
+        if (unitDetail == UnitDetail.Bomb)
         {
             RaycastHit2D bombRayHit = Physics2D.Raycast(transform.position, dir, 4f, LayerMask.GetMask(enemyLayer));
             if (bombRayHit.collider != null)
@@ -244,7 +250,8 @@ public class Unit : MonoBehaviour
     }
     void ScanAlly()
     {
-        if (unitState == UnitState.Die)
+        // 버퍼가 아니면 아군체크 X
+        if (unitState == UnitState.Die || unitType != UnitType.Buffer)
             return;
 
         Vector2 dir = Vector2.zero;
@@ -262,13 +269,21 @@ public class Unit : MonoBehaviour
         }
 
         // RayCast
-        RaycastHit2D rayHit = Physics2D.Raycast(transform.position, dir, 0.3f, LayerMask.GetMask(allyLayer));
+        RaycastHit2D rayHit = Physics2D.Raycast(transform.position, dir, unitRange, LayerMask.GetMask(allyLayer));
 
         // 아군이 감지됨
         if (rayHit.collider != null)
         {
-            isFront = true;
-            DoStop();
+            // 아군 오브젝트 가져오기
+            Unit allyLogic = rayHit.collider.gameObject.GetComponent<Unit>();
+            
+            if (unitDetail == UnitDetail.Book)
+            {
+                // State가 Move가 아닐때 실행 -> Move가 될때까지 실행안하다가 한번에 함
+                // 풀피면 실행 X
+                if (allyLogic.unitHp < allyLogic.unitMaxHp)
+                    DoBuff(allyLogic);
+            }
         }
         else
         {
@@ -276,6 +291,7 @@ public class Unit : MonoBehaviour
         }
     }
 
+    // ======================================================= 공격 함수
     void DirectAttack(Unit enemyLogic)
     {
         // 멈춤
@@ -284,13 +300,13 @@ public class Unit : MonoBehaviour
 
         // 공격속도에 따라서 어택
         attackTimer += Time.deltaTime;
-        if (attackTimer > unitAttackSpeed)
+        if (attackTimer > unitAtkSpeed)
         {
             // 뱀파이어는 공격 시 체력 회복
-            if (unitName == UnitName.Vampire)
+            if (unitDetail == UnitDetail.Vampire)
             {
                 unitHp += unitAtk;
-                unitHp = unitHp > 10 ? 10 : unitHp;
+                unitHp = unitHp > unitMaxHp ? unitMaxHp : unitHp;
             }
             enemyLogic.DoHit(unitAtk);
 
@@ -298,50 +314,50 @@ public class Unit : MonoBehaviour
             attackTimer = 0;
         }
     }
-    void ShotAttack(Transform enemyTrans)
+    void ShotAttack(Transform targetTrans)
     {
         // 멈춤
         isFront = true;
         DoStop();
 
-        // 공격속도에 따라서 어택
+        // 공격속도에 따라서 실행
         attackTimer += Time.deltaTime;
-        if (attackTimer < unitAttackSpeed)
+        if (attackTimer < unitAtkSpeed)
             return;
 
         // Bullet
-        GameObject bullet = ObjectManager.instance.bluePrefabs[0];
-        int idx = (int)unitName - (int)UnitName.Range;
+        GameObject bullet = ObjectManager.instance.bulletBPrefabs[0];
+        int idx = (int)unitDetail - (int)UnitDetail.Archer;
 
         if (gameObject.layer == 8)          // 블루 팀 유닛일 경우
         {
             // 자신을 기준으로 총알 발사
-            if (unitName == UnitName.Range || unitName == UnitName.Sniper || unitName == UnitName.Guitar)
+            if (unitDetail == UnitDetail.Archer || unitDetail == UnitDetail.Sniper || unitDetail == UnitDetail.Farmer || unitDetail == UnitDetail.Guitar)
             {
-                bullet = ObjectManager.instance.bluePrefabs[idx];
+                bullet = ObjectManager.instance.bulletBPrefabs[idx];
                 Instantiate(bullet, transform.position + Vector3.up * 0.3f, Quaternion.identity);
             }
-            // 상대를 기준으로 총알 발사
-            else if (unitName == UnitName.Wizard)
+            // 타겟를 기준으로 총알 발사
+            else if (unitDetail == UnitDetail.Wizard || unitDetail == UnitDetail.Book)
             {
-                bullet = ObjectManager.instance.bluePrefabs[idx];
-                Instantiate(bullet, enemyTrans.position, Quaternion.identity);
+                bullet = ObjectManager.instance.bulletBPrefabs[idx];
+                Instantiate(bullet, targetTrans.position, Quaternion.identity);
             }
         }
         else if (gameObject.layer == 9)     // 레드 팀 유닛일 경우
         {
-            if (unitName == UnitName.Range || unitName == UnitName.Sniper || unitName == UnitName.Guitar)
+            if (unitDetail == UnitDetail.Archer || unitDetail == UnitDetail.Sniper || unitDetail == UnitDetail.Farmer || unitDetail == UnitDetail.Guitar)
             {
-                bullet = ObjectManager.instance.redPrefabs[idx];
+                bullet = ObjectManager.instance.bulletRPrefabs[idx];
                 Instantiate(bullet, transform.position + Vector3.up * 0.3f, Quaternion.identity);
             }
-            else if (unitName == UnitName.Wizard)
+            else if (unitDetail == UnitDetail.Wizard || unitDetail == UnitDetail.Book)
             {
-                bullet = ObjectManager.instance.redPrefabs[idx];
-                Instantiate(bullet, enemyTrans.position, Quaternion.identity);
+                bullet = ObjectManager.instance.bulletRPrefabs[idx];
+                Instantiate(bullet, targetTrans.position, Quaternion.identity);
             }
         }
-        // 총알의 데미지 값 넣기
+        // 총알에 값 넣기
         Bullet bulletLogic = bullet.GetComponent<Bullet>();
         bulletLogic.dmg = unitAtk;
 
@@ -358,18 +374,98 @@ public class Unit : MonoBehaviour
     void BombAttack()
     {
         // 자폭
-        DoHit(5);
+        DoHit(unitMaxHp);
 
         // 폭발 이펙트 가져오기
-        GameObject bomb = ObjectManager.instance.bulletPrefabs[0];
-        Bomb bombLogic = bomb.GetComponent<Bomb>();
-        bombLogic.unitName = unitName;
+        GameObject bomb = ObjectManager.instance.bulletTPrefabs[0];
+        Bullet bombLogic = bomb.GetComponent<Bullet>();
+        bombLogic.unitDetail = unitDetail;
         bombLogic.layer = gameObject.layer;
         bombLogic.dmg = unitAtk;
         Instantiate(bomb, transform.position, Quaternion.identity);
     }
 
+    // ======================================================= 버프 함수
+    public void DoBuff(Unit allyLogic)
+    {
+        // 공격속도에 따라서 실행
+        attackTimer += Time.deltaTime;
+        if (attackTimer < unitAtkSpeed)
+            return;
 
+        // Bullet
+        string type = "";
+        float value = 0f;
+        //int idx = (int)unitDetail - (int)UnitDetail.Archer;
+
+        //if (gameObject.layer == 8)          // 블루 팀 유닛일 경우
+        //{
+        //    // 타겟를 기준으로 발사
+        //    if (unitDetail == UnitDetail.Book)
+        //    {
+        //        type = "ATK";
+        //        value = 1;
+        //        GameObject bullet = ObjectManager.instance.bulletTPrefabs[1];
+        //        Instantiate(bullet, allyLogic.transform.position, Quaternion.identity);
+        //    }
+        //}
+        //else if (gameObject.layer == 9)     // 레드 팀 유닛일 경우
+        //{
+        //    if (unitDetail == UnitDetail.Book)
+        //    {
+        //        type = "HP";
+        //        value = 1;
+        //        GameObject bullet = ObjectManager.instance.bulletTPrefabs[1];
+        //        Instantiate(bullet, allyLogic.transform.position, Quaternion.identity);
+        //    }
+        //}
+
+        // 타겟를 기준으로 발사
+        if (unitDetail == UnitDetail.Book)
+        {
+            type = "HP";
+            value = 1;
+            GameObject bullet = ObjectManager.instance.bulletTPrefabs[1];
+            Instantiate(bullet, allyLogic.transform.position, Quaternion.identity);
+        }
+        // 버프 발동
+        allyLogic.SetBuffType(type, value);
+        anim.SetTrigger("doAttack");
+        attackTimer = 0;
+
+        if (isHit)
+        {
+            anim.SetTrigger("doHit");
+            isHit = false;
+        }
+    }
+    void SetBuffType(string type, float value)
+    {
+        int valueInt = Mathf.FloorToInt(value);
+
+        switch (type)
+        {
+            case "HP":
+                unitHp += valueInt;
+                unitHp = unitHp > unitMaxHp ? unitMaxHp : unitHp;
+                break;
+            case "ATK":
+                unitAtk += valueInt;
+                break;
+            case "ATS":
+                unitAtkSpeed += value;
+                break;
+            case "RNG":
+                unitRange += value;
+                break;
+            case "SPD":
+                unitSpeed += value;
+                break;
+        }
+
+    }
+
+    // ======================================================= 상태 함수
     void DoMove()
     {
         // 이미 움직이고 있으면 호출 X

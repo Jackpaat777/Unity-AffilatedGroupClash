@@ -10,7 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 5458945561943836753}
   - component: {fileID: 3131638935447905031}
-  - component: {fileID: 5993836461687894453}
+  - component: {fileID: -5472095287567122599}
   - component: {fileID: 5893241449495019898}
   - component: {fileID: 1436040072150387864}
   - component: {fileID: 1811170008713052838}
@@ -30,7 +30,7 @@ Transform:
   m_GameObject: {fileID: 900583805910406762}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 2, y: 2, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
@@ -88,7 +88,7 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
---- !u!114 &5993836461687894453
+--- !u!114 &-5472095287567122599
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -97,12 +97,14 @@ MonoBehaviour:
   m_GameObject: {fileID: 900583805910406762}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ce8aefaa42bda334c8973e25c2c2a012, type: 3}
+  m_Script: {fileID: 11500000, guid: 30ead440f59d51b448294cf7b9ac1e78, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  unitName: 2
-  layer: 8
-  dmg: 20
+  speed: 0
+  dmg: 0
+  isHit: 1
+  isRotate: 0
+  isBuff: 0
 --- !u!61 &5893241449495019898
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -144,7 +146,7 @@ Rigidbody2D:
   m_Mass: 1
   m_LinearDrag: 0
   m_AngularDrag: 0.05
-  m_GravityScale: 1
+  m_GravityScale: 0
   m_Material: {fileID: 0}
   m_Interpolate: 0
   m_SleepingMode: 1

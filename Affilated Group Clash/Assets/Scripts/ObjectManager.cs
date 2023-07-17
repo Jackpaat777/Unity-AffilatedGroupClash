@@ -6,9 +6,16 @@ public class ObjectManager : MonoBehaviour
 {
     public static ObjectManager instance;
 
-    public GameObject[] bluePrefabs;
-    public GameObject[] redPrefabs;
-    public GameObject[] bulletPrefabs;
+    [Header("---------------[BackChiTheRock]")]
+    public GameObject[] bakChiA_blue_Prefabs;
+    public GameObject[] bakChiB_blue_Prefabs;
+    public GameObject[] bakChiA_red_Prefabs;
+    public GameObject[] bakChiB_red_Prefabs;
+
+    [Header("---------------[Bullet]")]
+    public GameObject[] bulletBPrefabs;
+    public GameObject[] bulletRPrefabs;
+    public GameObject[] bulletTPrefabs;
 
     void Awake()
     {

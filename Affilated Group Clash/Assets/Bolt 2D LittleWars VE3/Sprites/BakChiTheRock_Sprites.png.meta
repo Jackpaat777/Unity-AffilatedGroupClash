@@ -141,7 +141,7 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: B0 Idle
+      name: BakChiTheRock_Sprites_0
       rect:
         serializedVersion: 2
         x: 0
@@ -155,14 +155,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: bead55ff39742264bad3b40dad92a621
-      internalID: 1881298017
+      spriteID: b762d55e84223a94a9f4a632a847166d
+      internalID: 1633674839
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: B0 Attack
+      name: BakChiTheRock_Sprites_1
       rect:
         serializedVersion: 2
         x: 41
@@ -176,14 +176,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: a190e806b12b17145b464dbe30d27c2a
-      internalID: -1554867325
+      spriteID: 96db779698de25a488ec4a0915fb558f
+      internalID: -1626976635
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: B0 Hit
+      name: BakChiTheRock_Sprites_2
       rect:
         serializedVersion: 2
         x: 82
@@ -197,8 +197,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 6b125f90cf6011945ac3943eda19a783
-      internalID: -1643588514
+      spriteID: fafae79b477942748a9b0c6c9f9133a1
+      internalID: -1832762274
       vertices: []
       indices: 
       edges: []
@@ -218,14 +218,56 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 4f1a9ec0d024f64479f00c506f138860
-      internalID: -1035045972
+      spriteID: e8dc9d08d35b5d54b8d3dbe6321960ef
+      internalID: 511904151
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: B1 Idle
+      name: BakChiTheRock_Sprites_4
+      rect:
+        serializedVersion: 2
+        x: 164
+        y: 131
+        width: 40
+        height: 25
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: f6e8ccb834e2a954a83f5b093a8fd1e8
+      internalID: -1787710527
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: BakChiTheRock_Sprites_5
+      rect:
+        serializedVersion: 2
+        x: 205
+        y: 131
+        width: 40
+        height: 25
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 9872570abec436e46b259e495454d303
+      internalID: 1143391157
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: BakChiTheRock_Sprites_6
       rect:
         serializedVersion: 2
         x: 0
@@ -239,50 +281,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 3e7ca4222b7a6ca47b3ce1aac95b4ada
-      internalID: -2033167918
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: B1 Attack
-      rect:
-        serializedVersion: 2
-        x: 41
-        y: 105
-        width: 40
-        height: 25
-      alignment: 7
-      pivot: {x: 0.5, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 8871d3f0e2764704e93ee443d392677f
-      internalID: 1486431341
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: B1 Hit
-      rect:
-        serializedVersion: 2
-        x: 82
-        y: 105
-        width: 40
-        height: 25
-      alignment: 7
-      pivot: {x: 0.5, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: d9e4a36ab376d2245a6a942e4e5df1b7
-      internalID: -1531074409
+      spriteID: ffa297b6007a6f8488dbea7a170849c7
+      internalID: 984108706
       vertices: []
       indices: 
       edges: []
@@ -291,6 +291,48 @@ TextureImporter:
       name: BakChiTheRock_Sprites_7
       rect:
         serializedVersion: 2
+        x: 41
+        y: 105
+        width: 40
+        height: 25
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 5e94084ba7ae34343931f07f9f5cbf82
+      internalID: 778864869
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: BakChiTheRock_Sprites_8
+      rect:
+        serializedVersion: 2
+        x: 82
+        y: 105
+        width: 40
+        height: 25
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 3d7f640170eec074b83ea30c4790f67e
+      internalID: 121749323
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: BakChiTheRock_Sprites_9
+      rect:
+        serializedVersion: 2
         x: 123
         y: 105
         width: 40
@@ -302,18 +344,18 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 4819a85335f1dcb47b0952da0894401f
-      internalID: 110179484
+      spriteID: caaefddf983655a429a31166b068270b
+      internalID: -2029561396
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: B2 Idle
+      name: BakChiTheRock_Sprites_10
       rect:
         serializedVersion: 2
-        x: 0
-        y: 79
+        x: 164
+        y: 105
         width: 40
         height: 25
       alignment: 7
@@ -323,50 +365,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 971c94fa27a5e8144916c4444c790694
-      internalID: 170278583
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: B2 Attack
-      rect:
-        serializedVersion: 2
-        x: 41
-        y: 79
-        width: 40
-        height: 25
-      alignment: 7
-      pivot: {x: 0.5, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 2a40f698da91d9348aa53de7ce6cd66e
-      internalID: 1673122763
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: B2 Hit
-      rect:
-        serializedVersion: 2
-        x: 82
-        y: 79
-        width: 40
-        height: 25
-      alignment: 7
-      pivot: {x: 0.5, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 302e8e6081974e34588464656ee8b558
-      internalID: -2083592232
+      spriteID: 760185c60b2f69844ac4659dae6b059b
+      internalID: -1413701179
       vertices: []
       indices: 
       edges: []
@@ -375,7 +375,28 @@ TextureImporter:
       name: BakChiTheRock_Sprites_11
       rect:
         serializedVersion: 2
-        x: 123
+        x: 205
+        y: 105
+        width: 40
+        height: 25
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 00442fd3c9b5ccd46bb8d1b1c3b92db4
+      internalID: 521291182
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: BakChiTheRock_Sprites_12
+      rect:
+        serializedVersion: 2
+        x: 0
         y: 79
         width: 40
         height: 25
@@ -386,39 +407,18 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 4539103d1cfd76442ab0ffd5d33a814b
-      internalID: -1288632262
+      spriteID: 3e5626309ade31544bc009105a64616f
+      internalID: 1334320735
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: B3 Idle
-      rect:
-        serializedVersion: 2
-        x: 0
-        y: 53
-        width: 40
-        height: 25
-      alignment: 7
-      pivot: {x: 0.5, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: fb1b8beb862b7ed46b5d9b1fecc7a8a1
-      internalID: -1407192101
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: B3 Attack
+      name: BakChiTheRock_Sprites_13
       rect:
         serializedVersion: 2
         x: 41
-        y: 53
+        y: 79
         width: 40
         height: 25
       alignment: 7
@@ -428,18 +428,18 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 17525ce4dad762a40af924263aca1725
-      internalID: 2062046099
+      spriteID: 2812abbf8c9074c49a2a9dfa7940af2c
+      internalID: -1353523280
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: B3 Attack2
+      name: BakChiTheRock_Sprites_14
       rect:
         serializedVersion: 2
         x: 82
-        y: 53
+        y: 79
         width: 40
         height: 25
       alignment: 7
@@ -449,8 +449,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: bd630090c495e32459df6eed5d0c758e
-      internalID: 1784030703
+      spriteID: 8ba9bafbe0130814abc6a782ea727c6e
+      internalID: 2082437946
       vertices: []
       indices: 
       edges: []
@@ -460,6 +460,69 @@ TextureImporter:
       rect:
         serializedVersion: 2
         x: 123
+        y: 79
+        width: 40
+        height: 25
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: b8c0c754a84c12147a9837337a263deb
+      internalID: -1140531319
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: BakChiTheRock_Sprites_16
+      rect:
+        serializedVersion: 2
+        x: 164
+        y: 79
+        width: 40
+        height: 25
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 460e842a61346894982a469d21efaedc
+      internalID: 1721759461
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: BakChiTheRock_Sprites_17
+      rect:
+        serializedVersion: 2
+        x: 205
+        y: 79
+        width: 40
+        height: 25
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 7a131b13c75aa084fbb8ece781b6eed1
+      internalID: -1226030452
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: BakChiTheRock_Sprites_18
+      rect:
+        serializedVersion: 2
+        x: 0
         y: 53
         width: 40
         height: 25
@@ -470,14 +533,77 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: ea9c9bb7594a7f14db994d1716e414ed
-      internalID: 1544972787
+      spriteID: e3546840b1aec464cb189815055fa5b7
+      internalID: -2085732303
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: BakChiTheRock_Sprites_16
+      name: BakChiTheRock_Sprites_19
+      rect:
+        serializedVersion: 2
+        x: 41
+        y: 53
+        width: 40
+        height: 25
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: f9ba5b7b971d1ee4489be5cc5f323309
+      internalID: 407046875
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: BakChiTheRock_Sprites_20
+      rect:
+        serializedVersion: 2
+        x: 82
+        y: 53
+        width: 40
+        height: 25
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: b321c195f71ab564697f5a897d6d5aff
+      internalID: 1519827273
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: BakChiTheRock_Sprites_21
+      rect:
+        serializedVersion: 2
+        x: 123
+        y: 53
+        width: 40
+        height: 25
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: ac9ad1eae6f2b7e4bbd80400603d8ced
+      internalID: -215609763
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: BakChiTheRock_Sprites_22
       rect:
         serializedVersion: 2
         x: 164
@@ -491,14 +617,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 8f580591beba3d041acfe6a3dd59099f
-      internalID: -438513501
+      spriteID: 39c4b4e9429558a4a915cdb953596561
+      internalID: 703788412
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: B4 Idle
+      name: BakChiTheRock_Sprites_23
       rect:
         serializedVersion: 2
         x: 0
@@ -512,14 +638,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: b0451d806ee0fab449be800e3465e4d0
-      internalID: 307684366
+      spriteID: fb6444ab5aa64de4a9f831eef58e9eda
+      internalID: 1167953259
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: B4 Attack
+      name: BakChiTheRock_Sprites_24
       rect:
         serializedVersion: 2
         x: 41
@@ -533,14 +659,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 655480f7781d5164abaa84c1f3ba316f
-      internalID: 2067043724
+      spriteID: af6ff9cecbade1e49835a191cdaaecfb
+      internalID: -694602129
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: B4 Hit
+      name: BakChiTheRock_Sprites_25
       rect:
         serializedVersion: 2
         x: 82
@@ -554,14 +680,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 3f9f8d9ed8f93d145ae94026759de139
-      internalID: 50335004
+      spriteID: d96d32b50b0bed8468f26433c23bcecc
+      internalID: -1702269637
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: B10 Idle
+      name: BakChiTheRock_Sprites_26
       rect:
         serializedVersion: 2
         x: 123
@@ -575,14 +701,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 837e145e076fd2c4785cc1182f2ea291
-      internalID: 1418046385
+      spriteID: c857ded9a46871946abbafcb7777cfca
+      internalID: -2100337169
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: B10 Attack
+      name: BakChiTheRock_Sprites_27
       rect:
         serializedVersion: 2
         x: 164
@@ -596,14 +722,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: bd6ac8e1b609fea45a43e17676c845aa
-      internalID: 228982314
+      spriteID: 04071d049536e484dba246740e07c5ad
+      internalID: 987100920
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: B10 Hit
+      name: BakChiTheRock_Sprites_28
       rect:
         serializedVersion: 2
         x: 205
@@ -617,14 +743,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 670cd191e7b843e41b836c690ab98f7f
-      internalID: 142499165
+      spriteID: 58e1ffce6b477224292906bb6560082e
+      internalID: 1633652755
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: B5 Idle
+      name: BakChiTheRock_Sprites_29
       rect:
         serializedVersion: 2
         x: 0
@@ -638,14 +764,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: fdc8e39232041924fa899ea2a467c59b
-      internalID: -1967588903
+      spriteID: facab9ca5b2022645996fac2f385e42d
+      internalID: -2099834512
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: B5 Attack
+      name: BakChiTheRock_Sprites_30
       rect:
         serializedVersion: 2
         x: 41
@@ -659,14 +785,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 417f5de73e6b2a94aad39c26b2fb650e
-      internalID: -2084061962
+      spriteID: 866d57bdc24d50042a42f7ba880c32aa
+      internalID: -908332874
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: B5 Hit
+      name: BakChiTheRock_Sprites_31
       rect:
         serializedVersion: 2
         x: 82
@@ -680,14 +806,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: ce7c4cca330ea0941a415dcd3f8e8ba0
-      internalID: 2128682185
+      spriteID: 4a6cac588a13bf140a1bafd1aada7696
+      internalID: 1619185878
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: B1BulletB
+      name: B5BulletB
       rect:
         serializedVersion: 2
         x: 123
@@ -701,29 +827,29 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 6643a3bad62ce6b4f9eaf9a97085e874
-      internalID: -858802401
+      spriteID: 3796a81c1aaf17a46a3135c6a88fae14
+      internalID: 1390065522
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: B1BulletR
+      name: B5BulletR
       rect:
         serializedVersion: 2
         x: 123
         y: 6
         width: 7
         height: 4
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 1d9398faea1abcf43ad7be91f9f2c732
-      internalID: -1541570757
+      spriteID: 7dadb2a46b905534ca8b12d0374d0bce
+      internalID: 1368549602
       vertices: []
       indices: 
       edges: []
@@ -736,6 +862,27 @@ TextureImporter:
         y: 11
         width: 7
         height: 9
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: a1a81d8a223d88148bb896d5b1e35729
+      internalID: 1894199155
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: B7Bullet
+      rect:
+        serializedVersion: 2
+        x: 131
+        y: 1
+        width: 5
+        height: 6
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -743,8 +890,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 02c32a2c798b89444a9f0623a090930c
-      internalID: -1965843287
+      spriteID: ad2d6a3a20167114eb6f426452530da6
+      internalID: -696889165
       vertices: []
       indices: 
       edges: []
@@ -760,35 +907,42 @@ TextureImporter:
     weights: []
     secondaryTextures: []
     nameFileIdTable:
-      B5 Hit: 2128682185
-      B1 Attack: 1486431341
-      B5 Attack: -2084061962
-      B4 Idle: 307684366
-      B3 Attack2: 1784030703
-      B10 Hit: 142499165
-      B4 Attack: 2067043724
-      BakChiTheRock_Sprites_7: 110179484
-      B0 Hit: -1643588514
-      B2 Attack: 1673122763
-      B0 Attack: -1554867325
-      BakChiTheRock_Sprites_3: -1035045972
-      B2 Idle: 170278583
-      B10Bullet: -1965843287
-      B10 Idle: 1418046385
-      B3 Idle: -1407192101
-      B1 Hit: -1531074409
-      B1BulletB: -858802401
-      BakChiTheRock_Sprites_11: -1288632262
-      B3 Attack: 2062046099
-      B10 Attack: 228982314
-      B1BulletR: -1541570757
-      B4 Hit: 50335004
-      B0 Idle: 1881298017
-      B5 Idle: -1967588903
-      BakChiTheRock_Sprites_16: -438513501
-      B2 Hit: -2083592232
-      B1 Idle: -2033167918
-      BakChiTheRock_Sprites_15: 1544972787
+      BakChiTheRock_Sprites_22: 703788412
+      BakChiTheRock_Sprites_29: -2099834512
+      B7Bullet: -696889165
+      BakChiTheRock_Sprites_24: -694602129
+      BakChiTheRock_Sprites_17: -1226030452
+      BakChiTheRock_Sprites_30: -908332874
+      BakChiTheRock_Sprites_5: 1143391157
+      B5BulletR: 1368549602
+      BakChiTheRock_Sprites_1: -1626976635
+      BakChiTheRock_Sprites_27: 987100920
+      BakChiTheRock_Sprites_2: -1832762274
+      BakChiTheRock_Sprites_7: 778864869
+      BakChiTheRock_Sprites_4: -1787710527
+      BakChiTheRock_Sprites_10: -1413701179
+      BakChiTheRock_Sprites_9: -2029561396
+      B5BulletB: 1390065522
+      BakChiTheRock_Sprites_25: -1702269637
+      BakChiTheRock_Sprites_3: 511904151
+      BakChiTheRock_Sprites_13: -1353523280
+      BakChiTheRock_Sprites_14: 2082437946
+      BakChiTheRock_Sprites_21: -215609763
+      B10Bullet: 1894199155
+      BakChiTheRock_Sprites_18: -2085732303
+      BakChiTheRock_Sprites_23: 1167953259
+      BakChiTheRock_Sprites_11: 521291182
+      BakChiTheRock_Sprites_20: 1519827273
+      BakChiTheRock_Sprites_31: 1619185878
+      BakChiTheRock_Sprites_8: 121749323
+      BakChiTheRock_Sprites_12: 1334320735
+      BakChiTheRock_Sprites_26: -2100337169
+      BakChiTheRock_Sprites_19: 407046875
+      BakChiTheRock_Sprites_28: 1633652755
+      BakChiTheRock_Sprites_0: 1633674839
+      BakChiTheRock_Sprites_16: 1721759461
+      BakChiTheRock_Sprites_6: 984108706
+      BakChiTheRock_Sprites_15: -1140531319
   spritePackingTag: 
   pSDRemoveMatte: 0
   pSDShowRemoveMatteOption: 0
