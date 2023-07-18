@@ -37,7 +37,7 @@ public class Bullet : MonoBehaviour
         // 사거리 밖으로 나간 경우?
 
         // 화면 밖으로 나갈 경우
-        if (transform.position.x < -13 || transform.position.x > 13)
+        if (transform.position.x < -15 || transform.position.x > 13)
             Destroy(gameObject);
     }
 

@@ -101,9 +101,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2774da4233eeaa04caf06b350555be8d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  unitTypeText: "\uBC84\uD504"
   unitType: 3
   unitDetail: 7
-  unitCost: 0
+  unitCost: 5
   unitMaxHp: 5
   unitHp: 5
   unitAtk: 0

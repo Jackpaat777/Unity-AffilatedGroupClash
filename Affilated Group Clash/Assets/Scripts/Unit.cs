@@ -49,11 +49,10 @@ public class Unit : MonoBehaviour
     public ParticleSystem dustObject;
     public UnitState unitState; // 유닛의 상태마다 다른 로직을 실행하도록
 
-    public bool isFront;
     float attackTimer;
-    float buffTimer;
     float stopTimer;
     float moneyTimer;
+    bool isFront;
     bool isHit;
 
     Animator anim;
@@ -62,88 +61,11 @@ public class Unit : MonoBehaviour
     {
         anim = GetComponent<Animator>();
 
-        // 유닛 설정
-        //UnitSetting();
-
         // 상태 설정
+        unitState = UnitState.Idle;
         isFront = false;
         DoMove();
     }
-    void UnitSetting()
-    {
-        // Attack Speed는 낮을수록 좋음
-        switch (unitDetail)
-        {
-            case UnitDetail.Sword:
-                unitHp = 13;
-                unitAtk = 2;
-                unitAtkSpeed = 1f;
-                unitRange = 0.7f;
-                unitSpeed = 0.9f;
-                break;
-            case UnitDetail.Guard:
-                unitHp = 20;
-                unitAtk = 1;
-                unitAtkSpeed = 0.8f;
-                unitRange = 0.7f;
-                unitSpeed = 1f;
-                break;
-            case UnitDetail.Vampire:
-                unitHp = 10;
-                unitAtk = 2;
-                unitAtkSpeed = 1.3f;
-                unitRange = 1f;
-                unitSpeed = 0.8f;
-                break;
-            case UnitDetail.Bomb:
-                unitHp = 2;
-                unitAtk = 20;
-                unitAtkSpeed = 0;
-                unitRange = 0.7f;
-                unitSpeed = 0.8f;
-                break;
-            case UnitDetail.Archer:
-                unitHp = 5;
-                unitAtk = 1;
-                unitAtkSpeed = 1f;
-                unitRange = 2.5f;
-                unitSpeed = 1f;
-                break;
-            case UnitDetail.Sniper:
-                unitHp = 4;
-                unitAtk = 2;
-                unitAtkSpeed = 1.3f;
-                unitRange = 5f;
-                unitSpeed = 0.5f;
-                break;
-            case UnitDetail.Guitar:
-                unitHp = 6;
-                unitAtk = 1;
-                unitAtkSpeed = 0.8f;
-                unitRange = 3f;
-                unitSpeed = 0.7f;
-                break;
-            case UnitDetail.Wizard:
-                unitHp = 1;
-                unitAtk = 1;
-                unitAtkSpeed = 1f;
-                unitRange = 3.5f;
-                unitSpeed = 0f;
-                break;
-            case UnitDetail.Noblilty:
-                unitHp = 5;
-                unitAtk = 0;
-                unitAtkSpeed = 0f;
-                unitRange = 1f;
-                unitSpeed = 0.8f;
-                break;
-        }
-
-        // Red 팀 유닛이면 -1 곱해주기
-        if (gameObject.layer == 9)
-            unitSpeed *= -1;
-    }
-
 
     void Update()
     {
@@ -154,12 +76,26 @@ public class Unit : MonoBehaviour
             if (moneyTimer > unitAtkSpeed)
             {
                 DoStop();
-                Debug.Log("+Coin");
+                // CostUp
+                if (gameObject.layer== 8 && GameManager.instance.blueCost < 10)
+                {
+                    GameManager.instance.blueCost += 1;
+                }
+                else if (gameObject.layer == 9 && GameManager.instance.redCost < 10)
+                {
+                    GameManager.instance.redCost += 1;
+                }
+
                 anim.SetTrigger("doAttack");
                 moneyTimer = 0;
             }
         }
 
+        // 유닛 이동
+        UnitMovement();
+    }
+    void UnitMovement()
+    {
         // 유닛 이동 구현
         if (unitState == UnitState.Move)
         {
@@ -217,8 +153,13 @@ public class Unit : MonoBehaviour
             // 적 오브젝트 가져오기
             Unit enemyLogic = rayHit.collider.gameObject.GetComponent<Unit>();
 
+
+            // 드럼의 경우(전사지만 다른 함수 사용) / 폭탄의 경우
+            if (unitDetail == UnitDetail.Drum || unitDetail == UnitDetail.Bomb)
+                BombAttack();
+
             // 근접 유닛의 경우 (Unit 변수 필요)
-            if (unitType == UnitType.Warrior || unitType == UnitType.Tanker)
+            else if (unitType == UnitType.Warrior || unitType == UnitType.Tanker)
                 DirectAttack(enemyLogic);
 
             // 원거리 유닛의 경우 (Transform 변수 필요)
@@ -232,10 +173,6 @@ public class Unit : MonoBehaviour
                 DoStop();
                 isFront = true;
             }
-
-            // 폭탄의 경우 / 드럼의 경우
-            else if (unitDetail == UnitDetail.Bomb || unitDetail == UnitDetail.Drum)
-                BombAttack();
         }
         else
         {
@@ -315,7 +252,7 @@ public class Unit : MonoBehaviour
         if (unitDetail == UnitDetail.Vampire)
         {
             // 회복 이펙트
-            GameObject bullet = ObjectManager.instance.bulletTPrefabs[idx];
+            GameObject bullet = ObjectManager.instance.bullet_prefabs[idx + 10];
             Instantiate(bullet, transform.position + Vector3.up * 0.5f, Quaternion.identity);
             SetBuffType("HP", 1);
         }
@@ -329,13 +266,13 @@ public class Unit : MonoBehaviour
                 // 이펙트
                 if (gameObject.layer == 8)
                 {
-                    GameObject bullet = ObjectManager.instance.bulletTPrefabs[idx];
+                    GameObject bullet = ObjectManager.instance.bullet_prefabs[idx + 10];
                     Vector3 vec = new Vector3(0.5f, 0.5f);
                     Instantiate(bullet, transform.position + vec, Quaternion.identity);
                 }
                 else if (gameObject.layer == 9)
                 {
-                    GameObject bullet = ObjectManager.instance.bulletTPrefabs[idx];
+                    GameObject bullet = ObjectManager.instance.bullet_prefabs[idx + 10];
                     Vector3 vec = new Vector3(-0.5f, 0.5f);
                     Instantiate(bullet, transform.position + vec, Quaternion.identity);
                 }
@@ -366,13 +303,13 @@ public class Unit : MonoBehaviour
             // 자신을 기준으로 총알 발사
             if (unitDetail == UnitDetail.Archer || unitDetail == UnitDetail.Sniper || unitDetail == UnitDetail.Farmer || unitDetail == UnitDetail.Guitar)
             {
-                bullet = ObjectManager.instance.bulletBPrefabs[idx];
+                bullet = ObjectManager.instance.bullet_prefabs[idx];
                 Instantiate(bullet, transform.position + Vector3.up * 0.3f, Quaternion.identity);
             }
             // 타겟를 기준으로 총알 발사
             else if (unitDetail == UnitDetail.Wizard)
             {
-                bullet = ObjectManager.instance.bulletBPrefabs[idx];
+                bullet = ObjectManager.instance.bullet_prefabs[idx];
                 Instantiate(bullet, targetTrans.position, Quaternion.identity);
             }
         }
@@ -380,12 +317,12 @@ public class Unit : MonoBehaviour
         {
             if (unitDetail == UnitDetail.Archer || unitDetail == UnitDetail.Sniper || unitDetail == UnitDetail.Farmer || unitDetail == UnitDetail.Guitar)
             {
-                bullet = ObjectManager.instance.bulletRPrefabs[idx];
+                bullet = ObjectManager.instance.bullet_prefabs[idx + 5];
                 Instantiate(bullet, transform.position + Vector3.up * 0.3f, Quaternion.identity);
             }
             else if (unitDetail == UnitDetail.Wizard)
             {
-                bullet = ObjectManager.instance.bulletRPrefabs[idx];
+                bullet = ObjectManager.instance.bullet_prefabs[idx + 5];
                 Instantiate(bullet, targetTrans.position, Quaternion.identity);
             }
         }
@@ -412,7 +349,7 @@ public class Unit : MonoBehaviour
         {
             // 자폭
             DoHit(unitMaxHp);
-            bomb = ObjectManager.instance.bulletTPrefabs[idx];
+            bomb = ObjectManager.instance.bullet_prefabs[idx + 10];
             Instantiate(bomb, transform.position, Quaternion.identity);
         }
         else // 공속에 영향을 받는 유닛들
@@ -430,7 +367,7 @@ public class Unit : MonoBehaviour
             {
                 if (unitDetail == UnitDetail.Drum)
                 {
-                    bomb = ObjectManager.instance.bulletTPrefabs[idx];
+                    bomb = ObjectManager.instance.bullet_prefabs[idx + 10];
                     Instantiate(bomb, transform.position + Vector3.right * 0.5f, Quaternion.identity);
                 }
             }
@@ -438,7 +375,7 @@ public class Unit : MonoBehaviour
             {
                 if (unitDetail == UnitDetail.Drum)
                 {
-                    bomb = ObjectManager.instance.bulletTPrefabs[idx];
+                    bomb = ObjectManager.instance.bullet_prefabs[idx + 10];
                     Instantiate(bomb, transform.position + Vector3.left * 0.5f, Quaternion.identity);
                 }
             }
@@ -476,7 +413,7 @@ public class Unit : MonoBehaviour
             {
                 type = "HP";
                 value = 1;
-                GameObject bullet = ObjectManager.instance.bulletTPrefabs[idx];
+                GameObject bullet = ObjectManager.instance.bullet_prefabs[idx + 10];
                 Vector3 vec = new Vector3(-0.5f, 0.5f);
                 Instantiate(bullet, allyLogic.transform.position + vec, Quaternion.identity);
             }
@@ -487,7 +424,7 @@ public class Unit : MonoBehaviour
             {
                 type = "HP";
                 value = 1;
-                GameObject bullet = ObjectManager.instance.bulletTPrefabs[idx];
+                GameObject bullet = ObjectManager.instance.bullet_prefabs[idx + 10];
                 Vector3 vec = new Vector3(0.5f, 0.5f);
                 Instantiate(bullet, allyLogic.transform.position + vec, Quaternion.identity);
             }
