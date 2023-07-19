@@ -17,15 +17,19 @@ public class Bullet : MonoBehaviour
     public bool isRotate;
     public bool isNotAtk;
 
-
     Rigidbody2D rigid;
 
     void Awake()
     {
         rigid = GetComponent<Rigidbody2D>();
     }
-    void Start()
+
+    void OnEnable()
     {
+        transform.localRotation = Quaternion.identity;
+        isHit = false;
+
+
         rigid.AddForce(Vector2.right * speed, ForceMode2D.Impulse);
     }
 
@@ -38,15 +42,15 @@ public class Bullet : MonoBehaviour
 
         // 화면 밖으로 나갈 경우
         if (transform.position.x < -15 || transform.position.x > 13)
-            Destroy(gameObject);
+            ObjectManager.instance.DisableObject(gameObject, 0);
     }
 
     void FixedUpdate()
     {
-        if (!isHit)
-        {
-            ScanEnemy();
-        }
+        if (unitDetail == UnitDetail.Drum || unitDetail == UnitDetail.Bomb)
+            return;
+
+        ScanEnemy();
     }
 
     void ScanEnemy()
@@ -55,9 +59,9 @@ public class Bullet : MonoBehaviour
         if (isNotAtk)
         {
             if (speed == 0)
-                Destroy(gameObject, 3f);
+                ObjectManager.instance.DisableObject(gameObject, 3f);
             else
-                Destroy(gameObject);
+                ObjectManager.instance.DisableObject(gameObject, 0);
             return;
         }
 
@@ -89,16 +93,16 @@ public class Bullet : MonoBehaviour
 
             // 화살인지 마법인지에 따라 삭제 시간 조절
             if (speed == 0)
-                Destroy(gameObject, 3f);
+                ObjectManager.instance.DisableObject(gameObject, 3f);
             else
-                Destroy(gameObject);
+                ObjectManager.instance.DisableObject(gameObject, 0);
         }
     }
 
     // 광역공격 트리거
     void OnTriggerEnter2D(Collider2D collision)
     {
-        if (unitDetail == UnitDetail.Bomb || unitDetail == UnitDetail.Drum)
+        if (unitDetail == UnitDetail.Drum)
         {
             // 적군일 경우
             if ((layer == 8 && collision.gameObject.layer == 9) || (layer == 9 && collision.gameObject.layer == 8))
@@ -107,7 +111,22 @@ public class Bullet : MonoBehaviour
                 unitLogic.DoHit(dmg);
             }
 
-            Destroy(gameObject, 1f);
+            ObjectManager.instance.DisableObject(gameObject, 1f);
+        }
+    }
+
+    void OnTriggerStay2D(Collider2D collision)
+    {
+        if (unitDetail == UnitDetail.Bomb)
+        {
+            // 적군일 경우
+            if ((layer == 8 && collision.gameObject.layer == 9) || (layer == 9 && collision.gameObject.layer == 8))
+            {
+                Unit unitLogic = collision.GetComponent<Unit>();
+                unitLogic.DoHit(dmg);
+            }
+
+            ObjectManager.instance.DisableObject(gameObject, 1f);
         }
     }
 }

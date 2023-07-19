@@ -100,11 +100,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 30ead440f59d51b448294cf7b9ac1e78, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  unitDetail: 0
-  layer: 0
-  dmg: 0
+  unitDetail: 5
+  layer: 8
+  dmg: 20
   speed: 0
-  isHit: 1
+  isHit: 0
   isRotate: 0
   isNotAtk: 0
 --- !u!61 &5893241449495019898

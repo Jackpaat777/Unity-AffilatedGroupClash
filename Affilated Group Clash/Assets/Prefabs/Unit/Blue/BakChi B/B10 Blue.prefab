@@ -100,7 +100,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2774da4233eeaa04caf06b350555be8d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  unitTypeText: "\uC804\uC0AC"
   unitType: 0
   unitDetail: 9
   unitCost: 6
@@ -108,11 +107,10 @@ MonoBehaviour:
   unitHp: 12
   unitAtk: 2
   unitAtkSpeed: 0.8
-  unitRange: 0.4
+  unitRange: 0.5
   unitSpeed: 1
   dustObject: {fileID: 7986343613356692577}
   unitState: 0
-  isFront: 0
 --- !u!95 &949827446675404673
 Animator:
   serializedVersion: 5

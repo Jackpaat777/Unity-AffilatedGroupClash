@@ -67,6 +67,32 @@ public class Unit : MonoBehaviour
         DoMove();
     }
 
+    // 재사용 시 초기화
+    void OnEnable()
+    {
+        // 위치 초기화
+        if (gameObject.layer == 8)
+            transform.localPosition = Vector3.left * 11;
+        else if (gameObject.layer == 9)
+            transform.localPosition = Vector3.right * 11;
+
+        // 타이머 초기화
+        attackTimer = 0; stopTimer = 0; moneyTimer = 0;
+
+        // 상태 설정
+        unitState = UnitState.Idle;
+        isFront = false;
+        isHit = false;
+        DoMove();
+
+        // Hp
+        unitHp = unitMaxHp;
+
+        // 영구 증가 유닛 초기화
+        if (unitDetail == UnitDetail.Guitar)
+            unitAtkSpeed = 1.5f;
+    }
+
     void Update()
     {
         // 귀족
@@ -252,9 +278,11 @@ public class Unit : MonoBehaviour
         if (unitDetail == UnitDetail.Vampire)
         {
             // 회복 이펙트
-            GameObject bullet = ObjectManager.instance.bullet_prefabs[idx + 10];
-            Instantiate(bullet, transform.position + Vector3.up * 0.5f, Quaternion.identity);
-            SetBuffType("HP", 1);
+            //GameObject bullet = ObjectManager.instance.bullet_prefabs[idx + 10];
+            //Instantiate(bullet, transform.position + Vector3.up * 0.5f, Quaternion.identity);
+
+            ObjectManager.instance.GetBullet(idx + 10, transform.position + Vector3.up * 0.5f);
+            ExeBuffType("HP", 1);
         }
         // 펀치는 상대 체력이 3이하면 즉사시킴
         else if (unitDetail == UnitDetail.Punch)
@@ -266,15 +294,22 @@ public class Unit : MonoBehaviour
                 // 이펙트
                 if (gameObject.layer == 8)
                 {
-                    GameObject bullet = ObjectManager.instance.bullet_prefabs[idx + 10];
                     Vector3 vec = new Vector3(0.5f, 0.5f);
-                    Instantiate(bullet, transform.position + vec, Quaternion.identity);
+
+                    //GameObject bullet = ObjectManager.instance.bullet_prefabs[idx + 10];
+                    //Instantiate(bullet, transform.position + vec, Quaternion.identity);
+
+
+                    ObjectManager.instance.GetBullet(idx + 10, transform.position + vec);
                 }
                 else if (gameObject.layer == 9)
                 {
-                    GameObject bullet = ObjectManager.instance.bullet_prefabs[idx + 10];
                     Vector3 vec = new Vector3(-0.5f, 0.5f);
-                    Instantiate(bullet, transform.position + vec, Quaternion.identity);
+
+                    //GameObject bullet = ObjectManager.instance.bullet_prefabs[idx + 10];
+                    //Instantiate(bullet, transform.position + vec, Quaternion.identity);
+
+                    ObjectManager.instance.GetBullet(idx + 10, transform.position + vec);
                 }
             }
         }
@@ -303,37 +338,44 @@ public class Unit : MonoBehaviour
             // 자신을 기준으로 총알 발사
             if (unitDetail == UnitDetail.Archer || unitDetail == UnitDetail.Sniper || unitDetail == UnitDetail.Farmer || unitDetail == UnitDetail.Guitar)
             {
-                bullet = ObjectManager.instance.bullet_prefabs[idx];
-                Instantiate(bullet, transform.position + Vector3.up * 0.3f, Quaternion.identity);
+                //bullet = ObjectManager.instance.bullet_prefabs[idx];
+                //Instantiate(bullet, transform.position + Vector3.up * 0.3f, Quaternion.identity);
+
+                bullet = ObjectManager.instance.GetBullet(idx, transform.position + Vector3.up * 0.3f);
             }
             // 타겟를 기준으로 총알 발사
             else if (unitDetail == UnitDetail.Wizard)
             {
-                bullet = ObjectManager.instance.bullet_prefabs[idx];
-                Instantiate(bullet, targetTrans.position, Quaternion.identity);
+                //bullet = ObjectManager.instance.bullet_prefabs[idx];
+                //Instantiate(bullet, targetTrans.position, Quaternion.identity);
+
+                bullet = ObjectManager.instance.GetBullet(idx, targetTrans.position);
             }
         }
         else if (gameObject.layer == 9)     // 레드 팀 유닛일 경우
         {
             if (unitDetail == UnitDetail.Archer || unitDetail == UnitDetail.Sniper || unitDetail == UnitDetail.Farmer || unitDetail == UnitDetail.Guitar)
             {
-                bullet = ObjectManager.instance.bullet_prefabs[idx + 5];
-                Instantiate(bullet, transform.position + Vector3.up * 0.3f, Quaternion.identity);
+                //bullet = ObjectManager.instance.bullet_prefabs[idx + 5];
+                //Instantiate(bullet, transform.position + Vector3.up * 0.3f, Quaternion.identity);
+
+                bullet = ObjectManager.instance.GetBullet(idx + 5, transform.position + Vector3.up * 0.3f);
             }
             else if (unitDetail == UnitDetail.Wizard)
             {
-                bullet = ObjectManager.instance.bullet_prefabs[idx + 5];
-                Instantiate(bullet, targetTrans.position, Quaternion.identity);
+                //bullet = ObjectManager.instance.bullet_prefabs[idx + 5];
+                //Instantiate(bullet, targetTrans.position, Quaternion.identity);
+
+                bullet = ObjectManager.instance.GetBullet(idx + 5, targetTrans.position);
             }
         }
-        // 총알에 값 넣기
-        Bullet bulletLogic = bullet.GetComponent<Bullet>();
-        bulletLogic.dmg = unitAtk;
+        // Bullet에 값 넘겨주기
+        ObjectManager.instance.BulletSetting(bullet, unitDetail, gameObject.layer, unitAtk);
 
         // Skill
         if (unitDetail == UnitDetail.Guitar)
         {
-            SetBuffType("ATS", 0.05f);
+            ExeBuffType("ATS", 0.05f);
         }
 
         // Attack
@@ -342,15 +384,18 @@ public class Unit : MonoBehaviour
     }
     void BombAttack()
     {
-        // 폭발 이펙트 가져오기
-        GameObject bomb = null;
+        // 이펙트 가져오기
+        GameObject bullet = null;
+
         int idx = (int)unitDetail - (int)UnitDetail.Bomb;
         if (unitDetail == UnitDetail.Bomb)
         {
             // 자폭
             DoHit(unitMaxHp);
-            bomb = ObjectManager.instance.bullet_prefabs[idx + 10];
-            Instantiate(bomb, transform.position, Quaternion.identity);
+            //bomb = ObjectManager.instance.bullet_prefabs[idx + 10];
+            //Instantiate(bomb, transform.position, Quaternion.identity);
+
+            bullet = ObjectManager.instance.GetBullet(idx + 10, transform.position);
         }
         else // 공속에 영향을 받는 유닛들
         {
@@ -367,30 +412,30 @@ public class Unit : MonoBehaviour
             {
                 if (unitDetail == UnitDetail.Drum)
                 {
-                    bomb = ObjectManager.instance.bullet_prefabs[idx + 10];
-                    Instantiate(bomb, transform.position + Vector3.right * 0.5f, Quaternion.identity);
+                    //bomb = ObjectManager.instance.bullet_prefabs[idx + 10];
+                    //Instantiate(bomb, transform.position + Vector3.right * 0.5f, Quaternion.identity);
+
+                    bullet = ObjectManager.instance.GetBullet(idx + 10, transform.position + Vector3.right * 0.5f);
                 }
             }
             else if (gameObject.layer == 9)
             {
                 if (unitDetail == UnitDetail.Drum)
                 {
-                    bomb = ObjectManager.instance.bullet_prefabs[idx + 10];
-                    Instantiate(bomb, transform.position + Vector3.left * 0.5f, Quaternion.identity);
+                    //bomb = ObjectManager.instance.bullet_prefabs[idx + 10];
+                    //Instantiate(bomb, transform.position + Vector3.left * 0.5f, Quaternion.identity);
+
+                    bullet = ObjectManager.instance.GetBullet(idx + 10, transform.position + Vector3.left * 0.5f);
                 }
             }
-            
+
             // Attack
             anim.SetTrigger("doAttack");
             attackTimer = 0;
         }
-        
 
         // Bullet에 값 넘겨주기
-        Bullet bombLogic = bomb.GetComponent<Bullet>();
-        bombLogic.unitDetail = unitDetail;
-        bombLogic.layer = gameObject.layer;
-        bombLogic.dmg = unitAtk;
+        ObjectManager.instance.BulletSetting(bullet, unitDetail, gameObject.layer, unitAtk);
     }
 
     // ======================================================= 버프 함수
@@ -413,9 +458,12 @@ public class Unit : MonoBehaviour
             {
                 type = "HP";
                 value = 1;
-                GameObject bullet = ObjectManager.instance.bullet_prefabs[idx + 10];
                 Vector3 vec = new Vector3(-0.5f, 0.5f);
-                Instantiate(bullet, allyLogic.transform.position + vec, Quaternion.identity);
+
+                //GameObject bullet = ObjectManager.instance.bullet_prefabs[idx + 10];
+                //Instantiate(bullet, allyLogic.transform.position + vec, Quaternion.identity);
+
+                ObjectManager.instance.GetBullet(idx + 10, allyLogic.transform.position + vec);
             }
         }
         else if (gameObject.layer == 9)     // 레드 팀 유닛일 경우
@@ -424,14 +472,17 @@ public class Unit : MonoBehaviour
             {
                 type = "HP";
                 value = 1;
-                GameObject bullet = ObjectManager.instance.bullet_prefabs[idx + 10];
                 Vector3 vec = new Vector3(0.5f, 0.5f);
-                Instantiate(bullet, allyLogic.transform.position + vec, Quaternion.identity);
+
+                //GameObject bullet = ObjectManager.instance.bullet_prefabs[idx + 10];
+                //Instantiate(bullet, allyLogic.transform.position + vec, Quaternion.identity);
+
+                ObjectManager.instance.GetBullet(idx + 10, allyLogic.transform.position + vec);
             }
         }
 
         // 버프 발동
-        allyLogic.SetBuffType(type, value);
+        allyLogic.ExeBuffType(type, value);
         anim.SetTrigger("doAttack");
         attackTimer = 0;
 
@@ -441,7 +492,7 @@ public class Unit : MonoBehaviour
             isHit = false;
         }
     }
-    void SetBuffType(string type, float value)
+    void ExeBuffType(string type, float value)
     {
         int valueInt = Mathf.FloorToInt(value);
 
@@ -514,6 +565,7 @@ public class Unit : MonoBehaviour
     void DoDie()
     {
         unitState = UnitState.Die;
-        Destroy(gameObject);
+        gameObject.SetActive(false);
+        //Destroy(gameObject);
     }
 }

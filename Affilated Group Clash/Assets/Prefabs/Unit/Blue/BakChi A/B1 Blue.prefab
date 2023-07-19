@@ -107,7 +107,7 @@ MonoBehaviour:
   unitHp: 10
   unitAtk: 2
   unitAtkSpeed: 1
-  unitRange: 0.7
+  unitRange: 1
   unitSpeed: 0.9
   dustObject: {fileID: 1835442655453476990}
   unitState: 0

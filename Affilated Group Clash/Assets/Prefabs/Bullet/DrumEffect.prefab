@@ -49,10 +49,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   unitDetail: 6
-  layer: 9
+  layer: 8
   dmg: 2
   speed: 0
-  isHit: 1
+  isHit: 0
   isRotate: 0
   isNotAtk: 0
 --- !u!61 &795225007173120670

@@ -1,3 +1,4 @@
+using Newtonsoft.Json.Linq;
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
@@ -9,18 +10,21 @@ public class GameManager : MonoBehaviour
 {
     public static GameManager instance;
 
-    [Header("---------------[Start]")]
-    public GameObject selectSet;
-    public GameObject gameSet;
-    public GameObject[] baseObject;
-    bool isGameStart;
-
     [Header("---------------[InGame]")]
     public int maxCost;
     public int blueCost;
     public int redCost;
     public float costTimer;
     public TextMeshProUGUI costText;
+    bool isGameStart;
+
+    [Header("---------------[UI]")]
+    public GameObject gameSet;
+    public GameObject[] baseObject;
+    public GameObject menuPanel;
+    public GameObject selectPanel;
+    public TextMeshProUGUI selectText;
+    public int selectIndex;
 
     [Header("---------------[Button UI]")]
     public Image[] blueImage;
@@ -50,33 +54,48 @@ public class GameManager : MonoBehaviour
         isGameStart = false;
     }
 
-    public void GameStart()
+    public void SelectButton(string tmName)
     {
-        isGameStart = true;
-        // UI 세팅
-        //selectSet.SetActive(false);
-        gameSet.SetActive(true);
-        baseObject[0].SetActive(true);
-        baseObject[1].SetActive(true);
+        if (selectIndex == 0)
+            TeamSetting(tmName);
+        else if (selectIndex == 1)
+            EnemySetting(tmName);
+
+        selectIndex = 1;
     }
+    public void BackButton()
+    {
+        selectText.text = "플레이할 그룹을 선택해주세요";
+        if (selectIndex == 0)
+        {
+            menuPanel.SetActive(true);
+            selectPanel.SetActive(false);
+            selectIndex = 0;
+            return;
+        }
+        selectIndex = 0;
+    }
+
     public void TeamSetting(string tmName)
     {
+        selectText.text = "상대할 그룹을 선택해주세요";
+
         teamName = tmName;
         lastButton.SetActive(false);
         switch (teamName)
         {
             case "지하A":
-                teamPrefabs = ObjectManager.instance.jiHaA_blue_prefabs;
+                teamPrefabs = ObjectManager.instance.jiHa_prefabs;
                 startidx = 0;
                 groupNum = 5;
                 break;
             case "지하B":
-                teamPrefabs = ObjectManager.instance.jiHaB_blue_prefabs;
+                teamPrefabs = ObjectManager.instance.jiHa_prefabs;
                 startidx = 10;
                 groupNum = 5;
                 break;
             case "주폭":
-                teamPrefabs = ObjectManager.instance.juPok_blue_prefabs;
+                teamPrefabs = ObjectManager.instance.juPok_prefabs;
                 startidx = 0;
                 groupNum = 6;
                 lastButton.SetActive(true);
@@ -93,7 +112,7 @@ public class GameManager : MonoBehaviour
                 groupNum = 5;
                 break;
             case "비급":
-                teamPrefabs = ObjectManager.instance.vBand_blue_prefabs;
+                teamPrefabs = ObjectManager.instance.vBand_prefabs;
                 startidx = 0;
                 groupNum = 5;
                 break;
@@ -114,21 +133,24 @@ public class GameManager : MonoBehaviour
     }
     public void EnemySetting(string enName)
     {
+        selectText.text = "플레이할 그룹을 선택해주세요";
+        selectPanel.SetActive(false);
+
         enemyName = enName;
         switch (enemyName)
         {
             case "지하A":
-                enemyPrefabs = ObjectManager.instance.jiHaA_blue_prefabs;
+                enemyPrefabs = ObjectManager.instance.jiHa_prefabs;
                 startidx2 = 0;
                 groupNum2 = 5;
                 break;
             case "지하B":
-                enemyPrefabs = ObjectManager.instance.jiHaB_blue_prefabs;
+                enemyPrefabs = ObjectManager.instance.jiHa_prefabs;
                 startidx2 = 10;
                 groupNum2 = 5;
                 break;
             case "주폭":
-                enemyPrefabs = ObjectManager.instance.juPok_blue_prefabs;
+                enemyPrefabs = ObjectManager.instance.juPok_prefabs;
                 startidx2 = 0;
                 groupNum2 = 6;
                 break;
@@ -143,11 +165,15 @@ public class GameManager : MonoBehaviour
                 groupNum2 = 5;
                 break;
             case "비급":
-                enemyPrefabs = ObjectManager.instance.vBand_blue_prefabs;
+                enemyPrefabs = ObjectManager.instance.vBand_prefabs;
                 startidx2 = 0;
                 groupNum2 = 5;
                 break;
         }
+
+        // Game Start
+        GameStart();
+        selectIndex = 0;
     }
     void TypeTextSetting(TextMeshProUGUI text, UnitType typeName)
     {
@@ -175,6 +201,14 @@ public class GameManager : MonoBehaviour
                 break;
         }
     }
+    void GameStart()
+    {
+        isGameStart = true;
+        // UI 세팅
+        gameSet.SetActive(true);
+        baseObject[0].SetActive(true);
+        baseObject[1].SetActive(true);
+    }
 
 
     // 버튼을 통한 이동
@@ -200,7 +234,9 @@ public class GameManager : MonoBehaviour
             return;
         }
         // 생성
-        Instantiate(unitB);    
+        //Instantiate(unitB);
+
+        GetUnit(teamName, idx, unitB.transform.position);
     }
     public void MakeRedUnit(int idx)
     {
@@ -214,7 +250,19 @@ public class GameManager : MonoBehaviour
             return;
         }
         // 생성
-        Instantiate(unitR);
+        //Instantiate(unitR);
+
+        GetUnit(enemyName, idx, unitR.transform.position);
+    }
+    void GetUnit(string teamName, int idx, Vector3 pos)
+    {
+        switch (teamName)
+        {
+            case "박취A":
+            case "박취B":
+                ObjectManager.instance.GetBakChi(idx, pos);
+                break;
+        }
     }
 
     void Update()
@@ -286,7 +334,7 @@ public class GameManager : MonoBehaviour
             MakeBlueUnit(3 + startidx);
         if (Input.GetKeyDown(KeyCode.G))
             MakeBlueUnit(4 + startidx);
-        if (Input.GetKeyDown(KeyCode.H) && teamPrefabs.Length == 6)
+        if (Input.GetKeyDown(KeyCode.H) && groupNum == 6)
             MakeBlueUnit(5 + startidx);
         // red
         if (Input.GetKeyDown(KeyCode.Z))
@@ -299,7 +347,7 @@ public class GameManager : MonoBehaviour
             MakeRedUnit(3 + startidx2 + groupNum2);
         if (Input.GetKeyDown(KeyCode.B))
             MakeRedUnit(4 + startidx2 + groupNum2);
-        if (Input.GetKeyDown(KeyCode.N))
+        if (Input.GetKeyDown(KeyCode.N) && groupNum2 == 6)
             MakeRedUnit(5 + startidx2 + groupNum2);
     }
 }
