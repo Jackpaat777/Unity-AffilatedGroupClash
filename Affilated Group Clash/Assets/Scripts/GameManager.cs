@@ -16,6 +16,7 @@ public class GameManager : MonoBehaviour
     public int redCost;
     public float costTimer;
     public TextMeshProUGUI costText;
+    public GameObject allSensor;
     bool isGameStart;
 
     [Header("---------------[UI]")]
@@ -24,7 +25,7 @@ public class GameManager : MonoBehaviour
     public GameObject menuPanel;
     public GameObject selectPanel;
     public TextMeshProUGUI selectText;
-    public int selectIndex;
+    public int pageIndex;
 
     [Header("---------------[Button UI]")]
     public Image[] blueImage;
@@ -56,24 +57,23 @@ public class GameManager : MonoBehaviour
 
     public void SelectButton(string tmName)
     {
-        if (selectIndex == 0)
+        if (pageIndex == 0)
             TeamSetting(tmName);
-        else if (selectIndex == 1)
+        else if (pageIndex == 1)
             EnemySetting(tmName);
 
-        selectIndex = 1;
+        pageIndex = 1;
     }
     public void BackButton()
     {
         selectText.text = "플레이할 그룹을 선택해주세요";
-        if (selectIndex == 0)
+        if (pageIndex == 0)
         {
             menuPanel.SetActive(true);
             selectPanel.SetActive(false);
-            selectIndex = 0;
             return;
         }
-        selectIndex = 0;
+        pageIndex = 0;
     }
 
     public void TeamSetting(string tmName)
@@ -131,6 +131,32 @@ public class GameManager : MonoBehaviour
             blueCostText[i - startidx].text = teamUnit.unitCost.ToString();
         }
     }
+    void TypeTextSetting(TextMeshProUGUI text, UnitType typeName)
+    {
+        switch (typeName)
+        {
+            case UnitType.Tanker:
+                text.text = "탱커";
+                text.color = new Color(0, 255, 0);
+                break;
+            case UnitType.Warrior:
+                text.text = "전사";
+                text.color = new Color(255, 0, 0);
+                break;
+            case UnitType.Ranger:
+                text.text = "원딜";
+                text.color = new Color(0, 200, 255);
+                break;
+            case UnitType.Buffer:
+                text.text = "버프";
+                text.color = new Color(255, 255, 0);
+                break;
+            case UnitType.Special:
+                text.text = "특수";
+                text.color = new Color(255, 0, 255);
+                break;
+        }
+    }
     public void EnemySetting(string enName)
     {
         selectText.text = "플레이할 그룹을 선택해주세요";
@@ -173,33 +199,7 @@ public class GameManager : MonoBehaviour
 
         // Game Start
         GameStart();
-        selectIndex = 0;
-    }
-    void TypeTextSetting(TextMeshProUGUI text, UnitType typeName)
-    {
-        switch (typeName)
-        {
-            case UnitType.Tanker:
-                text.text = "탱커";
-                text.color = new Color(0, 255, 0);
-                break;
-            case UnitType.Warrior:
-                text.text = "전사";
-                text.color = new Color(255, 0, 0);
-                break;
-            case UnitType.Ranger:
-                text.text = "원딜";
-                text.color = new Color(0, 200, 255);
-                break;
-            case UnitType.Buffer:
-                text.text = "버프";
-                text.color = new Color(255, 255, 0);
-                break;
-            case UnitType.Special:
-                text.text = "특수";
-                text.color = new Color(255, 0, 255);
-                break;
-        }
+        pageIndex = 0;
     }
     void GameStart()
     {
@@ -234,8 +234,6 @@ public class GameManager : MonoBehaviour
             return;
         }
         // 생성
-        //Instantiate(unitB);
-
         GetUnit(teamName, idx, unitB.transform.position);
     }
     public void MakeRedUnit(int idx)
@@ -250,14 +248,16 @@ public class GameManager : MonoBehaviour
             return;
         }
         // 생성
-        //Instantiate(unitR);
-
         GetUnit(enemyName, idx, unitR.transform.position);
     }
     void GetUnit(string teamName, int idx, Vector3 pos)
     {
         switch (teamName)
         {
+            case "지하A":
+            case "지하B":
+                ObjectManager.instance.GetJiHa(idx, pos);
+                break;
             case "박취A":
             case "박취B":
                 ObjectManager.instance.GetBakChi(idx, pos);
@@ -309,6 +309,7 @@ public class GameManager : MonoBehaviour
             costTimer = 0;
         }
     }
+
     void KeyBoard()
     {
         // 키보드를 통한 이동

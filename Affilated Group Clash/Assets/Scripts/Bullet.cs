@@ -16,6 +16,7 @@ public class Bullet : MonoBehaviour
     public bool isHit;
     public bool isRotate;
     public bool isNotAtk;
+    public bool isDebuff;
 
     Rigidbody2D rigid;
 
@@ -29,8 +30,9 @@ public class Bullet : MonoBehaviour
         transform.localRotation = Quaternion.identity;
         isHit = false;
 
-
-        rigid.AddForce(Vector2.right * speed, ForceMode2D.Impulse);
+        // 마왕이펙트는 speed값이 있지만 움직이지 않음(Rotate만 하기위해)
+        if (unitDetail != UnitDetail.Devil)
+            rigid.AddForce(Vector2.right * speed, ForceMode2D.Impulse);
     }
 
     void Update()
@@ -38,33 +40,42 @@ public class Bullet : MonoBehaviour
         if (isRotate)
             transform.Rotate(Vector3.forward * speed);
 
-        // 사거리 밖으로 나간 경우?
-
-        // 화면 밖으로 나갈 경우
-        if (transform.position.x < -15 || transform.position.x > 13)
-            ObjectManager.instance.DisableObject(gameObject, 0);
+        // ATS는 제외
+        if (unitDetail != UnitDetail.AtkspdUp)
+        {
+            // 화면 밖으로 나갈 경우
+            if (transform.position.x < -15 || transform.position.x > 13)
+                gameObject.SetActive(false);
+        }
     }
 
     void FixedUpdate()
     {
-        if (unitDetail == UnitDetail.Drum || unitDetail == UnitDetail.Bomb)
+        if (unitDetail == UnitDetail.Drum || unitDetail == UnitDetail.Bomb || unitDetail == UnitDetail.AtkspdUp)
             return;
+
+        // 버프용 Bullet인 경우 바로 제거
+        if (isNotAtk)
+        {
+            if (unitDetail == UnitDetail.Devil)
+            {
+                StartCoroutine(DisableRoutine(0.5f));
+                return;
+            }
+
+            // 이동하지 않는 경우 2초 뒤에 제거
+            if (speed == 0)
+                StartCoroutine(DisableRoutine(2f));
+            else
+                gameObject.SetActive(false);
+            return;
+        }
 
         ScanEnemy();
     }
 
     void ScanEnemy()
     {
-        // 버프용 Bullet인 경우 바로 제거
-        if (isNotAtk)
-        {
-            if (speed == 0)
-                ObjectManager.instance.DisableObject(gameObject, 3f);
-            else
-                ObjectManager.instance.DisableObject(gameObject, 0);
-            return;
-        }
-
         Vector2 dir = Vector2.zero;
         string enemyLayer = "";
 
@@ -91,11 +102,23 @@ public class Bullet : MonoBehaviour
             isHit = true;
             enemyLogic.DoHit(dmg);
 
+            // 디버프 총알
+            if (isDebuff)
+            {
+                // Singer에 맞으면 공격력 감소 (1번만)
+                if (unitDetail == UnitDetail.Singer && !enemyLogic.isAtkDebuff)
+                {
+                    enemyLogic.unitAtk -= 1;
+                    enemyLogic.isAtkDebuff = true;
+                    enemyLogic.atkDebuffTimer = 0;
+                }
+            }
+
             // 화살인지 마법인지에 따라 삭제 시간 조절
             if (speed == 0)
-                ObjectManager.instance.DisableObject(gameObject, 3f);
+                StartCoroutine(DisableRoutine(3f));
             else
-                ObjectManager.instance.DisableObject(gameObject, 0);
+                gameObject.SetActive(false);
         }
     }
 
@@ -111,7 +134,7 @@ public class Bullet : MonoBehaviour
                 unitLogic.DoHit(dmg);
             }
 
-            ObjectManager.instance.DisableObject(gameObject, 1f);
+            StartCoroutine(DisableRoutine(1f));
         }
     }
 
@@ -126,7 +149,14 @@ public class Bullet : MonoBehaviour
                 unitLogic.DoHit(dmg);
             }
 
-            ObjectManager.instance.DisableObject(gameObject, 1f);
+            StartCoroutine(DisableRoutine(1f));
         }
+    }
+
+    IEnumerator DisableRoutine(float time)
+    {
+        yield return new WaitForSeconds(time);
+
+        gameObject.SetActive(false);
     }
 }

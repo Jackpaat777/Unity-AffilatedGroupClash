@@ -101,7 +101,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   unitType: 3
-  unitDetail: 12
+  unitDetail: 17
   unitCost: 5
   unitMaxHp: 4
   unitHp: 4

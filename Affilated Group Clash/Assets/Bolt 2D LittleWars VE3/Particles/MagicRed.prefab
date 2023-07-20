@@ -46,8 +46,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 30ead440f59d51b448294cf7b9ac1e78, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  unitDetail: 0
+  layer: 0
+  dmg: 0
   speed: 0
   isHit: 0
+  isRotate: 0
+  isNotAtk: 0
 --- !u!198 &7138916361236119526
 ParticleSystem:
   m_ObjectHideFlags: 0
@@ -4869,7 +4874,7 @@ ParticleSystemRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 3
+  m_SortingOrder: 4
   m_RenderMode: 0
   m_MeshDistribution: 0
   m_SortMode: 0

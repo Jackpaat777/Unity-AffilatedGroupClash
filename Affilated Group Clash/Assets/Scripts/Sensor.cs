@@ -20,19 +20,31 @@ public class Sensor : MonoBehaviour
     void Start()
     {
         // 시작 값 설정
-        unitDetail = parent.unitDetail;
-        layer = parent.gameObject.layer;
-        col.radius = parent.unitRange;
+        if (parent != null)
+        {
+            unitDetail = parent.unitDetail;
+            layer = parent.gameObject.layer;
+            col.radius = parent.unitRange;
+        }
     }
 
     // 아군 감지 트리거 (한명씩 인지)
     // 여럿을 한번에 인지하려면 Unit에서 만들어야함
     void OnTriggerStay2D(Collider2D collision)
     {
-        if (unitDetail == UnitDetail.Book)
+        // 아군일 경우
+        if ((layer == 8 && collision.gameObject.layer == 8) || (layer == 9 && collision.gameObject.layer == 9))
         {
-            // 아군일 경우
-            if ((layer == 8 && collision.gameObject.layer == 8) || (layer == 9 && collision.gameObject.layer == 9))
+            if (unitDetail == UnitDetail.Heal)
+            {
+                Unit unitLogic = collision.GetComponent<Unit>();
+                // 아군의 체력이 닳았을 경우
+                if (unitLogic.unitHp < unitLogic.unitMaxHp)
+                {
+                    parent.DoBuff(unitLogic);
+                }
+            }
+            else if (unitDetail == UnitDetail.AtkUp)
             {
                 Unit unitLogic = collision.GetComponent<Unit>();
                 if (unitLogic.unitHp < unitLogic.unitMaxHp)

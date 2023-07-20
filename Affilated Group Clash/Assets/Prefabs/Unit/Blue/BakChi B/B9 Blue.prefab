@@ -77,7 +77,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 2
+  m_SortingOrder: 3
   m_Sprite: {fileID: -920947573, guid: 4b69496437d406247b5c69afb9fddf6a, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
@@ -101,9 +101,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2774da4233eeaa04caf06b350555be8d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  unitTypeText: "\uBC84\uD504"
   unitType: 3
-  unitDetail: 7
+  unitDetail: 9
   unitCost: 5
   unitMaxHp: 5
   unitHp: 5
@@ -113,7 +112,10 @@ MonoBehaviour:
   unitSpeed: 0.9
   dustObject: {fileID: 6770742011890840602}
   unitState: 0
-  isFront: 0
+  isAtkSpdBuff: 0
+  isAtkDebuff: 0
+  atkBuffCount: 0
+  atkDebuffTimer: 0
 --- !u!95 &4471449669636124262
 Animator:
   serializedVersion: 5
