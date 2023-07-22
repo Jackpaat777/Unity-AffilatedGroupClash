@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: 7812549749709022790}
   - component: {fileID: 8118313148007537717}
   m_Layer: 9
-  m_Name: MagicEffectR
+  m_Name: GasEffectR
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

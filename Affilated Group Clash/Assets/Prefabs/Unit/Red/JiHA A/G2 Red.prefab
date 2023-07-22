@@ -15,7 +15,7 @@ GameObject:
   - component: {fileID: 3303643285092717065}
   m_Layer: 9
   m_Name: G2 Red
-  m_TagString: Atk_Spd_UpR
+  m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -77,7 +77,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 2
-  m_Sprite: {fileID: 641329131, guid: 924a66b21f030054eacac6a68aac15f0, type: 3}
+  m_Sprite: {fileID: -358444654, guid: 924a66b21f030054eacac6a68aac15f0, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 1
   m_FlipY: 0
@@ -100,22 +100,25 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2774da4233eeaa04caf06b350555be8d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  unitType: 3
-  unitDetail: 5
-  unitCost: 3
-  unitMaxHp: 4
-  unitHp: 4
-  unitAtk: 0
-  unitAtkSpeed: 2
-  unitRange: 2
-  unitSpeed: -0.6
+  unitType: 0
+  unitDetail: 16
+  unitCost: 1
+  unitMaxHp: 120
+  unitHp: 120
+  unitAtk: 20
+  unitAtkSpeed: 1.5
+  unitRange: 0.7
+  unitSpeed: -1
   dustObject: {fileID: 5630520036587094455}
   unitState: 0
-  isATSSensor: 0
+  skillSensor: 0
   isATSUp: 0
+  isATKUp: 0
   isAtkDebuff: 0
-  atkBuffCount: 0
+  isAtsDebuff: 0
+  growSkillHand: {fileID: 0}
   atkDebuffTimer: 0
+  atsDebuffTimer: 0
 --- !u!95 &3303643285092717066
 Animator:
   serializedVersion: 5
@@ -126,7 +129,7 @@ Animator:
   m_GameObject: {fileID: 3303643285092717064}
   m_Enabled: 1
   m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: c26a61c0b6194af4bb70716b56a4e4ea, type: 2}
+  m_Controller: {fileID: 9100000, guid: 05a3ab568100b2b41a84ace9b0b35d1a, type: 2}
   m_CullingMode: 0
   m_UpdateMode: 0
   m_ApplyRootMotion: 0

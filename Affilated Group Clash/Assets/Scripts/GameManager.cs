@@ -16,6 +16,7 @@ public class GameManager : MonoBehaviour
     public int redCost;
     public float costTimer;
     public TextMeshProUGUI costText;
+    public bool isDevil;
     public GameObject allSensor;
     bool isGameStart;
 
@@ -210,7 +211,6 @@ public class GameManager : MonoBehaviour
         baseObject[1].SetActive(true);
     }
 
-
     // 버튼을 통한 이동
     public void CameraMoveButton(string type)
     {
@@ -226,6 +226,11 @@ public class GameManager : MonoBehaviour
     {
         GameObject unitB = teamPrefabs[idx];
         Unit unitBLogic = unitB.GetComponent<Unit>();
+
+        // 예외처리
+        if (isDevil && unitBLogic.unitDetail == UnitDetail.Devil)
+            return;
+
         // Cost 감소
         blueCost -= unitBLogic.unitCost;
         if (blueCost < 0)
@@ -240,6 +245,11 @@ public class GameManager : MonoBehaviour
     {
         GameObject unitR = enemyPrefabs[idx];
         Unit unitRLogic = unitR.GetComponent<Unit>();
+
+        // 예외처리
+        if (isDevil && unitRLogic.unitDetail == UnitDetail.Devil)
+            return;
+
         // Cost 감소
         redCost -= unitRLogic.unitCost;
         if (redCost < 0)

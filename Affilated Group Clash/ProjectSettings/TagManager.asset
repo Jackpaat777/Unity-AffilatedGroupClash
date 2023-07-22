@@ -7,6 +7,10 @@ TagManager:
   - Undefined
   - AtkSpd_UpB
   - AtkSpd_UpR
+  - DevilB
+  - DevilR
+  - Atk_UpB
+  - Atk_UpR
   layers:
   - Default
   - TransparentFX
@@ -18,8 +22,8 @@ TagManager:
   - 
   - Blue
   - Red
-  - Blue Sensor
-  - Red Sensor
+  - 
+  - 
   - 
   - 
   - 

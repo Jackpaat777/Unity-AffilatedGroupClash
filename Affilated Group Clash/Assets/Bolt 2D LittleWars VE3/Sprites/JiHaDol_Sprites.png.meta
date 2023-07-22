@@ -155,8 +155,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 46e14182f81581f4e8d45738100a8941
-      internalID: -1277137636
+      spriteID: db132341743de7549975bf5e59754ddc
+      internalID: 235081670
       vertices: []
       indices: 
       edges: []
@@ -176,8 +176,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 7a5c57c46fd10114dbab6a2f23078a1a
-      internalID: -726436426
+      spriteID: b4bc362626744e34bbbbf91a88d8a9fb
+      internalID: 1686505282
       vertices: []
       indices: 
       edges: []
@@ -197,8 +197,71 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 673740d8cf5b2244f906a67ca86efb6b
-      internalID: 511683531
+      spriteID: f003b429de144fa4a91e2ab1e8fd3140
+      internalID: 755300434
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: G5 Idle
+      rect:
+        serializedVersion: 2
+        x: 123
+        y: 131
+        width: 40
+        height: 25
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 37af79fe10baee340bafc61e3baee02b
+      internalID: -593309275
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: G5 Attack
+      rect:
+        serializedVersion: 2
+        x: 164
+        y: 131
+        width: 40
+        height: 25
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: eb40d3f1f9ac0564eab3971cb8875565
+      internalID: 313936196
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: G5 Hit
+      rect:
+        serializedVersion: 2
+        x: 205
+        y: 131
+        width: 40
+        height: 25
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: b482c7ca3c59f2448a91a4c744d20ab9
+      internalID: 2034454368
       vertices: []
       indices: 
       edges: []
@@ -218,8 +281,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: c2b623f9ba3469d45a7d1142743c2725
-      internalID: -1261205903
+      spriteID: 76d2d842c13c2434492a7d63f8900612
+      internalID: -856118612
       vertices: []
       indices: 
       edges: []
@@ -239,8 +302,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 5725df1fffcd98642a7adf0c5f63b707
-      internalID: 1475383153
+      spriteID: 4466e9bb4c4df3b4684ab197c97463cf
+      internalID: 463153762
       vertices: []
       indices: 
       edges: []
@@ -260,8 +323,71 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 64454abf73857fa40a72330c6512898d
-      internalID: 755079511
+      spriteID: dbee0e91f122814489509167a49fab62
+      internalID: 1254351764
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: G6 Idle
+      rect:
+        serializedVersion: 2
+        x: 123
+        y: 105
+        width: 40
+        height: 25
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 574979e762fd6be4da101c086d2bfd55
+      internalID: 1897934680
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: G6 Attack
+      rect:
+        serializedVersion: 2
+        x: 164
+        y: 105
+        width: 40
+        height: 25
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: baf9610ff83f8cf4d9d33b0f18b55a11
+      internalID: 1881688216
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: G6 Hit
+      rect:
+        serializedVersion: 2
+        x: 205
+        y: 105
+        width: 40
+        height: 25
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 51b21748618890142b36ee88ff719d7b
+      internalID: 1486896042
       vertices: []
       indices: 
       edges: []
@@ -281,8 +407,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 8ba38844c99f14d4ebe8154a92e52d7d
-      internalID: 641329131
+      spriteID: e616f408a7d54c3468b0e48a0a00e385
+      internalID: -358444654
       vertices: []
       indices: 
       edges: []
@@ -302,8 +428,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 555cf68b54aa00b4da2fce1eb6c99f2b
-      internalID: 477227262
+      spriteID: 588da62f3344a0c40a0416a696862d75
+      internalID: 2085244427
       vertices: []
       indices: 
       edges: []
@@ -323,8 +449,71 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 465d1b40324738e45bf540cc792b57d9
-      internalID: 266404209
+      spriteID: 0d1c9a077841d444193c1c511608ac99
+      internalID: 1929684627
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: G7 Idle
+      rect:
+        serializedVersion: 2
+        x: 123
+        y: 79
+        width: 40
+        height: 25
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 890d09c88e50d98478b9a495a8b28a26
+      internalID: -1266965343
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: G7 Attack
+      rect:
+        serializedVersion: 2
+        x: 164
+        y: 79
+        width: 40
+        height: 25
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 537c6d79bb66c254e939aaf03a6f8072
+      internalID: 650811727
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: G7 Hit
+      rect:
+        serializedVersion: 2
+        x: 205
+        y: 79
+        width: 40
+        height: 25
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: f3ec199d0ea9c7c4a89513fae698fe77
+      internalID: 2043725815
       vertices: []
       indices: 
       edges: []
@@ -344,8 +533,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 5a1c84832a55b53469699da498dc5f1c
-      internalID: 2144201908
+      spriteID: 9dcb1474a5376974bad8252abca7b872
+      internalID: 354078163
       vertices: []
       indices: 
       edges: []
@@ -365,8 +554,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 7fe6cbf4822b62e4b8257b92f030671d
-      internalID: 2025242707
+      spriteID: 4ad37b1400a650d4db0200d1486de9d2
+      internalID: -471132255
       vertices: []
       indices: 
       edges: []
@@ -386,8 +575,71 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: cf6ab14ff4d9afe46a90e6bcfdaa5dce
-      internalID: 1893169106
+      spriteID: 091fd9a4f09ccdf4fb0a3d0f55be01a3
+      internalID: 516524713
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: G8 Idle
+      rect:
+        serializedVersion: 2
+        x: 123
+        y: 53
+        width: 40
+        height: 25
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: feb5394ffaab7264ab205d16af9923d1
+      internalID: -1972291564
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: G8 Attack
+      rect:
+        serializedVersion: 2
+        x: 164
+        y: 53
+        width: 40
+        height: 25
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 7135419002afccc409a0306a2b877eeb
+      internalID: -1600097887
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: G8 Hit
+      rect:
+        serializedVersion: 2
+        x: 205
+        y: 53
+        width: 40
+        height: 25
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 1a2e261046e1de74eb1780ac93d424b9
+      internalID: -1307032778
       vertices: []
       indices: 
       edges: []
@@ -407,8 +659,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 7f5ddbeee3f85294481dcebaa968c11d
-      internalID: 1674345003
+      spriteID: df5989494cb163f428cf72d17348309b
+      internalID: 825247240
       vertices: []
       indices: 
       edges: []
@@ -428,8 +680,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 7e120d5b8955f614e9814e698e5bc2e0
-      internalID: 1700512237
+      spriteID: 8aa01a601b2943e4da7eb22d3a8f4996
+      internalID: 1640156555
       vertices: []
       indices: 
       edges: []
@@ -449,8 +701,71 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 2fe9e02e872ab624c9ef57e7c5ef3ffc
-      internalID: -1154771390
+      spriteID: f77f120776ad8b543b57412c9e16840a
+      internalID: -1572233822
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: G9 Idle
+      rect:
+        serializedVersion: 2
+        x: 123
+        y: 27
+        width: 40
+        height: 25
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 2658aae5dcf94a1469c055a486128ef9
+      internalID: -1315666991
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: G9 Attack
+      rect:
+        serializedVersion: 2
+        x: 164
+        y: 27
+        width: 40
+        height: 25
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 59491e1ef590549479f3d0492043d888
+      internalID: 125553519
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: G9 Hit
+      rect:
+        serializedVersion: 2
+        x: 205
+        y: 27
+        width: 40
+        height: 25
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 86868e76d7bc1134f9ea20a9aa51f964
+      internalID: 1038111356
       vertices: []
       indices: 
       edges: []
@@ -459,7 +774,7 @@ TextureImporter:
       name: G4Bullet
       rect:
         serializedVersion: 2
-        x: 123
+        x: 0
         y: 1
         width: 19
         height: 19
@@ -470,8 +785,29 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: ace1349239157e0469252835a90d030a
-      internalID: -748228843
+      spriteID: 23b39ea2249e3264ab9c58401efe60a8
+      internalID: 1185957771
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: G9Bullet
+      rect:
+        serializedVersion: 2
+        x: 32
+        y: 1
+        width: 21
+        height: 13
+      alignment: 6
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 145db63ea5664da45a07d11f3f81c51f
+      internalID: -595172923
       vertices: []
       indices: 
       edges: []
@@ -480,7 +816,7 @@ TextureImporter:
       name: G1Bullet
       rect:
         serializedVersion: 2
-        x: 143
+        x: 20
         y: 1
         width: 10
         height: 13
@@ -491,8 +827,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 357d5841670fa594caa76907fa05ac85
-      internalID: 1184783426
+      spriteID: 0dc352393d557af478ea51722de2389a
+      internalID: -982486478
       vertices: []
       indices: 
       edges: []
@@ -508,23 +844,39 @@ TextureImporter:
     weights: []
     secondaryTextures: []
     nameFileIdTable:
-      G4 Attack: 1700512237
-      G2 Attack: 477227262
-      G1Bullet: 1184783426
-      G4Bullet: -748228843
-      G3 Idle: 2144201908
-      G0 Idle: -1277137636
-      G2 Idle: 641329131
-      G2 Hit: 266404209
-      G4 Hit: -1154771390
-      G0 Hit: 511683531
-      G3 Hit: 1893169106
-      G1 Idle: -1261205903
-      G1 Attack: 1475383153
-      G1 Hit: 755079511
-      G3 Attack: 2025242707
-      G0 Attack: -726436426
-      G4 Idle: 1674345003
+      G4 Attack: 1640156555
+      G6 Hit: 1486896042
+      G2 Attack: 2085244427
+      G8 Idle: -1972291564
+      G4Bullet: 1185957771
+      G6 Attack: 1881688216
+      G1Bullet: -982486478
+      G6 Idle: 1897934680
+      G7 Hit: 2043725815
+      G8 Hit: -1307032778
+      G3 Idle: 354078163
+      G0 Idle: 235081670
+      G9Bullet: -595172923
+      G5 Attack: 313936196
+      G9 Hit: 1038111356
+      G2 Idle: -358444654
+      G2 Hit: 1929684627
+      G4 Hit: -1572233822
+      G0 Hit: 755300434
+      G3 Hit: 516524713
+      G5 Idle: -593309275
+      G7 Attack: 650811727
+      G1 Idle: -856118612
+      G1 Attack: 463153762
+      G1 Hit: 1254351764
+      G3 Attack: -471132255
+      G9 Attack: 125553519
+      G9 Idle: -1315666991
+      G7 Idle: -1266965343
+      G0 Attack: 1686505282
+      G8 Attack: -1600097887
+      G5 Hit: 2034454368
+      G4 Idle: 825247240
   spritePackingTag: 
   pSDRemoveMatte: 0
   pSDShowRemoveMatteOption: 0

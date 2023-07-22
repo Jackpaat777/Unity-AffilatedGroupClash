@@ -14,8 +14,8 @@ GameObject:
   - component: {fileID: 7437630392103762211}
   - component: {fileID: 7437630392103762208}
   m_Layer: 0
-  m_Name: G2 CircleR
-  m_TagString: AtkSpd_UpR
+  m_Name: B9 CircleR
+  m_TagString: Atk_UpR
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -77,7 +77,7 @@ SpriteRenderer:
   m_SortingLayer: 0
   m_SortingOrder: -7
   m_Sprite: {fileID: -2413806693520163455, guid: a86470a33a6bf42c4b3595704624658b, type: 3}
-  m_Color: {r: 1, g: 0.9731658, b: 0.5981132, a: 0.25490198}
+  m_Color: {r: 1, g: 0.56037736, b: 0.56037736, a: 0.25490198}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0

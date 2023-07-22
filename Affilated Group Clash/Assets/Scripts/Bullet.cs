@@ -108,7 +108,7 @@ public class Bullet : MonoBehaviour
                 // Singer에 맞으면 공격력 감소 (1번만)
                 if (unitDetail == UnitDetail.Singer && !enemyLogic.isAtkDebuff)
                 {
-                    enemyLogic.unitAtk -= 1;
+                    enemyLogic.unitAtk -= 5;
                     enemyLogic.isAtkDebuff = true;
                     enemyLogic.atkDebuffTimer = 0;
                 }
