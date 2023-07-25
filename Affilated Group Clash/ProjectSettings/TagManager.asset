@@ -11,6 +11,9 @@ TagManager:
   - DevilR
   - Atk_UpB
   - Atk_UpR
+  - Spd_UpB
+  - Spd_UpR
+  - Atk_Spd_UpR
   layers:
   - Default
   - TransparentFX

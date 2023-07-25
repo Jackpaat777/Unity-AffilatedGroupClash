@@ -86,12 +86,12 @@ public class GameManager : MonoBehaviour
         switch (teamName)
         {
             case "지하A":
-                teamPrefabs = ObjectManager.instance.jiHa_prefabs;
+                teamPrefabs = ObjectManager.instance.giHa_prefabs;
                 startidx = 0;
                 groupNum = 5;
                 break;
             case "지하B":
-                teamPrefabs = ObjectManager.instance.jiHa_prefabs;
+                teamPrefabs = ObjectManager.instance.giHa_prefabs;
                 startidx = 10;
                 groupNum = 5;
                 break;
@@ -167,12 +167,12 @@ public class GameManager : MonoBehaviour
         switch (enemyName)
         {
             case "지하A":
-                enemyPrefabs = ObjectManager.instance.jiHa_prefabs;
+                enemyPrefabs = ObjectManager.instance.giHa_prefabs;
                 startidx2 = 0;
                 groupNum2 = 5;
                 break;
             case "지하B":
-                enemyPrefabs = ObjectManager.instance.jiHa_prefabs;
+                enemyPrefabs = ObjectManager.instance.giHa_prefabs;
                 startidx2 = 10;
                 groupNum2 = 5;
                 break;
@@ -266,11 +266,17 @@ public class GameManager : MonoBehaviour
         {
             case "지하A":
             case "지하B":
-                ObjectManager.instance.GetJiHa(idx, pos);
+                ObjectManager.instance.GetGiHa(idx, pos);
+                break;
+            case "주폭":
+                ObjectManager.instance.GetJuPok(idx, pos);
                 break;
             case "박취A":
             case "박취B":
                 ObjectManager.instance.GetBakChi(idx, pos);
+                break;
+            case "비급":
+                ObjectManager.instance.GetVBand(idx, pos);
                 break;
         }
     }

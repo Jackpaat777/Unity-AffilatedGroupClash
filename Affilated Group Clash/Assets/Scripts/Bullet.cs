@@ -40,8 +40,8 @@ public class Bullet : MonoBehaviour
         if (isRotate)
             transform.Rotate(Vector3.forward * speed);
 
-        // ATS는 제외
-        if (unitDetail != UnitDetail.AtkspdUp)
+        // ATK, ATS ,SPD는 제외
+        if (unitDetail != UnitDetail.AtkUp || unitDetail != UnitDetail.AtkspdUp || unitDetail != UnitDetail.SpdUp)
         {
             // 화면 밖으로 나갈 경우
             if (transform.position.x < -15 || transform.position.x > 13)
@@ -51,7 +51,9 @@ public class Bullet : MonoBehaviour
 
     void FixedUpdate()
     {
-        if (unitDetail == UnitDetail.Drum || unitDetail == UnitDetail.Bomb || unitDetail == UnitDetail.AtkspdUp)
+        // 광역공격 유닛, 아군 버프 유닛
+        if (unitDetail == UnitDetail.Drum || unitDetail == UnitDetail.Bomb || unitDetail == UnitDetail.Wizard ||
+            unitDetail == UnitDetail.AtkUp || unitDetail == UnitDetail.AtkspdUp || unitDetail == UnitDetail.SpdUp)
             return;
 
         // 버프용 Bullet인 경우 바로 제거
@@ -65,7 +67,7 @@ public class Bullet : MonoBehaviour
 
             // 이동하지 않는 경우 2초 뒤에 제거
             if (speed == 0)
-                StartCoroutine(DisableRoutine(2f));
+                StartCoroutine(DisableRoutine(1f));
             else
                 gameObject.SetActive(false);
             return;
@@ -109,16 +111,14 @@ public class Bullet : MonoBehaviour
                 if (unitDetail == UnitDetail.Singer && !enemyLogic.isAtkDebuff)
                 {
                     enemyLogic.unitAtk -= 5;
+                    enemyLogic.unitAtk = enemyLogic.unitAtk < 0 ? 0 : enemyLogic.unitAtk;
                     enemyLogic.isAtkDebuff = true;
                     enemyLogic.atkDebuffTimer = 0;
                 }
             }
 
-            // 화살인지 마법인지에 따라 삭제 시간 조절
-            if (speed == 0)
-                StartCoroutine(DisableRoutine(3f));
-            else
-                gameObject.SetActive(false);
+            // Destroy
+            gameObject.SetActive(false);
         }
     }
 
@@ -126,6 +126,17 @@ public class Bullet : MonoBehaviour
     void OnTriggerEnter2D(Collider2D collision)
     {
         if (unitDetail == UnitDetail.Drum)
+        {
+            // 적군일 경우
+            if ((layer == 8 && collision.gameObject.layer == 9) || (layer == 9 && collision.gameObject.layer == 8))
+            {
+                Unit unitLogic = collision.GetComponent<Unit>();
+                unitLogic.DoHit(dmg);
+            }
+
+            StartCoroutine(DisableRoutine(1f));
+        }
+        else if (unitDetail == UnitDetail.Wizard)
         {
             // 적군일 경우
             if ((layer == 8 && collision.gameObject.layer == 9) || (layer == 9 && collision.gameObject.layer == 8))

@@ -54,6 +54,7 @@ MonoBehaviour:
   isHit: 0
   isRotate: 0
   isNotAtk: 1
+  isDebuff: 0
 --- !u!198 &7267828403327705762
 ParticleSystem:
   m_ObjectHideFlags: 0
@@ -1561,11 +1562,11 @@ ParticleSystem:
     uvChannelMask: -1
     rowMode: 1
     sprites:
-    - sprite: {fileID: -1723160067, guid: 9a52423ebd0d2fc418d71f85963db6b6, type: 3}
-    - sprite: {fileID: 1696786150, guid: 9a52423ebd0d2fc418d71f85963db6b6, type: 3}
-    - sprite: {fileID: -2045038623, guid: 9a52423ebd0d2fc418d71f85963db6b6, type: 3}
-    - sprite: {fileID: -56305815, guid: 9a52423ebd0d2fc418d71f85963db6b6, type: 3}
-    - sprite: {fileID: 267319495, guid: 9a52423ebd0d2fc418d71f85963db6b6, type: 3}
+    - sprite: {fileID: -277684107, guid: b9e563aa7e05e864aaf46a3ea449cae6, type: 3}
+    - sprite: {fileID: 793009374, guid: b9e563aa7e05e864aaf46a3ea449cae6, type: 3}
+    - sprite: {fileID: 1307789749, guid: b9e563aa7e05e864aaf46a3ea449cae6, type: 3}
+    - sprite: {fileID: 31916023, guid: b9e563aa7e05e864aaf46a3ea449cae6, type: 3}
+    - sprite: {fileID: 1568091056, guid: b9e563aa7e05e864aaf46a3ea449cae6, type: 3}
     flipU: 0
     flipV: 0
   VelocityModule:

@@ -7,20 +7,21 @@ public class ObjectManager : MonoBehaviour
 {
     public static ObjectManager instance;
 
-    [Header("---------------[JiHaDol]")]
-    public GameObject[] jiHa_prefabs;
-    List<GameObject>[] jiHa_pools;
+    [Header("---------------[GiHaDol]")]
+    public GameObject[] giHa_prefabs;
+    List<GameObject>[] giHa_pools;  // 풀 담당 리스트
 
     [Header("---------------[JuPok]")]
     public GameObject[] juPok_prefabs;
+    List<GameObject>[] juPok_pools;
 
     [Header("---------------[BackChiTheRock]")]
     public GameObject[] bakChi_prefabs;
-    // 풀 담당 리스트
     List<GameObject>[] bakChi_pools;
 
     [Header("---------------[V_band]")]
     public GameObject[] vBand_prefabs;
+    List<GameObject>[] vBand_pools;
 
     [Header("---------------[Bullet]")]
     public GameObject[] bullet_prefabs;
@@ -31,33 +32,32 @@ public class ObjectManager : MonoBehaviour
         instance = this;
 
         // 프리펩의 길이만큼 리스트 생성
-        jiHa_pools = new List<GameObject>[jiHa_prefabs.Length];
+        giHa_pools = new List<GameObject>[giHa_prefabs.Length];
+        juPok_pools = new List<GameObject>[juPok_prefabs.Length];
         bakChi_pools = new List<GameObject>[bakChi_prefabs.Length];
+        vBand_pools = new List<GameObject>[vBand_prefabs.Length];
         bullet_pools = new List<GameObject>[bullet_prefabs.Length];
-        
-        for (int i = 0; i < jiHa_pools.Length; i++)
-        {
-            // 각 리스트를 생성자를 통해 초기화
-            jiHa_pools[i] = new List<GameObject>();
-        }
+
+        // 각 리스트를 생성자를 통해 초기화
+        for (int i = 0; i < giHa_pools.Length; i++)
+            giHa_pools[i] = new List<GameObject>();
+        for (int i = 0; i < juPok_pools.Length; i++)
+            juPok_pools[i] = new List<GameObject>();
         for (int i = 0; i < bakChi_pools.Length; i++)
-        {
-            // 각 리스트를 생성자를 통해 초기화
             bakChi_pools[i] = new List<GameObject>();
-        }
+        for (int i = 0; i < vBand_pools.Length; i++)
+            vBand_pools[i] = new List<GameObject>();
         for (int i = 0; i < bullet_pools.Length; i++)
-        {
-            // 각 리스트를 생성자를 통해 초기화
             bullet_pools[i] = new List<GameObject>();
-        }
     }
 
-    public GameObject GetJiHa(int idx, Vector3 pos)
+    // 오브젝트 생성 함수
+    public GameObject GetGiHa(int idx, Vector3 pos)
     {
         GameObject select = null;
 
         // 선택한 풀의 비활성화된 오브젝트 접근
-        foreach (GameObject item in jiHa_pools[idx])
+        foreach (GameObject item in giHa_pools[idx])
         {
             if (!item.activeSelf)
             {
@@ -73,10 +73,10 @@ public class ObjectManager : MonoBehaviour
         {
             // 못 찾았을 경우 새롭게 생성하여 select에 할당
             // Hierarchy창이 아닌 PoolManager 아래에 할당하기 위해 transform이라 지정
-            select = Instantiate(jiHa_prefabs[idx], transform);
+            select = Instantiate(giHa_prefabs[idx], transform);
 
             // 오브젝트를 새로 생성했으니 풀에 등록
-            jiHa_pools[idx].Add(select);
+            giHa_pools[idx].Add(select);
         }
 
         // 지정 위치에 소환
@@ -84,7 +84,29 @@ public class ObjectManager : MonoBehaviour
 
         return select;
     }
+    public GameObject GetJuPok(int idx, Vector3 pos)
+    {
+        GameObject select = null;
 
+        foreach (GameObject item in juPok_pools[idx])
+        {
+            if (!item.activeSelf)
+            {
+                select = item;
+                select.SetActive(true);
+                break;
+            }
+        }
+        if (!select)
+        {
+            select = Instantiate(juPok_prefabs[idx], transform);
+            juPok_pools[idx].Add(select);
+        }
+
+        select.transform.position = pos;
+
+        return select;
+    }
     public GameObject GetBakChi(int idx, Vector3 pos)
     {
         GameObject select = null;
@@ -108,7 +130,29 @@ public class ObjectManager : MonoBehaviour
 
         return select;
     }
+    public GameObject GetVBand(int idx, Vector3 pos)
+    {
+        GameObject select = null;
 
+        foreach (GameObject item in vBand_pools[idx])
+        {
+            if (!item.activeSelf)
+            {
+                select = item;
+                select.SetActive(true);
+                break;
+            }
+        }
+        if (!select)
+        {
+            select = Instantiate(vBand_prefabs[idx], transform);
+            vBand_pools[idx].Add(select);
+        }
+
+        select.transform.position = pos;
+
+        return select;
+    }
     public GameObject GetBullet(int idx, Vector3 pos)
     {
         GameObject select = null;

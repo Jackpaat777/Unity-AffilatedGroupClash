@@ -1540,10 +1540,10 @@ ParticleSystem:
     uvChannelMask: -1
     rowMode: 1
     sprites:
-    - sprite: {fileID: 1670660276820739667, guid: 515138afb46ec0a45854690ac95aff51, type: 3}
-    - sprite: {fileID: -5929832237704200204, guid: 515138afb46ec0a45854690ac95aff51, type: 3}
-    - sprite: {fileID: 3207967757382678166, guid: 515138afb46ec0a45854690ac95aff51, type: 3}
-    - sprite: {fileID: -2696115198898644070, guid: 515138afb46ec0a45854690ac95aff51, type: 3}
+    - sprite: {fileID: 624571385, guid: b9e563aa7e05e864aaf46a3ea449cae6, type: 3}
+    - sprite: {fileID: 1811989847, guid: b9e563aa7e05e864aaf46a3ea449cae6, type: 3}
+    - sprite: {fileID: -1057021996, guid: b9e563aa7e05e864aaf46a3ea449cae6, type: 3}
+    - sprite: {fileID: -671074711, guid: b9e563aa7e05e864aaf46a3ea449cae6, type: 3}
     flipU: 0
     flipV: 0
   VelocityModule:
@@ -4835,7 +4835,6 @@ ParticleSystemRenderer:
   m_RendererPriority: 0
   m_Materials:
   - {fileID: 10308, guid: 0000000000000000f000000000000000, type: 0}
-  - {fileID: 10306, guid: 0000000000000000f000000000000000, type: 0}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
