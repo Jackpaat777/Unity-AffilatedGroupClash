@@ -77,7 +77,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 3
-  m_Sprite: {fileID: -347739915, guid: 4b69496437d406247b5c69afb9fddf6a, type: 3}
+  m_Sprite: {fileID: -1379665203, guid: 4b69496437d406247b5c69afb9fddf6a, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -101,24 +101,30 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   unitType: 3
-  unitDetail: 5
+  unitDetail: 14
   unitCost: 1
   unitMaxHp: 40
   unitHp: 40
   unitAtk: 0
   unitAtkSpeed: 3
-  unitRange: 2
+  unitRange: 1.5
   unitSpeed: 0.9
   dustObject: {fileID: 6770742011890840602}
   unitState: 0
   skillSensor: 0
   isATSUp: 0
   isATKUp: 0
+  isSPDUp: 0
   isAtkDebuff: 0
   isAtsDebuff: 0
-  growSkillHand: {fileID: 0}
+  isSpdDebuff: 0
+  isNoDamage: 0
   atkDebuffTimer: 0
   atsDebuffTimer: 0
+  spdDebuffTimer: 0
+  devilTimer: 0
+  growUpHand: {fileID: 0}
+  barrierSkillEffect: {fileID: 0}
 --- !u!95 &4471449669636124262
 Animator:
   serializedVersion: 5

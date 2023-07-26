@@ -48,7 +48,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   unitDetail: 0
   layer: 0
-  dmg: 1
+  dmg: 0
   speed: 5
   isHit: 0
   isRotate: 0
@@ -95,7 +95,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 3
-  m_Sprite: {fileID: -752217891, guid: 4b69496437d406247b5c69afb9fddf6a, type: 3}
+  m_Sprite: {fileID: 445865107, guid: 4b69496437d406247b5c69afb9fddf6a, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -120,7 +120,7 @@ Rigidbody2D:
   m_UseAutoMass: 0
   m_Mass: 1
   m_LinearDrag: 0
-  m_AngularDrag: 0.05
+  m_AngularDrag: 0
   m_GravityScale: 0
   m_Material: {fileID: 0}
   m_Interpolate: 0

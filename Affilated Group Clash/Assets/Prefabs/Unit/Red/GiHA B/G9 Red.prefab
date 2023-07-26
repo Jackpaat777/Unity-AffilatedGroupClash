@@ -78,7 +78,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 2
-  m_Sprite: {fileID: -541730870, guid: 99d395e8d70e6e748822d592073c3a78, type: 3}
+  m_Sprite: {fileID: -1983956155, guid: 99d395e8d70e6e748822d592073c3a78, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 1
   m_FlipY: 0
@@ -102,7 +102,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   unitType: 0
-  unitDetail: 19
+  unitDetail: 21
   unitCost: 1
   unitMaxHp: 50
   unitHp: 50
@@ -118,11 +118,14 @@ MonoBehaviour:
   isSPDUp: 0
   isAtkDebuff: 0
   isAtsDebuff: 0
+  isSpdDebuff: 0
   isNoDamage: 0
-  growSkillHand: {fileID: 7448809623229086941}
-  barrierSkillEffect: {fileID: 0}
   atkDebuffTimer: 0
   atsDebuffTimer: 0
+  spdDebuffTimer: 0
+  devilTimer: 0
+  growUpHand: {fileID: 7448809623229086941}
+  barrierSkillEffect: {fileID: 0}
 --- !u!95 &3303643285092717066
 Animator:
   serializedVersion: 5
@@ -243,12 +246,12 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 4
-  m_Sprite: {fileID: 421826597, guid: 99d395e8d70e6e748822d592073c3a78, type: 3}
+  m_Sprite: {fileID: 879512023, guid: 99d395e8d70e6e748822d592073c3a78, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 0}
   m_FlipX: 1
   m_FlipY: 0
   m_DrawMode: 0
-  m_Size: {x: 1.05, y: 0.65}
+  m_Size: {x: 1.05, y: 0.7}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1

@@ -77,7 +77,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 2
-  m_Sprite: {fileID: 816983773, guid: 4b69496437d406247b5c69afb9fddf6a, type: 3}
+  m_Sprite: {fileID: 640184289, guid: 4b69496437d406247b5c69afb9fddf6a, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 1
   m_FlipY: 0
@@ -117,11 +117,14 @@ MonoBehaviour:
   isSPDUp: 0
   isAtkDebuff: 0
   isAtsDebuff: 0
+  isSpdDebuff: 0
   isNoDamage: 0
-  growSkillHand: {fileID: 0}
-  barrierSkillEffect: {fileID: 0}
   atkDebuffTimer: 0
   atsDebuffTimer: 0
+  spdDebuffTimer: 0
+  devilTimer: 0
+  growUpHand: {fileID: 0}
+  barrierSkillEffect: {fileID: 0}
 --- !u!95 &6896906502187519783
 Animator:
   serializedVersion: 5
@@ -189,7 +192,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7204429219805006233, guid: 1951194dd6c93b7458a4425b33e87084, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -0.5
+      value: 0.5
       objectReference: {fileID: 0}
     - target: {fileID: 7204429219805006233, guid: 1951194dd6c93b7458a4425b33e87084, type: 3}
       propertyPath: m_LocalPosition.y
@@ -201,7 +204,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7204429219805006233, guid: 1951194dd6c93b7458a4425b33e87084, type: 3}
       propertyPath: m_LocalRotation.w
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7204429219805006233, guid: 1951194dd6c93b7458a4425b33e87084, type: 3}
       propertyPath: m_LocalRotation.x
@@ -209,7 +212,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7204429219805006233, guid: 1951194dd6c93b7458a4425b33e87084, type: 3}
       propertyPath: m_LocalRotation.y
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 7204429219805006233, guid: 1951194dd6c93b7458a4425b33e87084, type: 3}
       propertyPath: m_LocalRotation.z
@@ -221,7 +224,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7204429219805006233, guid: 1951194dd6c93b7458a4425b33e87084, type: 3}
       propertyPath: m_LocalEulerAnglesHint.y
-      value: 0
+      value: 180
       objectReference: {fileID: 0}
     - target: {fileID: 7204429219805006233, guid: 1951194dd6c93b7458a4425b33e87084, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z

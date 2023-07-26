@@ -5,14 +5,16 @@ TagManager:
   serializedVersion: 2
   tags:
   - Undefined
-  - AtkSpd_UpB
-  - AtkSpd_UpR
   - DevilB
   - DevilR
-  - Atk_UpB
+  - Spd_UpR
+  - AtkSpd_UpR
   - Atk_UpR
   - Spd_UpB
-  - Spd_UpR
+  - AtkSpd_UpB
+  - Atk_UpB
+  - DestroyBulletB
+  - DestroyBulletR
   - Atk_Spd_UpR
   layers:
   - Default
@@ -25,8 +27,8 @@ TagManager:
   - 
   - Blue
   - Red
-  - 
-  - 
+  - DestroyB
+  - DestroyR
   - 
   - 
   - 

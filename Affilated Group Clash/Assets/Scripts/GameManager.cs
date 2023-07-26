@@ -16,9 +16,20 @@ public class GameManager : MonoBehaviour
     public int redCost;
     public float costTimer;
     public TextMeshProUGUI costText;
-    public bool isDevil;
     public GameObject allSensor;
+    public bool isDevil;
     bool isGameStart;
+
+    [Header("---------------[Team Setting]")]
+    public string teamName;
+    public int startidx;
+    public int groupNum;
+    public GameObject[] teamPrefabs;
+    [Header("---------------[Enemy Setting]")]
+    public string enemyName;
+    public int startidx2;
+    public int groupNum2;
+    public GameObject[] enemyPrefabs;
 
     [Header("---------------[UI]")]
     public GameObject gameSet;
@@ -34,17 +45,6 @@ public class GameManager : MonoBehaviour
     public TextMeshProUGUI[] blueCostText;
     public GameObject lastButton;
 
-    [Header("---------------[Team Setting]")]
-    public string teamName;
-    public int startidx;
-    public int groupNum;
-    public GameObject[] teamPrefabs;
-    [Header("---------------[Enemy Setting]")]
-    public string enemyName;
-    public int startidx2;
-    public int groupNum2;
-    public GameObject[] enemyPrefabs;
-
     [Header("---------------[Camera]")]
     public Transform camTrans;
     public float camSpeed;
@@ -56,6 +56,7 @@ public class GameManager : MonoBehaviour
         isGameStart = false;
     }
 
+    // ======================================================= 팀 선택 함수
     public void SelectButton(string tmName)
     {
         if (pageIndex == 0)
@@ -76,8 +77,7 @@ public class GameManager : MonoBehaviour
         }
         pageIndex = 0;
     }
-
-    public void TeamSetting(string tmName)
+    void TeamSetting(string tmName)
     {
         selectText.text = "상대할 그룹을 선택해주세요";
 
@@ -112,7 +112,7 @@ public class GameManager : MonoBehaviour
                 startidx = 12;
                 groupNum = 5;
                 break;
-            case "비급":
+            case "V급":
                 teamPrefabs = ObjectManager.instance.vBand_prefabs;
                 startidx = 0;
                 groupNum = 5;
@@ -158,7 +158,7 @@ public class GameManager : MonoBehaviour
                 break;
         }
     }
-    public void EnemySetting(string enName)
+    void EnemySetting(string enName)
     {
         selectText.text = "플레이할 그룹을 선택해주세요";
         selectPanel.SetActive(false);
@@ -191,7 +191,7 @@ public class GameManager : MonoBehaviour
                 startidx2 = 12;
                 groupNum2 = 5;
                 break;
-            case "비급":
+            case "V급":
                 enemyPrefabs = ObjectManager.instance.vBand_prefabs;
                 startidx2 = 0;
                 groupNum2 = 5;
@@ -211,7 +211,7 @@ public class GameManager : MonoBehaviour
         baseObject[1].SetActive(true);
     }
 
-    // 버튼을 통한 이동
+    // ======================================================= 인게임 버튼 함수
     public void CameraMoveButton(string type)
     {
         // Set Speed By Button
@@ -220,8 +220,6 @@ public class GameManager : MonoBehaviour
         else if(type == "RightUp" || type == "LeftDown")
             camSpeed -= 3f;
     }
-
-    // 버튼을 통한 유닛 생성
     public void MakeBlueUnit(int idx)
     {
         GameObject unitB = teamPrefabs[idx];
@@ -275,7 +273,7 @@ public class GameManager : MonoBehaviour
             case "박취B":
                 ObjectManager.instance.GetBakChi(idx, pos);
                 break;
-            case "비급":
+            case "V급":
                 ObjectManager.instance.GetVBand(idx, pos);
                 break;
         }
@@ -286,15 +284,15 @@ public class GameManager : MonoBehaviour
         if (!isGameStart)
             return;
 
-        // KeyBoard
-        KeyBoard();
         // Camera Move
         CameraMove();
         // Cost
         CostUp();
+        // KeyBoard
+        KeyBoard();
     }
 
-
+    // ======================================================= Update 함수
     void CameraMove()
     {
         // 화면 밖으로 이동하려고 하면 Move 중지
@@ -325,7 +323,6 @@ public class GameManager : MonoBehaviour
             costTimer = 0;
         }
     }
-
     void KeyBoard()
     {
         // 키보드를 통한 이동

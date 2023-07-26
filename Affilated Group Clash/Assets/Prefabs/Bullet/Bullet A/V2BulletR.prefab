@@ -11,9 +11,9 @@ GameObject:
   - component: {fileID: 6643552003847360376}
   - component: {fileID: 5165446193617620518}
   - component: {fileID: 4773243904743327395}
-  - component: {fileID: 7514529606700127618}
+  - component: {fileID: 9161337445415267343}
   m_Layer: 9
-  m_Name: J5BulletR
+  m_Name: V2BulletR
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -49,11 +49,11 @@ MonoBehaviour:
   unitDetail: 0
   layer: 0
   dmg: 0
-  speed: -10
+  speed: -6
   isHit: 0
   isRotate: 0
   isNotAtk: 0
-  isDebuff: 0
+  isDebuff: 1
 --- !u!212 &4773243904743327395
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -95,18 +95,18 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 3
-  m_Sprite: {fileID: 965052664, guid: 2ae556c44e59dd14e8a6094b378fa11d, type: 3}
+  m_Sprite: {fileID: -1816245702, guid: 6b4f27c881564d94fa617505465d2f7a, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
-  m_FlipX: 1
+  m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
-  m_Size: {x: 0.75, y: 0.35}
+  m_Size: {x: 0.6, y: 0.5}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
---- !u!50 &7514529606700127618
+--- !u!50 &9161337445415267343
 Rigidbody2D:
   serializedVersion: 4
   m_ObjectHideFlags: 0
@@ -120,7 +120,7 @@ Rigidbody2D:
   m_UseAutoMass: 0
   m_Mass: 1
   m_LinearDrag: 0
-  m_AngularDrag: 0.05
+  m_AngularDrag: 0
   m_GravityScale: 0
   m_Material: {fileID: 0}
   m_Interpolate: 0

@@ -51,7 +51,7 @@ public class ObjectManager : MonoBehaviour
             bullet_pools[i] = new List<GameObject>();
     }
 
-    // 오브젝트 생성 함수
+    // ======================================================= 오브젝트 생성 함수
     public GameObject GetGiHa(int idx, Vector3 pos)
     {
         GameObject select = null;
@@ -175,14 +175,5 @@ public class ObjectManager : MonoBehaviour
         select.transform.position = pos;
 
         return select;
-    }
-
-    public void BulletSetting(GameObject bulletObj, UnitDetail uDetail, int uLayer, int uDmg)
-    {
-        Bullet bulletLogic = bulletObj.GetComponent<Bullet>();
-
-        bulletLogic.unitDetail = uDetail;
-        bulletLogic.layer = uLayer;
-        bulletLogic.dmg = uDmg;
     }
 }

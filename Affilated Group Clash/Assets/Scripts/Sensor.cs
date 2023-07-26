@@ -29,7 +29,6 @@ public class Sensor : MonoBehaviour
     }
 
     // 아군 감지 트리거 (한명씩 인지)
-    // 여럿을 한번에 인지하려면 Unit에서 만들어야함
     void OnTriggerStay2D(Collider2D collision)
     {
         // 아군일 경우
@@ -39,14 +38,6 @@ public class Sensor : MonoBehaviour
             {
                 Unit unitLogic = collision.GetComponent<Unit>();
                 // 아군의 체력이 닳았을 경우
-                if (unitLogic.unitHp < unitLogic.unitMaxHp)
-                {
-                    parent.DoBuff(unitLogic);
-                }
-            }
-            else if (unitDetail == UnitDetail.AtkUp)
-            {
-                Unit unitLogic = collision.GetComponent<Unit>();
                 if (unitLogic.unitHp < unitLogic.unitMaxHp)
                 {
                     parent.DoBuff(unitLogic);

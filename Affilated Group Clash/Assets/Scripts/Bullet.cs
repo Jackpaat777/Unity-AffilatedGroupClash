@@ -40,23 +40,23 @@ public class Bullet : MonoBehaviour
         if (isRotate)
             transform.Rotate(Vector3.forward * speed);
 
-        // ATK, ATS ,SPD는 제외
-        if (unitDetail != UnitDetail.AtkUp || unitDetail != UnitDetail.AtkspdUp || unitDetail != UnitDetail.SpdUp)
+        // Circle은 제외
+        if (unitDetail != UnitDetail.AtkUp || unitDetail != UnitDetail.AtkspdUp || unitDetail != UnitDetail.SpdUp || unitDetail != UnitDetail.Piano)
         {
-            // 화면 밖으로 나갈 경우
-            if (transform.position.x < -15 || transform.position.x > 13)
+            // 화면 밖으로 나갈 경우 제거
+            if (transform.position.x < -15 || transform.position.x > 15)
                 gameObject.SetActive(false);
         }
     }
 
     void FixedUpdate()
     {
-        // 광역공격 유닛, 아군 버프 유닛
-        if (unitDetail == UnitDetail.Drum || unitDetail == UnitDetail.Bomb || unitDetail == UnitDetail.Wizard ||
-            unitDetail == UnitDetail.AtkUp || unitDetail == UnitDetail.AtkspdUp || unitDetail == UnitDetail.SpdUp)
+        // 광역공격 유닛, 아군 버프 유닛은 ScanEnemy없이 넘어감
+        if (unitDetail == UnitDetail.Stick || unitDetail == UnitDetail.Bomb || unitDetail == UnitDetail.Wizard ||
+            unitDetail == UnitDetail.AtkUp || unitDetail == UnitDetail.AtkspdUp || unitDetail == UnitDetail.SpdUp || unitDetail == UnitDetail.Piano)
             return;
 
-        // 버프용 Bullet인 경우 바로 제거
+        // 공격하지 않는 Bullet인 경우 ScanEnemy없이 바로 제거
         if (isNotAtk)
         {
             if (unitDetail == UnitDetail.Devil)
@@ -73,6 +73,7 @@ public class Bullet : MonoBehaviour
             return;
         }
 
+        ScanSensor();
         ScanEnemy();
     }
 
@@ -108,12 +109,30 @@ public class Bullet : MonoBehaviour
             if (isDebuff)
             {
                 // Singer에 맞으면 공격력 감소 (1번만)
-                if (unitDetail == UnitDetail.Singer && !enemyLogic.isAtkDebuff)
+                if (unitDetail == UnitDetail.Singer)
                 {
-                    enemyLogic.unitAtk -= 5;
-                    enemyLogic.unitAtk = enemyLogic.unitAtk < 0 ? 0 : enemyLogic.unitAtk;
-                    enemyLogic.isAtkDebuff = true;
+                    // 이미 디버프 중이면 발동하지 않음
+                    if (!enemyLogic.isAtkDebuff)
+                    {
+                        enemyLogic.unitAtk -= 5;
+                        enemyLogic.unitAtk = enemyLogic.unitAtk < 0 ? 0 : enemyLogic.unitAtk;
+                        enemyLogic.isAtkDebuff = true;
+                    }
+                    // 타이머는 초기화
                     enemyLogic.atkDebuffTimer = 0;
+                }
+                // Bass에 맞으면 이속 감소 (1번만)
+                if (unitDetail == UnitDetail.Bass)
+                {
+                    if (!enemyLogic.isSpdDebuff)
+                    {
+                        if (enemyLogic.gameObject.layer == 8)
+                            enemyLogic.unitSpeed -= 0.4f;
+                        else if (enemyLogic.gameObject.layer == 9)
+                            enemyLogic.unitSpeed += 0.4f;
+                        enemyLogic.isSpdDebuff = true;
+                    }
+                    enemyLogic.spdDebuffTimer = 0;
                 }
             }
 
@@ -122,21 +141,36 @@ public class Bullet : MonoBehaviour
         }
     }
 
+    // Destroy Bullet 센서 스캔
+    void ScanSensor()
+    {
+        Vector2 dir = Vector2.zero;
+        string enemyLayer = "";
+
+        if (gameObject.layer == 8)
+        {
+            dir = Vector2.right;
+            enemyLayer = "DestroyR";
+        }
+        else if (gameObject.layer == 9)
+        {
+            dir = Vector2.left;
+            enemyLayer = "DestroyB";
+        }
+
+        RaycastHit2D rayHit = Physics2D.Raycast(transform.position, dir, 0.4f, LayerMask.GetMask(enemyLayer));
+
+        if (rayHit.collider != null)
+        {
+            // Destroy
+            gameObject.SetActive(false);
+        }
+    }
+
     // 광역공격 트리거
     void OnTriggerEnter2D(Collider2D collision)
     {
-        if (unitDetail == UnitDetail.Drum)
-        {
-            // 적군일 경우
-            if ((layer == 8 && collision.gameObject.layer == 9) || (layer == 9 && collision.gameObject.layer == 8))
-            {
-                Unit unitLogic = collision.GetComponent<Unit>();
-                unitLogic.DoHit(dmg);
-            }
-
-            StartCoroutine(DisableRoutine(1f));
-        }
-        else if (unitDetail == UnitDetail.Wizard)
+        if (unitDetail == UnitDetail.Stick || unitDetail == UnitDetail.Wizard)
         {
             // 적군일 경우
             if ((layer == 8 && collision.gameObject.layer == 9) || (layer == 9 && collision.gameObject.layer == 8))

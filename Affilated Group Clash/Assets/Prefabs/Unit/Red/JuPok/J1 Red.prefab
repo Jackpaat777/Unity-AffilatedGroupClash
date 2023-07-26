@@ -77,7 +77,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 2
-  m_Sprite: {fileID: 1967608962, guid: 2ae556c44e59dd14e8a6094b378fa11d, type: 3}
+  m_Sprite: {fileID: -64936673, guid: 2ae556c44e59dd14e8a6094b378fa11d, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 1
   m_FlipY: 0
@@ -101,7 +101,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   unitType: 3
-  unitDetail: 7
+  unitDetail: 16
   unitCost: 1
   unitMaxHp: 30
   unitHp: 30
@@ -117,11 +117,17 @@ MonoBehaviour:
   isSPDUp: 0
   isAtkDebuff: 0
   isAtsDebuff: 0
+  isSpdDebuff: 0
   isNoDamage: 0
-  growSkillHand: {fileID: 0}
-  barrierSkillEffect: {fileID: 0}
   atkDebuffTimer: 0
   atsDebuffTimer: 0
+  spdDebuffTimer: 0
+  backStepTimer: 0
+  devilTimer: 0
+  farmerCount: 0
+  plusAtk: 0
+  growUpHand: {fileID: 0}
+  barrierSkillEffect: {fileID: 0}
 --- !u!95 &3303643285092717066
 Animator:
   serializedVersion: 5
@@ -132,7 +138,7 @@ Animator:
   m_GameObject: {fileID: 3303643285092717064}
   m_Enabled: 1
   m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: c87d89537827ffe43a8c38facca78734, type: 2}
+  m_Controller: {fileID: 9100000, guid: 51a2d599b1f8c8c45b9bbfb43356bd69, type: 2}
   m_CullingMode: 0
   m_UpdateMode: 0
   m_ApplyRootMotion: 0

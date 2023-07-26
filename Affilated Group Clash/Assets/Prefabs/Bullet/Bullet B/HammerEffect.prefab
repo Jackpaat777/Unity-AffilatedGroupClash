@@ -10,8 +10,8 @@ GameObject:
   m_Component:
   - component: {fileID: 2184071607533227498}
   - component: {fileID: 4429723708624754060}
-  - component: {fileID: 8013740587443325967}
   - component: {fileID: 2184071607533227499}
+  - component: {fileID: 8013740587443325967}
   - component: {fileID: 2184071607533227412}
   m_Layer: 0
   m_Name: HammerEffect
@@ -55,27 +55,6 @@ MonoBehaviour:
   isRotate: 0
   isNotAtk: 1
   isDebuff: 0
---- !u!50 &8013740587443325967
-Rigidbody2D:
-  serializedVersion: 4
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2184071607533227413}
-  m_BodyType: 0
-  m_Simulated: 1
-  m_UseFullKinematicContacts: 0
-  m_UseAutoMass: 0
-  m_Mass: 1
-  m_LinearDrag: 0
-  m_AngularDrag: 0.05
-  m_GravityScale: 0
-  m_Material: {fileID: 0}
-  m_Interpolate: 0
-  m_SleepingMode: 1
-  m_CollisionDetection: 0
-  m_Constraints: 0
 --- !u!198 &2184071607533227499
 ParticleSystem:
   m_ObjectHideFlags: 0
@@ -4857,6 +4836,27 @@ ParticleSystem:
         m_PostInfinity: 2
         m_RotationOrder: 4
     vectorLabel1_3: W
+--- !u!50 &8013740587443325967
+Rigidbody2D:
+  serializedVersion: 4
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2184071607533227413}
+  m_BodyType: 0
+  m_Simulated: 1
+  m_UseFullKinematicContacts: 0
+  m_UseAutoMass: 0
+  m_Mass: 1
+  m_LinearDrag: 0
+  m_AngularDrag: 0
+  m_GravityScale: 0
+  m_Material: {fileID: 0}
+  m_Interpolate: 0
+  m_SleepingMode: 1
+  m_CollisionDetection: 0
+  m_Constraints: 0
 --- !u!199 &2184071607533227412
 ParticleSystemRenderer:
   serializedVersion: 6
