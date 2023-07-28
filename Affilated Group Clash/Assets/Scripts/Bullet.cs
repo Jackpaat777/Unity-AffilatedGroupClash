@@ -19,16 +19,22 @@ public class Bullet : MonoBehaviour
     public bool isDebuff;
 
     Rigidbody2D rigid;
+    Collider2D col;
 
     void Awake()
     {
         rigid = GetComponent<Rigidbody2D>();
+        if (unitDetail == UnitDetail.Stick || unitDetail == UnitDetail.Wizard)
+            col = GetComponent<Collider2D>();
     }
 
     void OnEnable()
     {
         transform.localRotation = Quaternion.identity;
         isHit = false;
+
+        if (unitDetail == UnitDetail.Stick || unitDetail == UnitDetail.Wizard)
+            col.enabled = true;
 
         // 마왕이펙트는 speed값이 있지만 움직이지 않음(Rotate만 하기위해)
         if (unitDetail != UnitDetail.Devil)
@@ -179,6 +185,8 @@ public class Bullet : MonoBehaviour
                 unitLogic.DoHit(dmg);
             }
 
+            // collider는 바로 제거해서 버그나지 않도록 (계속 맞는 오류)
+            col.enabled = false;
             StartCoroutine(DisableRoutine(1f));
         }
     }

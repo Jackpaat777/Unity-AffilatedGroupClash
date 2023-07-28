@@ -13,9 +13,6 @@ TagManager:
   - Spd_UpB
   - AtkSpd_UpB
   - Atk_UpB
-  - DestroyBulletB
-  - DestroyBulletR
-  - Atk_Spd_UpR
   layers:
   - Default
   - TransparentFX

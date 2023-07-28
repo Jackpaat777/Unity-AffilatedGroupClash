@@ -15,7 +15,7 @@ GameObject:
   - component: {fileID: 2184071607533227499}
   - component: {fileID: 2184071607533227412}
   m_Layer: 0
-  m_Name: DrumEffect
+  m_Name: StickEffect
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

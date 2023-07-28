@@ -45,6 +45,7 @@ public enum SkillSensor
 public class Unit : MonoBehaviour
 {
     [Header("---------------[Stat]")]
+    public string unitName;
     public UnitType unitType;
     public UnitDetail unitDetail;
     public int unitCost;
@@ -79,6 +80,7 @@ public class Unit : MonoBehaviour
     public float devilTimer;
     int farmerCount;
     int plusAtk;
+
     public GameObject growUpHand;
     public GameObject barrierSkillEffect;
 
@@ -93,6 +95,14 @@ public class Unit : MonoBehaviour
     {
         anim = GetComponent<Animator>();
         col = GetComponent<Collider2D>();
+    }
+
+    // 유닛을 클릭했을 때
+    void OnMouseDown()
+    {
+        // 유닛 정보 넘기기
+        GameManager.instance.isUnitClick = true;
+        GameManager.instance.unitObj = gameObject;
     }
 
     // 재사용 시 초기화 (Awake의 역할)
@@ -359,7 +369,7 @@ public class Unit : MonoBehaviour
             }
         }
         // 공속 디버프 (2초뒤에 다시 올림)
-        else if (isAtsDebuff)
+        if (isAtsDebuff)
         {
             atsDebuffTimer += Time.deltaTime;
             if (atsDebuffTimer > 2f)
@@ -369,7 +379,7 @@ public class Unit : MonoBehaviour
             }
         }
         // 이속 디버프 (2초뒤에 다시 올림)
-        else if (isSpdDebuff)
+        if (isSpdDebuff)
         {
             spdDebuffTimer += Time.deltaTime;
             if (spdDebuffTimer > 2f)
@@ -396,7 +406,7 @@ public class Unit : MonoBehaviour
             }
         }
         // 공속 버프
-        else if (skillSensor == SkillSensor.ATS)
+        if (skillSensor == SkillSensor.ATS)
         {
             if (!isATSUp)
             {
@@ -405,7 +415,7 @@ public class Unit : MonoBehaviour
             }
         }
         // 스피드 버프
-        else if (skillSensor == SkillSensor.SPD)
+        if (skillSensor == SkillSensor.SPD)
         {
             if (!isSPDUp)
             {
@@ -417,7 +427,7 @@ public class Unit : MonoBehaviour
             }
         }
         // 센서 밖
-        else if (skillSensor == SkillSensor.NONE)
+        if (skillSensor == SkillSensor.NONE)
         {
             // 버프 중인 경우 버프 해제 (한번만 실행)
             if (isATKUp)
@@ -863,8 +873,8 @@ public class Unit : MonoBehaviour
         }
         else if (unitDetail == UnitDetail.Shield)
         {
-            // 5데미지 감소
-            damage -= 5;
+            // 3데미지 감소
+            damage -= 3;
             damage = damage < 0 ? 0 : damage;
         }
 

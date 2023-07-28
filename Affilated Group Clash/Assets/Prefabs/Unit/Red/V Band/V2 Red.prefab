@@ -100,9 +100,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2774da4233eeaa04caf06b350555be8d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  unitName: "\uCD5C\uB098\uC740"
   unitType: 2
   unitDetail: 5
-  unitCost: 1
+  unitCost: 4
   unitMaxHp: 40
   unitHp: 40
   unitAtk: 10
@@ -124,8 +125,6 @@ MonoBehaviour:
   spdDebuffTimer: 0
   backStepTimer: 0
   devilTimer: 0
-  farmerCount: 0
-  plusAtk: 0
   growUpHand: {fileID: 0}
   barrierSkillEffect: {fileID: 0}
 --- !u!95 &3303643285092717066
