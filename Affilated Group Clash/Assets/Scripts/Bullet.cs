@@ -33,8 +33,8 @@ public class Bullet : MonoBehaviour
         transform.localRotation = Quaternion.identity;
         isHit = false;
 
-        if (unitDetail == UnitDetail.Stick || unitDetail == UnitDetail.Wizard)
-            col.enabled = true;
+        //if (unitDetail == UnitDetail.Stick || unitDetail == UnitDetail.Wizard)
+        //    col.enabled = true;
 
         // 마왕이펙트는 speed값이 있지만 움직이지 않음(Rotate만 하기위해)
         if (unitDetail != UnitDetail.Devil)
@@ -53,6 +53,9 @@ public class Bullet : MonoBehaviour
             if (transform.position.x < -15 || transform.position.x > 15)
                 gameObject.SetActive(false);
         }
+
+        // 2.5초넘게 날아가고 있으면 삭제 -> 오류는 없나?
+        DisableRoutine(2.5f);
     }
 
     void FixedUpdate()
@@ -176,7 +179,7 @@ public class Bullet : MonoBehaviour
     // 광역공격 트리거
     void OnTriggerEnter2D(Collider2D collision)
     {
-        if (unitDetail == UnitDetail.Stick || unitDetail == UnitDetail.Wizard)
+        if (unitDetail == UnitDetail.Stick || unitDetail == UnitDetail.Wizard || unitDetail == UnitDetail.Bomb)
         {
             // 적군일 경우
             if ((layer == 8 && collision.gameObject.layer == 9) || (layer == 9 && collision.gameObject.layer == 8))
@@ -186,25 +189,25 @@ public class Bullet : MonoBehaviour
             }
 
             // collider는 바로 제거해서 버그나지 않도록 (계속 맞는 오류)
-            col.enabled = false;
+            //col.enabled = false;
             StartCoroutine(DisableRoutine(1f));
         }
     }
 
-    void OnTriggerStay2D(Collider2D collision)
-    {
-        if (unitDetail == UnitDetail.Bomb)
-        {
-            // 적군일 경우
-            if ((layer == 8 && collision.gameObject.layer == 9) || (layer == 9 && collision.gameObject.layer == 8))
-            {
-                Unit unitLogic = collision.GetComponent<Unit>();
-                unitLogic.DoHit(dmg);
-            }
+    //void OnTriggerStay2D(Collider2D collision)
+    //{
+    //    if (unitDetail == UnitDetail.Bomb)
+    //    {
+    //        // 적군일 경우
+    //        if ((layer == 8 && collision.gameObject.layer == 9) || (layer == 9 && collision.gameObject.layer == 8))
+    //        {
+    //            Unit unitLogic = collision.GetComponent<Unit>();
+    //            unitLogic.DoHit(dmg);
+    //        }
 
-            StartCoroutine(DisableRoutine(1f));
-        }
-    }
+    //        StartCoroutine(DisableRoutine(1f));
+    //    }
+    //}
 
     IEnumerator DisableRoutine(float time)
     {

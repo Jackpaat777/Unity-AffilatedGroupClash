@@ -907,7 +907,6 @@ TextureImporter:
     weights: []
     secondaryTextures: []
     nameFileIdTable:
-      B2 Hit: 1122024950
       B1 Attack: -713531380
       B7Bullet: -341892320
       B5 Attack: 1663391920
@@ -939,6 +938,7 @@ TextureImporter:
       B3 Hit: 902521082
       B0 Idle: 2060167560
       B5 Idle: 1571487507
+      B2 Hit: 1122024950
       B6 Attack: 723617305
       B8 Idle: 640184289
       B9 Attack: -2049365586

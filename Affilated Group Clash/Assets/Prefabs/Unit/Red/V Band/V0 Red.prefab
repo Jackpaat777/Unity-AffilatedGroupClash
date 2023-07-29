@@ -104,8 +104,8 @@ MonoBehaviour:
   unitType: 0
   unitDetail: 18
   unitCost: 2
-  unitMaxHp: 120
-  unitHp: 120
+  unitMaxHp: 110
+  unitHp: 110
   unitAtk: 10
   unitAtkSpeed: 1.5
   unitRange: 0.7
@@ -124,7 +124,6 @@ MonoBehaviour:
   atsDebuffTimer: 0
   spdDebuffTimer: 0
   backStepTimer: 0
-  devilTimer: 0
   growUpHand: {fileID: 0}
   barrierSkillEffect: {fileID: 0}
 --- !u!95 &3303643285092717066
