@@ -103,7 +103,7 @@ MonoBehaviour:
   unitName: "\uC5D4\uC57C\uC0C1"
   unitType: 4
   unitDetail: 6
-  unitCost: 1
+  unitCost: 9
   unitMaxHp: 30
   unitHp: 30
   unitAtk: 200

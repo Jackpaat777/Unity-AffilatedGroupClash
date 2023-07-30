@@ -24,8 +24,7 @@ public class Bullet : MonoBehaviour
     void Awake()
     {
         rigid = GetComponent<Rigidbody2D>();
-        if (unitDetail == UnitDetail.Stick || unitDetail == UnitDetail.Wizard)
-            col = GetComponent<Collider2D>();
+        col = GetComponent<Collider2D>();
     }
 
     void OnEnable()
@@ -33,8 +32,8 @@ public class Bullet : MonoBehaviour
         transform.localRotation = Quaternion.identity;
         isHit = false;
 
-        //if (unitDetail == UnitDetail.Stick || unitDetail == UnitDetail.Wizard)
-        //    col.enabled = true;
+        if (col != null)
+            col.enabled = true;
 
         // 마왕이펙트는 speed값이 있지만 움직이지 않음(Rotate만 하기위해)
         if (unitDetail != UnitDetail.Devil)
@@ -185,29 +184,16 @@ public class Bullet : MonoBehaviour
             if ((layer == 8 && collision.gameObject.layer == 9) || (layer == 9 && collision.gameObject.layer == 8))
             {
                 Unit unitLogic = collision.GetComponent<Unit>();
+
                 unitLogic.DoHit(dmg);
             }
 
-            // collider는 바로 제거해서 버그나지 않도록 (계속 맞는 오류)
-            //col.enabled = false;
+            // collider는 바로 끄기 (끄트머리에서 맞으면 연속데미지 받는 오류)
+            if (col != null)
+                col.enabled = false;
             StartCoroutine(DisableRoutine(1f));
         }
     }
-
-    //void OnTriggerStay2D(Collider2D collision)
-    //{
-    //    if (unitDetail == UnitDetail.Bomb)
-    //    {
-    //        // 적군일 경우
-    //        if ((layer == 8 && collision.gameObject.layer == 9) || (layer == 9 && collision.gameObject.layer == 8))
-    //        {
-    //            Unit unitLogic = collision.GetComponent<Unit>();
-    //            unitLogic.DoHit(dmg);
-    //        }
-
-    //        StartCoroutine(DisableRoutine(1f));
-    //    }
-    //}
 
     IEnumerator DisableRoutine(float time)
     {

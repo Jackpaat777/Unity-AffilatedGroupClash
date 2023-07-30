@@ -11,9 +11,9 @@ public class ObjectManager : MonoBehaviour
     public GameObject[] giHa_prefabs;
     List<GameObject>[] giHa_pools;  // 풀 담당 리스트
 
-    [Header("---------------[JuPok]")]
-    public GameObject[] juPok_prefabs;
-    List<GameObject>[] juPok_pools;
+    [Header("---------------[JuFok]")]
+    public GameObject[] juFok_prefabs;
+    List<GameObject>[] juFok_pools;
 
     [Header("---------------[BackChiTheRock]")]
     public GameObject[] bakChi_prefabs;
@@ -33,7 +33,7 @@ public class ObjectManager : MonoBehaviour
 
         // 프리펩의 길이만큼 리스트 생성
         giHa_pools = new List<GameObject>[giHa_prefabs.Length];
-        juPok_pools = new List<GameObject>[juPok_prefabs.Length];
+        juFok_pools = new List<GameObject>[juFok_prefabs.Length];
         bakChi_pools = new List<GameObject>[bakChi_prefabs.Length];
         vBand_pools = new List<GameObject>[vBand_prefabs.Length];
         bullet_pools = new List<GameObject>[bullet_prefabs.Length];
@@ -41,8 +41,8 @@ public class ObjectManager : MonoBehaviour
         // 각 리스트를 생성자를 통해 초기화
         for (int i = 0; i < giHa_pools.Length; i++)
             giHa_pools[i] = new List<GameObject>();
-        for (int i = 0; i < juPok_pools.Length; i++)
-            juPok_pools[i] = new List<GameObject>();
+        for (int i = 0; i < juFok_pools.Length; i++)
+            juFok_pools[i] = new List<GameObject>();
         for (int i = 0; i < bakChi_pools.Length; i++)
             bakChi_pools[i] = new List<GameObject>();
         for (int i = 0; i < vBand_pools.Length; i++)
@@ -84,11 +84,11 @@ public class ObjectManager : MonoBehaviour
 
         return select;
     }
-    public GameObject GetJuPok(int idx, Vector3 pos)
+    public GameObject GetJuFok(int idx, Vector3 pos)
     {
         GameObject select = null;
 
-        foreach (GameObject item in juPok_pools[idx])
+        foreach (GameObject item in juFok_pools[idx])
         {
             if (!item.activeSelf)
             {
@@ -99,8 +99,8 @@ public class ObjectManager : MonoBehaviour
         }
         if (!select)
         {
-            select = Instantiate(juPok_prefabs[idx], transform);
-            juPok_pools[idx].Add(select);
+            select = Instantiate(juFok_prefabs[idx], transform);
+            juFok_pools[idx].Add(select);
         }
 
         select.transform.position = pos;

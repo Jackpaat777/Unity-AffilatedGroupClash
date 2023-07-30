@@ -103,7 +103,7 @@ MonoBehaviour:
   unitName: "\uC5D4\uC57C\uC0C1"
   unitType: 4
   unitDetail: 6
-  unitCost: 8
+  unitCost: 9
   unitMaxHp: 30
   unitHp: 30
   unitAtk: 200
@@ -124,7 +124,6 @@ MonoBehaviour:
   atsDebuffTimer: 0
   spdDebuffTimer: 0
   backStepTimer: 0
-  devilTimer: 0
   growUpHand: {fileID: 0}
   barrierSkillEffect: {fileID: 0}
 --- !u!95 &3303643285092717066

@@ -193,7 +193,7 @@ public class Unit : MonoBehaviour
         // 모든 유닛에 적용
         if (skillSensor == SkillSensor.ATK)
         {
-            unitAtk -= 10;
+            unitAtk -= 5;
             isATKUp = false;
         }
         else if (skillSensor == SkillSensor.ATS)
@@ -430,7 +430,7 @@ public class Unit : MonoBehaviour
             if (!isATKUp)
             {
                 // 공격력 증가
-                unitAtk += 10;
+                unitAtk += 5;
                 isATKUp = true;
             }
         }
@@ -462,7 +462,7 @@ public class Unit : MonoBehaviour
             // 버프 중인 경우 버프 해제 (한번만 실행)
             if (isATKUp)
             {
-                unitAtk -= 10;
+                unitAtk -= 5;
                 isATKUp = false;
             }
             else if (isATSUp)
@@ -493,8 +493,8 @@ public class Unit : MonoBehaviour
             // 앞에 아무도 없을 때
             if (!isFront)
             {
-                // Cat은 피격시 멈추지 않음
-                if (unitDetail == UnitDetail.Cat)
+                // Bomb와 Cat은 피격시 멈추지 않음
+                if (unitDetail == UnitDetail.Bomb || unitDetail == UnitDetail.Cat)
                 {
                     DoMove();
                 }
@@ -897,10 +897,6 @@ public class Unit : MonoBehaviour
     }
     public void DoHit(int damage)
     {
-        // 게임이 종료되면 아무도 Hit하지 않음
-        if (!GameManager.instance.isGameLive)
-            return;
-
         // Base 타입인 경우
         if (unitType == UnitType.Base)
         {

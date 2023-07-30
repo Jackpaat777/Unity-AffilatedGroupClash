@@ -108,7 +108,7 @@ MonoBehaviour:
   unitHp: 30
   unitAtk: 0
   unitAtkSpeed: 3
-  unitRange: 1
+  unitRange: 1.5
   unitSpeed: -0.7
   dustObject: {fileID: 5630520036587094455}
   unitState: 0
@@ -124,7 +124,7 @@ MonoBehaviour:
   atsDebuffTimer: 0
   spdDebuffTimer: 0
   backStepTimer: 0
-  devilTimer: 0
+  isWideHit: 0
   growUpHand: {fileID: 0}
   barrierSkillEffect: {fileID: 0}
 --- !u!95 &3303643285092717066
