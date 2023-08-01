@@ -141,7 +141,7 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: Button Panel UI_0
+      name: RedB
       rect:
         serializedVersion: 2
         x: 0
@@ -162,7 +162,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Button Panel UI_1
+      name: RedB Down
       rect:
         serializedVersion: 2
         x: 47
@@ -183,7 +183,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Button Panel UI_2
+      name: OrangeB
       rect:
         serializedVersion: 2
         x: 0
@@ -204,7 +204,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Button Panel UI_3
+      name: OrangeB Down
       rect:
         serializedVersion: 2
         x: 47
@@ -225,7 +225,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Button Panel UI_4
+      name: BlueB
       rect:
         serializedVersion: 2
         x: 0
@@ -246,7 +246,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Button Panel UI_5
+      name: BlueB Down
       rect:
         serializedVersion: 2
         x: 47
@@ -267,7 +267,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Button Panel UI_6
+      name: GreenB
       rect:
         serializedVersion: 2
         x: 0
@@ -288,7 +288,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Button Panel UI_7
+      name: GreenB Down
       rect:
         serializedVersion: 2
         x: 47
@@ -309,7 +309,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Button Panel UI_8
+      name: BlackB
       rect:
         serializedVersion: 2
         x: 0
@@ -330,7 +330,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Button Panel UI_9
+      name: BlackB Down
       rect:
         serializedVersion: 2
         x: 47
@@ -351,7 +351,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Button Panel UI_10
+      name: WhiteB
       rect:
         serializedVersion: 2
         x: 0
@@ -372,7 +372,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Button Panel UI_11
+      name: WhiteB Down
       rect:
         serializedVersion: 2
         x: 47
@@ -403,18 +403,18 @@ TextureImporter:
     weights: []
     secondaryTextures: []
     nameFileIdTable:
-      Button Panel UI_7: 731454978
-      Button Panel UI_9: -2025197620
-      Button Panel UI_1: -231174815
-      Button Panel UI_6: 872445960
-      Button Panel UI_10: -1015532441
-      Button Panel UI_3: -1206258340
-      Button Panel UI_4: -517220870
-      Button Panel UI_0: -72311099
-      Button Panel UI_11: -214788800
-      Button Panel UI_2: -807121112
-      Button Panel UI_8: -1652755507
-      Button Panel UI_5: -1618249346
+      RedB Down: -231174815
+      RedB: -72311099
+      BlueB: -517220870
+      BlackB: -1652755507
+      GreenB: 872445960
+      OrangeB: -807121112
+      BlackB Down: -2025197620
+      WhiteB Down: -214788800
+      GreenB Down: 731454978
+      WhiteB: -1015532441
+      OrangeB Down: -1206258340
+      BlueB Down: -1618249346
   spritePackingTag: 
   pSDRemoveMatte: 0
   pSDShowRemoveMatteOption: 0

@@ -1,4 +1,3 @@
-using System;
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
@@ -7,7 +6,7 @@ using UnityEngine.SceneManagement;
 using Random = UnityEngine.Random;
 using Image = UnityEngine.UI.Image;
 using Slider = UnityEngine.UI.Slider;
-using Unity.VisualScripting;
+using UnityEngine.UI;
 
 public class GameManager : MonoBehaviour
 {
@@ -15,11 +14,15 @@ public class GameManager : MonoBehaviour
 
     [Header("---------------[InGame]")]
     public bool isGameLive;
-    public float gameTimer;
+    public int gameLevel;
     public int maxCost;
     public int blueCost;
     public int redCost;
-    public float costTimer;
+    public float gameTimer;
+    public float costBTimer;
+    public float costRTimer;
+    public float costRUp;
+    public TextMeshProUGUI timeText;
     public TextMeshProUGUI costText;
     public List<GameObject> blueUnitList;
     public List<GameObject> redUnitList;
@@ -27,40 +30,54 @@ public class GameManager : MonoBehaviour
     [Header("---------------[Base]")]
     public int blueHP;
     public int redHP;
+    public Sprite[] blueBaseSprite;
+    public Sprite[] redBaseSprite;
+    public SpriteRenderer blueBaseSpriteRen;
+    public SpriteRenderer redBaseSpriteRen;
     public Slider blueBaseSlider;
     public Slider redBaseSlider;
     public TextMeshProUGUI blueHpText;
     public TextMeshProUGUI redHpText;
     public TextMeshProUGUI blueHpShadowText;
     public TextMeshProUGUI redHpShadowText;
-    public SpriteRenderer blueBaseSpriteRen;
-    public SpriteRenderer redBaseSpriteRen;
-    public Sprite[] blueBaseSprite;
-    public Sprite[] redBaseSprite;
     public GameObject blueDestroyEffect;
     public GameObject redDestroyEffect;
 
     [Header("---------------[Blue Team Setting]")]
+    public bool isBlueTeam;
     public string teamBlueName;
+    public int teamBlueNum;
     public int startBlueIdx;
     public int groupBlueNum;
     public GameObject[] teamBluePrefabs;
+    public Image blueTeamLogo;
+    public TextMeshProUGUI blueTeamNameText;
     [Header("---------------[Red Team Setting]")]
+    public bool isRedTeam;
     public string teamRedName;
+    public int teamRedNum;
     public int startRedIdx;
     public int groupRedNum;
     public GameObject[] teamRedPrefabs;
+    public Image redTeamLogo;
+    public TextMeshProUGUI redTeamNameText;
     public float spawnTimer;
     public int patternIdx;
 
     [Header("---------------[UI]")]
     public GameObject gameSet;
     public GameObject[] baseObject;
-    public GameObject menuPanel;
+    public GameObject modePanel;
     public GameObject selectPanel;
+    public GameObject levelPanel;
     public GameObject optionPanel;
-    public TextMeshProUGUI selectText;
-    int selectPageIdx;
+    public Button[] teamSelectButton;
+    public Button[] teamLevelButton;
+    public Sprite[] teamSelectSprite;
+    public TextMeshProUGUI selectButtonText;
+    public int teamSelectPageIdx;
+    public bool isSelectLevel;
+
     [Header("---------------[Button UI]")]
     public Image[] blueButtonImage;
     public TextMeshProUGUI[] blueTypeText;
@@ -134,67 +151,84 @@ public class GameManager : MonoBehaviour
     }
 
     // ======================================================= 팀 세팅 함수
-    public void SelectButton(string tmName)
+    public void TeamSetting(string tmName)
     {
-        if (selectPageIdx == 0)
-            BlueTeamSetting(tmName);
-        else if (selectPageIdx == 1)
-            RedTeamSetting(tmName);
-
-        selectPageIdx = 1;
-    }
-    public void BackButton()
-    {
-        selectText.text = "플레이할 그룹을 선택해주세요";
-        if (selectPageIdx == 0)
+        if (teamSelectPageIdx == 0)
         {
-            menuPanel.SetActive(true);
-            selectPanel.SetActive(false);
-            return;
+            BlueTeamSetting(tmName);
         }
-        selectPageIdx = 0;
+        else if (teamSelectPageIdx == 1)
+        {
+            RedTeamSetting(tmName);
+        }
     }
     void BlueTeamSetting(string tmName)
     {
-        selectText.text = "상대할 그룹을 선택해주세요";
+        // Disable된 버튼이 있다면 true
+        if (isBlueTeam)
+            teamSelectButton[teamBlueNum].interactable = true;
 
+        isBlueTeam = true;
         teamBlueName = tmName;
         lastButton.SetActive(false);
         switch (teamBlueName)
         {
             case "지하A":
+                // 팀 선택 번호 (버튼 비활성화에서 씀)
+                teamBlueNum = 0;
+                // 팀 프리펩 가져오기
                 teamBluePrefabs = ObjectManager.instance.giHa_prefabs;
+                // 프리펩 시작 값
                 startBlueIdx = 0;
+                // 사용할 프리펩 개수
                 groupBlueNum = 5;
+                // 텍스트 UI 변경
+                blueTeamNameText.text = "폴리곤엔젤";
                 break;
             case "지하B":
+                teamBlueNum = 1;
                 teamBluePrefabs = ObjectManager.instance.giHa_prefabs;
                 startBlueIdx = 10;
                 groupBlueNum = 5;
+                blueTeamNameText.text = "woo.a.woo";
                 break;
             case "주폭":
+                teamBlueNum = 2;
                 teamBluePrefabs = ObjectManager.instance.juFok_prefabs;
                 startBlueIdx = 0;
                 groupBlueNum = 6;
+                blueTeamNameText.text = "주폭소년단";
                 lastButton.SetActive(true);
                 break;
             case "박취A":
+                teamBlueNum = 3;
                 teamBluePrefabs = ObjectManager.instance.bakChi_prefabs;
                 startBlueIdx = 0;
                 groupBlueNum = 6;
+                blueTeamNameText.text = "앙리 사루엔링 6세";
                 lastButton.SetActive(true);
                 break;
             case "박취B":
+                teamBlueNum = 4;
                 teamBluePrefabs = ObjectManager.instance.bakChi_prefabs;
                 startBlueIdx = 12;
                 groupBlueNum = 5;
+                blueTeamNameText.text = "결석밴드";
                 break;
             case "V급":
+                teamBlueNum = 5;
                 teamBluePrefabs = ObjectManager.instance.vBand_prefabs;
                 startBlueIdx = 0;
                 groupBlueNum = 5;
+                blueTeamNameText.text = "V급밴드";
                 break;
         }
+
+        // Logo Setting
+        blueTeamLogo.sprite = teamSelectSprite[teamBlueNum];
+        blueTeamLogo.SetNativeSize();
+        // Button Disable
+        teamSelectButton[teamBlueNum].interactable = false;
 
         // Team Button Setting
         for (int i = startBlueIdx; i < startBlueIdx + groupBlueNum; i++)
@@ -237,55 +271,187 @@ public class GameManager : MonoBehaviour
     }
     void RedTeamSetting(string enName)
     {
-        selectText.text = "플레이할 그룹을 선택해주세요";
-        selectPanel.SetActive(false);
+        // 이미 팀을 선택한 적이 있어서 Disable된 버튼이 있다면 true
+        if (isRedTeam)
+            teamSelectButton[teamRedNum].interactable = true;
 
+        isRedTeam = true;
         teamRedName = enName;
         switch (teamRedName)
         {
             case "지하A":
+                teamRedNum = 0;
                 teamRedPrefabs = ObjectManager.instance.giHa_prefabs;
                 startRedIdx = 0;
                 groupRedNum = 5;
+                redTeamNameText.text = "폴리곤엔젤";
                 break;
             case "지하B":
+                teamRedNum = 1;
                 teamRedPrefabs = ObjectManager.instance.giHa_prefabs;
                 startRedIdx = 10;
                 groupRedNum = 5;
+                redTeamNameText.text = "woo.a.woo";
                 break;
             case "주폭":
+                teamRedNum = 2;
                 teamRedPrefabs = ObjectManager.instance.juFok_prefabs;
                 startRedIdx = 0;
                 groupRedNum = 6;
+                redTeamNameText.text = "주폭소년단";
                 break;
             case "박취A":
+                teamRedNum = 3;
                 teamRedPrefabs = ObjectManager.instance.bakChi_prefabs;
                 startRedIdx = 0;
                 groupRedNum = 6;
+                redTeamNameText.text = "앙리 사루엔링 6세";
                 break;
             case "박취B":
+                teamRedNum = 4;
                 teamRedPrefabs = ObjectManager.instance.bakChi_prefabs;
                 startRedIdx = 12;
                 groupRedNum = 5;
+                redTeamNameText.text = "결석밴드";
                 break;
             case "V급":
+                teamRedNum = 5;
                 teamRedPrefabs = ObjectManager.instance.vBand_prefabs;
                 startRedIdx = 0;
                 groupRedNum = 5;
+                redTeamNameText.text = "V급밴드";
                 break;
         }
 
-        // Game Start
-        GameStart();
-        selectPageIdx = 0;
+        // Logo Setting
+        redTeamLogo.sprite = teamSelectSprite[teamRedNum];
+        redTeamLogo.SetNativeSize();
+        // Button Disable
+        teamSelectButton[teamRedNum].interactable = false;
     }
-    void GameStart()
+    public void TeamSelectButton()
     {
-        isGameLive = true;
-        // UI 세팅
-        gameSet.SetActive(true);
-        baseObject[0].SetActive(true);
-        baseObject[1].SetActive(true);
+        // Blue팀 선택 페이지
+        if (teamSelectPageIdx == 0 && isBlueTeam)
+        {
+            selectButtonText.text = "오른쪽팀 선택";
+            teamSelectPageIdx++;
+        }
+        // Red팀 선택 페이지
+        else if (teamSelectPageIdx == 1 && isRedTeam)
+        {
+            selectButtonText.text = "다음 단계";
+            teamSelectPageIdx++;
+        }
+        // 다음 단계로
+        else if (teamSelectPageIdx == 2)
+        {
+            // 양팀 모두 버튼을 눌러야 다음 단계로
+            if (isBlueTeam && isRedTeam)
+            {
+                // UI 세팅
+                levelPanel.SetActive(true);
+                selectPanel.SetActive(false);
+            }
+        }
+    }
+    public void BackSelectButton()
+    {
+        // 나가기
+        if (teamSelectPageIdx == 0)
+        {
+            // Blue팀은 선택하지 않은 상태
+            isBlueTeam = false;
+            // 이미지 UI 초기화
+            blueTeamLogo.sprite = teamSelectSprite[6];
+            blueTeamLogo.SetNativeSize();
+            // 텍스트 UI 초기화
+            blueTeamNameText.text = "-";
+            // 이미 눌렀던 팀버튼 활성화
+            teamSelectButton[teamBlueNum].interactable = true;
+            // 나가기
+            selectPanel.SetActive(false);
+            modePanel.SetActive(true);
+        }
+        // Blue 팀 선택 페이지
+        else if (teamSelectPageIdx == 1)
+        {
+            isRedTeam = false;
+            redTeamLogo.sprite = teamSelectSprite[6];
+            redTeamLogo.SetNativeSize();
+            redTeamNameText.text = "-";
+            selectButtonText.text = "왼쪽팀 선택";
+            teamSelectButton[teamRedNum].interactable = true;
+            teamSelectPageIdx--;
+        }
+        // Red 팀 선택 페이지
+        else if (teamSelectPageIdx == 2)
+        {
+            selectButtonText.text = "오른쪽팀 선택";
+            teamSelectPageIdx--;
+        }
+    }
+    // ======================================================= 레벨 세팅 함수 
+    public void SelectLevelButton(int idx)
+    {
+        // 모든 버튼 활성화
+        for (int i = 0; i < 5; i++)
+            teamLevelButton[i].interactable = true;
+
+        isSelectLevel = true;
+        gameLevel = idx;
+
+        switch (gameLevel)
+        {
+            case 0:
+                costRUp = 2.25f;
+                teamLevelButton[0].interactable = false;
+                break;
+            case 1:
+                costRUp = 2f;
+                teamLevelButton[1].interactable = false;
+                break;
+            case 2:
+                costRUp = 1.75f;
+                teamLevelButton[2].interactable = false;
+                break;
+            case 3:
+                costRUp = 1.5f;
+                teamLevelButton[3].interactable = false;
+                break;
+            case 4:
+                costRUp = 1.25f;
+                teamLevelButton[4].interactable = false;
+                break;
+
+        }
+    }
+    public void BackLevelButton()
+    {
+        isSelectLevel = false;
+
+        // 모든 버튼 활성화
+        for (int i = 0; i < 5; i++)
+            teamLevelButton[i].interactable = true;
+
+        // 뒤로가기
+        levelPanel.SetActive(false);
+        selectPanel.SetActive(true);
+    }
+    public void GameStartButton()
+    {
+        // Level을 선택해야 게임 시작
+        if (isSelectLevel)
+        {
+            // 게임 시작
+            isGameLive = true;
+
+            // UI 변경
+            levelPanel.SetActive(false);
+            gameSet.SetActive(true);
+            baseObject[0].SetActive(true);
+            baseObject[1].SetActive(true);
+        }
     }
 
     // ======================================================= 인게임 버튼 함수
@@ -383,18 +549,20 @@ public class GameManager : MonoBehaviour
 
         // Timer
         gameTimer += Time.deltaTime;
+        timeText.text = ((int)gameTimer / 60).ToString("D2") + ":" + ((int)gameTimer % 60).ToString("D2");
 
         // Devil
         DevilTimer();
         // Camera Move
         CameraMove();
         // Cost
-        CostUp();
+        BlueCostUp();
+        RedCostUp();
         // KeyBoard
         KeyBoard();
 
         // Loop Pattern
-        //StartCoroutine(Pattern(1f, patternIdx));
+        StartCoroutine(Pattern(1f, patternIdx));
 
         // Unit Infomation
         if (isUnitClick)
@@ -446,19 +614,28 @@ public class GameManager : MonoBehaviour
             camTrans.Translate(nextMove);
         }
     }
-    void CostUp()
+    void BlueCostUp()
     {
         costText.text = blueCost.ToString();
 
-        costTimer += Time.deltaTime;
-        if (costTimer > 2f)
+        costBTimer += Time.deltaTime;
+        if (costBTimer > 2f)
         {
             blueCost += 1;
-            redCost += 1;
             blueCost = blueCost > maxCost ? maxCost : blueCost;
+
+            costBTimer = 0;
+        }
+    }
+    void RedCostUp()
+    {
+        costRTimer += Time.deltaTime;
+        if (costRTimer > costRUp)
+        {
+            redCost += 1;
             redCost = redCost > maxCost ? maxCost : redCost;
 
-            costTimer = 0;
+            costRTimer = 0;
         }
     }
     void KeyBoard()
@@ -975,13 +1152,13 @@ public class GameManager : MonoBehaviour
                         detailText = "지하돌의 취지에 가장 적합한 메인보컬. 특수한 발성덕분에 모두의 이목을 집중시킨다. 실제 하와와 여고생이 맞다고 한다.";
                         break;
                     case 2:
-                        detailText = "말솜씨가 뛰어나지만 비밀이모와 비슷한 말투덕에 고모라는 별명으로 불린다. 가끔 폭주하는 모습때문에 주변 사람들이 놀라곤 한다.";
+                        detailText = "기획력이 좋고 말솜씨가 뛰어나지만 말투때문에 고모라는 별명으로 불린다. 가끔 폭주하는 모습때문에 주변 사람들이 놀라곤 한다.";
                         break;
                     case 3:
                         detailText = "개성이 강한 지하돌에서 일반인으로 특수하게 합격했다. 모두에게 상냥하며 노력하는 리더의 모습으로 매력을 뽐내고 있다.";
                         break;
                     case 4:
-                        detailText = "자칭 마계에서 온 마왕님으로 특이한 말투와 허당끼가 있다. 본인의 마음에 들지 않는 사람에겐 저주를 내린다.";
+                        detailText = "자칭 마계에서 온 마왕님으로 특이한 말투와 허당끼가 있다. 본인 마음대로 인간들에게 저주를 내릴 수 있다고 한다.";
                         break;
                 }
                 break;
@@ -989,13 +1166,13 @@ public class GameManager : MonoBehaviour
                 switch (idx)
                 {
                     case 0:
-                        detailText = "공대아싸녀. 많은 사람들을 만나는 걸 힘들어하며 체력이 좋지 않다. 항상 오브젝트라는 비둘기와 함께 다닌다.";
+                        detailText = "너드미가 있는 공대여신. 많은 사람들을 만나는 걸 힘들어하며 체력이 좋지 않다. 항상 오브젝트라는 비둘기와 함께 다닌다.";
                         break;
                     case 1:
-                        detailText = "띠뜨나라의 띠뜨공주. 그녀만의 억센 발음을 알아듣기 힘든 점이 특징. 피지컬이 뛰어나고 탱커지만 받아치는 능력이 좋다.";
+                        detailText = "띠뜨나라의 띠뜨공주. 그녀만의 억센 발음을 알아듣기 힘든 점이 특징. 가끔 통역이 필요할 정도로 알아듣기 어려울 때가 있다.";
                         break;
                     case 2:
-                        detailText = "매우 힘빠지는 공기 100% 창법을 가지고 있다. 하지만 딜을 넣을 때는 강하게 말하는 한 방을 가지고 있다.";
+                        detailText = "힘빠지는 공기 100% 창법을 가지고 있지만 할 말은 시원시원하게 하는 성격이다. 의외로 공포면역이 없어 공겜여신으로 불리는 중.";
                         break;
                     case 3:
                         detailText = "대한외국인으로 어눌하지만 한국어를 잘 구사한다. 모두에게 밝은 기운을 불어넣는 치유계열 멤버이며 생각보다 키가 크다.";
@@ -1118,55 +1295,6 @@ public class GameManager : MonoBehaviour
     // 패턴을 메모장을 이용해 직접 제작하기?
     // 랜덤값을 통해 알아서 소환하기?
     IEnumerator Pattern(float time, int typeNum)
-    {
-        yield return new WaitForSeconds(time);
-
-        // random 결정용 변수
-        int rand = Random.Range(0, 2);
-        switch (typeNum)
-        {
-            // 3코스트 이상일 때, 0번유닛과 1번유닛을 랜덤하게 소환
-            case 0:
-                if (redCost >= 3)
-                    MakeRedUnit(rand + startRedIdx + groupRedNum);
-                break;
-            // 6코스트 이상일 때, rand값이 0이면 0번패턴, 1이면 2번유닛과 3번유닛을 랜덤하게 소환
-            case 1:
-                if (redCost >= 6)
-                {
-                    int idx = Random.Range(2, 4);
-                    if (rand == 0)
-                        StartCoroutine(Pattern(0, 0));
-                    else if (rand == 1)
-                        MakeRedUnit(idx + startRedIdx + groupRedNum);
-                }
-                break;
-            // 9코스트 이상일 때, rand값이 0이면 1번패턴, 1이면 4번유닛을 소환
-            case 2:
-                if (redCost >= 9)
-                {
-                    if (rand == 0)
-                        StartCoroutine(Pattern(0, 1));
-                    else if (rand == 1)
-                    {
-                        // 팀이 6명일 경우
-                        if (groupRedNum == 6)
-                        {
-                            int idx = Random.Range(4, 6);
-                            MakeRedUnit(idx + startRedIdx + groupRedNum);
-                        }
-                        // 팀이 5명일 경우
-                        else
-                        {
-                            MakeRedUnit(4 + startRedIdx + groupRedNum);
-                        }
-                    }
-                }
-                break;
-        }
-    }
-
-    IEnumerator PatternBA(float time, int typeNum)
     {
         yield return new WaitForSeconds(time);
 

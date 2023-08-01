@@ -1,11 +1,5 @@
 using System.Collections;
-using System.Collections.Generic;
-using System.ComponentModel;
-using Unity.VisualScripting;
-using UnityEditor;
 using UnityEngine;
-using static UnityEditor.Experimental.GraphView.GraphView;
-using static UnityEngine.UI.CanvasScaler;
 
 public class Bullet : MonoBehaviour
 {
