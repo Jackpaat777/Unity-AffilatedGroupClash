@@ -1,111 +1,65 @@
-using System.Collections;
-using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 using UnityEngine.SceneManagement;
-using Random = UnityEngine.Random;
 using Image = UnityEngine.UI.Image;
-using Slider = UnityEngine.UI.Slider;
 using UnityEngine.UI;
+
+public static class Variables
+{
+    public static int teamBlueNum = 0;
+    public static int teamRedNum = 0;
+    public static int startBlueIdx = 0;
+    public static int groupBlueNum = 0;
+    public static int startRedIdx = 0;
+    public static int groupRedNum = 0;
+
+    public static int gameLevel = 0;
+
+    public static GameObject[] teamBluePrefabs = { };
+    public static GameObject[] teamRedPrefabs = { };
+}
 
 public class GameManager : MonoBehaviour
 {
     public static GameManager instance; // 싱글톤 패턴 : 인스턴스를 여러번 사용하지 않고 하나의 인스턴스로 사용하기
 
-    [Header("---------------[InGame]")]
-    public bool isGameLive;
-    public int gameLevel;
-    public int maxCost;
-    public int blueCost;
-    public int redCost;
-    public float gameTimer;
-    public float costBTimer;
-    public float costRTimer;
-    public float costRUp;
-    public TextMeshProUGUI timeText;
-    public TextMeshProUGUI costText;
-    public List<GameObject> blueUnitList;
-    public List<GameObject> redUnitList;
-
-    [Header("---------------[Base]")]
-    public int blueHP;
-    public int redHP;
-    public Sprite[] blueBaseSprite;
-    public Sprite[] redBaseSprite;
-    public SpriteRenderer blueBaseSpriteRen;
-    public SpriteRenderer redBaseSpriteRen;
-    public Slider blueBaseSlider;
-    public Slider redBaseSlider;
-    public TextMeshProUGUI blueHpText;
-    public TextMeshProUGUI redHpText;
-    public TextMeshProUGUI blueHpShadowText;
-    public TextMeshProUGUI redHpShadowText;
-    public GameObject blueDestroyEffect;
-    public GameObject redDestroyEffect;
-
-    [Header("---------------[Blue Team Setting]")]
-    public bool isBlueTeam;
-    public string teamBlueName;
-    public int teamBlueNum;
-    public int startBlueIdx;
-    public int groupBlueNum;
-    public GameObject[] teamBluePrefabs;
-    public Image blueTeamLogo;
-    public TextMeshProUGUI blueTeamNameText;
-    [Header("---------------[Red Team Setting]")]
-    public bool isRedTeam;
-    public string teamRedName;
-    public int teamRedNum;
-    public int startRedIdx;
-    public int groupRedNum;
-    public GameObject[] teamRedPrefabs;
-    public Image redTeamLogo;
-    public TextMeshProUGUI redTeamNameText;
-    public float spawnTimer;
-    public int patternIdx;
-
     [Header("---------------[UI]")]
-    public GameObject gameSet;
-    public GameObject[] baseObject;
     public GameObject modePanel;
-    public GameObject selectPanel;
-    public GameObject levelPanel;
-    public GameObject optionPanel;
-    public Button[] teamSelectButton;
-    public Button[] teamLevelButton;
-    public Sprite[] teamSelectSprite;
-    public TextMeshProUGUI selectButtonText;
-    public int teamSelectPageIdx;
-    public bool isSelectLevel;
+    public GameObject stageSelectPanel;
+    public GameObject normalSelectPanel;
+    public GameObject normalLevelPanel;
+    public Sprite[] teamLogoSprite;
 
-    [Header("---------------[Button UI]")]
-    public Image[] blueButtonImage;
-    public TextMeshProUGUI[] blueTypeText;
-    public TextMeshProUGUI[] blueCostText;
-    public GameObject lastButton;
-    [Header("---------------[Unit Info UI]")]
-    public bool isUnitClick;
-    public GameObject unitObj;
-    public Image unitImage;
-    public Slider hpSlider;
-    public TextMeshProUGUI unitNameText;
-    public TextMeshProUGUI hpText;
-    public TextMeshProUGUI atkText;
-    public TextMeshProUGUI atsText;
-    public TextMeshProUGUI ranText;
-    public TextMeshProUGUI spdText;
+    [Header("---------------[Stage]")]
+    public int stageTeamSelectIdx;
+    public Image stageTeamLogo;
+    public TextMeshProUGUI sBlueTeamNameText;
+    public TextMeshProUGUI sSelectButtonText;
+    public Button[] sTeamSelectButton;
+    [Header("---------------[Normal]")]
+    public bool isBlueTeam;
+    public bool isRedTeam;
+    public bool isSelectLevel;
+    public int nTeamSelectIdx;
+    public Image nBlueTeamLogo;
+    public Image nRedTeamLogo;
+    public TextMeshProUGUI nBlueTeamNameText;
+    public TextMeshProUGUI nRedTeamNameText;
+    public TextMeshProUGUI nSelectButtonText;
+    public Button[] nSelectButton;
+    public Button[] nLevelButton;
 
     [Header("---------------[Book]")]
-    public GameObject[] groupPrefabsInBook;
     public int startIdxInBook;
     public int groupNumInBook;
-    public GameObject lastButtonInBook;
-    public Image[] buttonImageInBook;
-    public TextMeshProUGUI[] buttonNameInBook;
     public int infoPageIdx;
     public string groupNameInInfo;
+    public GameObject lastButtonInBook;
     public GameObject unitInfoSet;
+    public GameObject[] groupPrefabsInBook;
     public Image infoImage;
+    public Image[] buttonImageInBook;
+    public TextMeshProUGUI[] buttonNameInBook;
     public TextMeshProUGUI infoUnitNameText;
     public TextMeshProUGUI infoUnitTypeText;
     public TextMeshProUGUI infoCostText;
@@ -119,129 +73,86 @@ public class GameManager : MonoBehaviour
     public Sprite[] unitSprites;
     float scaleNum;
 
-    [Header("---------------[Result]")]
-    public GameObject overSet;
-    public GameObject controlSet;
-    public GameObject victoryObj;
-    public GameObject defeatObj;
-
-    [Header("---------------[Devil]")]
-    public bool isDevilB;
-    public bool isDevilR;
-    public float devilBTimer;
-    public float devilRTimer;
-    public bool isDevilBAttack;
-    public bool isDevilRAttack;
-
-    [Header("---------------[Camera]")]
-    public Transform camTrans;
-    public float camSpeed;
-    public bool isMove;
-
     void Awake()
     {
         instance = this;
-        isGameLive = false;
-
-        // Base
-        blueHpText.text = blueHP.ToString();
-        blueHpShadowText.text = blueHP.ToString();
-        redHpText.text = redHP.ToString();
-        redHpShadowText.text = redHP.ToString();
     }
 
-    // ======================================================= 팀 세팅 함수
+    // ======================================================= Normal 팀 세팅 함수
     public void TeamSetting(string tmName)
     {
-        if (teamSelectPageIdx == 0)
+        if (nTeamSelectIdx == 0)
         {
             BlueTeamSetting(tmName);
         }
-        else if (teamSelectPageIdx == 1)
+        else if (nTeamSelectIdx == 1)
         {
             RedTeamSetting(tmName);
         }
     }
-    void BlueTeamSetting(string tmName)
+    void BlueTeamSetting(string tmName) // Variables에 값을 전달해주는 함수 -> InGame에서 받아온 변수들 사용
     {
         // Disable된 버튼이 있다면 true
         if (isBlueTeam)
-            teamSelectButton[teamBlueNum].interactable = true;
+            nSelectButton[Variables.teamBlueNum].interactable = true;
 
         isBlueTeam = true;
-        teamBlueName = tmName;
-        lastButton.SetActive(false);
-        switch (teamBlueName)
+        switch (tmName)
         {
             case "지하A":
-                // 팀 선택 번호 (버튼 비활성화에서 씀)
-                teamBlueNum = 0;
+                // 팀 번호
+                Variables.teamBlueNum = 0;
                 // 팀 프리펩 가져오기
-                teamBluePrefabs = ObjectManager.instance.giHa_prefabs;
+                Variables.teamBluePrefabs = ObjectManager.instance.giHa_prefabs;
                 // 프리펩 시작 값
-                startBlueIdx = 0;
+                Variables.startBlueIdx = 0;
                 // 사용할 프리펩 개수
-                groupBlueNum = 5;
+                Variables.groupBlueNum = 5;
                 // 텍스트 UI 변경
-                blueTeamNameText.text = "폴리곤엔젤";
+                nBlueTeamNameText.text = "폴리곤엔젤";
                 break;
             case "지하B":
-                teamBlueNum = 1;
-                teamBluePrefabs = ObjectManager.instance.giHa_prefabs;
-                startBlueIdx = 10;
-                groupBlueNum = 5;
-                blueTeamNameText.text = "woo.a.woo";
+                Variables.teamBlueNum = 1;
+                Variables.teamBluePrefabs = ObjectManager.instance.giHa_prefabs;
+                Variables.startBlueIdx = 10;
+                Variables.groupBlueNum = 5;
+                nBlueTeamNameText.text = "woo.a.woo";
                 break;
             case "주폭":
-                teamBlueNum = 2;
-                teamBluePrefabs = ObjectManager.instance.juFok_prefabs;
-                startBlueIdx = 0;
-                groupBlueNum = 6;
-                blueTeamNameText.text = "주폭소년단";
-                lastButton.SetActive(true);
+                Variables.teamBlueNum = 2;
+                Variables.teamBluePrefabs = ObjectManager.instance.juFok_prefabs;
+                Variables.startBlueIdx = 0;
+                Variables.groupBlueNum = 6;
+                nBlueTeamNameText.text = "주폭소년단";
                 break;
             case "박취A":
-                teamBlueNum = 3;
-                teamBluePrefabs = ObjectManager.instance.bakChi_prefabs;
-                startBlueIdx = 0;
-                groupBlueNum = 6;
-                blueTeamNameText.text = "앙리 사루엔링 6세";
-                lastButton.SetActive(true);
+                Variables.teamBlueNum = 3;
+                Variables.teamBluePrefabs = ObjectManager.instance.bakChi_prefabs;
+                Variables.startBlueIdx = 0;
+                Variables.groupBlueNum = 6;
+                nBlueTeamNameText.text = "앙리 사루엔링 6세";
                 break;
             case "박취B":
-                teamBlueNum = 4;
-                teamBluePrefabs = ObjectManager.instance.bakChi_prefabs;
-                startBlueIdx = 12;
-                groupBlueNum = 5;
-                blueTeamNameText.text = "결석밴드";
+                Variables.teamBlueNum = 4;
+                Variables.teamBluePrefabs = ObjectManager.instance.bakChi_prefabs;
+                Variables.startBlueIdx = 12;
+                Variables.groupBlueNum = 5;
+                nBlueTeamNameText.text = "결석밴드";
                 break;
             case "V급":
-                teamBlueNum = 5;
-                teamBluePrefabs = ObjectManager.instance.vBand_prefabs;
-                startBlueIdx = 0;
-                groupBlueNum = 5;
-                blueTeamNameText.text = "V급밴드";
+                Variables.teamBlueNum = 5;
+                Variables.teamBluePrefabs = ObjectManager.instance.vBand_prefabs;
+                Variables.startBlueIdx = 0;
+                Variables.groupBlueNum = 5;
+                nBlueTeamNameText.text = "V급밴드";
                 break;
         }
 
         // Logo Setting
-        blueTeamLogo.sprite = teamSelectSprite[teamBlueNum];
-        blueTeamLogo.SetNativeSize();
+        nBlueTeamLogo.sprite = teamLogoSprite[Variables.teamBlueNum];
+        nBlueTeamLogo.SetNativeSize();
         // Button Disable
-        teamSelectButton[teamBlueNum].interactable = false;
-
-        // Team Button Setting
-        for (int i = startBlueIdx; i < startBlueIdx + groupBlueNum; i++)
-        {
-            Unit teamUnit = teamBluePrefabs[i].GetComponent<Unit>();
-            SpriteRenderer spriteRen = teamUnit.GetComponent<SpriteRenderer>();
-            // Image
-            blueButtonImage[i - startBlueIdx].sprite = spriteRen.sprite;
-            // Type
-            TypeTextSetting(blueTypeText[i - startBlueIdx], teamUnit.unitType);
-            // Cost
-            blueCostText[i - startBlueIdx].text = teamUnit.unitCost.ToString();
-        }
+        nSelectButton[Variables.teamBlueNum].interactable = false;
     }
     void TypeTextSetting(TextMeshProUGUI text, UnitType typeName)
     {
@@ -273,158 +184,286 @@ public class GameManager : MonoBehaviour
     {
         // 이미 팀을 선택한 적이 있어서 Disable된 버튼이 있다면 true
         if (isRedTeam)
-            teamSelectButton[teamRedNum].interactable = true;
+            nSelectButton[Variables.teamBlueNum].interactable = true;
 
         isRedTeam = true;
-        teamRedName = enName;
-        switch (teamRedName)
+        switch (enName)
         {
             case "지하A":
-                teamRedNum = 0;
-                teamRedPrefabs = ObjectManager.instance.giHa_prefabs;
-                startRedIdx = 0;
-                groupRedNum = 5;
-                redTeamNameText.text = "폴리곤엔젤";
+                Variables.teamRedNum = 0;
+                Variables.teamRedPrefabs = ObjectManager.instance.giHa_prefabs;
+                Variables.startRedIdx = 0;
+                Variables.groupRedNum = 5;
+                nRedTeamNameText.text = "폴리곤엔젤";
                 break;
             case "지하B":
-                teamRedNum = 1;
-                teamRedPrefabs = ObjectManager.instance.giHa_prefabs;
-                startRedIdx = 10;
-                groupRedNum = 5;
-                redTeamNameText.text = "woo.a.woo";
+                Variables.teamRedNum = 1;
+                Variables.teamRedPrefabs = ObjectManager.instance.giHa_prefabs;
+                Variables.startRedIdx = 10;
+                Variables.groupRedNum = 5;
+                nRedTeamNameText.text = "woo.a.woo";
                 break;
             case "주폭":
-                teamRedNum = 2;
-                teamRedPrefabs = ObjectManager.instance.juFok_prefabs;
-                startRedIdx = 0;
-                groupRedNum = 6;
-                redTeamNameText.text = "주폭소년단";
+                Variables.teamRedNum = 2;
+                Variables.teamRedPrefabs = ObjectManager.instance.juFok_prefabs;
+                Variables.startRedIdx = 0;
+                Variables.groupRedNum = 6;
+                nRedTeamNameText.text = "주폭소년단";
                 break;
             case "박취A":
-                teamRedNum = 3;
-                teamRedPrefabs = ObjectManager.instance.bakChi_prefabs;
-                startRedIdx = 0;
-                groupRedNum = 6;
-                redTeamNameText.text = "앙리 사루엔링 6세";
+                Variables.teamRedNum = 3;
+                Variables.teamRedPrefabs = ObjectManager.instance.bakChi_prefabs;
+                Variables.startRedIdx = 0;
+                Variables.groupRedNum = 6;
+                nRedTeamNameText.text = "앙리 사루엔링 6세";
                 break;
             case "박취B":
-                teamRedNum = 4;
-                teamRedPrefabs = ObjectManager.instance.bakChi_prefabs;
-                startRedIdx = 12;
-                groupRedNum = 5;
-                redTeamNameText.text = "결석밴드";
+                Variables.teamRedNum = 4;
+                Variables.teamRedPrefabs = ObjectManager.instance.bakChi_prefabs;
+                Variables.startRedIdx = 12;
+                Variables.groupRedNum = 5;
+                nRedTeamNameText.text = "결석밴드";
                 break;
             case "V급":
-                teamRedNum = 5;
-                teamRedPrefabs = ObjectManager.instance.vBand_prefabs;
-                startRedIdx = 0;
-                groupRedNum = 5;
-                redTeamNameText.text = "V급밴드";
+                Variables.teamRedNum = 5;
+                Variables.teamRedPrefabs = ObjectManager.instance.vBand_prefabs;
+                Variables.startRedIdx = 0;
+                Variables.groupRedNum = 5;
+                nRedTeamNameText.text = "V급밴드";
                 break;
         }
 
         // Logo Setting
-        redTeamLogo.sprite = teamSelectSprite[teamRedNum];
-        redTeamLogo.SetNativeSize();
+        nRedTeamLogo.sprite = teamLogoSprite[Variables.teamRedNum];
+        nRedTeamLogo.SetNativeSize();
         // Button Disable
-        teamSelectButton[teamRedNum].interactable = false;
+        nSelectButton[Variables.teamRedNum].interactable = false;
     }
     public void TeamSelectButton()
     {
         // Blue팀 선택 페이지
-        if (teamSelectPageIdx == 0 && isBlueTeam)
+        if (nTeamSelectIdx == 0 && isBlueTeam)
         {
-            selectButtonText.text = "오른쪽팀 선택";
-            teamSelectPageIdx++;
+            nSelectButtonText.text = "오른쪽팀 선택";
+            nTeamSelectIdx++;
         }
         // Red팀 선택 페이지
-        else if (teamSelectPageIdx == 1 && isRedTeam)
+        else if (nTeamSelectIdx == 1 && isRedTeam)
         {
-            selectButtonText.text = "다음 단계";
-            teamSelectPageIdx++;
+            nSelectButtonText.text = "다음 단계";
+            nTeamSelectIdx++;
         }
         // 다음 단계로
-        else if (teamSelectPageIdx == 2)
+        else if (nTeamSelectIdx == 2)
         {
             // 양팀 모두 버튼을 눌러야 다음 단계로
             if (isBlueTeam && isRedTeam)
             {
-                // UI 세팅
-                levelPanel.SetActive(true);
-                selectPanel.SetActive(false);
+                // 레벨 세팅
+                normalLevelPanel.SetActive(true);
+                normalSelectPanel.SetActive(false);
             }
         }
     }
     public void BackSelectButton()
     {
         // 나가기
-        if (teamSelectPageIdx == 0)
+        if (nTeamSelectIdx == 0)
         {
             // Blue팀은 선택하지 않은 상태
             isBlueTeam = false;
             // 이미지 UI 초기화
-            blueTeamLogo.sprite = teamSelectSprite[6];
-            blueTeamLogo.SetNativeSize();
+            nBlueTeamLogo.sprite = teamLogoSprite[6];
+            nBlueTeamLogo.SetNativeSize();
             // 텍스트 UI 초기화
-            blueTeamNameText.text = "-";
+            nBlueTeamNameText.text = "-";
             // 이미 눌렀던 팀버튼 활성화
-            teamSelectButton[teamBlueNum].interactable = true;
+            nSelectButton[Variables.teamBlueNum].interactable = true;
             // 나가기
-            selectPanel.SetActive(false);
+            normalSelectPanel.SetActive(false);
             modePanel.SetActive(true);
         }
         // Blue 팀 선택 페이지
-        else if (teamSelectPageIdx == 1)
+        else if (nTeamSelectIdx == 1)
         {
             isRedTeam = false;
-            redTeamLogo.sprite = teamSelectSprite[6];
-            redTeamLogo.SetNativeSize();
-            redTeamNameText.text = "-";
-            selectButtonText.text = "왼쪽팀 선택";
-            teamSelectButton[teamRedNum].interactable = true;
-            teamSelectPageIdx--;
+            nRedTeamLogo.sprite = teamLogoSprite[6];
+            nRedTeamLogo.SetNativeSize();
+            nRedTeamNameText.text = "-";
+            nSelectButtonText.text = "왼쪽팀 선택";
+            nSelectButton[Variables.teamRedNum].interactable = true;
+            nTeamSelectIdx--;
         }
         // Red 팀 선택 페이지
-        else if (teamSelectPageIdx == 2)
+        else if (nTeamSelectIdx == 2)
         {
-            selectButtonText.text = "오른쪽팀 선택";
-            teamSelectPageIdx--;
+            nSelectButtonText.text = "오른쪽팀 선택";
+            nTeamSelectIdx--;
         }
     }
+
+    // ======================================================= Stage 팀 세팅 함수
+    public void StageBlueTeamSetting(string tmName)
+    {
+        // Disable된 버튼이 있다면 true
+        if (isBlueTeam)
+            sTeamSelectButton[Variables.teamBlueNum].interactable = true;
+
+        isBlueTeam = true;
+        switch (tmName)
+        {
+            case "지하A":
+                // 팀 선택 번호 (버튼 비활성화에서 씀)
+                Variables.teamBlueNum = 0;
+                // 팀 프리펩 가져오기
+                Variables.teamBluePrefabs = ObjectManager.instance.giHa_prefabs;
+                // 프리펩 시작 값
+                Variables.startBlueIdx = 0;
+                // 사용할 프리펩 개수
+                Variables.groupBlueNum = 5;
+                // 텍스트 UI 변경
+                sBlueTeamNameText.text = "폴리곤엔젤";
+                break;
+            case "지하B":
+                Variables.teamBlueNum = 1;
+                Variables.teamBluePrefabs = ObjectManager.instance.giHa_prefabs;
+                Variables.startBlueIdx = 10;
+                Variables.groupBlueNum = 5;
+                sBlueTeamNameText.text = "woo.a.woo";
+                break;
+            case "주폭":
+                Variables.teamBlueNum = 2;
+                Variables.teamBluePrefabs = ObjectManager.instance.juFok_prefabs;
+                Variables.startBlueIdx = 0;
+                Variables.groupBlueNum = 6;
+                sBlueTeamNameText.text = "주폭소년단";
+                break;
+            case "박취A":
+                Variables.teamBlueNum = 3;
+                Variables.teamBluePrefabs = ObjectManager.instance.bakChi_prefabs;
+                Variables.startBlueIdx = 0;
+                Variables.groupBlueNum = 6;
+                sBlueTeamNameText.text = "앙리 사루엔링 6세";
+                break;
+            case "박취B":
+                Variables.teamBlueNum = 4;
+                Variables.teamBluePrefabs = ObjectManager.instance.bakChi_prefabs;
+                Variables.startBlueIdx = 12;
+                Variables.groupBlueNum = 5;
+                sBlueTeamNameText.text = "결석밴드";
+                break;
+            case "V급":
+                Variables.teamBlueNum = 5;
+                Variables.teamBluePrefabs = ObjectManager.instance.vBand_prefabs;
+                Variables.startBlueIdx = 0;
+                Variables.groupBlueNum = 5;
+                sBlueTeamNameText.text = "V급밴드";
+                break;
+        }
+
+        // Logo Setting
+        stageTeamLogo.sprite = teamLogoSprite[Variables.teamBlueNum];
+        stageTeamLogo.SetNativeSize();
+        // Button Disable
+        sTeamSelectButton[Variables.teamBlueNum].interactable = false;
+    }
+
+    void StageRedTeamSetting(string enName)
+    {
+        switch (enName)
+        {
+            case "지하A":
+                Variables.teamRedNum = 0;
+                Variables.teamRedPrefabs = ObjectManager.instance.giHa_prefabs;
+                Variables.startRedIdx = 0;
+                Variables.groupRedNum = 5;
+                break;
+            case "지하B":
+                Variables.teamRedNum = 1;
+                Variables.teamRedPrefabs = ObjectManager.instance.giHa_prefabs;
+                Variables.startRedIdx = 10;
+                Variables.groupRedNum = 5;
+                break;
+            case "주폭":
+                Variables.teamRedNum = 2;
+                Variables.teamRedPrefabs = ObjectManager.instance.juFok_prefabs;
+                Variables.startRedIdx = 0;
+                Variables.groupRedNum = 6;
+                break;
+            case "박취A":
+                Variables.teamRedNum = 3;
+                Variables.teamRedPrefabs = ObjectManager.instance.bakChi_prefabs;
+                Variables.startRedIdx = 0;
+                Variables.groupRedNum = 6;
+                break;
+            case "박취B":
+                Variables.teamRedNum = 4;
+                Variables.teamRedPrefabs = ObjectManager.instance.bakChi_prefabs;
+                Variables.startRedIdx = 12;
+                Variables.groupRedNum = 5;
+                break;
+            case "V급":
+                Variables.teamRedNum = 5;
+                Variables.teamRedPrefabs = ObjectManager.instance.vBand_prefabs;
+                Variables.startRedIdx = 0;
+                Variables.groupRedNum = 5;
+                break;
+        }
+    }
+    public void StageTeamSelectButton()
+    {
+        // Blue팀 선택 페이지
+        if (stageTeamSelectIdx == 0 && isBlueTeam)
+        {
+            sSelectButtonText.text = "게임 시작";
+            stageTeamSelectIdx++;
+        }
+        else if (stageTeamSelectIdx == 1)
+        {
+            // Red팀 세팅
+            // 게임 시작
+            
+        }
+    }
+    public void StageBackButton()
+    {
+        // 나가기
+        if (stageTeamSelectIdx == 0)
+        {
+            // Blue팀은 선택하지 않은 상태
+            isBlueTeam = false;
+            // 이미지 UI 초기화
+            stageTeamLogo.sprite = teamLogoSprite[6];
+            stageTeamLogo.SetNativeSize();
+            // 텍스트 UI 초기화
+            sBlueTeamNameText.text = "-";
+            // 이미 눌렀던 팀버튼 활성화
+            sTeamSelectButton[Variables.teamBlueNum].interactable = true;
+            // 나가기
+            stageSelectPanel.SetActive(false);
+            modePanel.SetActive(true);
+        }
+        // Blue 팀 선택 페이지
+        else if (stageTeamSelectIdx == 1)
+        {
+            sSelectButtonText.text = "팀 선택";
+            stageTeamSelectIdx--;
+        }
+    }
+
     // ======================================================= 레벨 세팅 함수 
     public void SelectLevelButton(int idx)
     {
         // 모든 버튼 활성화
         for (int i = 0; i < 5; i++)
-            teamLevelButton[i].interactable = true;
+            nLevelButton[i].interactable = true;
 
+        // 레벨 세팅
         isSelectLevel = true;
-        gameLevel = idx;
+        Variables.gameLevel = idx;
 
-        switch (gameLevel)
-        {
-            case 0:
-                costRUp = 2.25f;
-                teamLevelButton[0].interactable = false;
-                break;
-            case 1:
-                costRUp = 2f;
-                teamLevelButton[1].interactable = false;
-                break;
-            case 2:
-                costRUp = 1.75f;
-                teamLevelButton[2].interactable = false;
-                break;
-            case 3:
-                costRUp = 1.5f;
-                teamLevelButton[3].interactable = false;
-                break;
-            case 4:
-                costRUp = 1.25f;
-                teamLevelButton[4].interactable = false;
-                break;
-
-        }
+        // 해당 인덱스 버튼 비활성화
+        nLevelButton[idx].interactable = false;
     }
     public void BackLevelButton()
     {
@@ -432,372 +471,38 @@ public class GameManager : MonoBehaviour
 
         // 모든 버튼 활성화
         for (int i = 0; i < 5; i++)
-            teamLevelButton[i].interactable = true;
+            nLevelButton[i].interactable = true;
 
         // 뒤로가기
-        levelPanel.SetActive(false);
-        selectPanel.SetActive(true);
+        normalLevelPanel.SetActive(false);
+        normalSelectPanel.SetActive(true);
     }
     public void GameStartButton()
     {
         // Level을 선택해야 게임 시작
         if (isSelectLevel)
         {
-            // 게임 시작
-            isGameLive = true;
-
-            // UI 변경
-            levelPanel.SetActive(false);
-            gameSet.SetActive(true);
-            baseObject[0].SetActive(true);
-            baseObject[1].SetActive(true);
+            SceneManager.LoadScene("InGame");
         }
-    }
-
-    // ======================================================= 인게임 버튼 함수
-    public void CameraMoveButton(string type)
-    {
-        // Set Speed By Button
-        if (type == "RightDown" || type == "LeftUp") // 오른쪽 버튼을 누르거나 왼쪽버튼을 떼면 2 더하기
-            camSpeed += 3f;
-        else if(type == "RightUp" || type == "LeftDown")
-            camSpeed -= 3f;
-    }
-    public void MakeBlueUnit(int idx)
-    {
-        GameObject unitB = teamBluePrefabs[idx];
-        Unit unitBLogic = unitB.GetComponent<Unit>();
-
-        // 예외처리
-        if (isDevilB && unitBLogic.unitDetail == UnitDetail.Devil)
-            return;
-
-        // Cost 감소
-        blueCost -= unitBLogic.unitCost;
-        if (blueCost < 0)
-        {
-            blueCost += unitBLogic.unitCost;
-            return;
-        }
-        // 생성
-        GetUnitObject(teamBlueName, idx, unitB.transform.position);
-        blueUnitList.Add(unitB);
-    }
-    public void MakeRedUnit(int idx)
-    {
-        GameObject unitR = teamRedPrefabs[idx];
-        Unit unitRLogic = unitR.GetComponent<Unit>();
-
-        // 예외처리
-        if (isDevilR && unitRLogic.unitDetail == UnitDetail.Devil)
-            return;
-
-        // Cost 감소
-        redCost -= unitRLogic.unitCost;
-        if (redCost < 0)
-        {
-            redCost += unitRLogic.unitCost;
-            return;
-        }
-        // 생성
-        GetUnitObject(teamRedName, idx, unitR.transform.position);
-        redUnitList.Add(unitR);
-
-        // 생성 후에 패턴인덱스 변경
-        patternIdx = Random.Range(0, 3);
-    }
-    void GetUnitObject(string teamName, int idx, Vector3 pos)
-    {
-        switch (teamName)
-        {
-            case "지하A":
-            case "지하B":
-                ObjectManager.instance.GetGiHa(idx, pos);
-                break;
-            case "주폭":
-                ObjectManager.instance.GetJuFok(idx, pos);
-                break;
-            case "박취A":
-            case "박취B":
-                ObjectManager.instance.GetBakChi(idx, pos);
-                break;
-            case "V급":
-                ObjectManager.instance.GetVBand(idx, pos);
-                break;
-        }
-    }
-    public void OptionButton()
-    {
-        optionPanel.SetActive(true);
-        Time.timeScale = 0;
-    }
-    public void OptionOut()
-    {
-        optionPanel.SetActive(false);
-        Time.timeScale = 1;
-    }
-    public void ResetButton()
-    {
-        Time.timeScale = 1;
-        SceneManager.LoadScene("Game");
-    }
-
-    void Update()
-    {
-        if (!isGameLive)
-            return;
-
-        // Timer
-        gameTimer += Time.deltaTime;
-        timeText.text = ((int)gameTimer / 60).ToString("D2") + ":" + ((int)gameTimer % 60).ToString("D2");
-
-        // Devil
-        DevilTimer();
-        // Camera Move
-        CameraMove();
-        // Cost
-        BlueCostUp();
-        RedCostUp();
-        // KeyBoard
-        KeyBoard();
-
-        // Loop Pattern
-        StartCoroutine(Pattern(1f, patternIdx));
-
-        // Unit Infomation
-        if (isUnitClick)
-        {
-            Unit unitLogic = unitObj.GetComponent<Unit>();
-            UnitInfo(unitLogic);
-        }
-    }
-
-
-    // ======================================================= Update 함수
-    void DevilTimer()
-    {
-        if (isDevilB)
-        {
-            devilBTimer += Time.deltaTime;
-            if (devilBTimer > 2.5f)
-            {
-                isDevilBAttack = true;
-                devilBTimer = 0;
-            }
-            else
-                isDevilBAttack = false;
-        }
-        if (isDevilR)
-        {
-            devilRTimer += Time.deltaTime;
-            if (devilRTimer > 2f)
-            {
-                isDevilRAttack = true;
-                devilRTimer = 0;
-            }
-            else
-                isDevilRAttack = false;
-        }
-    }
-    void CameraMove()
-    {
-        // 화면 밖으로 이동하려고 하면 Move 중지
-        if ((camSpeed == -3f && camTrans.position.x > -5) || (camSpeed == 3f && camTrans.position.x < 5))
-            isMove = true;
-        else
-            isMove = false;
-
-        if (isMove)
-        {
-            // 다음 벡터값만큼 이동
-            Vector3 nextMove = Vector3.right * camSpeed * Time.deltaTime;
-            camTrans.Translate(nextMove);
-        }
-    }
-    void BlueCostUp()
-    {
-        costText.text = blueCost.ToString();
-
-        costBTimer += Time.deltaTime;
-        if (costBTimer > 2f)
-        {
-            blueCost += 1;
-            blueCost = blueCost > maxCost ? maxCost : blueCost;
-
-            costBTimer = 0;
-        }
-    }
-    void RedCostUp()
-    {
-        costRTimer += Time.deltaTime;
-        if (costRTimer > costRUp)
-        {
-            redCost += 1;
-            redCost = redCost > maxCost ? maxCost : redCost;
-
-            costRTimer = 0;
-        }
-    }
-    void KeyBoard()
-    {
-        // 키보드를 통한 이동
-        if (Input.GetKey(KeyCode.RightArrow))
-            camSpeed = 3f;
-        if (Input.GetKey(KeyCode.LeftArrow))
-            camSpeed = -3f;
-        if (Input.GetKey(KeyCode.RightArrow) && Input.GetKey(KeyCode.LeftArrow))
-            camSpeed = 0;
-        if (Input.GetKeyUp(KeyCode.RightArrow) || Input.GetKeyUp(KeyCode.LeftArrow))
-            camSpeed = 0;
-
-        // 키보드를 통한 유닛 생성
-        // 2조로 나뉘어져있는 그룹의 프리펩에는 Blue팀 Red팀 + Blue팀 Red팀으로 섞여있음
-        // teamNum에 따라 Blue/ Red로 나누어주었으며, startIdx가 두 팀을 나누는 기준으로 사용하였음
-        if (Input.GetKeyDown(KeyCode.Q))
-            MakeBlueUnit(0 + startBlueIdx);
-        if (Input.GetKeyDown(KeyCode.W))
-            MakeBlueUnit(1 + startBlueIdx);
-        if (Input.GetKeyDown(KeyCode.E))
-            MakeBlueUnit(2 + startBlueIdx);
-        if (Input.GetKeyDown(KeyCode.A))
-            MakeBlueUnit(3 + startBlueIdx);
-        if (Input.GetKeyDown(KeyCode.S))
-            MakeBlueUnit(4 + startBlueIdx);
-        if (Input.GetKeyDown(KeyCode.D) && groupBlueNum == 6)
-            MakeBlueUnit(5 + startBlueIdx);
-        // red
-        if (Input.GetKeyDown(KeyCode.Z))
-            MakeRedUnit(0 + startRedIdx + groupRedNum);
-        if (Input.GetKeyDown(KeyCode.X))
-            MakeRedUnit(1 + startRedIdx + groupRedNum);
-        if (Input.GetKeyDown(KeyCode.C))
-            MakeRedUnit(2 + startRedIdx + groupRedNum);
-        if (Input.GetKeyDown(KeyCode.V))
-            MakeRedUnit(3 + startRedIdx + groupRedNum);
-        if (Input.GetKeyDown(KeyCode.B))
-            MakeRedUnit(4 + startRedIdx + groupRedNum);
-        if (Input.GetKeyDown(KeyCode.N) && groupRedNum == 6)
-            MakeRedUnit(5 + startRedIdx + groupRedNum);
-    }
-    void UnitInfo(Unit unitLogic)
-    {
-        unitImage.gameObject.SetActive(true);
-
-        // Image
-        SpriteRenderer spriteRen = unitLogic.GetComponent<SpriteRenderer>();
-        unitImage.sprite = spriteRen.sprite;
-        // Name
-        unitNameText.text = unitLogic.unitName;
-        // Hp
-        hpSlider.value = (float)unitLogic.unitHp / unitLogic.unitMaxHp;
-        hpText.text = $"{unitLogic.unitHp} / {unitLogic.unitMaxHp}";
-        // Atk
-        atkText.text = $"ATK : {unitLogic.unitAtk}";
-        // Atk Speed
-        string floatAts = unitLogic.unitAtkSpeed.ToString("F1");
-        atsText.text = $"ATS : " + floatAts;
-        // Range
-        ranText.text = $"RAN : {unitLogic.unitRange}";
-        // Speed
-        if (unitLogic.unitSpeed > 0)
-            spdText.text = $"SPD : {unitLogic.unitSpeed * 10}";
-        else
-            spdText.text = $"SPD : {unitLogic.unitSpeed * -10}";
-    }
-
-    // ======================================================= Base 함수
-    public void BaseHit(int dmg, int layer)
-    {
-        if (layer == 8)
-        {
-            // 데미지만큼 감소
-            blueHP -= dmg;
-
-            // Death
-            if (blueHP <= 0)
-            {
-                blueHP = 0;
-                blueBaseSpriteRen.sprite = blueBaseSprite[2];
-                blueDestroyEffect.SetActive(true);
-                isGameLive = false;
-                GameOver("Lose");
-            }
-            // Alive
-            else
-            {
-                blueBaseSpriteRen.sprite = blueBaseSprite[1];
-                StartCoroutine(SpriteChange(0.1f, blueBaseSpriteRen, blueBaseSprite[0]));
-            }
-
-            // Text
-            blueBaseSlider.value = blueHP;
-            blueHpText.text = blueHP.ToString();
-            blueHpShadowText.text = blueHP.ToString();
-        }
-        else if (layer == 9)
-        {
-            redHP -= dmg;
-
-            if (redHP <= 0)
-            {
-                redHP = 0;
-                redBaseSpriteRen.sprite = redBaseSprite[2];
-                redDestroyEffect.SetActive(true);
-                GameOver("Win");
-            }
-            else
-            {
-                redBaseSpriteRen.sprite = redBaseSprite[1];
-                StartCoroutine(SpriteChange(0.1f, redBaseSpriteRen, redBaseSprite[0]));
-            }
-
-            redBaseSlider.value = redHP;
-            redHpText.text = redHP.ToString();
-            redHpShadowText.text = redHP.ToString();
-        }
-    }
-    IEnumerator SpriteChange(float time, SpriteRenderer spriteRen, Sprite sprite)
-    {
-        yield return new WaitForSeconds(time);
-
-        spriteRen.sprite = sprite;
-    }
-    void GameOver(string result)
-    {
-        // 이겼을 경우
-        if (result == "Win")
-        {
-            victoryObj.SetActive(true);
-        }
-        // 졌을 경우
-        else if (result == "Lose")
-        {
-            defeatObj.SetActive(true);
-        }
-
-        // 게임 작동 중지 (시간, 코스트, 카메라이동, 소환버튼, 유닛클릭)
-        isGameLive = false;
-        controlSet.SetActive(false);
-        overSet.SetActive(true);
     }
 
     // ======================================================= Book 함수
     public void TeamSelectInBook(string teamName)
     {
         groupNameInInfo = teamName;
+        lastButtonInBook.SetActive(false);
+
         switch (teamName)
         {
             case "지하A":
                 groupPrefabsInBook = ObjectManager.instance.giHa_prefabs;
                 startIdxInBook = 0;
                 groupNumInBook = 5;
-                lastButtonInBook.SetActive(false);
                 break;
             case "지하B":
                 groupPrefabsInBook = ObjectManager.instance.giHa_prefabs;
                 startIdxInBook = 10;
                 groupNumInBook = 5;
-                lastButtonInBook.SetActive(false);
                 break;
             case "주폭":
                 groupPrefabsInBook = ObjectManager.instance.juFok_prefabs;
@@ -815,13 +520,11 @@ public class GameManager : MonoBehaviour
                 groupPrefabsInBook = ObjectManager.instance.bakChi_prefabs;
                 startIdxInBook = 12;
                 groupNumInBook = 5;
-                lastButtonInBook.SetActive(false);
                 break;
             case "V급":
                 groupPrefabsInBook = ObjectManager.instance.vBand_prefabs;
                 startIdxInBook = 0;
                 groupNumInBook = 5;
-                lastButtonInBook.SetActive(false);
                 break;
         }
 
@@ -1289,57 +992,5 @@ public class GameManager : MonoBehaviour
         infoPageIdx = infoPageIdx > groupNumInBook - 1 ? 0 : infoPageIdx;
         // 정보 업데이트
         UnitInfoButton(infoPageIdx);
-    }
-
-    // ======================================================= COM 함수
-    // 패턴을 메모장을 이용해 직접 제작하기?
-    // 랜덤값을 통해 알아서 소환하기?
-    IEnumerator Pattern(float time, int typeNum)
-    {
-        yield return new WaitForSeconds(time);
-
-        // random 결정용 변수
-        int rand = Random.Range(0, 2);
-        switch (typeNum)
-        {
-            // 3코스트 이상일 때, 0번유닛과 1번유닛을 랜덤하게 소환
-            case 0:
-                if (redCost >= 3)
-                    MakeRedUnit(rand + startRedIdx + groupRedNum);
-                break;
-            // 6코스트 이상일 때, rand값이 0이면 0번패턴, 1이면 2번유닛과 3번유닛을 랜덤하게 소환
-            case 1:
-                if (redCost >= 6)
-                {
-                    int idx = Random.Range(2, 4);
-                    if (rand == 0)
-                        StartCoroutine(Pattern(0, 0));
-                    else if (rand == 1)
-                        MakeRedUnit(idx + startRedIdx + groupRedNum);
-                }
-                break;
-            // 9코스트 이상일 때, rand값이 0이면 1번패턴, 1이면 4번유닛을 소환
-            case 2:
-                if (redCost >= 9)
-                {
-                    if (rand == 0)
-                        StartCoroutine(Pattern(0, 1));
-                    else if (rand == 1)
-                    {
-                        // 팀이 6명일 경우
-                        if (groupRedNum == 6)
-                        {
-                            int idx = Random.Range(4, 6);
-                            MakeRedUnit(idx + startRedIdx + groupRedNum);
-                        }
-                        // 팀이 5명일 경우
-                        else
-                        {
-                            MakeRedUnit(4 + startRedIdx + groupRedNum);
-                        }
-                    }
-                }
-                break;
-        }
     }
 }

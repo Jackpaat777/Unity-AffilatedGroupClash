@@ -9,9 +9,9 @@ public class Background : MonoBehaviour
     void LateUpdate()
     {
         // 게임 매니저에서 가져온 변수로 표현
-        if (GameManager.instance.isMove)
+        if (InGameManager.instance.isMove)
         {
-            Vector3 nextMove = Vector3.right * GameManager.instance.camSpeed * offset * Time.deltaTime;
+            Vector3 nextMove = Vector3.right * InGameManager.instance.camSpeed * offset * Time.deltaTime;
             transform.Translate(nextMove);
         }
     }

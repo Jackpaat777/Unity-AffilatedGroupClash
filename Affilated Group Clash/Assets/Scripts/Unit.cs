@@ -99,8 +99,8 @@ public class Unit : MonoBehaviour
             return;
 
         // 유닛 정보 넘기기
-        GameManager.instance.isUnitClick = true;
-        GameManager.instance.unitObj = gameObject;
+        InGameManager.instance.isUnitClick = true;
+        InGameManager.instance.unitObj = gameObject;
     }
 
     // 재사용 시 초기화 (Awake의 역할)
@@ -123,9 +123,9 @@ public class Unit : MonoBehaviour
         if (unitDetail == UnitDetail.Devil)
         {
             if (gameObject.layer == 8)
-                GameManager.instance.isDevilB = true;
+                InGameManager.instance.isDevilB = true;
             else if (gameObject.layer == 9)
-                GameManager.instance.isDevilR = true;
+                InGameManager.instance.isDevilR = true;
         }
         // Barrier의 경우
         isNoDamage = false;
@@ -304,7 +304,7 @@ public class Unit : MonoBehaviour
     // ======================================================= Update 정리용 함수
     void DevilHit()
     {
-        if ((GameManager.instance.isDevilBAttack && gameObject.layer == 9) || (GameManager.instance.isDevilRAttack && gameObject.layer == 8))
+        if ((InGameManager.instance.isDevilBAttack && gameObject.layer == 9) || (InGameManager.instance.isDevilRAttack && gameObject.layer == 8))
         {
             // 이펙트 위치조정 벡터
             Vector3 vec = Vector3.zero;
@@ -366,10 +366,10 @@ public class Unit : MonoBehaviour
                 // CostUp
                 if (unitDetail == UnitDetail.CostUp)
                 {
-                    if (gameObject.layer == 8 && GameManager.instance.blueCost < 10)
-                        GameManager.instance.blueCost += 1;
-                    else if (gameObject.layer == 9 && GameManager.instance.redCost < 10)
-                        GameManager.instance.redCost += 1;
+                    if (gameObject.layer == 8 && InGameManager.instance.blueCost < 10)
+                        InGameManager.instance.blueCost += 1;
+                    else if (gameObject.layer == 9 && InGameManager.instance.redCost < 10)
+                        InGameManager.instance.redCost += 1;
                 }
 
                 // Animation
@@ -893,7 +893,7 @@ public class Unit : MonoBehaviour
         // Base 타입인 경우
         if (unitType == UnitType.Base)
         {
-            GameManager.instance.BaseHit(damage, gameObject.layer);
+            InGameManager.instance.BaseHit(damage, gameObject.layer);
             return;
         }
 
@@ -949,15 +949,15 @@ public class Unit : MonoBehaviour
         {
             if (gameObject.layer == 8)
             {
-                GameManager.instance.isDevilB = false;
-                GameManager.instance.isDevilBAttack = false;
-                GameManager.instance.devilBTimer = 0;
+                InGameManager.instance.isDevilB = false;
+                InGameManager.instance.isDevilBAttack = false;
+                InGameManager.instance.devilBTimer = 0;
             }
             else if(gameObject.layer == 9)
             {
-                GameManager.instance.isDevilR = false;
-                GameManager.instance.isDevilRAttack = false;
-                GameManager.instance.devilRTimer = 0;
+                InGameManager.instance.isDevilR = false;
+                InGameManager.instance.isDevilRAttack = false;
+                InGameManager.instance.devilRTimer = 0;
             }
         }
 
