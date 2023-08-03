@@ -6,15 +6,14 @@ using UnityEngine.UI;
 
 public static class Variables
 {
+    public static bool isStage = true;
+    public static int gameLevel = 0;
     public static int teamBlueNum = 0;
     public static int teamRedNum = 0;
     public static int startBlueIdx = 0;
     public static int groupBlueNum = 0;
     public static int startRedIdx = 0;
     public static int groupRedNum = 0;
-
-    public static int gameLevel = 0;
-
     public static GameObject[] teamBluePrefabs = { };
     public static GameObject[] teamRedPrefabs = { };
 }
@@ -24,18 +23,21 @@ public class GameManager : MonoBehaviour
     public static GameManager instance; // 싱글톤 패턴 : 인스턴스를 여러번 사용하지 않고 하나의 인스턴스로 사용하기
 
     [Header("---------------[UI]")]
+    public Animator menuSetAc;
+    public Animator modeSetAc;
+    public Animator bookSetAc;
+    public Animator normalSetAc;
+    public Animator stageSetAc;
+    public Animator levelSetAc;
+    public Animator settingSetAc;
+    public Animator nButtonGroupAc;
+    public Animator sButtonGroupAc;
     public GameObject modePanel;
-    public GameObject stageSelectPanel;
     public GameObject normalSelectPanel;
     public GameObject normalLevelPanel;
+    public GameObject stageSelectPanel;
     public Sprite[] teamLogoSprite;
 
-    [Header("---------------[Stage]")]
-    public int stageTeamSelectIdx;
-    public Image stageTeamLogo;
-    public TextMeshProUGUI sBlueTeamNameText;
-    public TextMeshProUGUI sSelectButtonText;
-    public Button[] sTeamSelectButton;
     [Header("---------------[Normal]")]
     public bool isBlueTeam;
     public bool isRedTeam;
@@ -48,6 +50,12 @@ public class GameManager : MonoBehaviour
     public TextMeshProUGUI nSelectButtonText;
     public Button[] nSelectButton;
     public Button[] nLevelButton;
+    [Header("---------------[Stage]")]
+    public int stageTeamSelectIdx;
+    public Image stageTeamLogo;
+    public TextMeshProUGUI sBlueTeamNameText;
+    public TextMeshProUGUI sSelectButtonText;
+    public Button[] sTeamSelectButton;
 
     [Header("---------------[Book]")]
     public int startIdxInBook;
@@ -56,10 +64,7 @@ public class GameManager : MonoBehaviour
     public string groupNameInInfo;
     public GameObject lastButtonInBook;
     public GameObject unitInfoSet;
-    public GameObject[] groupPrefabsInBook;
     public Image infoImage;
-    public Image[] buttonImageInBook;
-    public TextMeshProUGUI[] buttonNameInBook;
     public TextMeshProUGUI infoUnitNameText;
     public TextMeshProUGUI infoUnitTypeText;
     public TextMeshProUGUI infoCostText;
@@ -70,12 +75,74 @@ public class GameManager : MonoBehaviour
     public TextMeshProUGUI infoSpdText;
     public TextMeshProUGUI infoSkillText;
     public TextMeshProUGUI infoDetailText;
-    public Sprite[] unitSprites;
+    public GameObject[] groupPrefabsInBook;
+    public Image[] buttonImageInBook;
+    public TextMeshProUGUI[] buttonNameInBook;
+    public Sprite[] unitPictureSprites;
     float scaleNum;
 
     void Awake()
     {
         instance = this;
+    }
+
+
+    // ======================================================= 인게임 버튼 함수
+    public void ClickButton(string panelName)
+    {
+        switch (panelName)
+        {
+            case "모드":
+                menuSetAc.SetTrigger("oldOut");
+                modeSetAc.SetTrigger("newIn");
+                break;
+            case "도감":
+                menuSetAc.SetTrigger("oldOut");
+                bookSetAc.SetTrigger("newIn");
+                break;
+            case "설정":
+                menuSetAc.SetTrigger("oldOut");
+                settingSetAc.SetTrigger("newIn");
+                break;
+            case "스테":
+                modeSetAc.SetTrigger("oldOut");
+                stageSetAc.SetTrigger("newIn");
+                break;
+            case "일반":
+                modeSetAc.SetTrigger("oldOut");
+                normalSetAc.SetTrigger("newIn");
+                break;
+            case "레벨":
+                TeamSelectButton();
+                break;
+        }
+    }
+    public void BackButton(string panelName)
+    {
+        switch (panelName)
+        {
+            case "모드":
+                menuSetAc.SetTrigger("oldIn");
+                modeSetAc.SetTrigger("newOut");
+                break;
+            case "도감":
+                menuSetAc.SetTrigger("oldIn");
+                bookSetAc.SetTrigger("newOut");
+                break;
+            case "설정":
+                menuSetAc.SetTrigger("oldIn");
+                settingSetAc.SetTrigger("newOut");
+                break;
+            case "스테":
+                StageBackButton();
+                break;
+            case "일반":
+                BackSelectButton();
+                break;
+            case "레벨":
+                BackLevelButton();
+                break;
+        }
     }
 
     // ======================================================= Normal 팀 세팅 함수
@@ -184,7 +251,7 @@ public class GameManager : MonoBehaviour
     {
         // 이미 팀을 선택한 적이 있어서 Disable된 버튼이 있다면 true
         if (isRedTeam)
-            nSelectButton[Variables.teamBlueNum].interactable = true;
+            nSelectButton[Variables.teamRedNum].interactable = true;
 
         isRedTeam = true;
         switch (enName)
@@ -239,7 +306,7 @@ public class GameManager : MonoBehaviour
         // Button Disable
         nSelectButton[Variables.teamRedNum].interactable = false;
     }
-    public void TeamSelectButton()
+    void TeamSelectButton()
     {
         // Blue팀 선택 페이지
         if (nTeamSelectIdx == 0 && isBlueTeam)
@@ -250,6 +317,9 @@ public class GameManager : MonoBehaviour
         // Red팀 선택 페이지
         else if (nTeamSelectIdx == 1 && isRedTeam)
         {
+            // 버튼 내리기
+            nButtonGroupAc.SetTrigger("btnDown");
+
             nSelectButtonText.text = "다음 단계";
             nTeamSelectIdx++;
         }
@@ -259,17 +329,20 @@ public class GameManager : MonoBehaviour
             // 양팀 모두 버튼을 눌러야 다음 단계로
             if (isBlueTeam && isRedTeam)
             {
-                // 레벨 세팅
-                normalLevelPanel.SetActive(true);
-                normalSelectPanel.SetActive(false);
+                // Animation
+                normalSetAc.SetTrigger("oldOut");
+                levelSetAc.SetTrigger("newIn");
             }
         }
     }
-    public void BackSelectButton()
+    void BackSelectButton()
     {
         // 나가기
         if (nTeamSelectIdx == 0)
         {
+            // Animation
+            modeSetAc.SetTrigger("oldIn");
+            normalSetAc.SetTrigger("newOut");
             // Blue팀은 선택하지 않은 상태
             isBlueTeam = false;
             // 이미지 UI 초기화
@@ -279,9 +352,6 @@ public class GameManager : MonoBehaviour
             nBlueTeamNameText.text = "-";
             // 이미 눌렀던 팀버튼 활성화
             nSelectButton[Variables.teamBlueNum].interactable = true;
-            // 나가기
-            normalSelectPanel.SetActive(false);
-            modePanel.SetActive(true);
         }
         // Blue 팀 선택 페이지
         else if (nTeamSelectIdx == 1)
@@ -297,6 +367,9 @@ public class GameManager : MonoBehaviour
         // Red 팀 선택 페이지
         else if (nTeamSelectIdx == 2)
         {
+            // 버튼 올리기
+            nButtonGroupAc.SetTrigger("btnUp");
+
             nSelectButtonText.text = "오른쪽팀 선택";
             nTeamSelectIdx--;
         }
@@ -367,42 +440,41 @@ public class GameManager : MonoBehaviour
         // Button Disable
         sTeamSelectButton[Variables.teamBlueNum].interactable = false;
     }
-
-    void StageRedTeamSetting(string enName)
+    void StageRedTeamSetting(int teamNum)
     {
-        switch (enName)
+        switch (teamNum)
         {
-            case "지하A":
+            case 0:
                 Variables.teamRedNum = 0;
                 Variables.teamRedPrefabs = ObjectManager.instance.giHa_prefabs;
                 Variables.startRedIdx = 0;
                 Variables.groupRedNum = 5;
                 break;
-            case "지하B":
+            case 1:
                 Variables.teamRedNum = 1;
                 Variables.teamRedPrefabs = ObjectManager.instance.giHa_prefabs;
                 Variables.startRedIdx = 10;
                 Variables.groupRedNum = 5;
                 break;
-            case "주폭":
+            case 2:
                 Variables.teamRedNum = 2;
                 Variables.teamRedPrefabs = ObjectManager.instance.juFok_prefabs;
                 Variables.startRedIdx = 0;
                 Variables.groupRedNum = 6;
                 break;
-            case "박취A":
+            case 3:
                 Variables.teamRedNum = 3;
                 Variables.teamRedPrefabs = ObjectManager.instance.bakChi_prefabs;
                 Variables.startRedIdx = 0;
                 Variables.groupRedNum = 6;
                 break;
-            case "박취B":
+            case 4:
                 Variables.teamRedNum = 4;
                 Variables.teamRedPrefabs = ObjectManager.instance.bakChi_prefabs;
                 Variables.startRedIdx = 12;
                 Variables.groupRedNum = 5;
                 break;
-            case "V급":
+            case 5:
                 Variables.teamRedNum = 5;
                 Variables.teamRedPrefabs = ObjectManager.instance.vBand_prefabs;
                 Variables.startRedIdx = 0;
@@ -415,21 +487,38 @@ public class GameManager : MonoBehaviour
         // Blue팀 선택 페이지
         if (stageTeamSelectIdx == 0 && isBlueTeam)
         {
+            // 버튼 내리기
+            sButtonGroupAc.SetTrigger("btnDown");
+
             sSelectButtonText.text = "게임 시작";
             stageTeamSelectIdx++;
         }
         else if (stageTeamSelectIdx == 1)
         {
-            // Red팀 세팅
+            // 스테이지 모드
+            Variables.isStage = true;
+
+            // Red팀 세팅 (여기 랜덤으로 설정 -> Blue팀과 안겹치게)
+            if (Variables.teamBlueNum == 0)
+                StageRedTeamSetting(1);
+            else
+                StageRedTeamSetting(0);
+
+            // 레벨 설정
+            Variables.gameLevel = 0;
+
             // 게임 시작
-            
+            SceneManager.LoadScene("InGame");
         }
     }
-    public void StageBackButton()
+    void StageBackButton()
     {
         // 나가기
         if (stageTeamSelectIdx == 0)
         {
+            // Animation
+            modeSetAc.SetTrigger("oldIn");
+            stageSetAc.SetTrigger("newOut");
             // Blue팀은 선택하지 않은 상태
             isBlueTeam = false;
             // 이미지 UI 초기화
@@ -439,13 +528,13 @@ public class GameManager : MonoBehaviour
             sBlueTeamNameText.text = "-";
             // 이미 눌렀던 팀버튼 활성화
             sTeamSelectButton[Variables.teamBlueNum].interactable = true;
-            // 나가기
-            stageSelectPanel.SetActive(false);
-            modePanel.SetActive(true);
         }
         // Blue 팀 선택 페이지
         else if (stageTeamSelectIdx == 1)
         {
+            // 버튼 올리기
+            sButtonGroupAc.SetTrigger("btnUp");
+
             sSelectButtonText.text = "팀 선택";
             stageTeamSelectIdx--;
         }
@@ -465,23 +554,27 @@ public class GameManager : MonoBehaviour
         // 해당 인덱스 버튼 비활성화
         nLevelButton[idx].interactable = false;
     }
-    public void BackLevelButton()
+    void BackLevelButton()
     {
+        // Animation
+        normalSetAc.SetTrigger("oldIn");
+        levelSetAc.SetTrigger("newOut");
+
         isSelectLevel = false;
 
         // 모든 버튼 활성화
         for (int i = 0; i < 5; i++)
             nLevelButton[i].interactable = true;
-
-        // 뒤로가기
-        normalLevelPanel.SetActive(false);
-        normalSelectPanel.SetActive(true);
     }
     public void GameStartButton()
     {
         // Level을 선택해야 게임 시작
         if (isSelectLevel)
         {
+            // 일반 모드
+            Variables.isStage = false;
+
+            // 게임 시작
             SceneManager.LoadScene("InGame");
         }
     }
@@ -572,19 +665,19 @@ public class GameManager : MonoBehaviour
                 switch (idx)
                 {
                     case 0:
-                        image = unitSprites[0];
+                        image = unitPictureSprites[0];
                         break;
                     case 1:
-                        image = unitSprites[1];
+                        image = unitPictureSprites[1];
                         break;
                     case 2:
-                        image = unitSprites[2];
+                        image = unitPictureSprites[2];
                         break;
                     case 3:
-                        image = unitSprites[3];
+                        image = unitPictureSprites[3];
                         break;
                     case 4:
-                        image = unitSprites[4];
+                        image = unitPictureSprites[4];
                         break;
                 }
                 scaleNum = 0.18f;
@@ -593,19 +686,19 @@ public class GameManager : MonoBehaviour
                 switch (idx)
                 {
                     case 0:
-                        image = unitSprites[5];
+                        image = unitPictureSprites[5];
                         break;
                     case 1:
-                        image = unitSprites[6];
+                        image = unitPictureSprites[6];
                         break;
                     case 2:
-                        image = unitSprites[7];
+                        image = unitPictureSprites[7];
                         break;
                     case 3:
-                        image = unitSprites[8];
+                        image = unitPictureSprites[8];
                         break;
                     case 4:
-                        image = unitSprites[9];
+                        image = unitPictureSprites[9];
                         break;
                 }
                 scaleNum = 0.18f;
@@ -614,22 +707,22 @@ public class GameManager : MonoBehaviour
                 switch (idx)
                 {
                     case 0:
-                        image = unitSprites[10];
+                        image = unitPictureSprites[10];
                         break;
                     case 1:
-                        image = unitSprites[11];
+                        image = unitPictureSprites[11];
                         break;
                     case 2:
-                        image = unitSprites[12];
+                        image = unitPictureSprites[12];
                         break;
                     case 3:
-                        image = unitSprites[13];
+                        image = unitPictureSprites[13];
                         break;
                     case 4:
-                        image = unitSprites[14];
+                        image = unitPictureSprites[14];
                         break;
                     case 5:
-                        image = unitSprites[15];
+                        image = unitPictureSprites[15];
                         break;
                 }
                 scaleNum = 0.5f;
@@ -638,22 +731,22 @@ public class GameManager : MonoBehaviour
                 switch (idx)
                 {
                     case 0:
-                        image = unitSprites[16];
+                        image = unitPictureSprites[16];
                         break;
                     case 1:
-                        image = unitSprites[17];
+                        image = unitPictureSprites[17];
                         break;
                     case 2:
-                        image = unitSprites[18];
+                        image = unitPictureSprites[18];
                         break;
                     case 3:
-                        image = unitSprites[19];
+                        image = unitPictureSprites[19];
                         break;
                     case 4:
-                        image = unitSprites[20];
+                        image = unitPictureSprites[20];
                         break;
                     case 5:
-                        image = unitSprites[21];
+                        image = unitPictureSprites[21];
                         break;
                 }
                 scaleNum = 0.25f;
@@ -662,19 +755,19 @@ public class GameManager : MonoBehaviour
                 switch (idx)
                 {
                     case 0:
-                        image = unitSprites[22];
+                        image = unitPictureSprites[22];
                         break;
                     case 1:
-                        image = unitSprites[23];
+                        image = unitPictureSprites[23];
                         break;
                     case 2:
-                        image = unitSprites[24];
+                        image = unitPictureSprites[24];
                         break;
                     case 3:
-                        image = unitSprites[25];
+                        image = unitPictureSprites[25];
                         break;
                     case 4:
-                        image = unitSprites[26];
+                        image = unitPictureSprites[26];
                         break;
                 }
                 scaleNum = 0.25f;
@@ -683,19 +776,19 @@ public class GameManager : MonoBehaviour
                 switch (idx)
                 {
                     case 0:
-                        image = unitSprites[27];
+                        image = unitPictureSprites[27];
                         break;
                     case 1:
-                        image = unitSprites[28];
+                        image = unitPictureSprites[28];
                         break;
                     case 2:
-                        image = unitSprites[29];
+                        image = unitPictureSprites[29];
                         break;
                     case 3:
-                        image = unitSprites[30];
+                        image = unitPictureSprites[30];
                         break;
                     case 4:
-                        image = unitSprites[31];
+                        image = unitPictureSprites[31];
                         break;
                 }
                 scaleNum = 0.5f;
@@ -782,13 +875,13 @@ public class GameManager : MonoBehaviour
                         skillText = "광역 근접 공격.";
                         break;
                     case 2:
-                        skillText = "3.5초마다 1코인씩 증가.";
-                        break;
-                    case 3:
                         skillText = "공격 시 본인의 공격력만큼 체력 흡혈.";
                         break;
+                    case 3:
+                        skillText = "3.5초마다 1코인씩 증가.";
+                        break;
                     case 4:
-                        skillText = "일반적인 원딜.\n(가장 긴 사거리 보유)";
+                        skillText = "일반적인 원딜.\n(가장 긴 공격범위)";
                         break;
                     case 5:
                         skillText = "일정 범위 내에 적이 있다면 빠르게 적에게 이동 후 광역으로 자폭.";
@@ -892,7 +985,7 @@ public class GameManager : MonoBehaviour
                         detailText = "주폭소년단의 리더. 정열적이며 활기찬 성격덕분에 팀원들을 조율하거나 여러 활동에 참여하는 모습을 보인다.";
                         break;
                     case 1:
-                        detailText = "연하남 계열의 아이돌이지만 많이 연하인 것이 특징. 상당히 많은 여자들이 오이쿤을 노리고 있다는 소문이 존재한다.";
+                        detailText = "연하남 계열의 아이돌이지만 생각보다 많이 연하인 것이 특징. 상당히 많은 여성들이 오이쿤을 노리고 있다는 소문이 존재한다.";
                         break;
                     case 2:
                         detailText = "쾌활한 학생회장 속성과 웃을 때 \"윤하하하\"하며 호탕하게 웃는 모습이 특징이다. 의외로 카사노바 기질이 있는 것 같다.";
@@ -918,16 +1011,16 @@ public class GameManager : MonoBehaviour
                         detailText = "평소에는 과묵하며 소심하지만 실제로는 근력과 체력이 매우 강하다. 또한 가면을 쓰면 성격이 거칠어지는 모습을 보인다.";
                         break;
                     case 2:
-                        detailText = "재벌집 아가씨. 사립학교는 재미가 없어서 친구들을 만들기 위해 전학왔다. 은근 싸이코패스같은 면모를 보이기도 한다.";
+                        detailText = "미친듯한 하이텐션으로 가끔씩 약 처방이 필요하다고 한다. 상대방을 흡수하고 표절하는 것과 배신의 아이콘이라는 특징이 있다.";
                         break;
                     case 3:
-                        detailText = "박취더락의 광대 포지션으로 가끔씩 약 처방이 필요하다. 상대방을 흡수하고 표절하는 것과 배신의 아이콘이라는 특징이 있다.";
+                        detailText = "돈 많은 재벌집 아가씨. 사립학교는 재미가 없어서 친구들을 만들기 위해 전학왔다. 남에게 공감하지 못하는 모습을 자주 보여준다.";
                         break;
                     case 4:
                         detailText = "본명은 베르노아르시온느브리취더루왁. 나라의 공주이며 말끝에 \"노라\"를 붙이는 특이한 말투를 쓴다. 총을 굉장히 잘 쏜다.";
                         break;
                     case 5:
-                        detailText = "잔잔하고 안정감있는 목소리를 가지고 있지만 한순간에 폭주할 때가 있다. 자타공인 데드 아티스트.";
+                        detailText = "잔잔하고 안정감있는 목소리에서 운전대를 잡으면 한순간에 폭주하는 반전매력을 가지고 있다. 자타공인 데드 아티스트.";
                         break;
                 }
                 break;
@@ -938,7 +1031,7 @@ public class GameManager : MonoBehaviour
                         detailText = "무려 8년을 유급한 복학생 언니/누님. 연륜이 느껴지는 여유있는 말투와 행동이 특징이다. 항상 체력이 부족해 힘들어한다.";
                         break;
                     case 1:
-                        detailText = "지방에서 상경한 시골소녀로 구수한 사투리를 쓴다. 자칭 섹시호소인이지만 아무도 인정해주지 않는다.";
+                        detailText = "지방에서 상경한 시골소녀로 구수한 사투리를 쓴다. 노래실력이 매우 좋으며 자칭 섹시호소인이지만 아무도 인정해주지 않는다.";
                         break;
                     case 2:
                         detailText = "Say-No Crystal(줄여서 크짱)이라는 이름의 기타를 가진 소녀. 귀여움 뒤에는 파워풀한 연주실력을 가지고 있다.";

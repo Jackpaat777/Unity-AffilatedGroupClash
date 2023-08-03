@@ -16,18 +16,16 @@ public class InGameManager : MonoBehaviour
     public int maxCost;
     public int blueCost;
     public int redCost;
+    public int patternIdx;
     public float gameTimer;
     public float costBTimer;
     public float costRTimer;
     public float costRedUp;
+    public float spawnTimer;
     public TextMeshProUGUI timeText;
     public TextMeshProUGUI costText;
     public List<GameObject> blueUnitList;
     public List<GameObject> redUnitList;
-
-    [Header("---------------[Team Setting]")]
-    public float spawnTimer;
-    public int patternIdx;
 
     [Header("---------------[Base]")]
     public int blueHP;
@@ -46,8 +44,12 @@ public class InGameManager : MonoBehaviour
     public GameObject redDestroyEffect;
 
 
+    [Header("---------------[Top UI]")]
     public GameObject optionPanel;
-
+    public TextMeshProUGUI levelText;
+    public Image blueLogo;
+    public Image redLogo;
+    public Sprite[] logoSprites;
     [Header("---------------[Button UI]")]
     public Image[] blueButtonImage;
     public TextMeshProUGUI[] blueTypeText;
@@ -70,6 +72,8 @@ public class InGameManager : MonoBehaviour
     public GameObject controlSet;
     public GameObject victoryObj;
     public GameObject defeatObj;
+    public GameObject nextBtn;
+    public GameObject resetBtn;
 
     [Header("---------------[Devil]")]
     public bool isDevilB;
@@ -89,31 +93,8 @@ public class InGameManager : MonoBehaviour
         instance = this;
         isGameLive = true;
 
-        // Team Button Setting
-        for (int i = Variables.startBlueIdx; i < Variables.startBlueIdx + Variables.groupBlueNum; i++)
-        {
-            Unit teamUnit = Variables.teamBluePrefabs[i].GetComponent<Unit>();
-            SpriteRenderer spriteRen = teamUnit.GetComponent<SpriteRenderer>();
-            // Image
-            blueButtonImage[i - Variables.startBlueIdx].sprite = spriteRen.sprite;
-            // Type
-            TypeTextSetting(blueTypeText[i - Variables.startBlueIdx], teamUnit.unitType);
-            // Cost
-            blueCostText[i - Variables.startBlueIdx].text = teamUnit.unitCost.ToString();
-        }
-
-        // 5명이면 마지막버튼 끄기
-        if (Variables.groupBlueNum == 5)
-            lastButton.SetActive(false);
-
-        // Base Text Update
-        blueHpText.text = blueHP.ToString();
-        redHpText.text = redHP.ToString();
-        blueHpShadowText.text = blueHP.ToString();
-        redHpShadowText.text = redHP.ToString();
-
-        // Game Level
-        GameLevel();
+        // Game Setting
+        GameSetting();
     }
     void TypeTextSetting(TextMeshProUGUI text, UnitType typeName)
     {
@@ -141,27 +122,59 @@ public class InGameManager : MonoBehaviour
                 break;
         }
     }
-    void GameLevel()
+    void GameSetting()
     {
+        // BlueTeam Button Setting
+        for (int i = Variables.startBlueIdx; i < Variables.startBlueIdx + Variables.groupBlueNum; i++)
+        {
+            Unit teamUnit = Variables.teamBluePrefabs[i].GetComponent<Unit>();
+            SpriteRenderer spriteRen = teamUnit.GetComponent<SpriteRenderer>();
+            // Image
+            blueButtonImage[i - Variables.startBlueIdx].sprite = spriteRen.sprite;
+            // Type
+            TypeTextSetting(blueTypeText[i - Variables.startBlueIdx], teamUnit.unitType);
+            // Cost
+            blueCostText[i - Variables.startBlueIdx].text = teamUnit.unitCost.ToString();
+        }
+
+        // 5명팀이면 마지막버튼 끄기
+        if (Variables.groupBlueNum == 5)
+            lastButton.SetActive(false);
+
+        // Base Text Update
+        blueHpText.text = blueHP.ToString();
+        redHpText.text = redHP.ToString();
+        blueHpShadowText.text = blueHP.ToString();
+        redHpShadowText.text = redHP.ToString();
+
+        // RedTeam Level
         switch (Variables.gameLevel)
         {
             case 0:
                 costRedUp = 2.25f;
+                levelText.text = "매우쉬움";
                 break;
             case 1:
                 costRedUp = 2f;
+                levelText.text = "쉬움";
                 break;
             case 2:
                 costRedUp = 1.75f;
+                levelText.text = "보통";
                 break;
             case 3:
                 costRedUp = 1.5f;
+                levelText.text = "어려움";
                 break;
             case 4:
                 costRedUp = 1.25f;
+                levelText.text = "매우어려움";
                 break;
         }
 
+        // Logo
+        blueLogo.sprite = logoSprites[Variables.teamBlueNum];
+        redLogo.sprite = logoSprites[Variables.teamRedNum];
     }
 
     void Update()
@@ -170,9 +183,7 @@ public class InGameManager : MonoBehaviour
             return;
 
         // Timer
-        gameTimer += Time.deltaTime;
-        timeText.text = ((int)gameTimer / 60).ToString("D2") + ":" + ((int)gameTimer % 60).ToString("D2");
-
+        GameTimer();
         // Devil
         DevilTimer();
         // Camera Move
@@ -182,18 +193,18 @@ public class InGameManager : MonoBehaviour
         RedCostUp();
         // KeyBoard
         KeyBoard();
+        // Unit Infomation
+        UnitInfo();
 
         // Loop Pattern
         //StartCoroutine(Pattern(1f, patternIdx));
-
-        // Unit Infomation
-        if (isUnitClick)
-        {
-            Unit unitLogic = unitObj.GetComponent<Unit>();
-            UnitInfo(unitLogic);
-        }
     }
     // ======================================================= Update 함수
+    void GameTimer()
+    {
+        gameTimer += Time.deltaTime;
+        timeText.text = ((int)gameTimer / 60).ToString("D2") + ":" + ((int)gameTimer % 60).ToString("D2");
+    }
     void DevilTimer()
     {
         if (isDevilB)
@@ -299,8 +310,13 @@ public class InGameManager : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.N) && Variables.groupRedNum == 6)
             MakeRedUnit(5 + Variables.startRedIdx + Variables.groupRedNum);
     }
-    void UnitInfo(Unit unitLogic)
+    void UnitInfo()
     {
+        if (!isUnitClick)
+            return;
+
+        // Unit Setting
+        Unit unitLogic = unitObj.GetComponent<Unit>();
         unitImage.gameObject.SetActive(true);
 
         // Image
@@ -407,10 +423,66 @@ public class InGameManager : MonoBehaviour
         optionPanel.SetActive(false);
         Time.timeScale = 1;
     }
+    public void NextButton()
+    {
+        // 레벨 증가
+        Variables.gameLevel++;
+
+        // 레드팀 번호 설정 (여기 랜덤으로 변경 -> 이미 리스트에서 있으면 제외 -> 전역변수?)
+        Variables.teamRedNum++;
+        Variables.teamRedNum = Variables.teamRedNum == Variables.teamBlueNum ? Variables.teamRedNum++ : Variables.teamRedNum;
+        // 다음 상대 설정
+        StageRedTeamSetting(Variables.teamRedNum);
+
+        Time.timeScale = 1;
+        SceneManager.LoadScene("InGame");
+    }
     public void ResetButton()
     {
         Time.timeScale = 1;
         SceneManager.LoadScene("Game");
+    }
+    void StageRedTeamSetting(int teamNum)
+    {
+        switch (teamNum)
+        {
+            case 0:
+                Variables.teamRedNum = 0;
+                Variables.teamRedPrefabs = ObjectManager.instance.giHa_prefabs;
+                Variables.startRedIdx = 0;
+                Variables.groupRedNum = 5;
+                break;
+            case 1:
+                Variables.teamRedNum = 1;
+                Variables.teamRedPrefabs = ObjectManager.instance.giHa_prefabs;
+                Variables.startRedIdx = 10;
+                Variables.groupRedNum = 5;
+                break;
+            case 2:
+                Variables.teamRedNum = 2;
+                Variables.teamRedPrefabs = ObjectManager.instance.juFok_prefabs;
+                Variables.startRedIdx = 0;
+                Variables.groupRedNum = 6;
+                break;
+            case 3:
+                Variables.teamRedNum = 3;
+                Variables.teamRedPrefabs = ObjectManager.instance.bakChi_prefabs;
+                Variables.startRedIdx = 0;
+                Variables.groupRedNum = 6;
+                break;
+            case 4:
+                Variables.teamRedNum = 4;
+                Variables.teamRedPrefabs = ObjectManager.instance.bakChi_prefabs;
+                Variables.startRedIdx = 12;
+                Variables.groupRedNum = 5;
+                break;
+            case 5:
+                Variables.teamRedNum = 5;
+                Variables.teamRedPrefabs = ObjectManager.instance.vBand_prefabs;
+                Variables.startRedIdx = 0;
+                Variables.groupRedNum = 5;
+                break;
+        }
     }
 
     // ======================================================= Base 함수
@@ -438,7 +510,7 @@ public class InGameManager : MonoBehaviour
             else
             {
                 blueBaseSpriteRen.sprite = blueBaseSprite[1];
-                StartCoroutine(SpriteChange(0.1f, blueBaseSpriteRen, blueBaseSprite[0]));
+                StartCoroutine(SpriteChange(0.1f, blueBaseSpriteRen, blueBaseSprite[0], blueHP > 0));
             }
 
             // Text
@@ -455,12 +527,13 @@ public class InGameManager : MonoBehaviour
                 redHP = 0;
                 redBaseSpriteRen.sprite = redBaseSprite[2];
                 redDestroyEffect.SetActive(true);
+                isGameLive = false;
                 GameOver("Win");
             }
             else
             {
                 redBaseSpriteRen.sprite = redBaseSprite[1];
-                StartCoroutine(SpriteChange(0.1f, redBaseSpriteRen, redBaseSprite[0]));
+                StartCoroutine(SpriteChange(0.1f, redBaseSpriteRen, redBaseSprite[0], redHP > 0));
             }
 
             redBaseSlider.value = redHP;
@@ -468,23 +541,36 @@ public class InGameManager : MonoBehaviour
             redHpShadowText.text = redHP.ToString();
         }
     }
-    IEnumerator SpriteChange(float time, SpriteRenderer spriteRen, Sprite sprite)
+    IEnumerator SpriteChange(float time, SpriteRenderer spriteRen, Sprite sprite, bool isLive)
     {
         yield return new WaitForSeconds(time);
 
-        spriteRen.sprite = sprite;
+        // 0.1초 사이에 게임이 끝나버리면 Sprite Change를 실행하면 안됨
+        if (isLive)
+            spriteRen.sprite = sprite;
     }
     void GameOver(string result)
     {
         // 이겼을 경우
         if (result == "Win")
         {
+            // Victory
             victoryObj.SetActive(true);
+
+            // Button
+            if (Variables.isStage)
+                nextBtn.SetActive(true);
+            else
+                resetBtn.SetActive(true);
         }
         // 졌을 경우
         else if (result == "Lose")
         {
+            // Defeat
             defeatObj.SetActive(true);
+
+            // Button
+            resetBtn.SetActive(true);
         }
 
         // 게임 작동 중지 (시간, 코스트, 카메라이동, 소환버튼, 유닛클릭)
