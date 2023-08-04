@@ -286,6 +286,10 @@ public class Unit : MonoBehaviour
 
     void Update()
     {
+        // 게임 종료
+        if (!InGameManager.instance.isGameLive)
+            return;
+
         // Base 타입인 경우
         if (unitType == UnitType.Base)
             return;
@@ -504,6 +508,10 @@ public class Unit : MonoBehaviour
 
     void FixedUpdate()
     {
+        // 게임 종료
+        if (!InGameManager.instance.isGameLive)
+            return;
+
         // Base 타입인 경우
         if (unitType == UnitType.Base)
             return;

@@ -30,12 +30,12 @@ public class InGameManager : MonoBehaviour
     [Header("---------------[Base]")]
     public int blueHP;
     public int redHP;
-    public Sprite[] blueBaseSprite;
-    public Sprite[] redBaseSprite;
-    public SpriteRenderer blueBaseSpriteRen;
-    public SpriteRenderer redBaseSpriteRen;
-    public Slider blueBaseSlider;
-    public Slider redBaseSlider;
+    public Sprite[] baseBSprite;
+    public Sprite[] baseRSprite;
+    public SpriteRenderer baseBSpriteRen;
+    public SpriteRenderer baseRSpriteRen;
+    public Slider baseBSlider;
+    public Slider baseRSlider;
     public TextMeshProUGUI blueHpText;
     public TextMeshProUGUI redHpText;
     public TextMeshProUGUI blueHpShadowText;
@@ -45,6 +45,7 @@ public class InGameManager : MonoBehaviour
 
 
     [Header("---------------[Top UI]")]
+    public Animator fadeAc;
     public GameObject optionPanel;
     public TextMeshProUGUI levelText;
     public Image blueLogo;
@@ -93,34 +94,12 @@ public class InGameManager : MonoBehaviour
         instance = this;
         isGameLive = true;
 
+        // Fade In
+        fadeAc.SetTrigger("fadeIn");
+        StartCoroutine(DisableFade(0.5f));
+
         // Game Setting
         GameSetting();
-    }
-    void TypeTextSetting(TextMeshProUGUI text, UnitType typeName)
-    {
-        switch (typeName)
-        {
-            case UnitType.Tanker:
-                text.text = "탱커";
-                text.color = new Color(0, 255, 0);
-                break;
-            case UnitType.Warrior:
-                text.text = "전사";
-                text.color = new Color(255, 0, 0);
-                break;
-            case UnitType.Ranger:
-                text.text = "원딜";
-                text.color = new Color(0, 200, 255);
-                break;
-            case UnitType.Buffer:
-                text.text = "버프";
-                text.color = new Color(255, 255, 0);
-                break;
-            case UnitType.Special:
-                text.text = "특수";
-                text.color = new Color(255, 0, 255);
-                break;
-        }
     }
     void GameSetting()
     {
@@ -141,7 +120,9 @@ public class InGameManager : MonoBehaviour
         if (Variables.groupBlueNum == 5)
             lastButton.SetActive(false);
 
-        // Base Text Update
+        // Base
+        baseBSpriteRen.gameObject.SetActive(true);
+        baseRSpriteRen.gameObject.SetActive(true);
         blueHpText.text = blueHP.ToString();
         redHpText.text = redHP.ToString();
         blueHpShadowText.text = blueHP.ToString();
@@ -175,6 +156,41 @@ public class InGameManager : MonoBehaviour
         // Logo
         blueLogo.sprite = logoSprites[Variables.teamBlueNum];
         redLogo.sprite = logoSprites[Variables.teamRedNum];
+
+        // BGM
+        SoundManager.instance.BgmPlay("Game");
+    }
+    void TypeTextSetting(TextMeshProUGUI text, UnitType typeName)
+    {
+        switch (typeName)
+        {
+            case UnitType.Tanker:
+                text.text = "탱커";
+                text.color = new Color(0, 255, 0);
+                break;
+            case UnitType.Warrior:
+                text.text = "전사";
+                text.color = new Color(255, 0, 0);
+                break;
+            case UnitType.Ranger:
+                text.text = "원딜";
+                text.color = new Color(0, 200, 255);
+                break;
+            case UnitType.Buffer:
+                text.text = "버프";
+                text.color = new Color(255, 255, 0);
+                break;
+            case UnitType.Special:
+                text.text = "특수";
+                text.color = new Color(255, 0, 255);
+                break;
+        }
+    }
+    IEnumerator DisableFade(float time)
+    {
+        yield return new WaitForSeconds(time);
+
+        fadeAc.gameObject.SetActive(false);
     }
 
     void Update()
@@ -428,61 +444,76 @@ public class InGameManager : MonoBehaviour
         // 레벨 증가
         Variables.gameLevel++;
 
-        // 레드팀 번호 설정 (여기 랜덤으로 변경 -> 이미 리스트에서 있으면 제외 -> 전역변수?)
-        Variables.teamRedNum++;
-        Variables.teamRedNum = Variables.teamRedNum == Variables.teamBlueNum ? Variables.teamRedNum++ : Variables.teamRedNum;
+        // 레드팀 번호 설정
+        int rand = Random.Range(0, 6);
+        while (Variables.isSelectTeam[rand])
+        {
+            rand = Random.Range(0, 6);
+        }
         // 다음 상대 설정
-        StageRedTeamSetting(Variables.teamRedNum);
+        StageRedTeamSetting(rand);
 
         Time.timeScale = 1;
-        SceneManager.LoadScene("InGame");
+        // Fade Out
+        fadeAc.gameObject.SetActive(true);
+        fadeAc.SetTrigger("fadeOut");
+        StartCoroutine(LoadScene(0.5f, "InGame"));
     }
     public void ResetButton()
     {
         Time.timeScale = 1;
-        SceneManager.LoadScene("Game");
+        // Fade Out
+        fadeAc.gameObject.SetActive(true);
+        fadeAc.SetTrigger("fadeOut");
+        StartCoroutine(LoadScene(0.5f, "Game"));
     }
     void StageRedTeamSetting(int teamNum)
     {
         switch (teamNum)
         {
             case 0:
-                Variables.teamRedNum = 0;
                 Variables.teamRedPrefabs = ObjectManager.instance.giHa_prefabs;
                 Variables.startRedIdx = 0;
                 Variables.groupRedNum = 5;
                 break;
             case 1:
-                Variables.teamRedNum = 1;
                 Variables.teamRedPrefabs = ObjectManager.instance.giHa_prefabs;
                 Variables.startRedIdx = 10;
                 Variables.groupRedNum = 5;
                 break;
             case 2:
-                Variables.teamRedNum = 2;
                 Variables.teamRedPrefabs = ObjectManager.instance.juFok_prefabs;
                 Variables.startRedIdx = 0;
                 Variables.groupRedNum = 6;
                 break;
             case 3:
-                Variables.teamRedNum = 3;
                 Variables.teamRedPrefabs = ObjectManager.instance.bakChi_prefabs;
                 Variables.startRedIdx = 0;
                 Variables.groupRedNum = 6;
                 break;
             case 4:
-                Variables.teamRedNum = 4;
                 Variables.teamRedPrefabs = ObjectManager.instance.bakChi_prefabs;
                 Variables.startRedIdx = 12;
                 Variables.groupRedNum = 5;
                 break;
             case 5:
-                Variables.teamRedNum = 5;
                 Variables.teamRedPrefabs = ObjectManager.instance.vBand_prefabs;
                 Variables.startRedIdx = 0;
                 Variables.groupRedNum = 5;
                 break;
         }
+
+        // Team Num
+        Variables.teamRedNum = teamNum;
+        // Random Team List
+        Variables.isSelectTeam[teamNum] = true;
+    }
+    IEnumerator LoadScene(float time, string sceneName)
+    {
+        yield return new WaitForSeconds(time);
+
+        Time.timeScale = 1;
+        SceneManager.LoadScene(sceneName);
     }
 
     // ======================================================= Base 함수
@@ -501,7 +532,7 @@ public class InGameManager : MonoBehaviour
             if (blueHP <= 0)
             {
                 blueHP = 0;
-                blueBaseSpriteRen.sprite = blueBaseSprite[2];
+                baseBSpriteRen.gameObject.SetActive(false);
                 blueDestroyEffect.SetActive(true);
                 isGameLive = false;
                 GameOver("Lose");
@@ -509,12 +540,12 @@ public class InGameManager : MonoBehaviour
             // Alive
             else
             {
-                blueBaseSpriteRen.sprite = blueBaseSprite[1];
-                StartCoroutine(SpriteChange(0.1f, blueBaseSpriteRen, blueBaseSprite[0], blueHP > 0));
+                baseBSpriteRen.sprite = baseBSprite[1];
+                StartCoroutine(SpriteChange(0.1f, baseBSpriteRen, baseBSprite[0], blueHP > 0));
             }
 
             // Text
-            blueBaseSlider.value = blueHP;
+            baseBSlider.value = blueHP;
             blueHpText.text = blueHP.ToString();
             blueHpShadowText.text = blueHP.ToString();
         }
@@ -525,18 +556,18 @@ public class InGameManager : MonoBehaviour
             if (redHP <= 0)
             {
                 redHP = 0;
-                redBaseSpriteRen.sprite = redBaseSprite[2];
+                baseRSpriteRen.gameObject.SetActive(false);
                 redDestroyEffect.SetActive(true);
                 isGameLive = false;
                 GameOver("Win");
             }
             else
             {
-                redBaseSpriteRen.sprite = redBaseSprite[1];
-                StartCoroutine(SpriteChange(0.1f, redBaseSpriteRen, redBaseSprite[0], redHP > 0));
+                baseRSpriteRen.sprite = baseRSprite[1];
+                StartCoroutine(SpriteChange(0.1f, baseRSpriteRen, baseRSprite[0], redHP > 0));
             }
 
-            redBaseSlider.value = redHP;
+            baseRSlider.value = redHP;
             redHpText.text = redHP.ToString();
             redHpShadowText.text = redHP.ToString();
         }
@@ -578,6 +609,9 @@ public class InGameManager : MonoBehaviour
         camSpeed = 0;
         controlSet.SetActive(false);
         overSet.SetActive(true);
+
+        // BGM Stop
+        SoundManager.instance.BgmStop();
     }
 
     // ======================================================= COM 함수

@@ -1,11 +1,13 @@
 using TMPro;
 using UnityEngine;
 using UnityEngine.SceneManagement;
-using Image = UnityEngine.UI.Image;
 using UnityEngine.UI;
+using System.Collections;
+using Image = UnityEngine.UI.Image;
 
 public static class Variables
 {
+    public static bool[] isSelectTeam = { false, false, false, false, false, false };
     public static bool isStage = true;
     public static int gameLevel = 0;
     public static int teamBlueNum = 0;
@@ -14,6 +16,8 @@ public static class Variables
     public static int groupBlueNum = 0;
     public static int startRedIdx = 0;
     public static int groupRedNum = 0;
+    public static float bgmVolume = -15f;
+    public static float sfxVolume = -15f;
     public static GameObject[] teamBluePrefabs = { };
     public static GameObject[] teamRedPrefabs = { };
 }
@@ -23,6 +27,7 @@ public class GameManager : MonoBehaviour
     public static GameManager instance; // 싱글톤 패턴 : 인스턴스를 여러번 사용하지 않고 하나의 인스턴스로 사용하기
 
     [Header("---------------[UI]")]
+    public Animator fadeAc;
     public Animator menuSetAc;
     public Animator modeSetAc;
     public Animator bookSetAc;
@@ -32,6 +37,7 @@ public class GameManager : MonoBehaviour
     public Animator settingSetAc;
     public Animator nButtonGroupAc;
     public Animator sButtonGroupAc;
+    public Animator creditAc;
     public GameObject modePanel;
     public GameObject normalSelectPanel;
     public GameObject normalLevelPanel;
@@ -84,8 +90,20 @@ public class GameManager : MonoBehaviour
     void Awake()
     {
         instance = this;
-    }
 
+        // Fade In
+        fadeAc.SetTrigger("fadeIn");
+        StartCoroutine(DisableFade(0.5f));
+
+        // BGM
+        SoundManager.instance.BgmPlay("Menu");
+    }
+    IEnumerator DisableFade(float time)
+    {
+        yield return new WaitForSeconds(time);
+
+        fadeAc.gameObject.SetActive(false);
+    }
 
     // ======================================================= 인게임 버튼 함수
     public void ClickButton(string panelName)
@@ -143,6 +161,18 @@ public class GameManager : MonoBehaviour
                 BackLevelButton();
                 break;
         }
+    }
+    public void CreditButton()
+    {
+        creditAc.SetTrigger("doCredit");
+    }
+    public void SkipButton()
+    {
+        creditAc.SetTrigger("doOut");
+    }
+    public void QuitGame()
+    {
+        Application.Quit();
     }
 
     // ======================================================= Normal 팀 세팅 함수
@@ -439,48 +469,53 @@ public class GameManager : MonoBehaviour
         stageTeamLogo.SetNativeSize();
         // Button Disable
         sTeamSelectButton[Variables.teamBlueNum].interactable = false;
+        // Random Team List
+        for (int i = 0; i < 6; i++)
+        {
+            Variables.isSelectTeam[i] = false;
+        }
+        Variables.isSelectTeam[Variables.teamBlueNum] = true;
     }
     void StageRedTeamSetting(int teamNum)
     {
         switch (teamNum)
         {
             case 0:
-                Variables.teamRedNum = 0;
                 Variables.teamRedPrefabs = ObjectManager.instance.giHa_prefabs;
                 Variables.startRedIdx = 0;
                 Variables.groupRedNum = 5;
                 break;
             case 1:
-                Variables.teamRedNum = 1;
                 Variables.teamRedPrefabs = ObjectManager.instance.giHa_prefabs;
                 Variables.startRedIdx = 10;
                 Variables.groupRedNum = 5;
                 break;
             case 2:
-                Variables.teamRedNum = 2;
                 Variables.teamRedPrefabs = ObjectManager.instance.juFok_prefabs;
                 Variables.startRedIdx = 0;
                 Variables.groupRedNum = 6;
                 break;
             case 3:
-                Variables.teamRedNum = 3;
                 Variables.teamRedPrefabs = ObjectManager.instance.bakChi_prefabs;
                 Variables.startRedIdx = 0;
                 Variables.groupRedNum = 6;
                 break;
             case 4:
-                Variables.teamRedNum = 4;
                 Variables.teamRedPrefabs = ObjectManager.instance.bakChi_prefabs;
                 Variables.startRedIdx = 12;
                 Variables.groupRedNum = 5;
                 break;
             case 5:
-                Variables.teamRedNum = 5;
                 Variables.teamRedPrefabs = ObjectManager.instance.vBand_prefabs;
                 Variables.startRedIdx = 0;
                 Variables.groupRedNum = 5;
                 break;
         }
+
+        // Team Num
+        Variables.teamRedNum = teamNum;
+        // Random Team List
+        Variables.isSelectTeam[teamNum] = true;
     }
     public void StageTeamSelectButton()
     {
@@ -499,16 +534,23 @@ public class GameManager : MonoBehaviour
             Variables.isStage = true;
 
             // Red팀 세팅 (여기 랜덤으로 설정 -> Blue팀과 안겹치게)
-            if (Variables.teamBlueNum == 0)
-                StageRedTeamSetting(1);
-            else
-                StageRedTeamSetting(0);
+            int rand = Random.Range(0, 6);
+            while (Variables.isSelectTeam[rand])
+            {
+                rand = Random.Range(0, 6);
+            }
+            // 다음 상대 설정
+            StageRedTeamSetting(rand);
 
             // 레벨 설정
             Variables.gameLevel = 0;
 
+            // Fade Out
+            fadeAc.gameObject.SetActive(true);
+            fadeAc.SetTrigger("fadeOut");
             // 게임 시작
-            SceneManager.LoadScene("InGame");
+            StartCoroutine(StartGame(0.5f));
+            
         }
     }
     void StageBackButton()
@@ -574,9 +616,18 @@ public class GameManager : MonoBehaviour
             // 일반 모드
             Variables.isStage = false;
 
+            // Fade Out
+            fadeAc.gameObject.SetActive(true);
+            fadeAc.SetTrigger("fadeOut");
             // 게임 시작
-            SceneManager.LoadScene("InGame");
+            StartCoroutine(StartGame(0.5f));
         }
+    }
+    IEnumerator StartGame(float time)
+    {
+        yield return new WaitForSeconds(time);
+
+        SceneManager.LoadScene("InGame");
     }
 
     // ======================================================= Book 함수
