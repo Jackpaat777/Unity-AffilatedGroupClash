@@ -104,10 +104,10 @@ MonoBehaviour:
   unitType: 1
   unitDetail: 19
   unitCost: 2
-  unitMaxHp: 170
-  unitHp: 170
+  unitMaxHp: 160
+  unitHp: 160
   unitAtk: 5
-  unitAtkSpeed: 1.7
+  unitAtkSpeed: 1.8
   unitRange: 0.4
   unitSpeed: -0.6
   dustObject: {fileID: 5324795742781410201}

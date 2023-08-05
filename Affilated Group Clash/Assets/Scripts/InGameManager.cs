@@ -6,6 +6,8 @@ using Random = UnityEngine.Random;
 using Image = UnityEngine.UI.Image;
 using Slider = UnityEngine.UI.Slider;
 using System.Collections;
+using UnityEngine.UI;
+using Unity.VisualScripting;
 
 public class InGameManager : MonoBehaviour
 {
@@ -23,6 +25,7 @@ public class InGameManager : MonoBehaviour
     public float costRTimer;
     public float costBlueUp;
     public float costRedUp;
+    public float redUpgradeTime;
     public float spawnTimer;
     public TextMeshProUGUI timeText;
     public TextMeshProUGUI costText;
@@ -47,8 +50,11 @@ public class InGameManager : MonoBehaviour
     public TextMeshProUGUI blueHpShadowText;
     public TextMeshProUGUI redHpShadowText;
     public TextMeshProUGUI blueUpgradeCostText;
+    public TextMeshProUGUI upgradeText;
     public GameObject blueDestroyEffect;
     public GameObject redDestroyEffect;
+    public GameObject[] blueUpgradeyEffect;
+    public GameObject[] redUpgradeyEffect;
 
 
     [Header("---------------[Top UI]")]
@@ -91,6 +97,16 @@ public class InGameManager : MonoBehaviour
     public bool isDevilBAttack;
     public bool isDevilRAttack;
 
+    [Header("---------------[Description]")]
+    public int descriptionPage;
+    public Button optionButton;
+    public TextMeshProUGUI descriptionText;
+    public GameObject descriptionPanel;
+    public GameObject desPrevButton;
+    public GameObject desNextButton;
+    public GameObject[] descriptionRect;
+
+
     [Header("---------------[Camera]")]
     public Transform camTrans;
     public float camSpeed;
@@ -103,6 +119,7 @@ public class InGameManager : MonoBehaviour
 
         // Fade In
         fadeAc.SetTrigger("fadeIn");
+        // Fade 없앤 뒤 게임설명 띄우기
         StartCoroutine(DisableFade(0.5f));
 
         // Game Setting
@@ -139,23 +156,37 @@ public class InGameManager : MonoBehaviour
         switch (Variables.gameLevel)
         {
             case 0:
-                costRedUp = 3f;
+                // 코스트 증가 시간
+                costRedUp = 3.5f;
+                // 업그레이드 시간
+                redUpgradeTime = 120;
+                // 몇초에 한명씩 나오는지
+                spawnTimer = 3f;
+                // 레벨 텍스트 변경
                 levelText.text = "매우쉬움";
                 break;
             case 1:
-                costRedUp = 2.75f;
+                costRedUp = 3f;
+                redUpgradeTime = 90;
+                spawnTimer = 2f;
                 levelText.text = "쉬움";
                 break;
             case 2:
                 costRedUp = 2.5f;
+                redUpgradeTime = 60;
+                spawnTimer = 1f;
                 levelText.text = "보통";
                 break;
             case 3:
-                costRedUp = 2.25f;
+                costRedUp = 2f;
+                redUpgradeTime = 50;
+                spawnTimer = 0.75f;
                 levelText.text = "어려움";
                 break;
             case 4:
-                costRedUp = 2f;
+                costRedUp = 1.75f;
+                redUpgradeTime = 30;
+                spawnTimer = 0.75f;
                 levelText.text = "매우어려움";
                 break;
         }
@@ -198,6 +229,13 @@ public class InGameManager : MonoBehaviour
         yield return new WaitForSeconds(time);
 
         fadeAc.gameObject.SetActive(false);
+
+        // 게임 설명 띄우기
+        if (!Variables.isFirstGame)
+        {
+            DescriptionButton();
+            Variables.isFirstGame = true;
+        }
     }
 
     void Update()
@@ -211,6 +249,8 @@ public class InGameManager : MonoBehaviour
         DevilTimer();
         // Camera Move
         CameraMove();
+        // Red Upgrade;
+        RedUpgrade();
         // Cost
         BlueCostUp();
         RedCostUp();
@@ -256,7 +296,7 @@ public class InGameManager : MonoBehaviour
     void CameraMove()
     {
         // 화면 밖으로 이동하려고 하면 Move 중지
-        if ((camSpeed == -3f && camTrans.position.x > -5) || (camSpeed == 3f && camTrans.position.x < 5))
+        if ((camSpeed == -4f && camTrans.position.x > -6) || (camSpeed == 4f && camTrans.position.x < 6))
             isMove = true;
         else
             isMove = false;
@@ -267,6 +307,14 @@ public class InGameManager : MonoBehaviour
             Vector3 nextMove = Vector3.right * camSpeed * Time.deltaTime;
             camTrans.Translate(nextMove);
         }
+    }
+    void RedUpgrade()
+    {
+        // 업그레이드
+        if (gameTimer > redUpgradeTime &&  baseRLevel == 0)
+            UpgradeRed();
+        else if (gameTimer > redUpgradeTime * 2.5f && baseRLevel == 1)
+            UpgradeRed();
     }
     void BlueCostUp()
     {
@@ -296,9 +344,9 @@ public class InGameManager : MonoBehaviour
     {
         // 키보드를 통한 이동
         if (Input.GetKey(KeyCode.RightArrow))
-            camSpeed = 3f;
+            camSpeed = 4f;
         if (Input.GetKey(KeyCode.LeftArrow))
-            camSpeed = -3f;
+            camSpeed = -4f;
         if (Input.GetKey(KeyCode.RightArrow) && Input.GetKey(KeyCode.LeftArrow))
             camSpeed = 0;
         if (Input.GetKeyUp(KeyCode.RightArrow) || Input.GetKeyUp(KeyCode.LeftArrow))
@@ -373,21 +421,32 @@ public class InGameManager : MonoBehaviour
     {
         // Set Speed By Button
         if (type == "RightDown" || type == "LeftUp") // 오른쪽 버튼을 누르거나 왼쪽버튼을 떼면 2 더하기
-            camSpeed += 3f;
+            camSpeed += 4f;
         else if (type == "RightUp" || type == "LeftDown")
-            camSpeed -= 3f;
+            camSpeed -= 4f;
     }
+    // 업그레이드
     public void UpgradeBlueButton()
     {
         // 코스트 사용
-        if (blueCost < blueMaxCost || baseBLevel == 2)
+        if (blueCost < blueMaxCost)
             return;
+        if (baseBLevel == 2)
+        {
+            blueUpgradeCostText.text = "-";
+            upgradeText.text = "Max";
+            return;
+        }
+
+
         blueCost -= blueMaxCost;
 
         // 이펙트
-
+        blueUpgradeyEffect[baseBLevel].SetActive(true);
         // Level Up
         baseBLevel++;
+        // 스프라이트 변경 (초가집, 돌집, 빌딩)
+        baseBSpriteRen.sprite = baseBSprite[baseBLevel];
 
         // Max 코스트 증가
         blueMaxCost += 5;
@@ -395,34 +454,23 @@ public class InGameManager : MonoBehaviour
         blueUpgradeCostText.text = blueMaxCost.ToString();
         //코스트 증가 속도 상승
         costBlueUp -= 0.25f;
-
-        // 인구제한 상승
-
-        // 베이스 공격력/공격속도 상승 (아처, 아처, 위자드)
+        // 베이스 강화
         baseB.unitAtk += 5;
-        baseB.unitAtkSpeed -= 0.25f;
-
-        // 스프라이트 변경 (초가집, 돌집, 빌딩)
-        baseBSpriteRen.sprite = baseBSprite[baseBLevel];
+        baseB.unitAtkSpeed -= 0.2f;
     }
     void UpgradeRed()
     {
-        if (redCost < redMaxCost)
-            return;
-        redCost -= redMaxCost;
-
+        redUpgradeyEffect[baseRLevel].SetActive(true);
         baseRLevel++;
         redMaxCost += 5;
         costRedUp -= 0.25f;
-
-        // 인구제한 상승
+        baseRSpriteRen.sprite = baseRSprite[baseRLevel];
 
         baseB.unitAtk += 5;
         baseB.unitAtkSpeed -= 0.2f;
 
-        baseRSpriteRen.sprite = baseRSprite[1];
     }
-
+    // 유닛 소환
     public void MakeBlueUnit(int idx)
     {
         GameObject unitB = Variables.teamBluePrefabs[idx];
@@ -471,14 +519,12 @@ public class InGameManager : MonoBehaviour
         int rand = Random.Range(0, 100);
 
         // 패턴 인덱스 결정
-        if (rand < 30)
+        if (rand < 40)
             patternIdx = 0;
-        else if (rand < 60)
+        else if (rand < 70)
             patternIdx = 1;
-        else if (rand < 80)
-            patternIdx = 2;
         else
-            patternIdx = 3;
+            patternIdx = 2;
     }
     void GetUnitObject(int teamNum, int idx, Vector3 pos)
     {
@@ -500,6 +546,7 @@ public class InGameManager : MonoBehaviour
                 break;
         }
     }
+    // 옵션 버튼
     public void OptionButton()
     {
         optionPanel.SetActive(true);
@@ -510,6 +557,126 @@ public class InGameManager : MonoBehaviour
         optionPanel.SetActive(false);
         Time.timeScale = 1;
     }
+    // 설명 버튼
+    public void DescriptionButton()
+    {
+        if (!descriptionPanel.activeSelf)
+        {
+            // 멈춤
+            Time.timeScale = 0;
+            // 패널 켜기
+            descriptionPanel.SetActive(true);
+            Description("None");
+            // 다른 버튼 작동중지
+            optionButton.interactable = false;
+        }
+        else if (descriptionPanel.activeSelf)
+        {
+            // 이미 켜져있는 경우 다시 끄기
+            Time.timeScale = 1;
+            descriptionPage = 0;
+            descriptionPanel.SetActive(false);
+            optionButton.interactable = true;
+            for (int i = 0; i < 6; i++)
+            {
+                // 사각형 다 끄기
+                descriptionRect[i].SetActive(false);
+            }
+        }
+    }
+    public void PrevDescriptionButton()
+    {
+        descriptionPage--;
+
+        if (descriptionPage == 0)
+            desPrevButton.SetActive(false);
+        else
+            desNextButton.SetActive(true);
+
+        Description("Prev");
+    }
+    public void NextDescriptionButton()
+    {
+        descriptionPage++;
+
+        // 다봤으면 나가기
+        if (descriptionPage > 8)
+        {
+            DescriptionButton();
+            return;
+        }
+
+        desPrevButton.SetActive(true);
+
+        Description("Next");
+    }
+    void Description(string btnType)
+    {
+        // 사각형 키고 끄기
+        if (descriptionPage == 0 || descriptionPage == 1)
+        {
+            // 첫 페이지와 두번째에는 사각형이 안나와야함
+            descriptionRect[0].SetActive(false);
+        }
+        else if (descriptionPage > 1)
+        {
+            // 사각형 키기 (마지막 페이지에는 사각형이 없으므로 못킴)
+            if (descriptionPage < 8)
+                descriptionRect[descriptionPage - 2].SetActive(true);
+
+            // 다음 버튼을 눌렀을 경우
+            if (btnType == "Next")
+            {
+                // 이전 사각형 끄기
+                if (descriptionPage > 2)
+                    descriptionRect[descriptionPage - 3].SetActive(false);
+            }
+            // 이전버튼을 눌렀을 경우
+            else if (btnType == "Prev")
+            {
+                // 다음 사각형 끄기
+                if (descriptionPage < 7)
+                    descriptionRect[descriptionPage - 1].SetActive(false);
+            }
+        }
+
+        // 설명란
+        switch (descriptionPage)
+        {
+            case 0:
+                descriptionText.text = "침하잎하~ 산하대격돌에 오신것을 환영합니다!\n\n그럼 바로 게임설명을 해드리도록 하겠습니다!\n\n(현재 게임은 정지된 상태입니다.)";
+                break;
+            case 1:
+                descriptionText.text = "가장 먼저 화면 이동입니다.\n\n키보드의 화살표키를 통해 좌우로 화면을 이동하실 수 있습니다.";
+                break;
+            case 2:
+                descriptionText.text = "두번째는 멤버 소환입니다.\n\n이곳에는 해당 멤버을 뽑기 위한 코인, 멤버의 타입이 적혀있습니다.\n\n" +
+                    "멤버를 소환하기 위해서는 해당하는 키보드를 눌러서 소환하실 수 있습니다.\n\n같은 유닛을 중복하여 소환하실 수도 있습니다!";
+                break;
+            case 3:
+                descriptionText.text = "이 곳은 멤버 상세정보 란입니다.\n\n현재 소환된 멤버를 직접 클릭하면 해당멤버의 실시간 정보를 확인하실 수 있습니다!";
+                break;
+            case 4:
+                descriptionText.text = "다음으로 현재 코인입니다.\n\n코인이 부족하면 멤버를 소환하실 수 없으며, 코인은 자동으로 1씩 증가합니다.\n\n" +
+                    "또한 최대보유량이 있기 때문에 최대보유량을 넘어서 코인을 보유하실 수 없습니다.";
+                break;
+            case 5:
+                descriptionText.text = "Base 업그레이드입니다.\n\nBase는 스스로 일정 범위 내에서 적을 인식해 공격합니다.\n\n" +
+                    "아래 Upgrade를 통해 코인을 소모하여 Base의 공격력, 공격속도를 증가시킬 수 있으며, 최대 2번까지 가능합니다.";
+                break;
+            case 6:
+                descriptionText.text = "이곳에서는 양 팀의 로고와 현재 Base의 체력을 확인하실 수 있습니다.\n\n" +
+                    "양 팀 모두 1000으로 시작하며 가장 먼저 체력이 0이 되는 팀이 패배합니다.\n\n그 아래에는 현재 게임 플레이 시간이 나옵니다.";
+                break;
+            case 7:
+                descriptionText.text = "마지막으로 일시정지 버튼을 눌러 소리를 조절하거나 게임을 종료하실 수 있으며\n\n물음표 버튼을 누르면 게임설명을 다시 확인하실 수 있습니다.";
+                break;
+            case 8:
+                descriptionText.text = "그럼 재밌게 즐겨주세요!\n\n감사합니다!";
+                break;
+        }
+    }
+    // 씬 이동 버튼
     public void NextButton()
     {
         // 레벨 증가
@@ -660,9 +827,24 @@ public class InGameManager : MonoBehaviour
             victoryObj.SetActive(true);
 
             // Button
-            if (Variables.isStage)
-                nextBtn.SetActive(true);
-            else
+            if (Variables.isStage)  // Stage 모드
+            {
+                if (Variables.gameLevel < 4)
+                    nextBtn.SetActive(true);
+                else
+                {
+                    // 클리어
+                    Variables.isStageClear[Variables.teamBlueNum] = true;
+                    // 저장
+                    //PlayerPrefs.SetInt("Clear" + Variables.teamBlueNum, 1);
+
+                    // 업적획득 창
+
+
+                    resetBtn.SetActive(true);
+                }
+            }
+            else                   // Normal 모드
                 resetBtn.SetActive(true);
         }
         // 졌을 경우
@@ -680,9 +862,6 @@ public class InGameManager : MonoBehaviour
         camSpeed = 0;
         controlSet.SetActive(false);
         overSet.SetActive(true);
-
-        // BGM Stop
-        SoundManager.instance.BgmStop();
     }
 
     // ======================================================= COM 함수
@@ -692,7 +871,7 @@ public class InGameManager : MonoBehaviour
     {
         yield return new WaitForSeconds(time);
 
-        // random 결정용 변수
+        // 유닛 결정용 변수
         int rand = Random.Range(0, 2);
         switch (typeNum)
         {
@@ -704,48 +883,32 @@ public class InGameManager : MonoBehaviour
             // 6코스트 이상일 때, rand값이 0이면 0번패턴, 1이면 2번유닛과 3번유닛을 랜덤하게 소환
             case 1:
                 if (redCost >= 6)
-                {
-                    int idx = Random.Range(2, 4);
-                    if (rand == 0)
-                        StartCoroutine(Pattern(0, 0));
-                    else if (rand == 1)
-                        MakeRedUnit(idx + Variables.startRedIdx + Variables.groupRedNum);
-                }
+                    MakeRedUnit(rand + 2 + Variables.startRedIdx + Variables.groupRedNum);
                 break;
-            // 9코스트 이상일 때, rand값이 0이면 1번패턴, 1이면 4번유닛을 소환
+            // 9코스트 이상일 때, rand값이 0이면 1번패턴, 1이면 4번유닛 (+5번유닛)을 소환
             case 2:
                 if (redCost >= 9)
                 {
-                    if (rand == 0)
-                        StartCoroutine(Pattern(0, 1));
-                    else if (rand == 1)
-                    {
-                        // 팀이 6명일 경우
-                        if (Variables.groupRedNum == 6)
-                        {
-                            int idx = Random.Range(4, 6);
-                            MakeRedUnit(idx + Variables.startRedIdx + Variables.groupRedNum);
-                        }
-                        // 팀이 5명일 경우
-                        else
-                        {
-                            MakeRedUnit(4 + Variables.startRedIdx + Variables.groupRedNum);
-                        }
-                    }
+                    // 팀이 6명일 경우
+                    if (Variables.groupRedNum == 6)
+                        MakeRedUnit(rand + 4 + Variables.startRedIdx + Variables.groupRedNum);
+                    // 팀이 5명일 경우
+                    else
+                        MakeRedUnit(4 + Variables.startRedIdx + Variables.groupRedNum);
                 }
                 break;
-            case 3:
-                if (redCost >= 10)
-                {
-                    if (rand == 0)
-                        StartCoroutine(Pattern(0, 2));
-                    else if (rand == 1)
-                    {
-                        // Upgrade
-                        UpgradeRed();
-                    }
-                }
-                break;
+            //case 3:
+            //    if (redCost >= 10)
+            //    {
+            //        if (rand == 0)
+            //            StartCoroutine(Pattern(0, 2));
+            //        else if (rand == 1)
+            //        {
+            //            // Upgrade
+            //            UpgradeRed();
+            //        }
+            //    }
+            //    break;
         }
     }
 }

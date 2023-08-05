@@ -95,8 +95,8 @@ public class Unit : MonoBehaviour
     void OnMouseDown()
     {
         // Base 타입인 경우
-        if (unitType == UnitType.Base)
-            return;
+        //if (unitType == UnitType.Base)
+        //    return;
 
         // 유닛 정보 넘기기
         InGameManager.instance.isUnitClick = true;
@@ -804,7 +804,8 @@ public class Unit : MonoBehaviour
             }
 
             // Attack
-            anim.SetTrigger("doAttack");
+            if (unitType != UnitType.Base)
+                anim.SetTrigger("doAttack");
             attackTimer = 0;
         }
 

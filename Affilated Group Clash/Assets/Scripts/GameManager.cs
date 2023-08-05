@@ -7,7 +7,9 @@ using Image = UnityEngine.UI.Image;
 
 public static class Variables
 {
+    public static bool[] isStageClear = { false, false, false, false, false, false };
     public static bool[] isSelectTeam = { false, false, false, false, false, false };
+    public static bool isFirstGame = false;
     public static bool isStage = true;
     public static int gameLevel = 0;
     public static int teamBlueNum = 0;
@@ -43,6 +45,7 @@ public class GameManager : MonoBehaviour
     public GameObject normalLevelPanel;
     public GameObject stageSelectPanel;
     public Sprite[] teamLogoSprite;
+    public GameObject[] clearObj;
 
     [Header("---------------[Normal]")]
     public bool isBlueTeam;
@@ -97,6 +100,16 @@ public class GameManager : MonoBehaviour
 
         // BGM
         SoundManager.instance.BgmPlay("Menu");
+
+        // 업적
+        for (int i = 0; i < 6; i++)
+        {
+            // 불러오기
+            //Variables.isStageClear[i] = PlayerPrefs.GetInt("Clear" + i) == 1 ? true : false;
+
+            if (Variables.isStageClear[i])
+                clearObj[i].SetActive(true);
+        }
     }
     IEnumerator DisableFade(float time)
     {
