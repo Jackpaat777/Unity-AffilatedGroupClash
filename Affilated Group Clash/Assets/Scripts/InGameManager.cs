@@ -13,13 +13,15 @@ public class InGameManager : MonoBehaviour
 
     [Header("---------------[InGame]")]
     public bool isGameLive;
-    public int maxCost;
+    public int blueMaxCost;
+    public int redMaxCost;
     public int blueCost;
     public int redCost;
     public int patternIdx;
     public float gameTimer;
     public float costBTimer;
     public float costRTimer;
+    public float costBlueUp;
     public float costRedUp;
     public float spawnTimer;
     public TextMeshProUGUI timeText;
@@ -28,8 +30,12 @@ public class InGameManager : MonoBehaviour
     public List<GameObject> redUnitList;
 
     [Header("---------------[Base]")]
+    public int baseBLevel;
+    public int baseRLevel;
     public int blueHP;
     public int redHP;
+    public Unit baseB;
+    public Unit baseR;
     public Sprite[] baseBSprite;
     public Sprite[] baseRSprite;
     public SpriteRenderer baseBSpriteRen;
@@ -40,6 +46,7 @@ public class InGameManager : MonoBehaviour
     public TextMeshProUGUI redHpText;
     public TextMeshProUGUI blueHpShadowText;
     public TextMeshProUGUI redHpShadowText;
+    public TextMeshProUGUI blueUpgradeCostText;
     public GameObject blueDestroyEffect;
     public GameObject redDestroyEffect;
 
@@ -132,23 +139,23 @@ public class InGameManager : MonoBehaviour
         switch (Variables.gameLevel)
         {
             case 0:
-                costRedUp = 2.25f;
+                costRedUp = 3f;
                 levelText.text = "매우쉬움";
                 break;
             case 1:
-                costRedUp = 2f;
+                costRedUp = 2.75f;
                 levelText.text = "쉬움";
                 break;
             case 2:
-                costRedUp = 1.75f;
+                costRedUp = 2.5f;
                 levelText.text = "보통";
                 break;
             case 3:
-                costRedUp = 1.5f;
+                costRedUp = 2.25f;
                 levelText.text = "어려움";
                 break;
             case 4:
-                costRedUp = 1.25f;
+                costRedUp = 2f;
                 levelText.text = "매우어려움";
                 break;
         }
@@ -213,7 +220,7 @@ public class InGameManager : MonoBehaviour
         UnitInfo();
 
         // Loop Pattern
-        //StartCoroutine(Pattern(1f, patternIdx));
+        StartCoroutine(Pattern(1f, patternIdx));
     }
     // ======================================================= Update 함수
     void GameTimer()
@@ -263,13 +270,13 @@ public class InGameManager : MonoBehaviour
     }
     void BlueCostUp()
     {
-        costText.text = blueCost.ToString();
+        costText.text = $"{blueCost}/{blueMaxCost}";
 
         costBTimer += Time.deltaTime;
-        if (costBTimer > 2f)
+        if (costBTimer > costBlueUp)
         {
             blueCost += 1;
-            blueCost = blueCost > maxCost ? maxCost : blueCost;
+            blueCost = blueCost > blueMaxCost ? blueMaxCost : blueCost;
 
             costBTimer = 0;
         }
@@ -280,7 +287,7 @@ public class InGameManager : MonoBehaviour
         if (costRTimer > costRedUp)
         {
             redCost += 1;
-            redCost = redCost > maxCost ? maxCost : redCost;
+            redCost = redCost > redMaxCost ? redMaxCost : redCost;
 
             costRTimer = 0;
         }
@@ -313,18 +320,22 @@ public class InGameManager : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.D) && Variables.groupBlueNum == 6)
             MakeBlueUnit(5 + Variables.startBlueIdx);
         // red
-        if (Input.GetKeyDown(KeyCode.Z))
+        if (Input.GetKeyDown(KeyCode.I))
             MakeRedUnit(0 + Variables.startRedIdx + Variables.groupRedNum);
-        if (Input.GetKeyDown(KeyCode.X))
+        if (Input.GetKeyDown(KeyCode.O))
             MakeRedUnit(1 + Variables.startRedIdx + Variables.groupRedNum);
-        if (Input.GetKeyDown(KeyCode.C))
+        if (Input.GetKeyDown(KeyCode.P))
             MakeRedUnit(2 + Variables.startRedIdx + Variables.groupRedNum);
-        if (Input.GetKeyDown(KeyCode.V))
+        if (Input.GetKeyDown(KeyCode.J))
             MakeRedUnit(3 + Variables.startRedIdx + Variables.groupRedNum);
-        if (Input.GetKeyDown(KeyCode.B))
+        if (Input.GetKeyDown(KeyCode.K))
             MakeRedUnit(4 + Variables.startRedIdx + Variables.groupRedNum);
-        if (Input.GetKeyDown(KeyCode.N) && Variables.groupRedNum == 6)
+        if (Input.GetKeyDown(KeyCode.L) && Variables.groupRedNum == 6)
             MakeRedUnit(5 + Variables.startRedIdx + Variables.groupRedNum);
+
+        // 키보드로 업그레이드
+        if (Input.GetKeyDown(KeyCode.B))
+            UpgradeBlueButton();
     }
     void UnitInfo()
     {
@@ -366,6 +377,52 @@ public class InGameManager : MonoBehaviour
         else if (type == "RightUp" || type == "LeftDown")
             camSpeed -= 3f;
     }
+    public void UpgradeBlueButton()
+    {
+        // 코스트 사용
+        if (blueCost < blueMaxCost || baseBLevel == 2)
+            return;
+        blueCost -= blueMaxCost;
+
+        // 이펙트
+
+        // Level Up
+        baseBLevel++;
+
+        // Max 코스트 증가
+        blueMaxCost += 5;
+        // cost 텍스트 변경
+        blueUpgradeCostText.text = blueMaxCost.ToString();
+        //코스트 증가 속도 상승
+        costBlueUp -= 0.25f;
+
+        // 인구제한 상승
+
+        // 베이스 공격력/공격속도 상승 (아처, 아처, 위자드)
+        baseB.unitAtk += 5;
+        baseB.unitAtkSpeed -= 0.25f;
+
+        // 스프라이트 변경 (초가집, 돌집, 빌딩)
+        baseBSpriteRen.sprite = baseBSprite[baseBLevel];
+    }
+    void UpgradeRed()
+    {
+        if (redCost < redMaxCost)
+            return;
+        redCost -= redMaxCost;
+
+        baseRLevel++;
+        redMaxCost += 5;
+        costRedUp -= 0.25f;
+
+        // 인구제한 상승
+
+        baseB.unitAtk += 5;
+        baseB.unitAtkSpeed -= 0.2f;
+
+        baseRSpriteRen.sprite = baseRSprite[1];
+    }
+
     public void MakeBlueUnit(int idx)
     {
         GameObject unitB = Variables.teamBluePrefabs[idx];
@@ -407,7 +464,21 @@ public class InGameManager : MonoBehaviour
         redUnitList.Add(unitR);
 
         // 생성 후에 패턴인덱스 변경
-        patternIdx = Random.Range(0, 3);
+        PatternRatio();
+    }
+    void PatternRatio()
+    {
+        int rand = Random.Range(0, 100);
+
+        // 패턴 인덱스 결정
+        if (rand < 30)
+            patternIdx = 0;
+        else if (rand < 60)
+            patternIdx = 1;
+        else if (rand < 80)
+            patternIdx = 2;
+        else
+            patternIdx = 3;
     }
     void GetUnitObject(int teamNum, int idx, Vector3 pos)
     {
@@ -457,7 +528,7 @@ public class InGameManager : MonoBehaviour
         // Fade Out
         fadeAc.gameObject.SetActive(true);
         fadeAc.SetTrigger("fadeOut");
-        StartCoroutine(LoadScene(0.5f, "InGame"));
+        StartCoroutine(LoadScene(1f, "InGame"));
     }
     public void ResetButton()
     {
@@ -465,7 +536,7 @@ public class InGameManager : MonoBehaviour
         // Fade Out
         fadeAc.gameObject.SetActive(true);
         fadeAc.SetTrigger("fadeOut");
-        StartCoroutine(LoadScene(0.5f, "Game"));
+        StartCoroutine(LoadScene(1f, "Game"));
     }
     void StageRedTeamSetting(int teamNum)
     {
@@ -540,8 +611,8 @@ public class InGameManager : MonoBehaviour
             // Alive
             else
             {
-                baseBSpriteRen.sprite = baseBSprite[1];
-                StartCoroutine(SpriteChange(0.1f, baseBSpriteRen, baseBSprite[0], blueHP > 0));
+                baseBSpriteRen.color = new Color(1, 0.5f, 0.5f);
+                StartCoroutine(SpriteWhite(0.1f, baseBSpriteRen, blueHP > 0));
             }
 
             // Text
@@ -563,8 +634,8 @@ public class InGameManager : MonoBehaviour
             }
             else
             {
-                baseRSpriteRen.sprite = baseRSprite[1];
-                StartCoroutine(SpriteChange(0.1f, baseRSpriteRen, baseRSprite[0], redHP > 0));
+                baseRSpriteRen.color = new Color(1, 0.5f, 0.5f);
+                StartCoroutine(SpriteWhite(0.1f, baseRSpriteRen, redHP > 0));
             }
 
             baseRSlider.value = redHP;
@@ -572,13 +643,13 @@ public class InGameManager : MonoBehaviour
             redHpShadowText.text = redHP.ToString();
         }
     }
-    IEnumerator SpriteChange(float time, SpriteRenderer spriteRen, Sprite sprite, bool isLive)
+    IEnumerator SpriteWhite(float time, SpriteRenderer spriteRen, bool isLive)
     {
         yield return new WaitForSeconds(time);
 
-        // 0.1초 사이에 게임이 끝나버리면 Sprite Change를 실행하면 안됨
+        // 0.1초 사이에 게임이 끝나버리면 함수를 실행하면 안됨
         if (isLive)
-            spriteRen.sprite = sprite;
+            spriteRen.color = Color.white;
     }
     void GameOver(string result)
     {
@@ -660,6 +731,18 @@ public class InGameManager : MonoBehaviour
                         {
                             MakeRedUnit(4 + Variables.startRedIdx + Variables.groupRedNum);
                         }
+                    }
+                }
+                break;
+            case 3:
+                if (redCost >= 10)
+                {
+                    if (rand == 0)
+                        StartCoroutine(Pattern(0, 2));
+                    else if (rand == 1)
+                    {
+                        // Upgrade
+                        UpgradeRed();
                     }
                 }
                 break;

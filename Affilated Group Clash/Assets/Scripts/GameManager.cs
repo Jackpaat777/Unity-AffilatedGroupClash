@@ -549,7 +549,7 @@ public class GameManager : MonoBehaviour
             fadeAc.gameObject.SetActive(true);
             fadeAc.SetTrigger("fadeOut");
             // 게임 시작
-            StartCoroutine(StartGame(0.5f));
+            StartCoroutine(StartGame(1f));
             
         }
     }
@@ -620,7 +620,7 @@ public class GameManager : MonoBehaviour
             fadeAc.gameObject.SetActive(true);
             fadeAc.SetTrigger("fadeOut");
             // 게임 시작
-            StartCoroutine(StartGame(0.5f));
+            StartCoroutine(StartGame(1f));
         }
     }
     IEnumerator StartGame(float time)
@@ -731,7 +731,7 @@ public class GameManager : MonoBehaviour
                         image = unitPictureSprites[4];
                         break;
                 }
-                scaleNum = 0.18f;
+                scaleNum = 0.13f;
                 break;
             case "지하B":
                 switch (idx)
@@ -752,7 +752,7 @@ public class GameManager : MonoBehaviour
                         image = unitPictureSprites[9];
                         break;
                 }
-                scaleNum = 0.18f;
+                scaleNum = 0.13f;
                 break;
             case "주폭":
                 switch (idx)
@@ -776,7 +776,7 @@ public class GameManager : MonoBehaviour
                         image = unitPictureSprites[15];
                         break;
                 }
-                scaleNum = 0.5f;
+                scaleNum = 0.4f;
                 break;
             case "박취A":
                 switch (idx)
@@ -800,7 +800,7 @@ public class GameManager : MonoBehaviour
                         image = unitPictureSprites[21];
                         break;
                 }
-                scaleNum = 0.25f;
+                scaleNum = 0.2f;
                 break;
             case "박취B":
                 switch (idx)
@@ -821,7 +821,7 @@ public class GameManager : MonoBehaviour
                         image = unitPictureSprites[26];
                         break;
                 }
-                scaleNum = 0.25f;
+                scaleNum = 0.2f;
                 break;
             case "V급":
                 switch (idx)
@@ -842,7 +842,7 @@ public class GameManager : MonoBehaviour
                         image = unitPictureSprites[31];
                         break;
                 }
-                scaleNum = 0.5f;
+                scaleNum = 0.4f;
                 break;
         }
         return image;

@@ -512,10 +512,6 @@ public class Unit : MonoBehaviour
         if (!InGameManager.instance.isGameLive)
             return;
 
-        // Base 타입인 경우
-        if (unitType == UnitType.Base)
-            return;
-
         // RayCast를 사용하기 때문에(RigidBody) FixedUpdate에서 호출 
         ScanEnemy();
     }
@@ -557,8 +553,8 @@ public class Unit : MonoBehaviour
             else if (unitType == UnitType.Warrior || unitType == UnitType.Tanker || unitDetail == UnitDetail.Cat)
                 DirectAttack(enemyLogic);
 
-            // 원거리 유닛의 경우
-            else if (unitType == UnitType.Ranger)
+            // 원거리 유닛의 경우 + Base의 경우
+            else if (unitType == UnitType.Ranger || unitType == UnitType.Base)
                 ShotAttack();
 
             // 버퍼의 경우
@@ -762,7 +758,8 @@ public class Unit : MonoBehaviour
         BulletSetting(bullet, unitDetail, gameObject.layer, unitAtk + plusAtk);
 
         // Attack
-        anim.SetTrigger("doAttack");
+        if (unitType != UnitType.Base)
+            anim.SetTrigger("doAttack");
         attackTimer = 0;
     }
     void WideAttack(Transform targetTrans)
