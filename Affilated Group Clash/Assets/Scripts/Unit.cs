@@ -56,6 +56,7 @@ public class Unit : MonoBehaviour
     public UnitState unitState; // 유닛의 상태마다 다른 로직을 실행하도록
     float attackTimer;          // 공속용 타이머
     float stopTimer;            // Move용 타이머
+    public bool isHeal;            // 개인 힐 타이머
     bool isFront;               // Stop에서 Move로 가기 위한 변수
     bool isHit;
 
@@ -95,8 +96,8 @@ public class Unit : MonoBehaviour
     void OnMouseDown()
     {
         // Base 타입인 경우
-        //if (unitType == UnitType.Base)
-        //    return;
+        if (unitType == UnitType.Base)
+            return;
 
         // 유닛 정보 넘기기
         InGameManager.instance.isUnitClick = true;
@@ -153,6 +154,7 @@ public class Unit : MonoBehaviour
         unitState = UnitState.Idle;
         isFront = false;
         isHit = false;
+        isHeal = false;
         DoMove();
 
         // 체력 초기화
@@ -320,8 +322,8 @@ public class Unit : MonoBehaviour
             // 이펙트
             int idx = (int)UnitDetail.Devil - (int)UnitDetail.Bomb + ((int)UnitDetail.Bass + 1) * 2;
             ObjectManager.instance.GetBullet(idx, transform.position + vec);
-            // Hit >> 데미지 (10f)
-            DoHit(10);
+            // Hit >> 데미지 (5f)
+            DoHit(5);
         }
     }
     void BuffUnit()
@@ -661,10 +663,10 @@ public class Unit : MonoBehaviour
             // 적의 HP가 내 공격력이하만큼 있으면 (죽을 경우 -> 상대방이 힐 유닛이면? 힐되기 전에 죽었을 듯)
             if (enemyLogic.unitHp <= unitAtk)
             {
-                unitAtk += 5;
-                unitAtkSpeed -= 0.1f;
+                unitAtk += 1;
+                unitAtkSpeed -= 0.05f;
                 unitAtkSpeed = unitAtkSpeed < 0.3f ? 0.3f : unitAtkSpeed;
-                unitMaxHp += 10;
+                unitMaxHp += 5;
             }
         }
         // Air는 공격 시 상대 공속 절반
@@ -824,10 +826,10 @@ public class Unit : MonoBehaviour
     // ======================================================= 버프 함수
     public void DoBuff(Unit allyLogic)
     {
-        // 공격속도에 따라서 실행
-        attackTimer += Time.deltaTime;
-        if (attackTimer < unitAtkSpeed)
-            return;
+        // 공격속도에 따라서 어택
+        //attackTimer += Time.deltaTime;
+        //if (attackTimer < unitAtkSpeed)
+        //    return;
 
         // Bullet
         int idx = ((int)unitDetail - (int)UnitDetail.Bomb) + ((int)UnitDetail.Bass + 1) * 2;
@@ -856,7 +858,7 @@ public class Unit : MonoBehaviour
 
         // 버프 발동
         anim.SetTrigger("doAttack");
-        attackTimer = 0;
+        //attackTimer = 0;
 
         if (isHit)
         {

@@ -141,7 +141,7 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: PlayBlack
+      name: QuestionBlack
       rect:
         serializedVersion: 2
         x: 0
@@ -155,14 +155,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 15bd849dc6d59364e9589c55bfc3b182
-      internalID: -376312388
+      spriteID: fda9386ffb58f814f98d12908e1eedfc
+      internalID: 2128781551
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: PlayBlack Down
+      name: QuestionBlack Down
       rect:
         serializedVersion: 2
         x: 15
@@ -176,8 +176,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: a22b8f2d8d5f12a41a2d6dba42b98ee1
-      internalID: 227067731
+      spriteID: f70bc34cfae7a90479f9a10f0a09590e
+      internalID: 1478840031
       vertices: []
       indices: 
       edges: []
@@ -197,8 +197,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 475c24981ee79f246b1f76b31e2cfacd
-      internalID: -1851501974
+      spriteID: 21e4aaa780810e04887b473c58b3b508
+      internalID: -1089589041
       vertices: []
       indices: 
       edges: []
@@ -218,8 +218,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 804b0924ed2754145acf4e1d3907e836
-      internalID: -254105396
+      spriteID: aea42117dbe7ca14cb564a57472c9059
+      internalID: 693151959
       vertices: []
       indices: 
       edges: []
@@ -239,8 +239,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 12b79ce97be3f7d42bae202650a4f426
-      internalID: -556204315
+      spriteID: 8c894cfa86792344d96c9e9f8a2dd1a7
+      internalID: -48357871
       vertices: []
       indices: 
       edges: []
@@ -260,8 +260,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 4fcb7bd9066b30940957d8313c982e37
-      internalID: -1865634665
+      spriteID: 4944e5e11f3081343b052bb88ddc9d3a
+      internalID: -1161094654
       vertices: []
       indices: 
       edges: []
@@ -281,8 +281,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: a240d627fe0c35343b85511ffb933b55
-      internalID: -1407586259
+      spriteID: 3185574a997ab9b4dbaffae3bc423a29
+      internalID: 1352577764
       vertices: []
       indices: 
       edges: []
@@ -302,8 +302,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 1e7930cc0875a5b408c4ecb13f2c0296
-      internalID: 867665798
+      spriteID: 65961adacc9fef7478a45f9f2908c006
+      internalID: 1531180571
       vertices: []
       indices: 
       edges: []
@@ -319,14 +319,14 @@ TextureImporter:
     weights: []
     secondaryTextures: []
     nameFileIdTable:
-      PlayBlack: -376312388
-      LeftBlack Down: -1865634665
-      PlayBlack Down: 227067731
-      RightBlack Down: 867665798
-      LeftBlack: -556204315
-      StopBlack: -1851501974
-      StopBlack Down: -254105396
-      RightBlack: -1407586259
+      QuestionBlack: 2128781551
+      QuestionBlack Down: 1478840031
+      LeftBlack Down: -1161094654
+      RightBlack Down: 1531180571
+      LeftBlack: -48357871
+      StopBlack: -1089589041
+      StopBlack Down: 693151959
+      RightBlack: 1352577764
   spritePackingTag: 
   pSDRemoveMatte: 0
   pSDShowRemoveMatteOption: 0

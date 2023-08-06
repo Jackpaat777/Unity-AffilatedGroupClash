@@ -1,4 +1,6 @@
+using System.Collections;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class Sensor : MonoBehaviour
 {
@@ -37,9 +39,23 @@ public class Sensor : MonoBehaviour
                 // 아군의 체력이 닳았을 경우
                 if (unitLogic.unitHp < unitLogic.unitMaxHp)
                 {
+                    // 이미 힐중이면 return
+                    if (parent.isHeal)
+                        return;
+
                     parent.DoBuff(unitLogic);
+                    parent.isHeal = true;
+                    // 공격속도만큼 지난 뒤에 힐 가능
+                    StartCoroutine(OnHeal(parent.unitAtkSpeed));
                 }
             }
         }
     }
+    IEnumerator OnHeal(float time)
+    {
+        yield return new WaitForSeconds(time);
+
+        parent.isHeal = false;
+    }
+
 }

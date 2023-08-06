@@ -7,10 +7,10 @@ using Image = UnityEngine.UI.Image;
 
 public static class Variables
 {
-    public static bool[] isStageClear = { false, false, false, false, false, false };
-    public static bool[] isSelectTeam = { false, false, false, false, false, false };
     public static bool isFirstGame = false;
     public static bool isStage = true;
+    public static bool[] isStageClear = { false, false, false, false, false, false };
+    public static bool[] isSelectTeam = { false, false, false, false, false, false };
     public static int gameLevel = 0;
     public static int teamBlueNum = 0;
     public static int teamRedNum = 0;
@@ -44,6 +44,8 @@ public class GameManager : MonoBehaviour
     public GameObject normalSelectPanel;
     public GameObject normalLevelPanel;
     public GameObject stageSelectPanel;
+    public Button stageButton;
+    public Button normalButton;
     public Sprite[] teamLogoSprite;
     public GameObject[] clearObj;
 
@@ -138,10 +140,12 @@ public class GameManager : MonoBehaviour
             case "스테":
                 modeSetAc.SetTrigger("oldOut");
                 stageSetAc.SetTrigger("newIn");
+                normalButton.interactable = false;
                 break;
             case "일반":
                 modeSetAc.SetTrigger("oldOut");
                 normalSetAc.SetTrigger("newIn");
+                stageButton.interactable = false;
                 break;
             case "레벨":
                 TeamSelectButton();
@@ -383,6 +387,7 @@ public class GameManager : MonoBehaviour
         // 나가기
         if (nTeamSelectIdx == 0)
         {
+            stageButton.interactable = true;
             // Animation
             modeSetAc.SetTrigger("oldIn");
             normalSetAc.SetTrigger("newOut");
@@ -571,6 +576,7 @@ public class GameManager : MonoBehaviour
         // 나가기
         if (stageTeamSelectIdx == 0)
         {
+            normalButton.interactable = true;
             // Animation
             modeSetAc.SetTrigger("oldIn");
             stageSetAc.SetTrigger("newOut");
@@ -699,7 +705,6 @@ public class GameManager : MonoBehaviour
         infoPageIdx = idx;
         // groupPrefabsInBook은 미리 생성됨
         Unit infoUnit = groupPrefabsInBook[startIdxInBook + infoPageIdx].GetComponent<Unit>();
-        SpriteRenderer spriteRen = infoUnit.GetComponent<SpriteRenderer>();
 
         // Unit 정보 업데이트
         //infoImage.sprite = spriteRen.sprite;
