@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.Audio;
@@ -24,8 +22,8 @@ public class SoundManager : MonoBehaviour
         instance = this;
 
         // 저장된 값 불러오기
-        //Variables.bgmVolume = PlayerPrefs.GetFloat("Bgm");
-        //Variables.sfxVolume = PlayerPrefs.GetFloat("Sfx");
+        Variables.bgmVolume = PlayerPrefs.GetFloat("Bgm");
+        Variables.sfxVolume = PlayerPrefs.GetFloat("Sfx");
     }
 
     void Start()
@@ -95,41 +93,62 @@ public class SoundManager : MonoBehaviour
     {
         switch (type)
         {
-            case "Button":
+            case "Buy":
                 sfxPlayer.clip = sfxClip[0];
                 break;
-            case "Buy":
+            case "Sword": // 일반 전사
                 sfxPlayer.clip = sfxClip[1];
                 break;
-            case "Unlock":
+            case "Guard": // 일반 탱커
                 sfxPlayer.clip = sfxClip[2];
                 break;
-            case "Fail":
+            case "Archer": // 활
                 sfxPlayer.clip = sfxClip[3];
                 break;
-            case "Pause In":
+            case "Gun":
                 sfxPlayer.clip = sfxClip[4];
                 break;
-            case "Pause Out":
+            case "Crash": // 폭발
                 sfxPlayer.clip = sfxClip[5];
                 break;
-            case "Jump":
+            case "Magic":
                 sfxPlayer.clip = sfxClip[6];
                 break;
-            case "Land":
+            case "Heal":
                 sfxPlayer.clip = sfxClip[7];
                 break;
-            case "Skill":
+            case "Coin":
                 sfxPlayer.clip = sfxClip[8];
                 break;
-            case "Bullet":
+            case "Devil":
                 sfxPlayer.clip = sfxClip[9];
                 break;
-            case "Explosion":
+            case "Bomb":
                 sfxPlayer.clip = sfxClip[10];
                 break;
-            case "Over":
+            case "Berserker":
                 sfxPlayer.clip = sfxClip[11];
+                break;
+            case "Grow":
+                sfxPlayer.clip = sfxClip[12];
+                break;
+            case "Base":
+                sfxPlayer.clip = sfxClip[13];
+                break;
+            case "Upgrade":
+                sfxPlayer.clip = sfxClip[14];
+                break;
+            case "Destroy":
+                sfxPlayer.clip = sfxClip[15];
+                break;
+            case "Button1":
+                sfxPlayer.clip = sfxClip[16];
+                break;
+            case "Button2":
+                sfxPlayer.clip = sfxClip[17];
+                break;
+            case "Back":
+                sfxPlayer.clip = sfxClip[18];
                 break;
         }
 
@@ -139,7 +158,7 @@ public class SoundManager : MonoBehaviour
     void VolumeSave()
     {
         // 값 저장
-        //PlayerPrefs.SetFloat("Bgm", Variables.bgmVolume);
-        //PlayerPrefs.SetFloat("Sfx", Variables.sfxVolume);
+        PlayerPrefs.SetFloat("Bgm", Variables.bgmVolume);
+        PlayerPrefs.SetFloat("Sfx", Variables.sfxVolume);
     }
 }

@@ -582,7 +582,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 1931410111, guid: 5c1250561f092094caf6562aa4eab80b, type: 3}
+  m_Sprite: {fileID: -749941639, guid: 5c1250561f092094caf6562aa4eab80b, type: 3}
   m_Type: 1
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -1101,6 +1101,18 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+      - m_Target: {fileID: 431701717}
+        m_TargetAssemblyTypeName: SoundManager, Assembly-CSharp
+        m_MethodName: SfxPlay
+        m_Mode: 5
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: Back
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &80773673
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1235,6 +1247,18 @@ MonoBehaviour:
           m_StringArgument: "\uC2A4\uD14C"
           m_BoolArgument: 1
         m_CallState: 2
+      - m_Target: {fileID: 431701717}
+        m_TargetAssemblyTypeName: SoundManager, Assembly-CSharp
+        m_MethodName: SfxPlay
+        m_Mode: 5
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: Button1
+          m_BoolArgument: 1
+        m_CallState: 2
 --- !u!114 &97672022
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1346,6 +1370,18 @@ MonoBehaviour:
           m_IntArgument: 0
           m_FloatArgument: 0
           m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 431701717}
+        m_TargetAssemblyTypeName: SoundManager, Assembly-CSharp
+        m_MethodName: SfxPlay
+        m_Mode: 5
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: Button1
           m_BoolArgument: 0
         m_CallState: 2
 --- !u!114 &101494113
@@ -1786,6 +1822,18 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+      - m_Target: {fileID: 431701717}
+        m_TargetAssemblyTypeName: SoundManager, Assembly-CSharp
+        m_MethodName: SfxPlay
+        m_Mode: 5
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: Button1
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &115143679
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1893,7 +1941,7 @@ MonoBehaviour:
     m_FadeDuration: 0.1
   m_SpriteState:
     m_HighlightedSprite: {fileID: 0}
-    m_PressedSprite: {fileID: -1937284146, guid: ecf26a681d1abb946b0774db473903db, type: 3}
+    m_PressedSprite: {fileID: 969466380, guid: 022ba1afe4ef2cd44b3ce047de9ed1f1, type: 3}
     m_SelectedSprite: {fileID: 0}
     m_DisabledSprite: {fileID: 0}
   m_AnimationTriggers:
@@ -1919,6 +1967,18 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+      - m_Target: {fileID: 431701717}
+        m_TargetAssemblyTypeName: SoundManager, Assembly-CSharp
+        m_MethodName: SfxPlay
+        m_Mode: 5
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: Button1
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &121635305
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1939,7 +1999,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: -1339262977, guid: ecf26a681d1abb946b0774db473903db, type: 3}
+  m_Sprite: {fileID: 227419435, guid: 022ba1afe4ef2cd44b3ce047de9ed1f1, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -2517,7 +2577,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 1481593299, guid: 99d395e8d70e6e748822d592073c3a78, type: 3}
+  m_Sprite: {fileID: 1463799710, guid: 99d395e8d70e6e748822d592073c3a78, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -2631,6 +2691,18 @@ MonoBehaviour:
           m_StringArgument: "\uC9C0\uD558A"
           m_BoolArgument: 0
         m_CallState: 2
+      - m_Target: {fileID: 431701717}
+        m_TargetAssemblyTypeName: SoundManager, Assembly-CSharp
+        m_MethodName: SfxPlay
+        m_Mode: 5
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: Button1
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &168508289
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2727,7 +2799,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 1432520376, guid: 99d395e8d70e6e748822d592073c3a78, type: 3}
+  m_Sprite: {fileID: -1655642263, guid: 99d395e8d70e6e748822d592073c3a78, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -2852,6 +2924,18 @@ MonoBehaviour:
           m_IntArgument: 0
           m_FloatArgument: 0
           m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 431701717}
+        m_TargetAssemblyTypeName: SoundManager, Assembly-CSharp
+        m_MethodName: SfxPlay
+        m_Mode: 5
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: Button1
           m_BoolArgument: 0
         m_CallState: 2
 --- !u!114 &174759929
@@ -3271,6 +3355,18 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+      - m_Target: {fileID: 431701717}
+        m_TargetAssemblyTypeName: SoundManager, Assembly-CSharp
+        m_MethodName: SfxPlay
+        m_Mode: 5
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: Button1
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &216085137
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3529,6 +3625,18 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
+      - m_Target: {fileID: 431701717}
+        m_TargetAssemblyTypeName: SoundManager, Assembly-CSharp
+        m_MethodName: SfxPlay
+        m_Mode: 5
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: Button1
+          m_BoolArgument: 1
+        m_CallState: 2
       - m_Target: {fileID: 1862252435}
         m_TargetAssemblyTypeName: GameManager, Assembly-CSharp
         m_MethodName: ClickButton
@@ -3783,6 +3891,18 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+      - m_Target: {fileID: 431701717}
+        m_TargetAssemblyTypeName: SoundManager, Assembly-CSharp
+        m_MethodName: SfxPlay
+        m_Mode: 5
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: Button1
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &259595818
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3907,7 +4027,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 1931410111, guid: 5c1250561f092094caf6562aa4eab80b, type: 3}
+  m_Sprite: {fileID: -749941639, guid: 5c1250561f092094caf6562aa4eab80b, type: 3}
   m_Type: 1
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -3983,7 +4103,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: -935531320, guid: 99d395e8d70e6e748822d592073c3a78, type: 3}
+  m_Sprite: {fileID: -643937771, guid: 99d395e8d70e6e748822d592073c3a78, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -4120,7 +4240,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 1931410111, guid: 5c1250561f092094caf6562aa4eab80b, type: 3}
+  m_Sprite: {fileID: -749941639, guid: 5c1250561f092094caf6562aa4eab80b, type: 3}
   m_Type: 1
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -4321,6 +4441,18 @@ MonoBehaviour:
           m_IntArgument: 0
           m_FloatArgument: 0
           m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 431701717}
+        m_TargetAssemblyTypeName: SoundManager, Assembly-CSharp
+        m_MethodName: SfxPlay
+        m_Mode: 5
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: Button1
           m_BoolArgument: 0
         m_CallState: 2
 --- !u!114 &313322256
@@ -4792,7 +4924,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 419476373, guid: 99d395e8d70e6e748822d592073c3a78, type: 3}
+  m_Sprite: {fileID: 1563505279, guid: 99d395e8d70e6e748822d592073c3a78, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -4997,9 +5129,28 @@ MonoBehaviour:
   bgmPlayer: {fileID: 1399505484}
   sfxPlayer: {fileID: 1548116699}
   bgmClip:
-  - {fileID: 8300000, guid: 5363f67c7e0b5954784edf294ae8936f, type: 3}
+  - {fileID: 8300000, guid: 34ba0939988a4d44892a1419344f697b, type: 3}
   - {fileID: 8300000, guid: 3849ae920fd81494595cd50c1bd83819, type: 3}
-  sfxClip: []
+  sfxClip:
+  - {fileID: 8300000, guid: 9233f1fc01c0e5443ace726e06dd49d2, type: 3}
+  - {fileID: 8300000, guid: ea5fc2d2350a5d647b0763cc8f00f63e, type: 3}
+  - {fileID: 8300000, guid: b01e23464ab1d6b42a325d18bb9c07d1, type: 3}
+  - {fileID: 8300000, guid: 40d8a01709faa6c42b68ec640cc32a6e, type: 3}
+  - {fileID: 8300000, guid: 9d383eadfdec3af459512ab98b1e112c, type: 3}
+  - {fileID: 8300000, guid: 467459d8db85ae647a3f8b7ce7158530, type: 3}
+  - {fileID: 8300000, guid: 5952c99ff85c3b747917e0eb7f9e5760, type: 3}
+  - {fileID: 8300000, guid: 9240b2df002447943a8a5471976d3bc8, type: 3}
+  - {fileID: 8300000, guid: 0496eb91eeb7a6a408dafbad33b3e974, type: 3}
+  - {fileID: 8300000, guid: 552c0b2a8a7a1274d87e256d4e1805a9, type: 3}
+  - {fileID: 8300000, guid: 4b634dcd6a02fbf45b374352fd7fb08f, type: 3}
+  - {fileID: 8300000, guid: 061d9ce6c826ed04da86b21bb203c0a9, type: 3}
+  - {fileID: 8300000, guid: d64ec6468a3bc134b8cbccd5a109ea8a, type: 3}
+  - {fileID: 8300000, guid: 9f988aeb069386148874f756a85a5f6e, type: 3}
+  - {fileID: 8300000, guid: 7694b6a81314596409ab3356619bf4ed, type: 3}
+  - {fileID: 8300000, guid: 78991610a4eae5e4eaf8af69b5fb2c44, type: 3}
+  - {fileID: 8300000, guid: a8ea8fe2018b1274f90dca732e79f4c8, type: 3}
+  - {fileID: 8300000, guid: bb97d1077dfdbe7448096f60fd1e4f0c, type: 3}
+  - {fileID: 8300000, guid: 1fc0c0966190a6348acaabc4e0a5c156, type: 3}
   bgmName: 
 --- !u!1 &450830196
 GameObject:
@@ -5086,6 +5237,18 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
+      - m_Target: {fileID: 431701717}
+        m_TargetAssemblyTypeName: SoundManager, Assembly-CSharp
+        m_MethodName: SfxPlay
+        m_Mode: 5
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: Button1
+          m_BoolArgument: 1
+        m_CallState: 2
       - m_Target: {fileID: 1862252435}
         m_TargetAssemblyTypeName: GameManager, Assembly-CSharp
         m_MethodName: ClickButton
@@ -5336,7 +5499,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 1931410111, guid: 5c1250561f092094caf6562aa4eab80b, type: 3}
+  m_Sprite: {fileID: -749941639, guid: 5c1250561f092094caf6562aa4eab80b, type: 3}
   m_Type: 1
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -5495,6 +5658,18 @@ MonoBehaviour:
           m_IntArgument: 0
           m_FloatArgument: 0
           m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 431701717}
+        m_TargetAssemblyTypeName: SoundManager, Assembly-CSharp
+        m_MethodName: SfxPlay
+        m_Mode: 5
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: Button2
           m_BoolArgument: 0
         m_CallState: 2
 --- !u!114 &484913813
@@ -5878,6 +6053,18 @@ MonoBehaviour:
           m_IntArgument: 1
           m_FloatArgument: 0
           m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 431701717}
+        m_TargetAssemblyTypeName: SoundManager, Assembly-CSharp
+        m_MethodName: SfxPlay
+        m_Mode: 5
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: Button1
           m_BoolArgument: 0
         m_CallState: 2
 --- !u!114 &498495216
@@ -6813,7 +7000,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: -935531320, guid: 99d395e8d70e6e748822d592073c3a78, type: 3}
+  m_Sprite: {fileID: -643937771, guid: 99d395e8d70e6e748822d592073c3a78, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -7025,7 +7212,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 1931410111, guid: 5c1250561f092094caf6562aa4eab80b, type: 3}
+  m_Sprite: {fileID: -749941639, guid: 5c1250561f092094caf6562aa4eab80b, type: 3}
   m_Type: 1
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -7409,6 +7596,18 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+      - m_Target: {fileID: 431701717}
+        m_TargetAssemblyTypeName: SoundManager, Assembly-CSharp
+        m_MethodName: SfxPlay
+        m_Mode: 5
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: Button1
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &628934769
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -7541,6 +7740,18 @@ MonoBehaviour:
           m_IntArgument: 0
           m_FloatArgument: 0
           m_StringArgument: "\uC77C\uBC18"
+          m_BoolArgument: 1
+        m_CallState: 2
+      - m_Target: {fileID: 431701717}
+        m_TargetAssemblyTypeName: SoundManager, Assembly-CSharp
+        m_MethodName: SfxPlay
+        m_Mode: 5
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: Button1
           m_BoolArgument: 1
         m_CallState: 2
 --- !u!114 &632035608
@@ -8112,6 +8323,18 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+      - m_Target: {fileID: 431701717}
+        m_TargetAssemblyTypeName: SoundManager, Assembly-CSharp
+        m_MethodName: SfxPlay
+        m_Mode: 5
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: Button1
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &657683213
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -8400,6 +8623,18 @@ MonoBehaviour:
           m_StringArgument: "V\uAE09"
           m_BoolArgument: 0
         m_CallState: 2
+      - m_Target: {fileID: 431701717}
+        m_TargetAssemblyTypeName: SoundManager, Assembly-CSharp
+        m_MethodName: SfxPlay
+        m_Mode: 5
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: Button1
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &681230260
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -8671,6 +8906,18 @@ MonoBehaviour:
           m_StringArgument: "\uBC15\uCDE8A"
           m_BoolArgument: 0
         m_CallState: 2
+      - m_Target: {fileID: 431701717}
+        m_TargetAssemblyTypeName: SoundManager, Assembly-CSharp
+        m_MethodName: SfxPlay
+        m_Mode: 5
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: Button1
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!1 &698984697
 GameObject:
   m_ObjectHideFlags: 0
@@ -8905,6 +9152,18 @@ MonoBehaviour:
           m_StringArgument: "\uC8FC\uD3ED"
           m_BoolArgument: 0
         m_CallState: 2
+      - m_Target: {fileID: 431701717}
+        m_TargetAssemblyTypeName: SoundManager, Assembly-CSharp
+        m_MethodName: SfxPlay
+        m_Mode: 5
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: Button1
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!1 &721403448
 GameObject:
   m_ObjectHideFlags: 0
@@ -9045,7 +9304,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 1931410111, guid: 5c1250561f092094caf6562aa4eab80b, type: 3}
+  m_Sprite: {fileID: -749941639, guid: 5c1250561f092094caf6562aa4eab80b, type: 3}
   m_Type: 1
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -9837,6 +10096,18 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+      - m_Target: {fileID: 431701717}
+        m_TargetAssemblyTypeName: SoundManager, Assembly-CSharp
+        m_MethodName: SfxPlay
+        m_Mode: 5
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: Button1
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &842123240
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -10085,6 +10356,18 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+      - m_Target: {fileID: 431701717}
+        m_TargetAssemblyTypeName: SoundManager, Assembly-CSharp
+        m_MethodName: SfxPlay
+        m_Mode: 5
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: Button1
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &868267658
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -10262,6 +10545,18 @@ MonoBehaviour:
           m_IntArgument: 0
           m_FloatArgument: 0
           m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 431701717}
+        m_TargetAssemblyTypeName: SoundManager, Assembly-CSharp
+        m_MethodName: SfxPlay
+        m_Mode: 5
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: Button1
           m_BoolArgument: 0
         m_CallState: 2
 --- !u!114 &872237741
@@ -11066,7 +11361,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: -943940172, guid: 99d395e8d70e6e748822d592073c3a78, type: 3}
+  m_Sprite: {fileID: 455868888, guid: 99d395e8d70e6e748822d592073c3a78, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -11199,6 +11494,18 @@ MonoBehaviour:
           m_IntArgument: 0
           m_FloatArgument: 0
           m_StringArgument: "\uC124\uC815"
+          m_BoolArgument: 1
+        m_CallState: 2
+      - m_Target: {fileID: 431701717}
+        m_TargetAssemblyTypeName: SoundManager, Assembly-CSharp
+        m_MethodName: SfxPlay
+        m_Mode: 5
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: Back
           m_BoolArgument: 1
         m_CallState: 2
 --- !u!114 &966110389
@@ -11356,6 +11663,18 @@ MonoBehaviour:
           m_StringArgument: "\uC124\uC815"
           m_BoolArgument: 1
         m_CallState: 2
+      - m_Target: {fileID: 431701717}
+        m_TargetAssemblyTypeName: SoundManager, Assembly-CSharp
+        m_MethodName: SfxPlay
+        m_Mode: 5
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: Button2
+          m_BoolArgument: 1
+        m_CallState: 2
 --- !u!114 &977442754
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -11488,6 +11807,18 @@ MonoBehaviour:
           m_IntArgument: 3
           m_FloatArgument: 0
           m_StringArgument: "\uBC15\uCDE8A"
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 431701717}
+        m_TargetAssemblyTypeName: SoundManager, Assembly-CSharp
+        m_MethodName: SfxPlay
+        m_Mode: 5
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: Button1
           m_BoolArgument: 0
         m_CallState: 2
 --- !u!114 &1016731391
@@ -11881,12 +12212,14 @@ MonoBehaviour:
   - {fileID: 7508681836831870246, guid: 9d3e498b6901dbe4bb133cbf2dc0f1e4, type: 3}
   - {fileID: 7508681836831870246, guid: 44f15cc12fc644845a5be7d8a6cbbfff, type: 3}
   - {fileID: 7508681836831870246, guid: 96c33f1dfa4f9cb4ba4ab216c4a01141, type: 3}
+  - {fileID: 7508681836831870246, guid: 8d8ef600178aa6540b8ae3f99498c3fc, type: 3}
   - {fileID: 8336367856021778185, guid: af02aff62c828214cb2efc06f5005faf, type: 3}
   - {fileID: 8336367856021778185, guid: 5629cd2e107d9a240af0f59b3b88ff4b, type: 3}
   - {fileID: 8336367856021778185, guid: 82a43d88e5d971847817617315f02164, type: 3}
   - {fileID: 8336367856021778185, guid: d542ce3887e07b544b6b884f506951cf, type: 3}
   - {fileID: 8336367856021778185, guid: 4fe4c86aed636fe4e92ad577b791e0cd, type: 3}
   - {fileID: 8336367856021778185, guid: 5c90c8d4cf8c60e489f589e8bb9a6b34, type: 3}
+  - {fileID: 8336367856021778185, guid: 634d491e78f979e41b1c2119ef3462a1, type: 3}
   - {fileID: 900583805910406762, guid: 92675134df094804a8c34ff5696f2e15, type: 3}
   - {fileID: 2184071607533227413, guid: 5caebd7e7047bef4592e36f546ab9956, type: 3}
   - {fileID: 7267828403327705820, guid: 3cd4510494bd33a4a99e7f31f5ab5e68, type: 3}
@@ -13050,7 +13383,7 @@ GameObject:
   - component: {fileID: 1201558850}
   - component: {fileID: 1201558849}
   m_Layer: 5
-  m_Name: Back Button
+  m_Name: Return Button
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -13106,7 +13439,7 @@ MonoBehaviour:
     m_FadeDuration: 0.1
   m_SpriteState:
     m_HighlightedSprite: {fileID: 0}
-    m_PressedSprite: {fileID: 492568898, guid: ecf26a681d1abb946b0774db473903db, type: 3}
+    m_PressedSprite: {fileID: 1811800592, guid: 022ba1afe4ef2cd44b3ce047de9ed1f1, type: 3}
     m_SelectedSprite: {fileID: 0}
     m_DisabledSprite: {fileID: 0}
   m_AnimationTriggers:
@@ -13144,6 +13477,18 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+      - m_Target: {fileID: 431701717}
+        m_TargetAssemblyTypeName: SoundManager, Assembly-CSharp
+        m_MethodName: SfxPlay
+        m_Mode: 5
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: Back
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &1201558850
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -13164,7 +13509,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: -2136836594, guid: ecf26a681d1abb946b0774db473903db, type: 3}
+  m_Sprite: {fileID: -1065959938, guid: 022ba1afe4ef2cd44b3ce047de9ed1f1, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -13451,7 +13796,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 1931410111, guid: 5c1250561f092094caf6562aa4eab80b, type: 3}
+  m_Sprite: {fileID: -749941639, guid: 5c1250561f092094caf6562aa4eab80b, type: 3}
   m_Type: 1
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -13563,6 +13908,18 @@ MonoBehaviour:
           m_IntArgument: 0
           m_FloatArgument: 0
           m_StringArgument: "\uC2A4\uD14C"
+          m_BoolArgument: 1
+        m_CallState: 2
+      - m_Target: {fileID: 431701717}
+        m_TargetAssemblyTypeName: SoundManager, Assembly-CSharp
+        m_MethodName: SfxPlay
+        m_Mode: 5
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: Back
           m_BoolArgument: 1
         m_CallState: 2
 --- !u!114 &1310029548
@@ -13832,6 +14189,18 @@ MonoBehaviour:
           m_IntArgument: 0
           m_FloatArgument: 0
           m_StringArgument: "\uC77C\uBC18"
+          m_BoolArgument: 1
+        m_CallState: 2
+      - m_Target: {fileID: 431701717}
+        m_TargetAssemblyTypeName: SoundManager, Assembly-CSharp
+        m_MethodName: SfxPlay
+        m_Mode: 5
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: Back
           m_BoolArgument: 1
         m_CallState: 2
 --- !u!114 &1346000297
@@ -14203,7 +14572,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 1931410111, guid: 5c1250561f092094caf6562aa4eab80b, type: 3}
+  m_Sprite: {fileID: -749941639, guid: 5c1250561f092094caf6562aa4eab80b, type: 3}
   m_Type: 1
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -14791,6 +15160,18 @@ MonoBehaviour:
           m_StringArgument: "V\uAE09"
           m_BoolArgument: 0
         m_CallState: 2
+      - m_Target: {fileID: 431701717}
+        m_TargetAssemblyTypeName: SoundManager, Assembly-CSharp
+        m_MethodName: SfxPlay
+        m_Mode: 5
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: Button1
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &1417704528
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -15033,7 +15414,7 @@ MonoBehaviour:
     m_FadeDuration: 0.1
   m_SpriteState:
     m_HighlightedSprite: {fileID: 0}
-    m_PressedSprite: {fileID: 933418114, guid: ecf26a681d1abb946b0774db473903db, type: 3}
+    m_PressedSprite: {fileID: 413022013, guid: 022ba1afe4ef2cd44b3ce047de9ed1f1, type: 3}
     m_SelectedSprite: {fileID: 0}
     m_DisabledSprite: {fileID: 0}
   m_AnimationTriggers:
@@ -15059,6 +15440,18 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+      - m_Target: {fileID: 431701717}
+        m_TargetAssemblyTypeName: SoundManager, Assembly-CSharp
+        m_MethodName: SfxPlay
+        m_Mode: 5
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: Button1
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &1440682035
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -15079,7 +15472,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: -81326636, guid: ecf26a681d1abb946b0774db473903db, type: 3}
+  m_Sprite: {fileID: -1015604444, guid: 022ba1afe4ef2cd44b3ce047de9ed1f1, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -15315,6 +15708,18 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+      - m_Target: {fileID: 431701717}
+        m_TargetAssemblyTypeName: SoundManager, Assembly-CSharp
+        m_MethodName: SfxPlay
+        m_Mode: 5
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: Back
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &1463044919
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -15438,6 +15843,18 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
+      - m_Target: {fileID: 431701717}
+        m_TargetAssemblyTypeName: SoundManager, Assembly-CSharp
+        m_MethodName: SfxPlay
+        m_Mode: 5
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: Button1
+          m_BoolArgument: 0
+        m_CallState: 2
       - m_Target: {fileID: 1862252435}
         m_TargetAssemblyTypeName: GameManager, Assembly-CSharp
         m_MethodName: ClickButton
@@ -16034,6 +16451,18 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+      - m_Target: {fileID: 431701717}
+        m_TargetAssemblyTypeName: SoundManager, Assembly-CSharp
+        m_MethodName: SfxPlay
+        m_Mode: 5
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: Button1
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &1523986627
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -16270,6 +16699,18 @@ MonoBehaviour:
           m_StringArgument: "\uC9C0\uD558B"
           m_BoolArgument: 0
         m_CallState: 2
+      - m_Target: {fileID: 431701717}
+        m_TargetAssemblyTypeName: SoundManager, Assembly-CSharp
+        m_MethodName: SfxPlay
+        m_Mode: 5
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: Button1
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!1 &1539781543
 GameObject:
   m_ObjectHideFlags: 0
@@ -16352,7 +16793,7 @@ AudioSource:
   OutputAudioMixerGroup: {fileID: -2762911043940205731, guid: 628187777f653234aa13f721c7f361ea, type: 2}
   m_audioClip: {fileID: 0}
   m_PlayOnAwake: 0
-  m_Volume: 1
+  m_Volume: 0.5
   m_Pitch: 1
   Loop: 0
   Mute: 0
@@ -16629,7 +17070,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 1931410111, guid: 5c1250561f092094caf6562aa4eab80b, type: 3}
+  m_Sprite: {fileID: -749941639, guid: 5c1250561f092094caf6562aa4eab80b, type: 3}
   m_Type: 1
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -16975,8 +17416,9 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: "\uAE30\uD68D\n\uC7AD\uD30C\uC557\n\n\n\nUnity\uAC1C\uBC1C\n\uC7AD\uD30C\uC557\n\n\n\n\uD53D\uC140\uC544\uD2B8\n\uC7AD\uD30C\uC557\n\n\n\nBGM\nOVERSANS\n\n\n\n\uC790\uB8CC\uC81C\uACF5\n\uB124\uC774\uC544,
-    \uCC44\uB8E8\uBBF8\n\n\n\n\nSpecial Thanks\n\nGoldMetal\n\n\n\nOVERSANS\n\n\n\n\uBCA0\uD0C0\uD14C\uC2A4\uD130\n\n\n\n\n"
+  m_text: "\uAE30\uD68D\n\uC7AD\uD30C\uC557\n\n\n\nUnity\uAC1C\uBC1C\n\uC7AD\uD30C\uC557\n\n\n\n\uD53D\uC140\uC544\uD2B8\n\uC7AD\uD30C\uC557\n\n\n\nBGM\nOVERSANS\n\n\n\n\uBC15\uCDE8\uB354\uB77D
+    \uC790\uB8CC\uC81C\uACF5\n\uB124\uC774\uC544\n\n\n\n\uC8FC\uD3ED\uC18C\uB144\uB2E8
+    \uB85C\uACE0\uC81C\uACF5\n\uCC44\uB8E8\uBBF8\n\n\n\n\nSpecial Thanks\n\nGoldMetal\n\n\nOVERSANS\n\n\uB124\uC774\uC544\n\n\n\n\n"
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8e4a4297914f15a46b4fb86862b81672, type: 2}
   m_sharedMaterial: {fileID: 8509065551311902124, guid: 8e4a4297914f15a46b4fb86862b81672, type: 2}
@@ -17337,7 +17779,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 1846988397, guid: 5c1250561f092094caf6562aa4eab80b, type: 3}
+  m_Sprite: {fileID: 1052324903, guid: 5c1250561f092094caf6562aa4eab80b, type: 3}
   m_Type: 1
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -17585,6 +18027,18 @@ MonoBehaviour:
           m_IntArgument: 0
           m_FloatArgument: 0
           m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 431701717}
+        m_TargetAssemblyTypeName: SoundManager, Assembly-CSharp
+        m_MethodName: SfxPlay
+        m_Mode: 5
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: Button2
           m_BoolArgument: 0
         m_CallState: 2
 --- !u!114 &1635462391
@@ -17956,6 +18410,18 @@ MonoBehaviour:
           m_StringArgument: "\uC9C0\uD558A"
           m_BoolArgument: 0
         m_CallState: 2
+      - m_Target: {fileID: 431701717}
+        m_TargetAssemblyTypeName: SoundManager, Assembly-CSharp
+        m_MethodName: SfxPlay
+        m_Mode: 5
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: Button1
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!1 &1675864231
 GameObject:
   m_ObjectHideFlags: 0
@@ -18189,6 +18655,18 @@ MonoBehaviour:
           m_StringArgument: "\uC8FC\uD3ED"
           m_BoolArgument: 0
         m_CallState: 2
+      - m_Target: {fileID: 431701717}
+        m_TargetAssemblyTypeName: SoundManager, Assembly-CSharp
+        m_MethodName: SfxPlay
+        m_Mode: 5
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: Button1
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &1717321677
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -18300,6 +18778,18 @@ MonoBehaviour:
           m_IntArgument: 3
           m_FloatArgument: 0
           m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 431701717}
+        m_TargetAssemblyTypeName: SoundManager, Assembly-CSharp
+        m_MethodName: SfxPlay
+        m_Mode: 5
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: Button1
           m_BoolArgument: 0
         m_CallState: 2
 --- !u!114 &1736546716
@@ -18732,7 +19222,7 @@ RectTransform:
   m_GameObject: {fileID: 1835056181}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 0.2, y: 0.2, z: 1}
+  m_LocalScale: {x: 0.13, y: 0.13, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 2125634557}
@@ -18741,7 +19231,7 @@ RectTransform:
   m_AnchorMin: {x: 0, y: 0.5}
   m_AnchorMax: {x: 0, y: 0.5}
   m_AnchoredPosition: {x: 5, y: 0}
-  m_SizeDelta: {x: 134.6, y: 161.77278}
+  m_SizeDelta: {x: 199.99998, y: 244.97606}
   m_Pivot: {x: 0, y: 0.5}
 --- !u!114 &1835056183
 MonoBehaviour:
@@ -18763,7 +19253,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: edaf849efdb4cc04e81313e417bf7105, type: 3}
+  m_Sprite: {fileID: 21300000, guid: c8db1f97a9f107745b906e03bc99021f, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -18816,7 +19306,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 1}
   m_AnchorMax: {x: 0.5, y: 1}
-  m_AnchoredPosition: {x: 0, y: -605}
+  m_AnchoredPosition: {x: 0, y: -658}
   m_SizeDelta: {x: 102.399994, y: 102.400024}
   m_Pivot: {x: 0.5, y: 1}
 --- !u!114 &1835387762
@@ -19232,17 +19722,17 @@ MonoBehaviour:
   - {fileID: 21300000, guid: a79a41c4ef07d6542a1c83f2d2210509, type: 3}
   - {fileID: 21300000, guid: 1e8cd71e5c5db2e40905271ee95289be, type: 3}
   - {fileID: 21300000, guid: 4eca3375bb5c93b48ac5e88a10df79f2, type: 3}
-  - {fileID: 21300000, guid: e72a28138db75b841963399c293ac2b2, type: 3}
-  - {fileID: 21300000, guid: edaf849efdb4cc04e81313e417bf7105, type: 3}
-  - {fileID: 21300000, guid: f78b90b22a9db0e499ba3a8be30be667, type: 3}
-  - {fileID: 21300000, guid: ea219cebf00d4e646aecfec7abdba13b, type: 3}
-  - {fileID: 21300000, guid: d618b62b23c54b54ebbf70e9dafcaa95, type: 3}
-  - {fileID: 21300000, guid: 58ad2308074f4994da0c73b9d8a0c5ae, type: 3}
-  - {fileID: 21300000, guid: 8698402eebbe3c74e9e7030e212b8e38, type: 3}
-  - {fileID: 21300000, guid: bb9869e320c41744d86b27a96c73f26a, type: 3}
-  - {fileID: 21300000, guid: 75996cea00be69f488c6b0a71f13038b, type: 3}
-  - {fileID: 21300000, guid: b78fb00066c75bf4992022cfcd1f7c18, type: 3}
-  - {fileID: 21300000, guid: e28b247401ce1fb4cacebb528d3a3b72, type: 3}
+  - {fileID: 21300000, guid: dd5d3c5f60842624095ba0c597c4b1f9, type: 3}
+  - {fileID: 21300000, guid: 857f607d7013df64790bcf20032dba7f, type: 3}
+  - {fileID: 21300000, guid: 6fbb10bec532df24a849fd4796afa6e0, type: 3}
+  - {fileID: 21300000, guid: 412243e053eab9f40af6f4000611f66d, type: 3}
+  - {fileID: 21300000, guid: dd86bb9afe39f7243b3885ba54c16af4, type: 3}
+  - {fileID: 21300000, guid: 2635995f38541ff40b9336ba33568421, type: 3}
+  - {fileID: 21300000, guid: 00b09f547215b5d47b62b2e68806e53e, type: 3}
+  - {fileID: 21300000, guid: 8ecdedfcc81051a438edc410476aa347, type: 3}
+  - {fileID: 21300000, guid: ec3f13038e26c3e4bbbf4698eea5e438, type: 3}
+  - {fileID: 21300000, guid: 6c860351f0c05b349af83c0ee9401fd3, type: 3}
+  - {fileID: 21300000, guid: 58f224dba025eb84c88eeb3567ac682d, type: 3}
   - {fileID: 21300000, guid: d135ef0619eee4c4b95fd0b962e46bbb, type: 3}
   - {fileID: 21300000, guid: 62dbb85308d2ebd4cb8ae510ac5ca57d, type: 3}
   - {fileID: 21300000, guid: 8cab0d2ec63fe5c48b60717f0676918a, type: 3}
@@ -19381,6 +19871,18 @@ MonoBehaviour:
           m_IntArgument: 0
           m_FloatArgument: 0
           m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 431701717}
+        m_TargetAssemblyTypeName: SoundManager, Assembly-CSharp
+        m_MethodName: SfxPlay
+        m_Mode: 5
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: Button1
           m_BoolArgument: 0
         m_CallState: 2
 --- !u!114 &1863083162
@@ -19652,6 +20154,18 @@ MonoBehaviour:
           m_StringArgument: "\uBC15\uCDE8B"
           m_BoolArgument: 0
         m_CallState: 2
+      - m_Target: {fileID: 431701717}
+        m_TargetAssemblyTypeName: SoundManager, Assembly-CSharp
+        m_MethodName: SfxPlay
+        m_Mode: 5
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: Button1
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &1881508689
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -19763,6 +20277,18 @@ MonoBehaviour:
           m_IntArgument: 4
           m_FloatArgument: 0
           m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 431701717}
+        m_TargetAssemblyTypeName: SoundManager, Assembly-CSharp
+        m_MethodName: SfxPlay
+        m_Mode: 5
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: Button1
           m_BoolArgument: 0
         m_CallState: 2
 --- !u!114 &1897361660
@@ -20190,6 +20716,18 @@ MonoBehaviour:
           m_StringArgument: "\uB808\uBCA8"
           m_BoolArgument: 0
         m_CallState: 2
+      - m_Target: {fileID: 431701717}
+        m_TargetAssemblyTypeName: SoundManager, Assembly-CSharp
+        m_MethodName: SfxPlay
+        m_Mode: 5
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: Button2
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &1942003514
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -20361,6 +20899,18 @@ MonoBehaviour:
           m_IntArgument: 4
           m_FloatArgument: 0
           m_StringArgument: "\uBC15\uCDE8B"
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 431701717}
+        m_TargetAssemblyTypeName: SoundManager, Assembly-CSharp
+        m_MethodName: SfxPlay
+        m_Mode: 5
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: Button1
           m_BoolArgument: 0
         m_CallState: 2
 --- !u!1 &1954525370
@@ -21388,6 +21938,18 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+      - m_Target: {fileID: 431701717}
+        m_TargetAssemblyTypeName: SoundManager, Assembly-CSharp
+        m_MethodName: SfxPlay
+        m_Mode: 5
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: Button1
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &2051256714
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -21681,6 +22243,18 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+      - m_Target: {fileID: 431701717}
+        m_TargetAssemblyTypeName: SoundManager, Assembly-CSharp
+        m_MethodName: SfxPlay
+        m_Mode: 5
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: Button1
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &2057666815
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -21777,7 +22351,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 1931410111, guid: 5c1250561f092094caf6562aa4eab80b, type: 3}
+  m_Sprite: {fileID: -749941639, guid: 5c1250561f092094caf6562aa4eab80b, type: 3}
   m_Type: 1
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -21988,7 +22562,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 1931410111, guid: 5c1250561f092094caf6562aa4eab80b, type: 3}
+  m_Sprite: {fileID: -749941639, guid: 5c1250561f092094caf6562aa4eab80b, type: 3}
   m_Type: 1
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -22361,6 +22935,18 @@ MonoBehaviour:
           m_StringArgument: "\uC9C0\uD558B"
           m_BoolArgument: 0
         m_CallState: 2
+      - m_Target: {fileID: 431701717}
+        m_TargetAssemblyTypeName: SoundManager, Assembly-CSharp
+        m_MethodName: SfxPlay
+        m_Mode: 5
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: Button1
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &2080203775
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -22514,6 +23100,18 @@ MonoBehaviour:
           m_IntArgument: 0
           m_FloatArgument: 0
           m_StringArgument: "\uB808\uBCA8"
+          m_BoolArgument: 1
+        m_CallState: 2
+      - m_Target: {fileID: 431701717}
+        m_TargetAssemblyTypeName: SoundManager, Assembly-CSharp
+        m_MethodName: SfxPlay
+        m_Mode: 5
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: Back
           m_BoolArgument: 1
         m_CallState: 2
 --- !u!114 &2082217724
@@ -22890,6 +23488,18 @@ MonoBehaviour:
           m_IntArgument: 0
           m_FloatArgument: 0
           m_StringArgument: "\uBAA8\uB4DC"
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 431701717}
+        m_TargetAssemblyTypeName: SoundManager, Assembly-CSharp
+        m_MethodName: SfxPlay
+        m_Mode: 5
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: Back
           m_BoolArgument: 0
         m_CallState: 2
 --- !u!114 &2095403536

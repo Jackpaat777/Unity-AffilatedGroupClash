@@ -4915,7 +4915,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   unitName: "\uC559\uC218"
   unitType: 0
-  unitDetail: 10
+  unitDetail: 11
   unitCost: 7
   unitMaxHp: 100
   unitHp: 100
@@ -4925,6 +4925,7 @@ MonoBehaviour:
   unitSpeed: 0.6
   dustObject: {fileID: 5630520036587094455}
   unitState: 0
+  isHeal: 0
   skillSensor: 0
   isATSUp: 0
   isATKUp: 0
@@ -4937,7 +4938,6 @@ MonoBehaviour:
   atsDebuffTimer: 0
   spdDebuffTimer: 0
   backStepTimer: 0
-  devilTimer: 0
   growUpHand: {fileID: 0}
   barrierSkillEffect: {fileID: 2274523122986726240}
 --- !u!95 &3303643285092717066

@@ -107,11 +107,13 @@ public class GameManager : MonoBehaviour
         for (int i = 0; i < 6; i++)
         {
             // 불러오기
-            //Variables.isStageClear[i] = PlayerPrefs.GetInt("Clear" + i) == 1 ? true : false;
+            Variables.isStageClear[i] = PlayerPrefs.GetInt("Clear" + i) == 1 ? true : false;
 
             if (Variables.isStageClear[i])
                 clearObj[i].SetActive(true);
         }
+        // 첫 게임인지 불러오기
+        Variables.isFirstGame = PlayerPrefs.GetInt("First") == 1 ? true : false;
     }
     IEnumerator DisableFade(float time)
     {

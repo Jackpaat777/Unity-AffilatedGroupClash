@@ -141,7 +141,7 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: WhitePanel
+      name: White Panel
       rect:
         serializedVersion: 2
         x: 0
@@ -149,20 +149,20 @@ TextureImporter:
         width: 32
         height: 32
       alignment: 0
-      pivot: {x: 0.5, y: 0.5}
-      border: {x: 2, y: 2, z: 2, w: 3}
+      pivot: {x: 0, y: 0}
+      border: {x: 2, y: 3, z: 2, w: 3}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: fa3d3aab092ed264a80fce9568660355
-      internalID: 1931410111
+      spriteID: ca90422784cec6d498c34dec0f493f61
+      internalID: -749941639
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: BlackPanel
+      name: Black Panel
       rect:
         serializedVersion: 2
         x: 32
@@ -170,20 +170,20 @@ TextureImporter:
         width: 32
         height: 32
       alignment: 0
-      pivot: {x: 0.5, y: 0.5}
-      border: {x: 2, y: 2, z: 2, w: 3}
+      pivot: {x: 0, y: 0}
+      border: {x: 2, y: 3, z: 2, w: 3}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 4b793abe5bd355e42bb08356e4a6132a
-      internalID: 1846988397
+      spriteID: 0ef75245b6365314981868eb9eadb1d7
+      internalID: 1052324903
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: RedPanel
+      name: Red Panel
       rect:
         serializedVersion: 2
         x: 64
@@ -191,20 +191,41 @@ TextureImporter:
         width: 32
         height: 32
       alignment: 0
-      pivot: {x: 0.5, y: 0.5}
-      border: {x: 2, y: 2, z: 2, w: 3}
+      pivot: {x: 0, y: 0}
+      border: {x: 2, y: 3, z: 2, w: 3}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: bf731c01df5cd4b4498fb85e84597c7b
-      internalID: 1613819070
+      spriteID: 7cef53b5e6562464cb0e54f16bfdfb36
+      internalID: 76444383
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: BluePanel
+      name: Red Rect
+      rect:
+        serializedVersion: 2
+        x: 96
+        y: 32
+        width: 32
+        height: 32
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 2, y: 2, z: 2, w: 2}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: b20e1af96e3398e42808e6bb9d53c924
+      internalID: -1671650286
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Blue Panel
       rect:
         serializedVersion: 2
         x: 0
@@ -212,20 +233,20 @@ TextureImporter:
         width: 32
         height: 32
       alignment: 0
-      pivot: {x: 0.5, y: 0.5}
-      border: {x: 2, y: 2, z: 2, w: 3}
+      pivot: {x: 0, y: 0}
+      border: {x: 2, y: 3, z: 2, w: 3}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 14931ef4673176845a8dd1aed14cbc56
-      internalID: 1006059151
+      spriteID: 8c61f9edfd63e8a45b3ec161686f9646
+      internalID: -191820256
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: GreenPanel
+      name: Green Panel
       rect:
         serializedVersion: 2
         x: 32
@@ -233,20 +254,20 @@ TextureImporter:
         width: 32
         height: 32
       alignment: 0
-      pivot: {x: 0.5, y: 0.5}
-      border: {x: 2, y: 2, z: 2, w: 3}
+      pivot: {x: 0, y: 0}
+      border: {x: 2, y: 3, z: 2, w: 3}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 1c146d8c1c2719a4ca49fa4804f0f998
-      internalID: -1732141904
+      spriteID: 6f65f1c48a255344cbc3d9d1d8b2b9f9
+      internalID: 1975011447
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: OrangePanel
+      name: Orange Panel
       rect:
         serializedVersion: 2
         x: 64
@@ -254,14 +275,35 @@ TextureImporter:
         width: 32
         height: 32
       alignment: 0
-      pivot: {x: 0.5, y: 0.5}
-      border: {x: 2, y: 2, z: 2, w: 3}
+      pivot: {x: 0, y: 0}
+      border: {x: 2, y: 3, z: 2, w: 3}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 7318ef1f193402c4c87018f82b3d6724
-      internalID: -1017323852
+      spriteID: 04be5db9cd0ffac42968542fa47c5b9a
+      internalID: -898806996
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: White Rect
+      rect:
+        serializedVersion: 2
+        x: 96
+        y: 0
+        width: 32
+        height: 32
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 2, y: 2, z: 2, w: 2}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 96ae299f4f79b7f4ebf2a14fbae346f0
+      internalID: -1723852196
       vertices: []
       indices: 
       edges: []
@@ -277,12 +319,14 @@ TextureImporter:
     weights: []
     secondaryTextures: []
     nameFileIdTable:
-      BlackPanel: 1846988397
-      BluePanel: 1006059151
-      GreenPanel: -1732141904
-      RedPanel: 1613819070
-      OrangePanel: -1017323852
-      WhitePanel: 1931410111
+      Orange Panel: -898806996
+      White Rect: -1723852196
+      Red Panel: 76444383
+      White Panel: -749941639
+      Black Panel: 1052324903
+      Blue Panel: -191820256
+      Green Panel: 1975011447
+      Red Rect: -1671650286
   spritePackingTag: 
   pSDRemoveMatte: 0
   pSDShowRemoveMatteOption: 0

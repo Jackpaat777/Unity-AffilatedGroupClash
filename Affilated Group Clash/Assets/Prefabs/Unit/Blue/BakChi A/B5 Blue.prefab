@@ -102,7 +102,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   unitName: "\uC5D4\uC57C\uC0C1"
   unitType: 4
-  unitDetail: 6
+  unitDetail: 7
   unitCost: 9
   unitMaxHp: 30
   unitHp: 30
@@ -112,6 +112,7 @@ MonoBehaviour:
   unitSpeed: 0.8
   dustObject: {fileID: 5630520036587094455}
   unitState: 0
+  isHeal: 0
   skillSensor: 0
   isATSUp: 0
   isATKUp: 0

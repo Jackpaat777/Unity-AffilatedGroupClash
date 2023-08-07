@@ -2,12 +2,11 @@ using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using System.Collections;
 using Random = UnityEngine.Random;
 using Image = UnityEngine.UI.Image;
 using Slider = UnityEngine.UI.Slider;
-using System.Collections;
-using UnityEngine.UI;
-using Unity.VisualScripting;
+using Button = UnityEngine.UI.Button;
 
 public class InGameManager : MonoBehaviour
 {
@@ -258,6 +257,7 @@ public class InGameManager : MonoBehaviour
         {
             DescriptionButton();
             Variables.isFirstGame = true;
+            PlayerPrefs.SetInt("First", 1);
         }
     }
 
@@ -480,6 +480,9 @@ public class InGameManager : MonoBehaviour
         // 베이스 강화
         baseB.unitAtk += 5;
         baseB.unitAtkSpeed -= 0.2f;
+
+        // Sound
+        SoundManager.instance.SfxPlay("Upgrade");
     }
     void UpgradeRed()
     {
@@ -492,6 +495,8 @@ public class InGameManager : MonoBehaviour
         baseB.unitAtk += 5;
         baseB.unitAtkSpeed -= 0.2f;
 
+        // Sound
+        SoundManager.instance.SfxPlay("Upgrade");
     }
     // 유닛 소환
     public void MakeBlueUnit(int idx)
@@ -513,6 +518,9 @@ public class InGameManager : MonoBehaviour
         // 생성
         GetUnitObject(Variables.teamBlueNum, idx, unitB.transform.position);
         blueUnitList.Add(unitB);
+
+        // Sound
+        SoundManager.instance.SfxPlay("Buy");
     }
     public void MakeRedUnit(int idx)
     {
@@ -533,6 +541,9 @@ public class InGameManager : MonoBehaviour
         // 생성
         GetUnitObject(Variables.teamRedNum, idx, unitR.transform.position);
         redUnitList.Add(unitR);
+
+        // Sound
+        SoundManager.instance.SfxPlay("Buy");
 
         // 생성 후에 패턴인덱스 변경
         PatternRatio();
@@ -760,7 +771,7 @@ public class InGameManager : MonoBehaviour
                         image = unitPictureSprites[21];
                         break;
                 }
-                scaleNum = 0.25f;
+                scaleNum = 0.22f;
                 break;
             case 4:
                 switch (idx)
@@ -781,7 +792,7 @@ public class InGameManager : MonoBehaviour
                         image = unitPictureSprites[26];
                         break;
                 }
-                scaleNum = 0.25f;
+                scaleNum = 0.22f;
                 break;
             case 5:
                 switch (idx)
@@ -997,7 +1008,7 @@ public class InGameManager : MonoBehaviour
             optionButton.interactable = true;
             teamBLogoButton.interactable = true;
             teamRLogoButton.interactable = true;
-            for (int i = 0; i < 6; i++)
+            for (int i = 0; i < 7; i++)
             {
                 // 사각형 다 끄기
                 descriptionRect[i].SetActive(false);
@@ -1020,7 +1031,7 @@ public class InGameManager : MonoBehaviour
         descriptionPage++;
 
         // 다봤으면 나가기
-        if (descriptionPage > 9)
+        if (descriptionPage > 10)
         {
             DescriptionButton();
             return;
@@ -1041,7 +1052,7 @@ public class InGameManager : MonoBehaviour
         else if (descriptionPage > 1)
         {
             // 사각형 키기 (마지막 페이지에는 사각형이 없으므로 못킴)
-            if (descriptionPage < 9)
+            if (descriptionPage < 10)
                 descriptionRect[descriptionPage - 2].SetActive(true);
 
             // 다음 버튼을 눌렀을 경우
@@ -1055,7 +1066,7 @@ public class InGameManager : MonoBehaviour
             else if (btnType == "Prev")
             {
                 // 다음 사각형 끄기
-                if (descriptionPage < 8)
+                if (descriptionPage < 9)
                     descriptionRect[descriptionPage - 1].SetActive(false);
             }
         }
@@ -1064,37 +1075,42 @@ public class InGameManager : MonoBehaviour
         switch (descriptionPage)
         {
             case 0:
-                descriptionText.text = "침하잎하~ 산하대격돌에 오신것을 환영합니다!\n\n그럼 바로 게임설명을 하도록 하겠습니다!";
+                descriptionText.text = "침하잎하~ <color=blue>산하대격돌</color>에 오신것을 환영합니다!\n\n그럼 바로 게임설명을 하도록 하겠습니다!";
                 break;
             case 1:
-                descriptionText.text = "가장 먼저 화면 이동입니다.\n\n키보드의 화살표키를 통해\n좌우로 화면을 이동하실 수 있습니다.\n\n(게임설명 중에는 작동하지 않습니다.)";
+                descriptionText.text = "가장 먼저 <color=red>화면 이동</color>입니다.\n\n<color=red>키보드의 화살표키</color>를 통해\n좌우로 화면을 이동하실 수 있습니다.\n\n(게임설명 중에는 작동하지 않습니다.)";
                 break;
             case 2:
-                descriptionText.text = "두번째는 멤버 소환입니다.\n\n이곳에는 해당 멤버을 뽑기 위한\n코인, 멤버의 타입이 적혀있습니다.\n\n" +
-                    "멤버를 소환하기 위해서는 해당하는\n키보드를 눌러서 소환하실 수 있습니다.\n\n같은 유닛을 중복하여 소환하실 수도 있습니다!";
+                descriptionText.text = "두번째는 <color=red>멤버 소환</color>입니다.\n\n이곳에는 해당 멤버을 뽑기 위한\n코인, 멤버의 타입이 적혀있습니다.\n\n" +
+                    "멤버를 소환하기 위해서는 해당하는\n<color=red>키보드를 눌러서 소환</color>하실 수 있습니다.\n\n같은 유닛을 중복하여 소환하실 수도 있습니다!";
                 break;
             case 3:
-                descriptionText.text = "이 곳은 멤버 상세정보 란입니다.\n\n현재 소환된 멤버를 직접 클릭하면 해당멤버의\n실시간 정보를 확인하실 수 있습니다!";
+                descriptionText.text = "이 곳은 <color=red>멤버 상세정보</color>입니다.\n\n현재 <color=red>소환된 멤버를 클릭</color>하여 해당멤버의\n실시간 정보를 확인하실 수 있습니다!\n\n" +
+                    "<color=blue>ATK</color>는 공격력, <color=blue>ATS</color>는 공격속도,\n<color=blue>RAN</color>은 공격범위, <color=blue>SPD</color>는 이동속도를 의미합니다.";
                 break;
             case 4:
-                descriptionText.text = "다음으로 현재 코인입니다.\n\n코인이 부족하면 멤버를 소환할 수 없으며,\n코인은 자동으로 1씩 증가합니다.\n\n" +
-                    "또한 최대보유량이 있기 때문에\n최대보유량을 넘어서 코인을 보유할 수 없습니다.";
+                descriptionText.text = "주의할 점으로 공격속도는 해당 수치만큼\n시간이 지나면한 번 공격한다는 의미로,\n<color=red>수치가 낮을수록 공격속도가 빨라짐을 의미</color>합니다.\n\n" +
+                    "(예시. 공속 1.5는 1.5초당 한 번 공격함)";
                 break;
             case 5:
-                descriptionText.text = "기지 업그레이드입니다.\n\n기지는 스스로 일정 범위 내에서\n적을 인식해 공격합니다.\n\n" +
-                    "B버튼을 통해 코인을 소모하여 기지의 공격력, 공격속도를 증가시킬 수 있으며, 최대 2번까지 가능합니다.";
+                descriptionText.text = "다음으로 <color=red>현재 코인</color>입니다.\n\n코인이 부족하면 멤버를 소환할 수 없으며,\n코인은 자동으로 1씩 증가합니다.\n\n" +
+                    "또한 최대보유량이 있기 때문에\n<color=red>최대보유량을 넘어서 코인을 보유할 수 없습니다.</color>";
                 break;
             case 6:
-                descriptionText.text = "이곳에서는 현재 게임 난이도와\n양 팀의 남은 체력을 확인하실 수 있습니다.\n\n" +
-                    "양 팀 모두 1000으로 시작하며\n가장 먼저 체력이 0이 되는 팀이 패배합니다.\n\n그 아래에는 현재 게임 플레이 시간이 나옵니다.";
+                descriptionText.text = "<color=red>기지 업그레이드</color>입니다.\n\n기지는 스스로 일정 범위 내에서\n적을 인식해 공격합니다.\n\n" +
+                    "<color=red>B버튼</color>을 통해 코인을 소모하여 기지의 공격력, 공격속도를 증가시킬 수 있으며, <color=red>최대 2번</color>까지 가능합니다.";
                 break;
             case 7:
-                descriptionText.text = "팀 로고를 클릭하면 해당 팀 멤버들에 대한\n정보를 확인하실 수 있습니다.\n\n멤버의 스탯, 스킬에 대해 궁금하시다면\n팀 로고를 클릭해주세요!";
+                descriptionText.text = "이곳에서는 <color=red>현재 게임 난이도와\n양 팀의 남은 체력</color>을 확인하실 수 있습니다.\n\n" +
+                    "양 팀 모두 1000으로 시작하며\n가장 먼저 체력이 0이 되는 팀이 패배합니다.\n\n그 아래에는 현재 게임 플레이 시간이 나옵니다.";
                 break;
             case 8:
-                descriptionText.text = "마지막으로 일시정지 버튼을 눌러\n소리를 조절하거나 게임을 종료하실 수 있으며\n\n물음표 버튼을 누르면 게임설명을\n다시 확인하실 수 있습니다.";
+                descriptionText.text = "<color=red>팀 로고를 클릭</color>하면 해당 <color=red>팀 멤버들에 대한\n정보를 확인</color>하실 수 있습니다.\n\n멤버의 스탯, 스킬에 대해 궁금하시다면\n팀 로고를 클릭해주세요!";
                 break;
             case 9:
+                descriptionText.text = "마지막으로 <color=red>일시정지 버튼</color>을 눌러\n소리를 조절하거나 게임을 종료하실 수 있으며\n\n <color=red>물음표 버튼</color>을 누르면 게임설명을\n다시 확인하실 수 있습니다.";
+                break;
+            case 10:
                 descriptionText.text = "그럼 재밌게 즐겨주세요!\n\n감사합니다!";
                 break;
         }
@@ -1195,6 +1211,7 @@ public class InGameManager : MonoBehaviour
                 blueHP = 0;
                 baseBSpriteRen.gameObject.SetActive(false);
                 blueDestroyEffect.SetActive(true);
+                SoundManager.instance.SfxPlay("Destroy");
                 isGameLive = false;
                 GameOver("Lose");
             }
@@ -1259,7 +1276,7 @@ public class InGameManager : MonoBehaviour
                     // 클리어
                     Variables.isStageClear[Variables.teamBlueNum] = true;
                     // 저장
-                    //PlayerPrefs.SetInt("Clear" + Variables.teamBlueNum, 1);
+                    PlayerPrefs.SetInt("Clear" + Variables.teamBlueNum, 1);
 
                     // 업적획득 창
 
@@ -1288,8 +1305,6 @@ public class InGameManager : MonoBehaviour
     }
 
     // ======================================================= COM 함수
-    // 패턴을 메모장을 이용해 직접 제작하기?
-    // 랜덤값을 통해 알아서 소환하기?
     IEnumerator Pattern(float time, int typeNum)
     {
         yield return new WaitForSeconds(time);

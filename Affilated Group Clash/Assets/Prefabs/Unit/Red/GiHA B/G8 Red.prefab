@@ -78,7 +78,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 2
-  m_Sprite: {fileID: 1088662553, guid: 99d395e8d70e6e748822d592073c3a78, type: 3}
+  m_Sprite: {fileID: -1800529261, guid: 99d395e8d70e6e748822d592073c3a78, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 1
   m_FlipY: 0
@@ -103,7 +103,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   unitName: "\uC368\uB2C8"
   unitType: 3
-  unitDetail: 12
+  unitDetail: 13
   unitCost: 6
   unitMaxHp: 30
   unitHp: 30
@@ -113,6 +113,7 @@ MonoBehaviour:
   unitSpeed: -0.7
   dustObject: {fileID: 5630520036587094455}
   unitState: 0
+  isHeal: 0
   skillSensor: 0
   isATSUp: 0
   isATKUp: 0

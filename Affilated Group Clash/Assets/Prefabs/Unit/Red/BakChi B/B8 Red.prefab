@@ -102,7 +102,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   unitName: "\uAE40\uC138\uB178"
   unitType: 2
-  unitDetail: 3
+  unitDetail: 4
   unitCost: 4
   unitMaxHp: 60
   unitHp: 60
@@ -112,6 +112,7 @@ MonoBehaviour:
   unitSpeed: -0.7
   dustObject: {fileID: 4345408320033680172}
   unitState: 0
+  isHeal: 0
   skillSensor: 0
   isATSUp: 0
   isATKUp: 0
