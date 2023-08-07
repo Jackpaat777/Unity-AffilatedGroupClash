@@ -20,6 +20,7 @@ public class SoundManager : MonoBehaviour
     void Awake()
     {
         instance = this;
+        Application.targetFrameRate = 60;
 
         // 저장된 값 불러오기
         Variables.bgmVolume = PlayerPrefs.GetFloat("Bgm");

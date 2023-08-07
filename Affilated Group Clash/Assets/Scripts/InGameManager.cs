@@ -137,6 +137,8 @@ public class InGameManager : MonoBehaviour
     void Awake()
     {
         instance = this;
+        Application.targetFrameRate = 60;
+
         isGameLive = true;
 
         // Fade In
@@ -283,7 +285,7 @@ public class InGameManager : MonoBehaviour
         UnitInfo();
 
         // Loop Pattern
-        //StartCoroutine(Pattern(1f, patternIdx));
+        StartCoroutine(Pattern(1f, patternIdx));
     }
     // ======================================================= Update 함수
     void GameTimer()
@@ -376,33 +378,31 @@ public class InGameManager : MonoBehaviour
             camSpeed = 0;
 
         // 키보드를 통한 유닛 생성
-        // 2조로 나뉘어져있는 그룹의 프리펩에는 Blue팀 Red팀 + Blue팀 Red팀으로 섞여있음
-        // teamNum에 따라 Blue/ Red로 나누어주었으며, startIdx가 두 팀을 나누는 기준으로 사용하였음
-        if (Input.GetKeyDown(KeyCode.Q))
-            MakeBlueUnit(0 + Variables.startBlueIdx);
-        if (Input.GetKeyDown(KeyCode.W))
-            MakeBlueUnit(1 + Variables.startBlueIdx);
-        if (Input.GetKeyDown(KeyCode.E))
-            MakeBlueUnit(2 + Variables.startBlueIdx);
-        if (Input.GetKeyDown(KeyCode.A))
-            MakeBlueUnit(3 + Variables.startBlueIdx);
-        if (Input.GetKeyDown(KeyCode.S))
-            MakeBlueUnit(4 + Variables.startBlueIdx);
-        if (Input.GetKeyDown(KeyCode.D) && Variables.groupBlueNum == 6)
-            MakeBlueUnit(5 + Variables.startBlueIdx);
-        // red
-        if (Input.GetKeyDown(KeyCode.I))
-            MakeRedUnit(0 + Variables.startRedIdx + Variables.groupRedNum);
-        if (Input.GetKeyDown(KeyCode.O))
-            MakeRedUnit(1 + Variables.startRedIdx + Variables.groupRedNum);
-        if (Input.GetKeyDown(KeyCode.P))
-            MakeRedUnit(2 + Variables.startRedIdx + Variables.groupRedNum);
-        if (Input.GetKeyDown(KeyCode.J))
-            MakeRedUnit(3 + Variables.startRedIdx + Variables.groupRedNum);
-        if (Input.GetKeyDown(KeyCode.K))
-            MakeRedUnit(4 + Variables.startRedIdx + Variables.groupRedNum);
-        if (Input.GetKeyDown(KeyCode.L) && Variables.groupRedNum == 6)
-            MakeRedUnit(5 + Variables.startRedIdx + Variables.groupRedNum);
+        //if (Input.GetKeyDown(KeyCode.Q))
+        //    MakeBlueUnit(0 + Variables.startBlueIdx);
+        //if (Input.GetKeyDown(KeyCode.W))
+        //    MakeBlueUnit(1 + Variables.startBlueIdx);
+        //if (Input.GetKeyDown(KeyCode.E))
+        //    MakeBlueUnit(2 + Variables.startBlueIdx);
+        //if (Input.GetKeyDown(KeyCode.A))
+        //    MakeBlueUnit(3 + Variables.startBlueIdx);
+        //if (Input.GetKeyDown(KeyCode.S))
+        //    MakeBlueUnit(4 + Variables.startBlueIdx);
+        //if (Input.GetKeyDown(KeyCode.D) && Variables.groupBlueNum == 6)
+        //    MakeBlueUnit(5 + Variables.startBlueIdx);
+        //// red
+        //if (Input.GetKeyDown(KeyCode.I))
+        //    MakeRedUnit(0 + Variables.startRedIdx + Variables.groupRedNum);
+        //if (Input.GetKeyDown(KeyCode.O))
+        //    MakeRedUnit(1 + Variables.startRedIdx + Variables.groupRedNum);
+        //if (Input.GetKeyDown(KeyCode.P))
+        //    MakeRedUnit(2 + Variables.startRedIdx + Variables.groupRedNum);
+        //if (Input.GetKeyDown(KeyCode.J))
+        //    MakeRedUnit(3 + Variables.startRedIdx + Variables.groupRedNum);
+        //if (Input.GetKeyDown(KeyCode.K))
+        //    MakeRedUnit(4 + Variables.startRedIdx + Variables.groupRedNum);
+        //if (Input.GetKeyDown(KeyCode.L) && Variables.groupRedNum == 6)
+        //    MakeRedUnit(5 + Variables.startRedIdx + Variables.groupRedNum);
 
         // 키보드로 업그레이드
         if (Input.GetKeyDown(KeyCode.B))
@@ -1089,8 +1089,8 @@ public class InGameManager : MonoBehaviour
                     "<color=blue>ATK</color>는 공격력, <color=blue>ATS</color>는 공격속도,\n<color=blue>RAN</color>은 공격범위, <color=blue>SPD</color>는 이동속도를 의미합니다.";
                 break;
             case 4:
-                descriptionText.text = "주의할 점으로 공격속도는 해당 수치만큼\n시간이 지나면한 번 공격한다는 의미로,\n<color=red>수치가 낮을수록 공격속도가 빨라짐을 의미</color>합니다.\n\n" +
-                    "(예시. 공속 1.5는 1.5초당 한 번 공격함)";
+                descriptionText.text = "주의할 점으로 공격속도는 해당 수치만큼\n시간이 지나면 한 번 공격한다는 의미로,\n<color=red>수치가 낮을수록 공격속도가 빨라짐을 의미</color>합니다.\n\n" +
+                    "(예시 : 공속 1.5는 1.5초당 한 번 공격함)";
                 break;
             case 5:
                 descriptionText.text = "다음으로 <color=red>현재 코인</color>입니다.\n\n코인이 부족하면 멤버를 소환할 수 없으며,\n코인은 자동으로 1씩 증가합니다.\n\n" +
@@ -1098,7 +1098,7 @@ public class InGameManager : MonoBehaviour
                 break;
             case 6:
                 descriptionText.text = "<color=red>기지 업그레이드</color>입니다.\n\n기지는 스스로 일정 범위 내에서\n적을 인식해 공격합니다.\n\n" +
-                    "<color=red>B버튼</color>을 통해 코인을 소모하여 기지의 공격력, 공격속도를 증가시킬 수 있으며, <color=red>최대 2번</color>까지 가능합니다.";
+                    "<color=red>B버튼</color>을 통해 코인을 소모하여\n기지의 공격력, 공격속도를 증가시킬 수 있으며,\n<color=red>최대 2번</color>까지 가능합니다.";
                 break;
             case 7:
                 descriptionText.text = "이곳에서는 <color=red>현재 게임 난이도와\n양 팀의 남은 체력</color>을 확인하실 수 있습니다.\n\n" +
