@@ -378,19 +378,19 @@ public class InGameManager : MonoBehaviour
             camSpeed = 0;
 
         // 키보드를 통한 유닛 생성
-        //if (Input.GetKeyDown(KeyCode.Q))
-        //    MakeBlueUnit(0 + Variables.startBlueIdx);
-        //if (Input.GetKeyDown(KeyCode.W))
-        //    MakeBlueUnit(1 + Variables.startBlueIdx);
-        //if (Input.GetKeyDown(KeyCode.E))
-        //    MakeBlueUnit(2 + Variables.startBlueIdx);
-        //if (Input.GetKeyDown(KeyCode.A))
-        //    MakeBlueUnit(3 + Variables.startBlueIdx);
-        //if (Input.GetKeyDown(KeyCode.S))
-        //    MakeBlueUnit(4 + Variables.startBlueIdx);
-        //if (Input.GetKeyDown(KeyCode.D) && Variables.groupBlueNum == 6)
-        //    MakeBlueUnit(5 + Variables.startBlueIdx);
-        //// red
+        if (Input.GetKeyDown(KeyCode.Q))
+            MakeBlueUnit(0 + Variables.startBlueIdx);
+        if (Input.GetKeyDown(KeyCode.W))
+            MakeBlueUnit(1 + Variables.startBlueIdx);
+        if (Input.GetKeyDown(KeyCode.E))
+            MakeBlueUnit(2 + Variables.startBlueIdx);
+        if (Input.GetKeyDown(KeyCode.A))
+            MakeBlueUnit(3 + Variables.startBlueIdx);
+        if (Input.GetKeyDown(KeyCode.S))
+            MakeBlueUnit(4 + Variables.startBlueIdx);
+        if (Input.GetKeyDown(KeyCode.D) && Variables.groupBlueNum == 6)
+            MakeBlueUnit(5 + Variables.startBlueIdx);
+        // red
         //if (Input.GetKeyDown(KeyCode.I))
         //    MakeRedUnit(0 + Variables.startRedIdx + Variables.groupRedNum);
         //if (Input.GetKeyDown(KeyCode.O))
@@ -723,7 +723,7 @@ public class InGameManager : MonoBehaviour
                         image = unitPictureSprites[9];
                         break;
                 }
-                scaleNum = 0.18f;
+                scaleNum = 0.22f;
                 break;
             case 2:
                 switch (idx)
@@ -747,7 +747,7 @@ public class InGameManager : MonoBehaviour
                         image = unitPictureSprites[15];
                         break;
                 }
-                scaleNum = 0.45f;
+                scaleNum = 0.22f;
                 break;
             case 3:
                 switch (idx)

@@ -751,7 +751,7 @@ public class GameManager : MonoBehaviour
                         image = unitPictureSprites[4];
                         break;
                 }
-                scaleNum = 0.13f;
+                scaleNum = 0.2f;
                 break;
             case "ÁöÇÏB":
                 switch (idx)
@@ -772,7 +772,7 @@ public class GameManager : MonoBehaviour
                         image = unitPictureSprites[9];
                         break;
                 }
-                scaleNum = 0.13f;
+                scaleNum = 0.2f;
                 break;
             case "ÁÖÆø":
                 switch (idx)
