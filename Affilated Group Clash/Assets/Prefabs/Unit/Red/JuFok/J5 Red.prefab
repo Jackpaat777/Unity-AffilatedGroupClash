@@ -78,7 +78,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 2
-  m_Sprite: {fileID: -90954018, guid: 2ae556c44e59dd14e8a6094b378fa11d, type: 3}
+  m_Sprite: {fileID: 1064773241, guid: 2ae556c44e59dd14e8a6094b378fa11d, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 1
   m_FlipY: 0
@@ -1656,7 +1656,7 @@ ParticleSystem:
     uvChannelMask: -1
     rowMode: 1
     sprites:
-    - sprite: {fileID: 1927460957, guid: 2ae556c44e59dd14e8a6094b378fa11d, type: 3}
+    - sprite: {fileID: -1111342973, guid: 2ae556c44e59dd14e8a6094b378fa11d, type: 3}
     flipU: 0
     flipV: 0
   VelocityModule:

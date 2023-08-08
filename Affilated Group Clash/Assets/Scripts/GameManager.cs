@@ -75,7 +75,9 @@ public class GameManager : MonoBehaviour
     public string groupNameInInfo;
     public GameObject lastButtonInBook;
     public GameObject unitInfoSet;
-    public Image infoImage;
+    public Image logoImageInBook;
+    public Image infoUnitImage;
+    public TextMeshProUGUI infoLogoNameText;
     public TextMeshProUGUI infoUnitNameText;
     public TextMeshProUGUI infoUnitTypeText;
     public TextMeshProUGUI infoCostText;
@@ -90,6 +92,7 @@ public class GameManager : MonoBehaviour
     public Image[] buttonImageInBook;
     public TextMeshProUGUI[] buttonNameInBook;
     public Sprite[] unitPictureSprites;
+    public Sprite[] unitLogoSprites;
     float scaleNum;
 
     void Awake()
@@ -656,43 +659,63 @@ public class GameManager : MonoBehaviour
     {
         groupNameInInfo = teamName;
         lastButtonInBook.SetActive(false);
-
+        int teamIdx = 0;
+        string logoName = "";
+        
         switch (teamName)
         {
             case "지하A":
                 groupPrefabsInBook = ObjectManager.instance.giHa_prefabs;
                 startIdxInBook = 0;
                 groupNumInBook = 5;
+                teamIdx = 0;
+                logoName = "폴리곤엔젤";
                 break;
             case "지하B":
                 groupPrefabsInBook = ObjectManager.instance.giHa_prefabs;
                 startIdxInBook = 10;
                 groupNumInBook = 5;
+                teamIdx = 1;
+                logoName = "우아우";
                 break;
             case "주폭":
                 groupPrefabsInBook = ObjectManager.instance.juFok_prefabs;
                 startIdxInBook = 0;
                 groupNumInBook = 6;
+                teamIdx = 2;
+                logoName = "주폭소년단";
                 lastButtonInBook.SetActive(true);
                 break;
             case "박취A":
                 groupPrefabsInBook = ObjectManager.instance.bakChi_prefabs;
                 startIdxInBook = 0;
                 groupNumInBook = 6;
+                teamIdx = 3;
+                logoName = "앙리사루엔링6세";
                 lastButtonInBook.SetActive(true);
                 break;
             case "박취B":
                 groupPrefabsInBook = ObjectManager.instance.bakChi_prefabs;
                 startIdxInBook = 12;
                 groupNumInBook = 5;
+                teamIdx = 4;
+                logoName = "결석밴드";
                 break;
             case "V급":
                 groupPrefabsInBook = ObjectManager.instance.vBand_prefabs;
                 startIdxInBook = 0;
                 groupNumInBook = 5;
+                teamIdx = 5;
+                logoName = "V급밴드";
                 break;
         }
 
+        // Top UI Setting
+        // 로고
+        logoImageInBook.sprite = unitLogoSprites[teamIdx];
+        infoLogoNameText.text = logoName;
+
+        // Button Setting
         for (int i= startIdxInBook; i< startIdxInBook + groupNumInBook; i++)
         {
             Unit bookUnit = groupPrefabsInBook[i].GetComponent<Unit>();
@@ -710,9 +733,9 @@ public class GameManager : MonoBehaviour
 
         // Unit 정보 업데이트
         //infoImage.sprite = spriteRen.sprite;
-        infoImage.sprite = UnitImage(idx);
-        infoImage.SetNativeSize();
-        infoImage.transform.localScale = Vector3.one * scaleNum;
+        infoUnitImage.sprite = UnitImage(idx);
+        infoUnitImage.SetNativeSize();
+        infoUnitImage.transform.localScale = Vector3.one * scaleNum;
         infoUnitNameText.text = infoUnit.unitName;
         TypeTextSetting(infoUnitTypeText, infoUnit.unitType);
         infoCostText.text = $"코인 : {infoUnit.unitCost}";
@@ -992,7 +1015,7 @@ public class GameManager : MonoBehaviour
                         skillText = "공격에 적중당한 적 2초간 이동속도 4 감소.\n(중첩불가)";
                         break;
                     case 3:
-                        skillText = "범위 내 원거리 공격 무효.";
+                        skillText = "범위 내 원거리 공격 무효.\n(기지의 공격은 해당하지 않음.)";
                         break;
                     case 4:
                         skillText = "원거리유닛만 공격 가능. 근접유닛은 공격할 수 없음. 피격당해도 멈추지 않음.";

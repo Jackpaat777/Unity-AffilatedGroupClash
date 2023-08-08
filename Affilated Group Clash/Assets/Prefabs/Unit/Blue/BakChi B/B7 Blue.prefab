@@ -77,7 +77,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 3
-  m_Sprite: {fileID: -548600548, guid: 4b69496437d406247b5c69afb9fddf6a, type: 3}
+  m_Sprite: {fileID: 135153267, guid: 4b69496437d406247b5c69afb9fddf6a, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -112,6 +112,7 @@ MonoBehaviour:
   unitSpeed: 0.9
   dustObject: {fileID: 5880349887070974045}
   unitState: 0
+  isHeal: 0
   skillSensor: 0
   isATSUp: 0
   isATKUp: 0

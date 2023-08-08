@@ -285,7 +285,7 @@ public class InGameManager : MonoBehaviour
         UnitInfo();
 
         // Loop Pattern
-        StartCoroutine(Pattern(1f, patternIdx));
+        //StartCoroutine(Pattern(1f, patternIdx));
     }
     // ======================================================= Update 함수
     void GameTimer()
@@ -390,23 +390,24 @@ public class InGameManager : MonoBehaviour
             MakeBlueUnit(4 + Variables.startBlueIdx);
         if (Input.GetKeyDown(KeyCode.D) && Variables.groupBlueNum == 6)
             MakeBlueUnit(5 + Variables.startBlueIdx);
-        // red
-        //if (Input.GetKeyDown(KeyCode.I))
-        //    MakeRedUnit(0 + Variables.startRedIdx + Variables.groupRedNum);
-        //if (Input.GetKeyDown(KeyCode.O))
-        //    MakeRedUnit(1 + Variables.startRedIdx + Variables.groupRedNum);
-        //if (Input.GetKeyDown(KeyCode.P))
-        //    MakeRedUnit(2 + Variables.startRedIdx + Variables.groupRedNum);
-        //if (Input.GetKeyDown(KeyCode.J))
-        //    MakeRedUnit(3 + Variables.startRedIdx + Variables.groupRedNum);
-        //if (Input.GetKeyDown(KeyCode.K))
-        //    MakeRedUnit(4 + Variables.startRedIdx + Variables.groupRedNum);
-        //if (Input.GetKeyDown(KeyCode.L) && Variables.groupRedNum == 6)
-        //    MakeRedUnit(5 + Variables.startRedIdx + Variables.groupRedNum);
 
         // 키보드로 업그레이드
         if (Input.GetKeyDown(KeyCode.B))
             UpgradeBlueButton();
+
+        // red
+        if (Input.GetKeyDown(KeyCode.I))
+            MakeRedUnit(0 + Variables.startRedIdx + Variables.groupRedNum);
+        if (Input.GetKeyDown(KeyCode.O))
+            MakeRedUnit(1 + Variables.startRedIdx + Variables.groupRedNum);
+        if (Input.GetKeyDown(KeyCode.P))
+            MakeRedUnit(2 + Variables.startRedIdx + Variables.groupRedNum);
+        if (Input.GetKeyDown(KeyCode.J))
+            MakeRedUnit(3 + Variables.startRedIdx + Variables.groupRedNum);
+        if (Input.GetKeyDown(KeyCode.K))
+            MakeRedUnit(4 + Variables.startRedIdx + Variables.groupRedNum);
+        if (Input.GetKeyDown(KeyCode.L) && Variables.groupRedNum == 6)
+            MakeRedUnit(5 + Variables.startRedIdx + Variables.groupRedNum);
     }
     void UnitInfo()
     {
@@ -949,7 +950,7 @@ public class InGameManager : MonoBehaviour
                         skillText = "공격에 적중당한 적 2초간 이동속도 4 감소.\n(중첩불가)";
                         break;
                     case 3:
-                        skillText = "범위 내 원거리 공격 무효.";
+                        skillText = "범위 내 원거리 공격 무효.\n(기지의 공격은 해당하지 않음.)";
                         break;
                     case 4:
                         skillText = "원거리유닛만 공격 가능. 근접유닛은 공격할 수 없음. 피격당해도 멈추지 않음.";

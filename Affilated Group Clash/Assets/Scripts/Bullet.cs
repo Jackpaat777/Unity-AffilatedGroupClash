@@ -146,6 +146,10 @@ public class Bullet : MonoBehaviour
     // Destroy Bullet 센서 스캔
     void ScanSensor()
     {
+        // 베이스의 총알은 못막음
+        if (unitDetail == UnitDetail.Base)
+            return;
+
         Vector2 dir = Vector2.zero;
         string enemyLayer = "";
 

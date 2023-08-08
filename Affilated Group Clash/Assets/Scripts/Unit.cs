@@ -634,7 +634,17 @@ public class Unit : MonoBehaviour
         if (unitDetail == UnitDetail.Vampire)
         {
             // 회복 이펙트
-            ObjectManager.instance.GetBullet(idx + ((int)UnitDetail.Base + 1) * 2, transform.position + Vector3.up * 0.5f);
+            // 이펙트
+            if (gameObject.layer == 8)
+            {
+                Vector3 vec = new Vector3(0.5f, 0.5f);
+                ObjectManager.instance.GetBullet(idx + ((int)UnitDetail.Base + 1) * 2, transform.position + vec);
+            }
+            else if (gameObject.layer == 9)
+            {
+                Vector3 vec = new Vector3(-0.5f, 0.5f);
+                ObjectManager.instance.GetBullet(idx + ((int)UnitDetail.Base + 1) * 2, transform.position + vec);
+            }
             unitHp += unitAtk;
             unitHp = unitHp > unitMaxHp ? unitMaxHp : unitHp;
         }
@@ -746,7 +756,7 @@ public class Unit : MonoBehaviour
         {
             // Base의 경우
             if (unitDetail == UnitDetail.Base)
-                vec = new Vector3(0.5f, 0.3f);
+                vec = new Vector3(0.5f, 0);
 
             // 자신을 기준으로 총알 발사
             bullet = ObjectManager.instance.GetBullet(idx, transform.position + Vector3.up * 0.2f + vec);
@@ -754,7 +764,7 @@ public class Unit : MonoBehaviour
         else if (gameObject.layer == 9)     // 레드 팀 유닛일 경우
         {
             if (unitDetail == UnitDetail.Base)
-                vec = new Vector3(-0.5f, 0.3f);
+                vec = new Vector3(-0.5f, 0);
 
             bullet = ObjectManager.instance.GetBullet(idx + ((int)UnitDetail.Base + 1), transform.position + Vector3.up * 0.2f + vec); // => Bullet A 사용 유닛 개수 추가
         }
