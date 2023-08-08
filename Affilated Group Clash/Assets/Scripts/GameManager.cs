@@ -8,6 +8,7 @@ using Image = UnityEngine.UI.Image;
 public static class Variables
 {
     public static bool isFirstGame = false;
+    public static bool isChangeVol = false;
     public static bool isStage = true;
     public static bool[] isStageClear = { false, false, false, false, false, false };
     public static bool[] isSelectTeam = { false, false, false, false, false, false };

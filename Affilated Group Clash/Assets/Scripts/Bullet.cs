@@ -107,8 +107,8 @@ public class Bullet : MonoBehaviour
             isHit = true;
             enemyLogic.DoHit(dmg);
 
-            // 디버프 총알
-            if (isDebuff)
+            // 디버프 총알 (Base는 제외)
+            if (isDebuff && enemyLogic.unitDetail != UnitDetail.Base)
             {
                 // Singer에 맞으면 공격력 감소 (1번만)
                 if (unitDetail == UnitDetail.Singer)

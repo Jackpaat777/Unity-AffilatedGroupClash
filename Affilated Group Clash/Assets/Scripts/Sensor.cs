@@ -29,6 +29,10 @@ public class Sensor : MonoBehaviour
     // 아군 감지 트리거 (한명씩 인지)
     void OnTriggerStay2D(Collider2D collision)
     {
+        // 게임 중에만 실행
+        if (!InGameManager.instance.isGameLive)
+            return;
+
         // 아군일 경우
         if ((layer == 8 && collision.gameObject.layer == 8) || (layer == 9 && collision.gameObject.layer == 9))
         {

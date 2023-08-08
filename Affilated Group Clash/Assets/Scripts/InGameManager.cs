@@ -26,10 +26,11 @@ public class InGameManager : MonoBehaviour
     public float costRedUp;
     public float redUpgradeTime;
     public float spawnTimer;
+    public bool[] onCoolTime;
+    public float[] btnCoolTimer;
+    public Image[] btnCoolImage;
     public TextMeshProUGUI timeText;
     public TextMeshProUGUI costText;
-    public List<GameObject> blueUnitList;
-    public List<GameObject> redUnitList;
 
     [Header("---------------[Base]")]
     public int baseBLevel;
@@ -185,7 +186,7 @@ public class InGameManager : MonoBehaviour
                 // 업그레이드 시간
                 redUpgradeTime = 180;
                 // 몇초에 한명씩 나오는지
-                spawnTimer = 5f;
+                spawnTimer = 4f;
                 // 레벨 텍스트 변경
                 levelText.text = "매우쉬움";
                 break;
@@ -270,6 +271,8 @@ public class InGameManager : MonoBehaviour
 
         // Timer
         GameTimer();
+        // Button
+        ButtonTimer();
         // Devil
         DevilTimer();
         // Camera Move
@@ -285,13 +288,33 @@ public class InGameManager : MonoBehaviour
         UnitInfo();
 
         // Loop Pattern
-        //StartCoroutine(Pattern(1f, patternIdx));
+        StartCoroutine(Pattern(1f, patternIdx));
     }
     // ======================================================= Update 함수
     void GameTimer()
     {
         gameTimer += Time.deltaTime;
         timeText.text = ((int)gameTimer / 60).ToString("D2") + ":" + ((int)gameTimer % 60).ToString("D2");
+    }
+    void ButtonTimer()
+    {
+        for (int i = 0; i < 6; i++)
+        {
+            // 쿨타임 시작
+            if (onCoolTime[i])
+            {
+                // 쿨타임 돌리기
+                btnCoolTimer[i] += Time.deltaTime;
+                // 쿨타임 이미지
+                btnCoolImage[i].fillAmount = 1f - (btnCoolTimer[i] / 2);
+                // 2초 쿨타임
+                if (btnCoolTimer[i] > 2f)
+                {
+                    btnCoolTimer[i] = 0;
+                    onCoolTime[i] = false;
+                }
+            }
+        }
     }
     void DevilTimer()
     {
@@ -340,6 +363,7 @@ public class InGameManager : MonoBehaviour
             UpgradeRed();
         else if (gameTimer > redUpgradeTime * 2.5f && baseRLevel == 1)
             UpgradeRed();
+        //redCost = 0;
     }
     void BlueCostUp()
     {
@@ -396,18 +420,18 @@ public class InGameManager : MonoBehaviour
             UpgradeBlueButton();
 
         // red
-        if (Input.GetKeyDown(KeyCode.I))
-            MakeRedUnit(0 + Variables.startRedIdx + Variables.groupRedNum);
-        if (Input.GetKeyDown(KeyCode.O))
-            MakeRedUnit(1 + Variables.startRedIdx + Variables.groupRedNum);
-        if (Input.GetKeyDown(KeyCode.P))
-            MakeRedUnit(2 + Variables.startRedIdx + Variables.groupRedNum);
-        if (Input.GetKeyDown(KeyCode.J))
-            MakeRedUnit(3 + Variables.startRedIdx + Variables.groupRedNum);
-        if (Input.GetKeyDown(KeyCode.K))
-            MakeRedUnit(4 + Variables.startRedIdx + Variables.groupRedNum);
-        if (Input.GetKeyDown(KeyCode.L) && Variables.groupRedNum == 6)
-            MakeRedUnit(5 + Variables.startRedIdx + Variables.groupRedNum);
+        //if (Input.GetKeyDown(KeyCode.I))
+        //    MakeRedUnit(0 + Variables.startRedIdx + Variables.groupRedNum);
+        //if (Input.GetKeyDown(KeyCode.O))
+        //    MakeRedUnit(1 + Variables.startRedIdx + Variables.groupRedNum);
+        //if (Input.GetKeyDown(KeyCode.P))
+        //    MakeRedUnit(2 + Variables.startRedIdx + Variables.groupRedNum);
+        //if (Input.GetKeyDown(KeyCode.J))
+        //    MakeRedUnit(3 + Variables.startRedIdx + Variables.groupRedNum);
+        //if (Input.GetKeyDown(KeyCode.K))
+        //    MakeRedUnit(4 + Variables.startRedIdx + Variables.groupRedNum);
+        //if (Input.GetKeyDown(KeyCode.L) && Variables.groupRedNum == 6)
+        //    MakeRedUnit(5 + Variables.startRedIdx + Variables.groupRedNum);
     }
     void UnitInfo()
     {
@@ -502,6 +526,10 @@ public class InGameManager : MonoBehaviour
     // 유닛 소환
     public void MakeBlueUnit(int idx)
     {
+        // 쿨타임 동안은 소환 못함 (Blue팀 시작인덱스만큼 빼서 적용)
+        if (onCoolTime[idx - Variables.startBlueIdx])
+            return;
+
         GameObject unitB = Variables.teamBluePrefabs[idx];
         Unit unitBLogic = unitB.GetComponent<Unit>();
 
@@ -518,7 +546,8 @@ public class InGameManager : MonoBehaviour
         }
         // 생성
         GetUnitObject(Variables.teamBlueNum, idx, unitB.transform.position);
-        blueUnitList.Add(unitB);
+        // 쿨타임 시작
+        onCoolTime[idx - Variables.startBlueIdx] = true;
 
         // Sound
         SoundManager.instance.SfxPlay("Buy");
@@ -541,7 +570,6 @@ public class InGameManager : MonoBehaviour
         }
         // 생성
         GetUnitObject(Variables.teamRedNum, idx, unitR.transform.position);
-        redUnitList.Add(unitR);
 
         // Sound
         SoundManager.instance.SfxPlay("Buy");
@@ -1083,7 +1111,7 @@ public class InGameManager : MonoBehaviour
                 break;
             case 2:
                 descriptionText.text = "두번째는 <color=red>멤버 소환</color>입니다.\n\n이곳에는 해당 멤버을 뽑기 위한\n코인, 멤버의 타입이 적혀있습니다.\n\n" +
-                    "멤버를 소환하기 위해서는 해당하는\n<color=red>키보드를 눌러서 소환</color>하실 수 있습니다.\n\n같은 유닛을 중복하여 소환하실 수도 있습니다!";
+                    "멤버를 소환하기 위해서는 해당하는\n<color=red>키보드를 눌러서 소환</color>하실 수 있습니다.\n\n모든 유닛은 소환 이후 2초간 쿨타임이 존재합니다.";
                 break;
             case 3:
                 descriptionText.text = "이 곳은 <color=red>멤버 상세정보</color>입니다.\n\n현재 <color=red>소환된 멤버를 클릭</color>하여 해당멤버의\n실시간 정보를 확인하실 수 있습니다!\n\n" +

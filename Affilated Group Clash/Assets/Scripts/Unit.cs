@@ -222,10 +222,10 @@ public class Unit : MonoBehaviour
 
         if (unitDetail == UnitDetail.GrowUp)
         {
-            unitAtk = 30;
+            unitAtk = 10;
             unitAtkSpeed = 1.5f;
-            unitMaxHp = 100;
-            unitHp = 100;
+            unitMaxHp = 50;
+            unitHp = 50;
         }
     }
     void ResetSensor()
@@ -635,16 +635,8 @@ public class Unit : MonoBehaviour
         {
             // 회복 이펙트
             // 이펙트
-            if (gameObject.layer == 8)
-            {
-                Vector3 vec = new Vector3(0.5f, 0.5f);
-                ObjectManager.instance.GetBullet(idx + ((int)UnitDetail.Base + 1) * 2, transform.position + vec);
-            }
-            else if (gameObject.layer == 9)
-            {
-                Vector3 vec = new Vector3(-0.5f, 0.5f);
-                ObjectManager.instance.GetBullet(idx + ((int)UnitDetail.Base + 1) * 2, transform.position + vec);
-            }
+
+            ObjectManager.instance.GetBullet(idx + ((int)UnitDetail.Base + 1) * 2, transform.position + Vector3.up * 0.5f);
             unitHp += unitAtk;
             unitHp = unitHp > unitMaxHp ? unitMaxHp : unitHp;
         }
@@ -676,21 +668,29 @@ public class Unit : MonoBehaviour
                 anim.SetTrigger("doAttackB");
             else if (gameObject.layer == 9)
                 anim.SetTrigger("doAttackR");
-            // 적의 HP가 내 공격력이하만큼 있으면 (죽을 경우 -> 상대방이 힐 유닛이면? 힐되기 전에 죽었을 듯)
-            if (enemyLogic.unitHp <= unitAtk)
+
+            // Base는 해당안됨
+            if (enemyLogic.unitDetail != UnitDetail.Base)
             {
-                unitAtk += 1;
-                unitAtkSpeed -= 0.05f;
-                unitAtkSpeed = unitAtkSpeed < 0.3f ? 0.3f : unitAtkSpeed;
-                unitMaxHp += 5;
+                // 적의 HP가 내 공격력이하만큼 있으면 (죽을 경우 -> 상대방이 힐 유닛이면? 힐되기 전에 죽었을 듯)
+                if (enemyLogic.unitHp <= unitAtk)
+                {
+                    unitAtk += 1;
+                    unitAtkSpeed -= 0.05f;
+                    unitAtkSpeed = unitAtkSpeed < 0.3f ? 0.3f : unitAtkSpeed;
+                    unitMaxHp += 5;
+                }
             }
         }
         // Air는 공격 시 상대 공속 절반
         else if (unitDetail == UnitDetail.Air && !enemyLogic.isAtsDebuff)
         {
-            enemyLogic.unitAtkSpeed *= 2;
-            enemyLogic.isAtsDebuff = true;
-            enemyLogic.atsDebuffTimer = 0;
+            if (enemyLogic.unitDetail != UnitDetail.Base)
+            {
+                enemyLogic.unitAtkSpeed *= 2;
+                enemyLogic.isAtsDebuff = true;
+                enemyLogic.atsDebuffTimer = 0;
+            }
         }
         // Hammer는 공격 시 베리어 어택 True
         else if (unitDetail == UnitDetail.Hammer)
@@ -706,7 +706,7 @@ public class Unit : MonoBehaviour
         // Drum은 적을 밀침
         else if (unitDetail == UnitDetail.Drum)
         {
-            // 적 밀치기
+            // 적 밀치기 (최댓값 존재)
             if (gameObject.layer == 8 && enemyLogic.transform.position.x < 10f)
                 enemyLogic.transform.Translate(Vector3.right * 0.5f);
             else if (gameObject.layer == 9 && enemyLogic.transform.position.x > -10f)
