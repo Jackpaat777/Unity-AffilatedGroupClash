@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.UI;
 
 public enum UnitType
 {
@@ -52,6 +53,7 @@ public class Unit : MonoBehaviour
     public float unitSpeed;
 
     [Header("---------------[Game]")]
+    public Slider hpSlider;
     public ParticleSystem dustObject;
     public UnitState unitState; // 유닛의 상태마다 다른 로직을 실행하도록
     float attackTimer;          // 공속용 타이머
@@ -69,6 +71,7 @@ public class Unit : MonoBehaviour
     public bool isAtsDebuff;
     public bool isSpdDebuff;
     public bool isNoDamage;
+    public bool isBackStep;
     public float atkDebuffTimer;
     public float atsDebuffTimer;
     public float spdDebuffTimer;
@@ -128,6 +131,22 @@ public class Unit : MonoBehaviour
             else if (gameObject.layer == 9)
                 InGameManager.instance.isDevilR = true;
         }
+        // Cost의 경우
+        else if (unitDetail == UnitDetail.CostUp)
+        {
+            if (gameObject.layer == 8)
+                InGameManager.instance.isCostB = true;
+            else if (gameObject.layer == 9)
+                InGameManager.instance.isCostR = true;
+        }
+        // Cost의 경우
+        else if (unitDetail == UnitDetail.Heal)
+        {
+            if (gameObject.layer == 8)
+                InGameManager.instance.isHealB = true;
+            else if (gameObject.layer == 9)
+                InGameManager.instance.isHealR = true;
+        }
         // Barrier의 경우
         isNoDamage = false;
         if (unitDetail == UnitDetail.Hammer)
@@ -155,6 +174,7 @@ public class Unit : MonoBehaviour
         isFront = false;
         isHit = false;
         isHeal = false;
+        isBackStep = true;
         DoMove();
 
         // 체력 초기화
@@ -179,9 +199,9 @@ public class Unit : MonoBehaviour
         if (isSpdDebuff)
         {
             if (gameObject.layer == 8)
-                unitSpeed += 0.4f;
+                unitSpeed += 0.3f;
             else if (gameObject.layer == 9)
-                unitSpeed -= 0.4f;
+                unitSpeed -= 0.3f;
             isSpdDebuff = false;
         }
 
@@ -298,6 +318,8 @@ public class Unit : MonoBehaviour
 
         // 상대팀 Devil의 공격
         DevilHit();
+        // BackStep
+        BackStepTimer();
         // 버프 유닛 (일정시간마다 공격모션)
         BuffUnit();
         // 디버프 상태에 걸렸을 때
@@ -306,6 +328,7 @@ public class Unit : MonoBehaviour
         BuffSensor();
         // 유닛 이동
         UnitMovement();
+        HpSlider();
     }
     // ======================================================= Update 정리용 함수
     void DevilHit()
@@ -324,6 +347,18 @@ public class Unit : MonoBehaviour
             ObjectManager.instance.GetBullet(idx, transform.position + vec);
             // Hit >> 데미지 (5f)
             DoHit(5);
+        }
+    }
+    void BackStepTimer()
+    {
+        if (!isBackStep)
+        {
+            backStepTimer += Time.deltaTime;
+            if (backStepTimer > 4.5f)
+            {
+                isBackStep = true;
+                backStepTimer = 0;
+            }
         }
     }
     void BuffUnit()
@@ -493,6 +528,10 @@ public class Unit : MonoBehaviour
         {
             Vector3 nextMove = Vector3.right * unitSpeed * Time.deltaTime;
             transform.Translate(nextMove);
+
+            // attackTimer 초기화 -> 코스트업 제외 모든 유닛은 멈춰있을 때만 공격 가능
+            if (unitDetail != UnitDetail.CostUp)
+                attackTimer = 0;
         }
         else if (unitState == UnitState.Idle || unitState == UnitState.Hit)
         {
@@ -513,6 +552,19 @@ public class Unit : MonoBehaviour
                 }
             }
         }
+    }
+    void HpSlider()
+    {
+        // 슬라이더 체력 표시
+        hpSlider.value = (float)unitHp / unitMaxHp;
+
+        // 슬라이더 이동
+        Vector3 vec = Vector3.zero;
+        if (gameObject.layer == 8)
+            vec = new Vector3(-0.5f, 1.3f);
+        else if (gameObject.layer == 9)
+            vec = new Vector3(0.5f, 1.3f);
+        hpSlider.transform.position = Camera.main.WorldToScreenPoint(transform.position + vec);
     }
 
     void FixedUpdate()
@@ -559,12 +611,16 @@ public class Unit : MonoBehaviour
                 WideAttack(enemyLogic.transform);
 
             // 근접 유닛의 경우 (Unit 변수 필요)
-            else if (unitType == UnitType.Warrior || unitType == UnitType.Tanker || unitDetail == UnitDetail.Cat)
+            else if (unitType == UnitType.Warrior || unitType == UnitType.Tanker)
                 DirectAttack(enemyLogic);
 
             // 원거리 유닛의 경우 + Base의 경우
             else if (unitType == UnitType.Ranger || unitType == UnitType.Base)
                 ShotAttack();
+
+            // Cat의 경우
+            else if (unitDetail == UnitDetail.Cat)
+                CatAttack(enemyLogic);
 
             // 버퍼의 경우
             else if (unitType == UnitType.Buffer || unitDetail == UnitDetail.Devil)
@@ -598,16 +654,49 @@ public class Unit : MonoBehaviour
             RaycastHit2D bombRayHit = Physics2D.Raycast(transform.position, dir, 1f, LayerMask.GetMask(enemyLayer));
             if (bombRayHit.collider != null)
             {
-                // 백스탭 실행 (제한거리 있음)
-                if (gameObject.layer == 8 && transform.position.x > -10f)
-                    transform.Translate(Vector3.left * 1f);
-                else if (gameObject.layer == 9 && transform.position.x < 10f)
-                    transform.Translate(Vector3.right * 1f);
+                // 백스탭이 가능한 상태에서만 (2초 쿨타임)
+                if (isBackStep)
+                {
+                    // 백스탭 실행 (제한거리 있음)
+                    if (gameObject.layer == 8 && transform.position.x > -10f)
+                        transform.Translate(Vector3.left * 1f);
+                    else if (gameObject.layer == 9 && transform.position.x < 10f)
+                        transform.Translate(Vector3.right * 1f);
+                    // 2초간 백스탭 불가능
+                    isBackStep = false;
+                }
             }
         }
     }
 
     // ======================================================= 공격 함수
+    void CatAttack(Unit enemyLogic)
+    {
+        // Cat은 근접상대 무시
+        if (unitDetail == UnitDetail.Cat)
+        {
+            // Base앞에선 멈춤
+            if (enemyLogic.unitDetail == UnitDetail.Base)
+            {
+                // 멈춤
+                isFront = true;
+                DoStop();
+            }
+
+            // 공격속도에 따라서 어택
+            attackTimer += Time.deltaTime;
+            if (attackTimer < unitAtkSpeed)
+                return;
+
+            // Attack
+            enemyLogic.DoHit(unitAtk);
+            anim.SetTrigger("doAttack");
+            attackTimer = 0;
+
+            // Sound
+            SoundManager.instance.SfxPlay("Sword");
+        }
+    }
     void DirectAttack(Unit enemyLogic)
     {
         // Cat은 근접상대 무시
@@ -634,29 +723,31 @@ public class Unit : MonoBehaviour
         if (unitDetail == UnitDetail.Vampire)
         {
             // 회복 이펙트
-            // 이펙트
-
             ObjectManager.instance.GetBullet(idx + ((int)UnitDetail.Base + 1) * 2, transform.position + Vector3.up * 0.5f);
             unitHp += unitAtk;
             unitHp = unitHp > unitMaxHp ? unitMaxHp : unitHp;
         }
-        // Punch는 상대 체력이 5이하면 즉사시킴
+        // Punch는 상대 체력이 50이하면 즉사시킴
         else if (unitDetail == UnitDetail.Punch)
         {
-            // 즉사
-            if (enemyLogic.unitHp <= 50)
+            // Base는 해당안됨
+            if (enemyLogic.unitDetail != UnitDetail.Base)
             {
-                enemyLogic.DoHit(50);
-                // 이펙트
-                if (gameObject.layer == 8)
+                // 즉사
+                if (enemyLogic.unitHp <= 30)
                 {
-                    Vector3 vec = new Vector3(0.5f, 0.5f);
-                    ObjectManager.instance.GetBullet(idx + ((int)UnitDetail.Base + 1) * 2, transform.position + vec);
-                }
-                else if (gameObject.layer == 9)
-                {
-                    Vector3 vec = new Vector3(-0.5f, 0.5f);
-                    ObjectManager.instance.GetBullet(idx + ((int)UnitDetail.Base + 1) * 2, transform.position + vec);
+                    enemyLogic.DoHit(30);
+                    // 이펙트
+                    if (gameObject.layer == 8)
+                    {
+                        Vector3 vec = new Vector3(0.5f, 0.5f);
+                        ObjectManager.instance.GetBullet(idx + ((int)UnitDetail.Base + 1) * 2, transform.position + vec);
+                    }
+                    else if (gameObject.layer == 9)
+                    {
+                        Vector3 vec = new Vector3(-0.5f, 0.5f);
+                        ObjectManager.instance.GetBullet(idx + ((int)UnitDetail.Base + 1) * 2, transform.position + vec);
+                    }
                 }
             }
         }
@@ -925,7 +1016,7 @@ public class Unit : MonoBehaviour
         if (unitState == UnitState.Move)
             return;
 
-        // Skill
+        // Guitar는 움직이면 공속 초기화
         if (unitDetail == UnitDetail.Guitar)
             unitAtkSpeed = 1.5f;
 
@@ -962,8 +1053,8 @@ public class Unit : MonoBehaviour
 
         if (unitDetail == UnitDetail.Berserker)
         {
-            // 깎인체력 10 당 0.1씩 공속 증가
-            unitAtkSpeed -= damage * 0.01f;
+            // 깎인체력 10 당 0.05씩 공속 증가
+            unitAtkSpeed -= damage * 0.005f;
             unitAtkSpeed = unitAtkSpeed < 0.3f ? 0.3f : unitAtkSpeed;
         }
         else if (unitDetail == UnitDetail.Shield)
@@ -1018,6 +1109,22 @@ public class Unit : MonoBehaviour
                 InGameManager.instance.isDevilRAttack = false;
                 InGameManager.instance.devilRTimer = 0;
             }
+        }
+        // Cost
+        if (unitDetail == UnitDetail.CostUp)
+        {
+            if (gameObject.layer == 8)
+                InGameManager.instance.isCostB = false;
+            else if (gameObject.layer == 9)
+                InGameManager.instance.isCostR = false;
+        }
+        // Heal
+        if (unitDetail == UnitDetail.Heal)
+        {
+            if (gameObject.layer == 8)
+                InGameManager.instance.isHealB = false;
+            else if (gameObject.layer == 9)
+                InGameManager.instance.isHealR = false;
         }
 
         col.enabled = false;

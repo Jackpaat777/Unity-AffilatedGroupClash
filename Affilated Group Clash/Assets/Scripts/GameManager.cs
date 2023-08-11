@@ -7,8 +7,8 @@ using Image = UnityEngine.UI.Image;
 
 public static class Variables
 {
-    public static bool isFirstGame = false;
     public static bool isChangeVol = false;
+    public static bool isFirstGame = false;
     public static bool isStage = true;
     public static bool[] isStageClear = { false, false, false, false, false, false };
     public static bool[] isSelectTeam = { false, false, false, false, false, false };
@@ -19,8 +19,8 @@ public static class Variables
     public static int groupBlueNum = 0;
     public static int startRedIdx = 0;
     public static int groupRedNum = 0;
-    public static float bgmVolume = -15f;
-    public static float sfxVolume = -15f;
+    public static float bgmVolume = 0f;
+    public static float sfxVolume = 0f;
     public static GameObject[] teamBluePrefabs = { };
     public static GameObject[] teamRedPrefabs = { };
 }
@@ -930,10 +930,10 @@ public class GameManager : MonoBehaviour
                         skillText = "공격에 적중당한 적 2초간 공격속도 2배 감소.\n(중첩불가)";
                         break;
                     case 3:
-                        skillText = "범위 내 아군 한명에게 10만큼 힐.";
+                        skillText = "범위 내 아군 한명에게 10만큼 힐.\n(중복 소환 불가)";
                         break;
                     case 4:
-                        skillText = "적을 킬하면 최대체력 10, 공격력 5, 공격속도 0.1 증가\n(공격속도 최대치 : 0.3)";
+                        skillText = "적을 킬하면 최대체력 5, 공격력 1, 공격속도 0.05 증가\n(공격속도 최대치 : 0.3)";
                         break;
                 }
                 break;
@@ -953,7 +953,7 @@ public class GameManager : MonoBehaviour
                         skillText = "광역 원거리 공격.";
                         break;
                     case 4:
-                        skillText = "적이 본인과 근접범위까지 오면 백스탭.";
+                        skillText = "적이 본인과 근접범위까지 오면 백스탭. (쿨타임 4.5초)";
                         break;
                     case 5:
                         skillText = "본인이 처음 공격하기 전까지 무적.";
@@ -973,13 +973,13 @@ public class GameManager : MonoBehaviour
                         skillText = "공격 시 본인의 공격력만큼 체력 흡혈.";
                         break;
                     case 3:
-                        skillText = "3.5초마다 1코인씩 증가.";
+                        skillText = "4초마다 1코인씩 증가.\n(중복 소환 불가)";
                         break;
                     case 4:
                         skillText = "일반적인 원딜.\n(가장 긴 공격범위)";
                         break;
                     case 5:
-                        skillText = "일정 범위 내에 적이 있다면 빠르게 적에게 이동 후 광역으로 자폭.";
+                        skillText = "범위 내에 적이 있다면 빠르게 이동 후 자폭. 적 최대체력의 절반만큼 데미지.\n(기지의 경우 100 데미지)";
                         break;
                 }
                 break;
@@ -1019,7 +1019,7 @@ public class GameManager : MonoBehaviour
                         skillText = "범위 내 원거리 공격 무효.\n(기지의 공격은 해당하지 않음.)";
                         break;
                     case 4:
-                        skillText = "원거리유닛만 공격 가능. 근접유닛은 공격할 수 없음. 피격당해도 멈추지 않음.";
+                        skillText = "적 기지까지 이동할 동안 공격하지 않음. 피격당해도 멈추지 않음.";
                         break;
                 }
                 break;

@@ -23,11 +23,8 @@ public class SoundManager : MonoBehaviour
         Application.targetFrameRate = 60;
 
         // 불러오기
-        if (!Variables.isChangeVol)
-        {
-            Variables.bgmVolume = PlayerPrefs.GetFloat("Bgm");
-            Variables.sfxVolume = PlayerPrefs.GetFloat("Sfx");
-        }
+        //Variables.bgmVolume = PlayerPrefs.GetFloat("Bgm");
+        //Variables.sfxVolume = PlayerPrefs.GetFloat("Sfx");
     }
 
     void Start()
@@ -161,8 +158,8 @@ public class SoundManager : MonoBehaviour
 
     void VolumeSave()
     {
-        Variables.isChangeVol = true;
-        // 값 저장
+        //// 값 저장
+        PlayerPrefs.SetInt("Vol", Variables.isChangeVol ? 1 : 0);
         PlayerPrefs.SetFloat("Bgm", Variables.bgmVolume);
         PlayerPrefs.SetFloat("Sfx", Variables.sfxVolume);
     }

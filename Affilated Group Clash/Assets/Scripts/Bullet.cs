@@ -129,9 +129,9 @@ public class Bullet : MonoBehaviour
                     if (!enemyLogic.isSpdDebuff)
                     {
                         if (enemyLogic.gameObject.layer == 8)
-                            enemyLogic.unitSpeed -= 0.4f;
+                            enemyLogic.unitSpeed -= 0.3f;
                         else if (enemyLogic.gameObject.layer == 9)
-                            enemyLogic.unitSpeed += 0.4f;
+                            enemyLogic.unitSpeed += 0.3f;
                         enemyLogic.isSpdDebuff = true;
                     }
                     enemyLogic.spdDebuffTimer = 0;
@@ -183,7 +183,16 @@ public class Bullet : MonoBehaviour
             {
                 Unit unitLogic = collision.GetComponent<Unit>();
 
-                unitLogic.DoHit(dmg);
+                // Bomb 데미지는 적 체력의 절반 (기지의 경우 100의 데미지)
+                if (unitDetail == UnitDetail.Bomb)
+                {
+                    if (unitLogic.unitDetail == UnitDetail.Base)
+                        unitLogic.DoHit(100);
+                    else
+                        unitLogic.DoHit(unitLogic.unitMaxHp / 2);
+                }
+                else
+                    unitLogic.DoHit(dmg);
             }
 
             // collider는 바로 끄기 (끄트머리에서 맞으면 연속데미지 받는 오류)

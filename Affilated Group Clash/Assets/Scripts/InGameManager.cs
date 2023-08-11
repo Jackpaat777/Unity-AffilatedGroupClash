@@ -18,7 +18,6 @@ public class InGameManager : MonoBehaviour
     public int redMaxCost;
     public int blueCost;
     public int redCost;
-    public int patternIdx;
     public float gameTimer;
     public float costBTimer;
     public float costRTimer;
@@ -31,6 +30,12 @@ public class InGameManager : MonoBehaviour
     public Image[] btnCoolImage;
     public TextMeshProUGUI timeText;
     public TextMeshProUGUI costText;
+
+    [Header("---------------[Pattern]")]
+    public bool isUpgradeTime;
+    public int patternIdx;
+    public int[] patternCost;
+    public int[] patternRatio;
 
     [Header("---------------[Base]")]
     public int baseBLevel;
@@ -60,6 +65,7 @@ public class InGameManager : MonoBehaviour
     [Header("---------------[Top UI]")]
     public Animator fadeAc;
     public GameObject optionPanel;
+    public GameObject restartButton;
     public TextMeshProUGUI levelText;
     public Image blueLogo;
     public Image redLogo;
@@ -106,13 +112,18 @@ public class InGameManager : MonoBehaviour
     public GameObject overSet;
     public GameObject controlSet;
     public GameObject victoryObj;
+    public GameObject clearObj;
     public GameObject defeatObj;
     public GameObject nextBtn;
     public GameObject resetBtn;
 
-    [Header("---------------[Devil]")]
+    [Header("---------------[Double Spawn]")]
     public bool isDevilB;
     public bool isDevilR;
+    public bool isCostB;
+    public bool isCostR;
+    public bool isHealB;
+    public bool isHealR;
     public float devilBTimer;
     public float devilRTimer;
     public bool isDevilBAttack;
@@ -128,7 +139,6 @@ public class InGameManager : MonoBehaviour
     public GameObject desPrevButton;
     public GameObject desNextButton;
     public GameObject[] descriptionRect;
-
 
     [Header("---------------[Camera]")]
     public Transform camTrans;
@@ -168,6 +178,9 @@ public class InGameManager : MonoBehaviour
         // 5명팀이면 마지막버튼 끄기
         if (Variables.groupBlueNum == 5)
             lastButton.SetActive(false);
+        
+        // Red Setting
+        RedSetting();
 
         // Base
         baseBSpriteRen.gameObject.SetActive(true);
@@ -177,51 +190,114 @@ public class InGameManager : MonoBehaviour
         blueHpShadowText.text = blueHP.ToString();
         redHpShadowText.text = redHP.ToString();
 
+        // Logo
+        blueLogo.sprite = logoSprites[Variables.teamBlueNum];
+        redLogo.sprite = logoSprites[Variables.teamRedNum];
+
+        // Restart Button
+        if (Variables.isStage)
+            restartButton.SetActive(false);
+        else
+            restartButton.SetActive(true);
+
+        // BGM
+        SoundManager.instance.BgmPlay("Game");
+    }
+    void RedSetting()
+    {
+        // Red Team Ratio
+        switch (Variables.teamRedNum)
+        {
+            case 0:
+                patternRatio[0] = 30;   // 30%
+                patternRatio[1] = 50;   // 20%
+                patternRatio[2] = 70;   // 20%
+                patternRatio[3] = 90;   // 20%
+                patternRatio[4] = 100;  // 10%
+                break;
+            case 1:
+                patternRatio[0] = 30;   // 30%
+                patternRatio[1] = 50;   // 20%
+                patternRatio[2] = 70;   // 20%
+                patternRatio[3] = 85;   // 15%
+                patternRatio[4] = 100;  // 15%
+                break;
+            case 2:
+                patternRatio[0] = 30;   // 30%
+                patternRatio[1] = 45;   // 15%
+                patternRatio[2] = 65;   // 20%
+                patternRatio[3] = 80;   // 15%
+                patternRatio[4] = 90;   // 10%  10%
+                break;
+            case 3:
+                patternRatio[0] = 25;   // 25%
+                patternRatio[1] = 50;   // 25%
+                patternRatio[2] = 65;   // 15%
+                patternRatio[3] = 75;   // 10%
+                patternRatio[4] = 90;   // 15%  10%
+                break;
+            case 4:
+                patternRatio[0] = 25;   // 25%
+                patternRatio[1] = 50;   // 25%
+                patternRatio[2] = 70;   // 20%
+                patternRatio[3] = 85;   // 15%
+                patternRatio[4] = 100;  // 15%
+                break;
+            case 5:
+                patternRatio[0] = 25;   // 25%
+                patternRatio[1] = 50;   // 25%
+                patternRatio[2] = 75;   // 25%
+                patternRatio[3] = 90;   // 15%
+                patternRatio[4] = 100;  // 10%
+                break;
+        }
+
+
+        // Red Team Cost
+        for (int i = Variables.startRedIdx; i < Variables.startRedIdx + Variables.groupRedNum; i++)
+        {
+            Unit redUnit = Variables.teamRedPrefabs[i].GetComponent<Unit>();
+            patternCost[i - Variables.startRedIdx] = redUnit.unitCost;
+        }
+
         // RedTeam Level
         switch (Variables.gameLevel)
         {
             case 0:
                 // 코스트 증가 시간
-                costRedUp = 3.5f;
+                costRedUp = 3f;
                 // 업그레이드 시간
                 redUpgradeTime = 180;
                 // 몇초에 한명씩 나오는지
-                spawnTimer = 4f;
+                spawnTimer = 3f;
                 // 레벨 텍스트 변경
                 levelText.text = "매우쉬움";
                 break;
             case 1:
-                costRedUp = 3f;
+                costRedUp = 2.5f;
                 redUpgradeTime = 120;
-                spawnTimer = 3f;
+                spawnTimer = 2f;
                 levelText.text = "쉬움";
                 break;
             case 2:
-                costRedUp = 2.5f;
-                redUpgradeTime = 60;
-                spawnTimer = 1f;
+                costRedUp = 1.75f;
+                redUpgradeTime = 80;
+                spawnTimer = 1.5f;
                 levelText.text = "보통";
                 break;
             case 3:
-                costRedUp = 2f;
-                redUpgradeTime = 50;
-                spawnTimer = 0.75f;
+                costRedUp = 1.5f;
+                redUpgradeTime = 60;
+                spawnTimer = 1f;
                 levelText.text = "어려움";
                 break;
             case 4:
-                costRedUp = 1.75f;
-                redUpgradeTime = 30;
-                spawnTimer = 0.75f;
+                costRedUp = 1.25f;
+                redUpgradeTime = 50;
+                spawnTimer = 1f;
                 levelText.text = "매우어려움";
                 break;
         }
-
-        // Logo
-        blueLogo.sprite = logoSprites[Variables.teamBlueNum];
-        redLogo.sprite = logoSprites[Variables.teamRedNum];
-
-        // BGM
-        SoundManager.instance.BgmPlay("Game");
     }
     void TypeTextSetting(TextMeshProUGUI text, UnitType typeName)
     {
@@ -288,7 +364,7 @@ public class InGameManager : MonoBehaviour
         UnitInfo();
 
         // Loop Pattern
-        StartCoroutine(Pattern(1f, patternIdx));
+        StartCoroutine(Pattern(spawnTimer, patternIdx));
     }
     // ======================================================= Update 함수
     void GameTimer()
@@ -306,9 +382,9 @@ public class InGameManager : MonoBehaviour
                 // 쿨타임 돌리기
                 btnCoolTimer[i] += Time.deltaTime;
                 // 쿨타임 이미지
-                btnCoolImage[i].fillAmount = 1f - (btnCoolTimer[i] / 2);
+                btnCoolImage[i].fillAmount = 1f - (btnCoolTimer[i] / 3f);
                 // 2초 쿨타임
-                if (btnCoolTimer[i] > 2f)
+                if (btnCoolTimer[i] > 3f)
                 {
                     btnCoolTimer[i] = 0;
                     onCoolTime[i] = false;
@@ -358,12 +434,11 @@ public class InGameManager : MonoBehaviour
     }
     void RedUpgrade()
     {
-        // 업그레이드
-        if (gameTimer > redUpgradeTime &&  baseRLevel == 0)
+        if ((gameTimer > redUpgradeTime && baseRLevel == 0) || (gameTimer > redUpgradeTime * 2.5f && baseRLevel == 1))
+        {
+            isUpgradeTime = true;
             UpgradeRed();
-        else if (gameTimer > redUpgradeTime * 2.5f && baseRLevel == 1)
-            UpgradeRed();
-        //redCost = 0;
+        }
     }
     void BlueCostUp()
     {
@@ -403,21 +478,30 @@ public class InGameManager : MonoBehaviour
 
         // 키보드를 통한 유닛 생성
         if (Input.GetKeyDown(KeyCode.Q))
-            MakeBlueUnit(0 + Variables.startBlueIdx);
+            MakeBlueUnit(0);
         if (Input.GetKeyDown(KeyCode.W))
-            MakeBlueUnit(1 + Variables.startBlueIdx);
+            MakeBlueUnit(1);
         if (Input.GetKeyDown(KeyCode.E))
-            MakeBlueUnit(2 + Variables.startBlueIdx);
+            MakeBlueUnit(2);
         if (Input.GetKeyDown(KeyCode.A))
-            MakeBlueUnit(3 + Variables.startBlueIdx);
+            MakeBlueUnit(3);
         if (Input.GetKeyDown(KeyCode.S))
-            MakeBlueUnit(4 + Variables.startBlueIdx);
+            MakeBlueUnit(4);
         if (Input.GetKeyDown(KeyCode.D) && Variables.groupBlueNum == 6)
-            MakeBlueUnit(5 + Variables.startBlueIdx);
+            MakeBlueUnit(5);
 
         // 키보드로 업그레이드
         if (Input.GetKeyDown(KeyCode.B))
             UpgradeBlueButton();
+
+        // 일시정지 버튼
+        if (Input.GetKeyDown(KeyCode.Escape))
+        {
+            if (Time.timeScale == 1)
+                OptionButton();
+            else
+                OptionOut();
+        }
 
         // red
         //if (Input.GetKeyDown(KeyCode.I))
@@ -511,15 +595,20 @@ public class InGameManager : MonoBehaviour
     }
     void UpgradeRed()
     {
+        // red는 7만 있어도 업그레이드 가능
+        if (redCost < 7 || baseRLevel == 2)
+            return;
+        redCost -= 10;
         redUpgradeyEffect[baseRLevel].SetActive(true);
         baseRLevel++;
         redMaxCost += 5;
         costRedUp -= 0.25f;
         baseRSpriteRen.sprite = baseRSprite[baseRLevel];
 
-        baseB.unitAtk += 5;
-        baseB.unitAtkSpeed -= 0.2f;
+        baseR.unitAtk += 5;
+        baseR.unitAtkSpeed -= 0.2f;
 
+        isUpgradeTime = false;
         // Sound
         SoundManager.instance.SfxPlay("Upgrade");
     }
@@ -527,14 +616,14 @@ public class InGameManager : MonoBehaviour
     public void MakeBlueUnit(int idx)
     {
         // 쿨타임 동안은 소환 못함 (Blue팀 시작인덱스만큼 빼서 적용)
-        if (onCoolTime[idx - Variables.startBlueIdx])
+        if (onCoolTime[idx])
             return;
 
-        GameObject unitB = Variables.teamBluePrefabs[idx];
+        GameObject unitB = Variables.teamBluePrefabs[idx + Variables.startBlueIdx];
         Unit unitBLogic = unitB.GetComponent<Unit>();
 
         // 예외처리
-        if (isDevilB && unitBLogic.unitDetail == UnitDetail.Devil)
+        if ((isDevilB && unitBLogic.unitDetail == UnitDetail.Devil) || (isCostB && unitBLogic.unitDetail == UnitDetail.CostUp) || (isHealB && unitBLogic.unitDetail == UnitDetail.Heal))
             return;
 
         // Cost 감소
@@ -545,9 +634,9 @@ public class InGameManager : MonoBehaviour
             return;
         }
         // 생성
-        GetUnitObject(Variables.teamBlueNum, idx, unitB.transform.position);
+        GetUnitObject(Variables.teamBlueNum, idx + Variables.startBlueIdx, unitB.transform.position);
         // 쿨타임 시작
-        onCoolTime[idx - Variables.startBlueIdx] = true;
+        onCoolTime[idx] = true;
 
         // Sound
         SoundManager.instance.SfxPlay("Buy");
@@ -558,8 +647,11 @@ public class InGameManager : MonoBehaviour
         Unit unitRLogic = unitR.GetComponent<Unit>();
 
         // 예외처리
-        if (isDevilR && unitRLogic.unitDetail == UnitDetail.Devil)
+        if ((isDevilR && unitRLogic.unitDetail == UnitDetail.Devil) || (isCostR && unitRLogic.unitDetail == UnitDetail.CostUp) || (isHealR && unitRLogic.unitDetail == UnitDetail.Heal))
+        {
+            MakeRedUnit(idx - 1);
             return;
+        }
 
         // Cost 감소
         redCost -= unitRLogic.unitCost;
@@ -582,12 +674,18 @@ public class InGameManager : MonoBehaviour
         int rand = Random.Range(0, 100);
 
         // 패턴 인덱스 결정
-        if (rand < 40)
+        if (rand < patternRatio[0])
             patternIdx = 0;
-        else if (rand < 80)
+        else if (rand < patternRatio[1])
             patternIdx = 1;
-        else
+        else if (rand < patternRatio[2])
             patternIdx = 2;
+        else if (rand < patternRatio[3])
+            patternIdx = 3;
+        else if (rand < patternRatio[4])
+            patternIdx = 4;
+        else
+            patternIdx = 5;
     }
     void GetUnitObject(int teamNum, int idx, Vector3 pos)
     {
@@ -614,11 +712,15 @@ public class InGameManager : MonoBehaviour
     {
         optionPanel.SetActive(true);
         Time.timeScale = 0;
+        // Sound
+        SoundManager.instance.SfxPlay("Button1");
     }
     public void OptionOut()
     {
         optionPanel.SetActive(false);
         Time.timeScale = 1;
+        // Sound
+        SoundManager.instance.SfxPlay("Button1");
     }
     // 팀 로고 버튼
     public void TeamBLogoButton()
@@ -892,10 +994,10 @@ public class InGameManager : MonoBehaviour
                         skillText = "공격에 적중당한 적 2초간 공격속도 2배 감소.\n(중첩불가)";
                         break;
                     case 3:
-                        skillText = "범위 내 아군 한명에게 10만큼 힐.";
+                        skillText = "범위 내 아군 한명에게 10만큼 힐.\n(중복 소환 불가)";
                         break;
                     case 4:
-                        skillText = "적을 킬하면 최대체력 10, 공격력 5, 공격속도 0.1 증가\n(공격속도 최대치 : 0.3)";
+                        skillText = "적을 킬하면 최대체력 5, 공격력 1, 공격속도 0.05 증가\n(공격속도 최대치 : 0.3)";
                         break;
                 }
                 break;
@@ -915,7 +1017,7 @@ public class InGameManager : MonoBehaviour
                         skillText = "광역 원거리 공격.";
                         break;
                     case 4:
-                        skillText = "적이 본인과 근접범위까지 오면 백스탭.";
+                        skillText = "적이 본인과 근접범위까지 오면 백스탭. (쿨타임 4.5초)";
                         break;
                     case 5:
                         skillText = "본인이 처음 공격하기 전까지 무적.";
@@ -935,13 +1037,13 @@ public class InGameManager : MonoBehaviour
                         skillText = "공격 시 본인의 공격력만큼 체력 흡혈.";
                         break;
                     case 3:
-                        skillText = "3.5초마다 1코인씩 증가.";
+                        skillText = "4초마다 1코인씩 증가.\n(중복 소환 불가)";
                         break;
                     case 4:
                         skillText = "일반적인 원딜.\n(가장 긴 공격범위)";
                         break;
                     case 5:
-                        skillText = "일정 범위 내에 적이 있다면 빠르게 적에게 이동 후 광역으로 자폭.";
+                        skillText = "범위 내에 적이 있다면 빠르게 이동 후 자폭. 적 최대체력의 절반만큼 데미지.\n(기지의 경우 100 데미지)";
                         break;
                 }
                 break;
@@ -981,7 +1083,7 @@ public class InGameManager : MonoBehaviour
                         skillText = "범위 내 원거리 공격 무효.\n(기지의 공격은 해당하지 않음.)";
                         break;
                     case 4:
-                        skillText = "원거리유닛만 공격 가능. 근접유닛은 공격할 수 없음. 피격당해도 멈추지 않음.";
+                        skillText = "적 기지까지 이동할 동안 공격하지 않음. 피격당해도 멈추지 않음.";
                         break;
                 }
                 break;
@@ -1111,7 +1213,7 @@ public class InGameManager : MonoBehaviour
                 break;
             case 2:
                 descriptionText.text = "두번째는 <color=red>멤버 소환</color>입니다.\n\n이곳에는 해당 멤버을 뽑기 위한\n코인, 멤버의 타입이 적혀있습니다.\n\n" +
-                    "멤버를 소환하기 위해서는 해당하는\n<color=red>키보드를 눌러서 소환</color>하실 수 있습니다.\n\n모든 유닛은 소환 이후 2초간 쿨타임이 존재합니다.";
+                    "멤버를 소환하기 위해서는 해당하는\n<color=red>키보드를 눌러서 소환</color>하실 수 있습니다.\n\n모든 멤버는 <color=red>소환 이후 3초간 쿨타임</color>이 존재합니다.";
                 break;
             case 3:
                 descriptionText.text = "이 곳은 <color=red>멤버 상세정보</color>입니다.\n\n현재 <color=red>소환된 멤버를 클릭</color>하여 해당멤버의\n실시간 정보를 확인하실 수 있습니다!\n\n" +
@@ -1127,17 +1229,17 @@ public class InGameManager : MonoBehaviour
                 break;
             case 6:
                 descriptionText.text = "<color=red>기지 업그레이드</color>입니다.\n\n기지는 스스로 일정 범위 내에서\n적을 인식해 공격합니다.\n\n" +
-                    "<color=red>B버튼</color>을 통해 코인을 소모하여\n기지의 공격력, 공격속도를 증가시킬 수 있으며,\n<color=red>최대 2번</color>까지 가능합니다.";
+                    "<color=red>B버튼</color>을 통해 코인을 소모하여\n코인 증가 속도, 기지의 공격력, 공격속도를 증가시킬 수 있으며,\n<color=red>최대 2번</color>까지 가능합니다.";
                 break;
             case 7:
                 descriptionText.text = "이곳에서는 <color=red>현재 게임 난이도와\n양 팀의 남은 체력</color>을 확인하실 수 있습니다.\n\n" +
-                    "양 팀 모두 1000으로 시작하며\n가장 먼저 체력이 0이 되는 팀이 패배합니다.\n\n그 아래에는 현재 게임 플레이 시간이 나옵니다.";
+                    "양 팀 모두 500으로 시작하며\n가장 먼저 체력이 0이 되는 팀이 패배합니다.\n\n그 아래에는 현재 게임 플레이 시간이 나옵니다.";
                 break;
             case 8:
                 descriptionText.text = "<color=red>팀 로고를 클릭</color>하면 해당 <color=red>팀 멤버들에 대한\n정보를 확인</color>하실 수 있습니다.\n\n멤버의 스탯, 스킬에 대해 궁금하시다면\n팀 로고를 클릭해주세요!";
                 break;
             case 9:
-                descriptionText.text = "마지막으로 <color=red>일시정지 버튼</color>을 눌러\n소리를 조절하거나 게임을 종료하실 수 있으며\n\n <color=red>물음표 버튼</color>을 누르면 게임설명을\n다시 확인하실 수 있습니다.";
+                descriptionText.text = "마지막으로 <color=red>ESC 또는 일시정지 버튼</color>을 눌러\n소리를 조절하거나 게임을 종료하실 수 있으며\n\n <color=red>물음표 버튼</color>을 누르면 게임설명을\n다시 확인하실 수 있습니다.";
                 break;
             case 10:
                 descriptionText.text = "그럼 재밌게 즐겨주세요!\n\n감사합니다!";
@@ -1159,6 +1261,14 @@ public class InGameManager : MonoBehaviour
         // 다음 상대 설정
         StageRedTeamSetting(rand);
 
+        Time.timeScale = 1;
+        // Fade Out
+        fadeAc.gameObject.SetActive(true);
+        fadeAc.SetTrigger("fadeOut");
+        StartCoroutine(LoadScene(1f, "InGame"));
+    }
+    public void RestartButton()
+    {
         Time.timeScale = 1;
         // Fade Out
         fadeAc.gameObject.SetActive(true);
@@ -1292,16 +1402,19 @@ public class InGameManager : MonoBehaviour
         // 이겼을 경우
         if (result == "Win")
         {
-            // Victory
-            victoryObj.SetActive(true);
-
             // Button
             if (Variables.isStage)  // Stage 모드
             {
                 if (Variables.gameLevel < 4)
+                {
+                    // Victory
+                    victoryObj.SetActive(true);
                     nextBtn.SetActive(true);
+                }
                 else
                 {
+                    // Clear
+                    clearObj.SetActive(true);
                     // 클리어
                     Variables.isStageClear[Variables.teamBlueNum] = true;
                     // 저장
@@ -1338,44 +1451,11 @@ public class InGameManager : MonoBehaviour
     {
         yield return new WaitForSeconds(time);
 
-        // 유닛 결정용 변수
-        int rand = Random.Range(0, 2);
-        switch (typeNum)
+        if (!isUpgradeTime)
         {
-            // 3코스트 이상일 때, 0번유닛과 1번유닛을 랜덤하게 소환
-            case 0:
-                if (redCost >= 3)
-                    MakeRedUnit(rand + Variables.startRedIdx + Variables.groupRedNum);
-                break;
-            // 6코스트 이상일 때, rand값이 0이면 0번패턴, 1이면 2번유닛과 3번유닛을 랜덤하게 소환
-            case 1:
-                if (redCost >= 6)
-                    MakeRedUnit(rand + 2 + Variables.startRedIdx + Variables.groupRedNum);
-                break;
-            // 9코스트 이상일 때, rand값이 0이면 1번패턴, 1이면 4번유닛 (+5번유닛)을 소환
-            case 2:
-                if (redCost >= 9)
-                {
-                    // 팀이 6명일 경우
-                    if (Variables.groupRedNum == 6)
-                        MakeRedUnit(rand + 4 + Variables.startRedIdx + Variables.groupRedNum);
-                    // 팀이 5명일 경우
-                    else
-                        MakeRedUnit(4 + Variables.startRedIdx + Variables.groupRedNum);
-                }
-                break;
-            //case 3:
-            //    if (redCost >= 10)
-            //    {
-            //        if (rand == 0)
-            //            StartCoroutine(Pattern(0, 2));
-            //        else if (rand == 1)
-            //        {
-            //            // Upgrade
-            //            UpgradeRed();
-            //        }
-            //    }
-            //    break;
+            // 해당 typeNum에 해당하는 코스트보다 많이 있을 경우 해당하는 유닛 소환
+            if (redCost >= patternCost[typeNum])
+                MakeRedUnit(typeNum + Variables.startRedIdx + Variables.groupRedNum);
         }
     }
 }
