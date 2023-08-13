@@ -298,8 +298,8 @@ MonoBehaviour:
   unitCost: 6
   unitMaxHp: 60
   unitHp: 60
-  unitAtk: 5
-  unitAtkSpeed: 1.8
+  unitAtk: 7
+  unitAtkSpeed: 1.6
   unitRange: 2.5
   unitSpeed: 1.1
   hpSlider: {fileID: 2936494656157431401}

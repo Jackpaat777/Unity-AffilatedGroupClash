@@ -212,8 +212,8 @@ public class InGameManager : MonoBehaviour
                 patternRatio[0] = 30;   // 30%
                 patternRatio[1] = 50;   // 20%
                 patternRatio[2] = 70;   // 20%
-                patternRatio[3] = 90;   // 20%
-                patternRatio[4] = 100;  // 10%
+                patternRatio[3] = 85;   // 15%
+                patternRatio[4] = 100;  // 15%
                 break;
             case 1:
                 patternRatio[0] = 30;   // 30%
@@ -292,8 +292,8 @@ public class InGameManager : MonoBehaviour
                 levelText.text = "어려움";
                 break;
             case 4:
-                costRedUp = 1.25f;
-                redUpgradeTime = 50;
+                costRedUp = 1.5f;
+                redUpgradeTime = 60;
                 spawnTimer = 1f;
                 levelText.text = "매우어려움";
                 break;
@@ -520,7 +520,17 @@ public class InGameManager : MonoBehaviour
     void UnitInfo()
     {
         if (!isUnitClick)
+        {
+            unitImage.gameObject.SetActive(false);
+            nameText.text = "-";
+            hpSlider.value = 1;
+            hpText.text = "- / -";
+            atkText.text = "ATK : -";
+            atsText.text = "ATS : -";
+            ranText.text = "RAN : -";
+            spdText.text = "SPD : -";
             return;
+        }
 
         // Unit Setting
         Unit unitLogic = unitObj.GetComponent<Unit>();
@@ -546,6 +556,10 @@ public class InGameManager : MonoBehaviour
             spdText.text = $"SPD : {unitLogic.unitSpeed * 10}";
         else
             spdText.text = $"SPD : {unitLogic.unitSpeed * -10}";
+
+        // 유닛이 죽으면 상세정보 초기화
+        if (unitLogic.unitHp <= 0)
+            isUnitClick = false;
     }
 
     // ======================================================= 인게임 버튼 함수
@@ -1017,7 +1031,7 @@ public class InGameManager : MonoBehaviour
                         skillText = "광역 원거리 공격.";
                         break;
                     case 4:
-                        skillText = "적이 본인과 근접범위까지 오면 백스탭. (쿨타임 4.5초)";
+                        skillText = "적이 본인과 근접범위까지 오면 백스탭. (쿨타임 4초)";
                         break;
                     case 5:
                         skillText = "본인이 처음 공격하기 전까지 무적.";

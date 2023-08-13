@@ -195,11 +195,11 @@ MonoBehaviour:
   unitType: 2
   unitDetail: 0
   unitCost: 7
-  unitMaxHp: 40
-  unitHp: 40
+  unitMaxHp: 50
+  unitHp: 50
   unitAtk: 10
   unitAtkSpeed: 1.5
-  unitRange: 2
+  unitRange: 2.5
   unitSpeed: -1.1
   hpSlider: {fileID: 5964996702977085265}
   dustObject: {fileID: 5630520036587094455}

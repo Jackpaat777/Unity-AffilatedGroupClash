@@ -399,7 +399,7 @@ MonoBehaviour:
   unitHp: 50
   unitAtk: 10
   unitAtkSpeed: 1.5
-  unitRange: 2
+  unitRange: 2.5
   unitSpeed: 1.2
   hpSlider: {fileID: 5047452260557577650}
   dustObject: {fileID: 4345408320033680172}

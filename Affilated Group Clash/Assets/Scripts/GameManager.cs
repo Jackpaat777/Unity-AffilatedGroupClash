@@ -953,7 +953,7 @@ public class GameManager : MonoBehaviour
                         skillText = "광역 원거리 공격.";
                         break;
                     case 4:
-                        skillText = "적이 본인과 근접범위까지 오면 백스탭. (쿨타임 4.5초)";
+                        skillText = "적이 본인과 근접범위까지 오면 백스탭. (쿨타임 4초)";
                         break;
                     case 5:
                         skillText = "본인이 처음 공격하기 전까지 무적.";

@@ -298,9 +298,9 @@ MonoBehaviour:
   unitCost: 4
   unitMaxHp: 40
   unitHp: 40
-  unitAtk: 10
-  unitAtkSpeed: 1.4
-  unitRange: 3.5
+  unitAtk: 7
+  unitAtkSpeed: 1.5
+  unitRange: 3
   unitSpeed: -1.1
   hpSlider: {fileID: 8883462239306482690}
   dustObject: {fileID: 5630520036587094455}

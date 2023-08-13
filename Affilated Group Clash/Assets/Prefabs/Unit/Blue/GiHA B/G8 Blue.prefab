@@ -371,7 +371,7 @@ MonoBehaviour:
   unitMaxHp: 40
   unitHp: 40
   unitAtk: 0
-  unitAtkSpeed: 2.5
+  unitAtkSpeed: 2
   unitRange: 3
   unitSpeed: 1.2
   hpSlider: {fileID: 3601514314590271188}

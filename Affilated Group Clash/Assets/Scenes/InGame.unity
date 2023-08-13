@@ -11346,8 +11346,8 @@ MonoBehaviour:
   unitSpeed: 0
   hpSlider: {fileID: 0}
   dustObject: {fileID: 0}
-  unitState: 0
   isHeal: 0
+  unitState: 0
   skillSensor: 0
   isATSUp: 0
   isATKUp: 0
@@ -26308,8 +26308,8 @@ MonoBehaviour:
   unitSpeed: 0
   hpSlider: {fileID: 0}
   dustObject: {fileID: 0}
-  unitState: 0
   isHeal: 0
+  unitState: 0
   skillSensor: 0
   isATSUp: 0
   isATKUp: 0

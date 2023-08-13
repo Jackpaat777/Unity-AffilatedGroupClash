@@ -1,5 +1,7 @@
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.UIElements;
+using Slider = UnityEngine.UI.Slider;
 
 public enum UnitType
 {
@@ -55,10 +57,10 @@ public class Unit : MonoBehaviour
     [Header("---------------[Game]")]
     public Slider hpSlider;
     public ParticleSystem dustObject;
+    public bool isHeal;         // 힐 관련 변수
     public UnitState unitState; // 유닛의 상태마다 다른 로직을 실행하도록
     float attackTimer;          // 공속용 타이머
     float stopTimer;            // Move용 타이머
-    public bool isHeal;            // 개인 힐 타이머
     bool isFront;               // Stop에서 Move로 가기 위한 변수
     bool isHit;
 
@@ -123,30 +125,9 @@ public class Unit : MonoBehaviour
         // 센서 사용 유닛은 센서 초기화
         ResetSensor();
 
-        // Devil의 경우
-        if (unitDetail == UnitDetail.Devil)
-        {
-            if (gameObject.layer == 8)
-                InGameManager.instance.isDevilB = true;
-            else if (gameObject.layer == 9)
-                InGameManager.instance.isDevilR = true;
-        }
-        // Cost의 경우
-        else if (unitDetail == UnitDetail.CostUp)
-        {
-            if (gameObject.layer == 8)
-                InGameManager.instance.isCostB = true;
-            else if (gameObject.layer == 9)
-                InGameManager.instance.isCostR = true;
-        }
-        // Cost의 경우
-        else if (unitDetail == UnitDetail.Heal)
-        {
-            if (gameObject.layer == 8)
-                InGameManager.instance.isHealB = true;
-            else if (gameObject.layer == 9)
-                InGameManager.instance.isHealR = true;
-        }
+        // 중복소환 방지
+        SummonOnce();
+
         // Barrier의 경우
         isNoDamage = false;
         if (unitDetail == UnitDetail.Hammer)
@@ -164,6 +145,9 @@ public class Unit : MonoBehaviour
         else if (gameObject.layer == 9)
             transform.localPosition = Vector3.right * 11;
 
+        // 체력 바
+        hpSlider.transform.position = Vector3.up * 2000;
+
         // 타이머 초기화
         attackTimer = 0; stopTimer = 0; atkDebuffTimer = 0; atsDebuffTimer = 0; spdDebuffTimer = 0; backStepTimer = 0;
         // 값 초기화
@@ -177,14 +161,23 @@ public class Unit : MonoBehaviour
         isBackStep = true;
         DoMove();
 
-        // 체력 초기화
-        unitHp = unitMaxHp;
-
         // Collider
         col.enabled = true;
     }
     void ResetStat()
     {
+        // 난이도에 따라 적 최대체력 변경 (죽거나 게임이 끝나면 다시 원래대로) -> 게임이 끝났는데 적이 살아있을 수가 있나?
+        if (gameObject.layer == 9)
+        {
+            if (Variables.gameLevel == 0)
+                unitMaxHp -= 5;
+            else if (Variables.gameLevel == 4)
+                unitMaxHp += 5;
+        }
+        
+        // 체력 초기화
+        unitHp = unitMaxHp;
+
         // 변한 스탯 값 초기화
         if (isAtkDebuff)
         {
@@ -305,6 +298,33 @@ public class Unit : MonoBehaviour
             }
         }
     }
+    void SummonOnce()
+    {
+        // Devil의 경우
+        if (unitDetail == UnitDetail.Devil)
+        {
+            if (gameObject.layer == 8)
+                InGameManager.instance.isDevilB = true;
+            else if (gameObject.layer == 9)
+                InGameManager.instance.isDevilR = true;
+        }
+        // Cost의 경우
+        else if (unitDetail == UnitDetail.CostUp)
+        {
+            if (gameObject.layer == 8)
+                InGameManager.instance.isCostB = true;
+            else if (gameObject.layer == 9)
+                InGameManager.instance.isCostR = true;
+        }
+        // Heal의 경우
+        else if (unitDetail == UnitDetail.Heal)
+        {
+            if (gameObject.layer == 8)
+                InGameManager.instance.isHealB = true;
+            else if (gameObject.layer == 9)
+                InGameManager.instance.isHealR = true;
+        }
+    }
 
     void Update()
     {
@@ -354,7 +374,7 @@ public class Unit : MonoBehaviour
         if (!isBackStep)
         {
             backStepTimer += Time.deltaTime;
-            if (backStepTimer > 4.5f)
+            if (backStepTimer > 4f)
             {
                 isBackStep = true;
                 backStepTimer = 0;
@@ -455,9 +475,9 @@ public class Unit : MonoBehaviour
             if (spdDebuffTimer > 2f)
             {
                 if (gameObject.layer == 8)
-                    unitSpeed += 0.4f;
+                    unitSpeed += 0.3f;
                 else if (gameObject.layer == 9)
-                    unitSpeed -= 0.4f;
+                    unitSpeed -= 0.3f;
                 isSpdDebuff = false;
             }
         }
@@ -979,7 +999,7 @@ public class Unit : MonoBehaviour
             // 타겟을 기준으로 발사
             if (unitDetail == UnitDetail.Heal)
             {
-                allyLogic.unitHp += 10;
+                allyLogic.unitHp += 15;
                 allyLogic.unitHp = allyLogic.unitHp > allyLogic.unitMaxHp ? allyLogic.unitMaxHp : allyLogic.unitHp;
                 Vector3 vec = new Vector3(-0.5f, 0.5f);
                 ObjectManager.instance.GetBullet(idx, allyLogic.transform.position + vec);
@@ -989,7 +1009,7 @@ public class Unit : MonoBehaviour
         {
             if (unitDetail == UnitDetail.Heal)
             {
-                allyLogic.unitHp += 10;
+                allyLogic.unitHp += 15;
                 allyLogic.unitHp = allyLogic.unitHp > allyLogic.unitMaxHp ? allyLogic.unitMaxHp : allyLogic.unitHp;
                 Vector3 vec = new Vector3(0.5f, 0.5f);
                 ObjectManager.instance.GetBullet(idx, allyLogic.transform.position + vec);
@@ -1084,6 +1104,15 @@ public class Unit : MonoBehaviour
     }
     void DoDie()
     {
+        // 체력 원래대로
+        if (gameObject.layer == 9)
+        {
+            if (Variables.gameLevel == 0)
+                unitMaxHp += 5;
+            else if (Variables.gameLevel == 4)
+                unitMaxHp -= 5;
+        }
+
         // Sensor 끄기
         if (unitDetail == UnitDetail.AtkUp)
             atkSensor.SetActive(false);

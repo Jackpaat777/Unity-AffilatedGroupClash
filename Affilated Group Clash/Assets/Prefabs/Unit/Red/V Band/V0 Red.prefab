@@ -184,9 +184,9 @@ MonoBehaviour:
   unitMaxHp: 70
   unitHp: 70
   unitAtk: 7
-  unitAtkSpeed: 1.8
-  unitRange: 0.7
-  unitSpeed: -1.3
+  unitAtkSpeed: 1.7
+  unitRange: 0.8
+  unitSpeed: -1.4
   hpSlider: {fileID: 4208127747362656113}
   dustObject: {fileID: 5630520036587094455, guid: 88f528cd14e48094aa7879ca431a6907, type: 3}
   unitState: 0
