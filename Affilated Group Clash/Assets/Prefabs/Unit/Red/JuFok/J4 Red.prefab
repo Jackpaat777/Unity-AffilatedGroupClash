@@ -198,13 +198,14 @@ MonoBehaviour:
   unitMaxHp: 50
   unitHp: 50
   unitAtk: 10
-  unitAtkSpeed: 1.5
-  unitRange: 2.5
+  unitAtkSpeed: 1.7
+  unitRange: 2
   unitSpeed: -1.1
   hpSlider: {fileID: 5964996702977085265}
   dustObject: {fileID: 5630520036587094455}
   unitState: 0
   isHeal: 0
+  attackTimer: 0
   skillSensor: 0
   isATSUp: 0
   isATKUp: 0

@@ -1,6 +1,4 @@
 using UnityEngine;
-using UnityEngine.UI;
-using UnityEngine.UIElements;
 using Slider = UnityEngine.UI.Slider;
 
 public enum UnitType
@@ -57,9 +55,9 @@ public class Unit : MonoBehaviour
     [Header("---------------[Game]")]
     public Slider hpSlider;
     public ParticleSystem dustObject;
-    public bool isHeal;         // 힐 관련 변수
     public UnitState unitState; // 유닛의 상태마다 다른 로직을 실행하도록
-    float attackTimer;          // 공속용 타이머
+    public bool isHeal;         // 힐 관련 변수
+    public float attackTimer;          // 공속용 타이머
     float stopTimer;            // Move용 타이머
     bool isFront;               // Stop에서 Move로 가기 위한 변수
     bool isHit;
@@ -166,13 +164,27 @@ public class Unit : MonoBehaviour
     }
     void ResetStat()
     {
-        // 난이도에 따라 적 최대체력 변경 (죽거나 게임이 끝나면 다시 원래대로) -> 게임이 끝났는데 적이 살아있을 수가 있나?
+        // 난이도에 따라 적 최대체력 변경 (죽거나 게임이 끝나면 다시 원래대로) -> 게임이 끝났는데 적이 살아있을 수가 있나? 힉냥이만 예외
         if (gameObject.layer == 9)
         {
-            if (Variables.gameLevel == 0)
-                unitMaxHp -= 5;
-            else if (Variables.gameLevel == 4)
-                unitMaxHp += 5;
+            // Cat의 경우
+            if (unitDetail == UnitDetail.Cat)
+            {
+                if (Variables.gameLevel == 0)
+                    unitMaxHp = 45;
+                else if (Variables.gameLevel == 4)
+                    unitMaxHp = 55;
+                else
+                    unitMaxHp = 50;
+            }
+            else
+            {
+                // 나머지는 똑같이 적용
+                if (Variables.gameLevel == 0)
+                    unitMaxHp -= 5;
+                else if (Variables.gameLevel == 4)
+                    unitMaxHp += 5;
+            }
         }
         
         // 체력 초기화
@@ -181,7 +193,7 @@ public class Unit : MonoBehaviour
         // 변한 스탯 값 초기화
         if (isAtkDebuff)
         {
-            unitAtk += 5;
+            unitAtk += 3;
             isAtkDebuff = false;
         }
         if (isAtsDebuff)
@@ -222,9 +234,9 @@ public class Unit : MonoBehaviour
         if (unitDetail == UnitDetail.Bomb)
         {
             if (gameObject.layer == 8)
-                unitSpeed = 0.8f;
+                unitSpeed = 1.3f;
             else if (gameObject.layer == 9)
-                unitSpeed = -0.8f;
+                unitSpeed = -1.3f;
         }
 
         if (unitDetail == UnitDetail.Guitar)
@@ -236,9 +248,9 @@ public class Unit : MonoBehaviour
         if (unitDetail == UnitDetail.GrowUp)
         {
             unitAtk = 10;
-            unitAtkSpeed = 1.5f;
-            unitMaxHp = 50;
-            unitHp = 50;
+            unitAtkSpeed = 1.8f;
+            unitMaxHp = 70;
+            unitHp = 70;
         }
     }
     void ResetSensor()
@@ -304,7 +316,10 @@ public class Unit : MonoBehaviour
         if (unitDetail == UnitDetail.Devil)
         {
             if (gameObject.layer == 8)
+            {
                 InGameManager.instance.isDevilB = true;
+                InGameManager.instance.xObject[1].SetActive(true);
+            }
             else if (gameObject.layer == 9)
                 InGameManager.instance.isDevilR = true;
         }
@@ -312,7 +327,10 @@ public class Unit : MonoBehaviour
         else if (unitDetail == UnitDetail.CostUp)
         {
             if (gameObject.layer == 8)
+            {
                 InGameManager.instance.isCostB = true;
+                InGameManager.instance.xObject[0].SetActive(true);
+            }
             else if (gameObject.layer == 9)
                 InGameManager.instance.isCostR = true;
         }
@@ -320,7 +338,10 @@ public class Unit : MonoBehaviour
         else if (unitDetail == UnitDetail.Heal)
         {
             if (gameObject.layer == 8)
+            {
                 InGameManager.instance.isHealB = true;
+                InGameManager.instance.xObject[0].SetActive(true);
+            }
             else if (gameObject.layer == 9)
                 InGameManager.instance.isHealR = true;
         }
@@ -454,7 +475,7 @@ public class Unit : MonoBehaviour
             atkDebuffTimer += Time.deltaTime;
             if (atkDebuffTimer > 2f)
             {
-                unitAtk += 5;
+                unitAtk += 3;
                 isAtkDebuff = false;
             }
         }
@@ -549,8 +570,8 @@ public class Unit : MonoBehaviour
             Vector3 nextMove = Vector3.right * unitSpeed * Time.deltaTime;
             transform.Translate(nextMove);
 
-            // attackTimer 초기화 -> 코스트업 제외 모든 유닛은 멈춰있을 때만 공격 가능
-            if (unitDetail != UnitDetail.CostUp)
+            // attackTimer 초기화 -> CostUp, Devil 제외 모든 유닛은 멈춰있을 때만 공격모션 발동
+            if (unitDetail != UnitDetail.CostUp && unitDetail != UnitDetail.Devil)
                 attackTimer = 0;
         }
         else if (unitState == UnitState.Idle || unitState == UnitState.Hit)
@@ -719,15 +740,6 @@ public class Unit : MonoBehaviour
     }
     void DirectAttack(Unit enemyLogic)
     {
-        // Cat은 근접상대 무시
-        if (unitDetail == UnitDetail.Cat)
-        {
-            // 근접상대인 경우 return
-            if (enemyLogic.unitType == UnitType.Warrior || enemyLogic.unitType == UnitType.Tanker ||
-                enemyLogic.unitDetail == UnitDetail.Stick || enemyLogic.unitDetail == UnitDetail.Bomb)
-                return;
-        }
-
         // 멈춤
         isFront = true;
         DoStop();
@@ -786,7 +798,7 @@ public class Unit : MonoBehaviour
                 // 적의 HP가 내 공격력이하만큼 있으면 (죽을 경우 -> 상대방이 힐 유닛이면? 힐되기 전에 죽었을 듯)
                 if (enemyLogic.unitHp <= unitAtk)
                 {
-                    unitAtk += 1;
+                    unitAtk += 2;
                     unitAtkSpeed -= 0.05f;
                     unitAtkSpeed = unitAtkSpeed < 0.3f ? 0.3f : unitAtkSpeed;
                     unitMaxHp += 5;
@@ -841,7 +853,7 @@ public class Unit : MonoBehaviour
             SoundManager.instance.SfxPlay("Berserker");
         else if (unitDetail == UnitDetail.GrowUp)
             SoundManager.instance.SfxPlay("Grow");
-        else if (unitType == UnitType.Warrior || unitDetail == UnitDetail.Cat)
+        else if (unitType == UnitType.Warrior)
             SoundManager.instance.SfxPlay("Sword");
         else
             SoundManager.instance.SfxPlay("Guard");
@@ -1067,13 +1079,13 @@ public class Unit : MonoBehaviour
             return;
         }
 
-        // Barrier가 공격한적이 없다면 맞지않음
+        // Barrier의 NoDamage가 켜져있으면 맞지않음
         if (isNoDamage)
             return;
 
         if (unitDetail == UnitDetail.Berserker)
         {
-            // 깎인체력 10 당 0.05씩 공속 증가
+            // 깎인체력 1 당 0.005씩 공속 증가
             unitAtkSpeed -= damage * 0.005f;
             unitAtkSpeed = unitAtkSpeed < 0.3f ? 0.3f : unitAtkSpeed;
         }
@@ -1104,13 +1116,16 @@ public class Unit : MonoBehaviour
     }
     void DoDie()
     {
-        // 체력 원래대로
+        // 체력 원래대로 (Cat 제외)
         if (gameObject.layer == 9)
         {
-            if (Variables.gameLevel == 0)
-                unitMaxHp += 5;
-            else if (Variables.gameLevel == 4)
-                unitMaxHp -= 5;
+            if (unitDetail != UnitDetail.Cat)
+            {
+                if (Variables.gameLevel == 0)
+                    unitMaxHp += 5;
+                else if (Variables.gameLevel == 4)
+                    unitMaxHp -= 5;
+            }
         }
 
         // Sensor 끄기
@@ -1131,6 +1146,7 @@ public class Unit : MonoBehaviour
                 InGameManager.instance.isDevilB = false;
                 InGameManager.instance.isDevilBAttack = false;
                 InGameManager.instance.devilBTimer = 0;
+                InGameManager.instance.xObject[1].SetActive(false);
             }
             else if(gameObject.layer == 9)
             {
@@ -1143,7 +1159,10 @@ public class Unit : MonoBehaviour
         if (unitDetail == UnitDetail.CostUp)
         {
             if (gameObject.layer == 8)
+            {
                 InGameManager.instance.isCostB = false;
+                InGameManager.instance.xObject[0].SetActive(false);
+            }
             else if (gameObject.layer == 9)
                 InGameManager.instance.isCostR = false;
         }
@@ -1151,10 +1170,17 @@ public class Unit : MonoBehaviour
         if (unitDetail == UnitDetail.Heal)
         {
             if (gameObject.layer == 8)
+            {
                 InGameManager.instance.isHealB = false;
+                InGameManager.instance.xObject[0].SetActive(false);
+            }
             else if (gameObject.layer == 9)
                 InGameManager.instance.isHealR = false;
         }
+
+        // red Count
+        if (gameObject.layer == 9)
+            InGameManager.instance.redUnitCount--;
 
         col.enabled = false;
         unitState = UnitState.Die;

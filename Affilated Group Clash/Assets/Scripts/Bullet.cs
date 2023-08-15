@@ -116,7 +116,7 @@ public class Bullet : MonoBehaviour
                     // 이미 디버프 중이면 발동하지 않음
                     if (!enemyLogic.isAtkDebuff)
                     {
-                        enemyLogic.unitAtk -= 5;
+                        enemyLogic.unitAtk -= 3;
                         enemyLogic.unitAtk = enemyLogic.unitAtk < 0 ? 0 : enemyLogic.unitAtk;
                         enemyLogic.isAtkDebuff = true;
                     }
@@ -176,6 +176,7 @@ public class Bullet : MonoBehaviour
     // 광역공격 트리거
     void OnTriggerEnter2D(Collider2D collision)
     {
+        // Wizard는 원거리이기 때문에 따로 분류(Destroy Bullet)
         if (unitDetail == UnitDetail.Stick || unitDetail == UnitDetail.Wizard || unitDetail == UnitDetail.Bomb)
         {
             // 적군일 경우
@@ -193,12 +194,12 @@ public class Bullet : MonoBehaviour
                 }
                 else
                     unitLogic.DoHit(dmg);
-            }
 
-            // collider는 바로 끄기 (끄트머리에서 맞으면 연속데미지 받는 오류)
-            if (col != null)
-                col.enabled = false;
-            StartCoroutine(DisableRoutine(1f));
+                // collider는 바로 끄기 (끄트머리에서 맞으면 연속데미지 받는 오류)
+                if (col != null)
+                    col.enabled = false;
+                StartCoroutine(DisableRoutine(1f));
+            }
         }
     }
 

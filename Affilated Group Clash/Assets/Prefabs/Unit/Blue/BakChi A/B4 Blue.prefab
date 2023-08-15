@@ -484,10 +484,10 @@ MonoBehaviour:
   unitName: "\uBCA0\uB974\uB178"
   unitType: 2
   unitDetail: 1
-  unitCost: 8
+  unitCost: 7
   unitMaxHp: 30
   unitHp: 30
-  unitAtk: 20
+  unitAtk: 15
   unitAtkSpeed: 1.5
   unitRange: 5
   unitSpeed: 1
@@ -495,6 +495,7 @@ MonoBehaviour:
   dustObject: {fileID: 1209208340359509360}
   unitState: 0
   isHeal: 0
+  attackTimer: 0
   skillSensor: 0
   isATSUp: 0
   isATKUp: 0

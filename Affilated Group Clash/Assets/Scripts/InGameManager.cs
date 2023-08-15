@@ -36,6 +36,7 @@ public class InGameManager : MonoBehaviour
     public int patternIdx;
     public int[] patternCost;
     public int[] patternRatio;
+    public int redUnitCount;
 
     [Header("---------------[Base]")]
     public int baseBLevel;
@@ -75,6 +76,7 @@ public class InGameManager : MonoBehaviour
     public TextMeshProUGUI[] blueTypeText;
     public TextMeshProUGUI[] blueCostText;
     public GameObject lastButton;
+    public GameObject[] xObject;
     [Header("---------------[Unit Info UI]")]
     public bool isUnitClick;
     public GameObject unitObj;
@@ -383,7 +385,7 @@ public class InGameManager : MonoBehaviour
                 btnCoolTimer[i] += Time.deltaTime;
                 // 쿨타임 이미지
                 btnCoolImage[i].fillAmount = 1f - (btnCoolTimer[i] / 3f);
-                // 2초 쿨타임
+                // 3초 쿨타임
                 if (btnCoolTimer[i] > 3f)
                 {
                     btnCoolTimer[i] = 0;
@@ -666,6 +668,11 @@ public class InGameManager : MonoBehaviour
             MakeRedUnit(idx - 1);
             return;
         }
+        else if (redUnitCount < 2 && unitRLogic.unitType == UnitType.Buffer)
+        {
+            MakeRedUnit(idx - 1);
+            return;
+        }
 
         // Cost 감소
         redCost -= unitRLogic.unitCost;
@@ -676,6 +683,7 @@ public class InGameManager : MonoBehaviour
         }
         // 생성
         GetUnitObject(Variables.teamRedNum, idx, unitR.transform.position);
+        redUnitCount++;
 
         // Sound
         SoundManager.instance.SfxPlay("Buy");
@@ -985,7 +993,7 @@ public class InGameManager : MonoBehaviour
                         skillText = "공격에 적중당한 적 2초간 공격력 5 감소.\n(중첩불가)";
                         break;
                     case 2:
-                        skillText = "HP가 적어질수록 공격속도 증가.\n(최대치 : 0.3)";
+                        skillText = "HP가 적어질수록 공격속도 증가.\n(공격속도 최대치 : 0.3)";
                         break;
                     case 3:
                         skillText = "범위 내의 아군 전체에게 공격속도 2배 증가.\n(중첩불가)";
@@ -1011,7 +1019,7 @@ public class InGameManager : MonoBehaviour
                         skillText = "범위 내 아군 한명에게 10만큼 힐.\n(중복 소환 불가)";
                         break;
                     case 4:
-                        skillText = "적을 킬하면 최대체력 5, 공격력 1, 공격속도 0.05 증가\n(공격속도 최대치 : 0.3)";
+                        skillText = "적을 킬하면 최대체력 +5, 공격력 +1, 공격속도 0.05만큼 증가\n(공격속도 최대치 : 0.3)";
                         break;
                 }
                 break;
@@ -1025,7 +1033,7 @@ public class InGameManager : MonoBehaviour
                         skillText = "범위 내 아군 전체에게 이동속도 10 증가.\n(중첩불가)";
                         break;
                     case 2:
-                        skillText = "자신이 받는 모든 피격데미지 3 감소.";
+                        skillText = "자신이 받는 모든 피격데미지가 3 감소되어 적용.";
                         break;
                     case 3:
                         skillText = "광역 원거리 공격.";
@@ -1094,7 +1102,7 @@ public class InGameManager : MonoBehaviour
                         skillText = "공격에 적중당한 적 2초간 이동속도 4 감소.\n(중첩불가)";
                         break;
                     case 3:
-                        skillText = "범위 내 원거리 공격 무효.\n(기지의 공격은 해당하지 않음.)";
+                        skillText = "범위 내 원거리 투사체 공격 무효.\n(광역공격 또는 기지의 공격은 해당하지 않음.)";
                         break;
                     case 4:
                         skillText = "적 기지까지 이동할 동안 공격하지 않음. 피격당해도 멈추지 않음.";
@@ -1227,7 +1235,7 @@ public class InGameManager : MonoBehaviour
                 break;
             case 2:
                 descriptionText.text = "두번째는 <color=red>멤버 소환</color>입니다.\n\n이곳에는 해당 멤버을 뽑기 위한\n코인, 멤버의 타입이 적혀있습니다.\n\n" +
-                    "멤버를 소환하기 위해서는 해당하는\n<color=red>키보드를 눌러서 소환</color>하실 수 있습니다.\n\n모든 멤버는 <color=red>소환 이후 3초간 쿨타임</color>이 존재합니다.";
+                    "멤버를 소환하기 위해서는 해당하는\n<color=red>버튼을 클릭하거나 키보드를 눌러서 소환</color>하실 수 있습니다.\n\n모든 멤버는 <color=red>소환 이후 3초간 쿨타임</color>이 존재합니다.";
                 break;
             case 3:
                 descriptionText.text = "이 곳은 <color=red>멤버 상세정보</color>입니다.\n\n현재 <color=red>소환된 멤버를 클릭</color>하여 해당멤버의\n실시간 정보를 확인하실 수 있습니다!\n\n" +
@@ -1441,7 +1449,10 @@ public class InGameManager : MonoBehaviour
                 }
             }
             else                   // Normal 모드
+            {
+                victoryObj.SetActive(true);
                 resetBtn.SetActive(true);
+            }
         }
         // 졌을 경우
         else if (result == "Lose")

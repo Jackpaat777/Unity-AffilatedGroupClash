@@ -283,16 +283,17 @@ MonoBehaviour:
   unitType: 4
   unitDetail: 12
   unitCost: 9
-  unitMaxHp: 30
-  unitHp: 30
+  unitMaxHp: 35
+  unitHp: 35
   unitAtk: 7
   unitAtkSpeed: 2.5
-  unitRange: 1.5
+  unitRange: 2
   unitSpeed: -0.6
   hpSlider: {fileID: 3941554139191010269}
   dustObject: {fileID: 5630520036587094455}
-  isHeal: 0
   unitState: 0
+  isHeal: 0
+  attackTimer: 0
   skillSensor: 0
   isATSUp: 0
   isATKUp: 0

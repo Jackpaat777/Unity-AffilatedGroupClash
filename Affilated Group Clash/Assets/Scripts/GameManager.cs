@@ -907,7 +907,7 @@ public class GameManager : MonoBehaviour
                         skillText = "공격에 적중당한 적 2초간 공격력 5 감소.\n(중첩불가)";
                         break;
                     case 2:
-                        skillText = "HP가 적어질수록 공격속도 증가.\n(최대치 : 0.3)";
+                        skillText = "HP가 적어질수록 공격속도 증가.\n(공격속도 최대치 : 0.3)";
                         break;
                     case 3:
                         skillText = "범위 내의 아군 전체에게 공격속도 2배 증가.\n(중첩불가)";
@@ -933,7 +933,7 @@ public class GameManager : MonoBehaviour
                         skillText = "범위 내 아군 한명에게 10만큼 힐.\n(중복 소환 불가)";
                         break;
                     case 4:
-                        skillText = "적을 킬하면 최대체력 5, 공격력 1, 공격속도 0.05 증가\n(공격속도 최대치 : 0.3)";
+                        skillText = "적을 킬하면 최대체력 +5, 공격력 +1, 공격속도 0.05만큼 증가\n(공격속도 최대치 : 0.3)";
                         break;
                 }
                 break;
@@ -947,7 +947,7 @@ public class GameManager : MonoBehaviour
                         skillText = "범위 내 아군 전체에게 이동속도 10 증가.\n(중첩불가)";
                         break;
                     case 2:
-                        skillText = "자신이 받는 모든 피격데미지 3 감소.";
+                        skillText = "자신이 받는 모든 피격데미지가 3 감소되어 적용.";
                         break;
                     case 3:
                         skillText = "광역 원거리 공격.";
@@ -1016,7 +1016,7 @@ public class GameManager : MonoBehaviour
                         skillText = "공격에 적중당한 적 2초간 이동속도 4 감소.\n(중첩불가)";
                         break;
                     case 3:
-                        skillText = "범위 내 원거리 공격 무효.\n(기지의 공격은 해당하지 않음.)";
+                        skillText = "범위 내 원거리 투사체 공격 무효.\n(광역공격 또는 기지의 공격은 해당하지 않음.)";
                         break;
                     case 4:
                         skillText = "적 기지까지 이동할 동안 공격하지 않음. 피격당해도 멈추지 않음.";

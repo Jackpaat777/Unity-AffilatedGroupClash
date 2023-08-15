@@ -200,11 +200,11 @@ MonoBehaviour:
   unitAtk: 10
   unitAtkSpeed: 1.8
   unitRange: 0.8
-  unitSpeed: -1.4
+  unitSpeed: -1.5
   hpSlider: {fileID: 532657325185940141}
   dustObject: {fileID: 5630520036587094455}
-  unitState: 0
   isHeal: 0
+  unitState: 0
   skillSensor: 0
   isATSUp: 0
   isATKUp: 0
