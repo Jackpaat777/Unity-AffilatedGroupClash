@@ -217,7 +217,7 @@ MonoBehaviour:
   unitName: "\uD770\uC813\uAC00\uB77D"
   unitType: 2
   unitDetail: 0
-  unitCost: 7
+  unitCost: 6
   unitMaxHp: 50
   unitHp: 50
   unitAtk: 10
@@ -232,16 +232,18 @@ MonoBehaviour:
   skillSensor: 0
   isATSUp: 0
   isATKUp: 0
-  isSPDUp: 0
+  isRANUp: 0
   isAtkDebuff: 0
   isAtsDebuff: 0
   isSpdDebuff: 0
   isNoDamage: 0
   isBackStep: 0
+  isBarrierOnce: 0
   atkDebuffTimer: 0
   atsDebuffTimer: 0
   spdDebuffTimer: 0
   backStepTimer: 0
+  barrierTimer: 0
   growUpHand: {fileID: 0}
   barrierSkillEffect: {fileID: 0}
 --- !u!95 &3303643285092717066

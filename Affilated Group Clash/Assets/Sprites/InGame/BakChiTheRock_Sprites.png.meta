@@ -267,7 +267,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: B1 Idle
+      name: B2 Idle
       rect:
         serializedVersion: 2
         x: 0
@@ -288,7 +288,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: B1 Attack
+      name: B2 Attack
       rect:
         serializedVersion: 2
         x: 41
@@ -309,7 +309,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: B1 Hit
+      name: B2 Hit
       rect:
         serializedVersion: 2
         x: 82
@@ -393,7 +393,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: B2 Idle
+      name: B1 Idle
       rect:
         serializedVersion: 2
         x: 0
@@ -414,7 +414,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: B2 Attack
+      name: B1 Attack
       rect:
         serializedVersion: 2
         x: 41
@@ -435,7 +435,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: B2 Hit
+      name: B1 Hit
       rect:
         serializedVersion: 2
         x: 82
@@ -884,7 +884,7 @@ TextureImporter:
         width: 5
         height: 6
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -907,9 +907,9 @@ TextureImporter:
     weights: []
     secondaryTextures: []
     nameFileIdTable:
-      B2 Hit: -2060825617
-      B1 Attack: 1533087178
+      B2 Hit: 2029177476
       B7Bullet: 60628472
+      B1 Attack: -1895290580
       B5 Attack: 2132963258
       B4 Idle: -1541598948
       B8 Hit: 1278315825
@@ -922,14 +922,14 @@ TextureImporter:
       B8Bullet: -132498839
       B0 Hit: -467141215
       B4Bullet: -537987395
-      B2 Attack: -1895290580
+      B2 Attack: 1533087178
       B0 Attack: -1233353496
       B10 Idle: -1177962177
-      B2 Idle: -1909022529
-      B1 Hit: 2029177476
+      B1 Hit: -2060825617
+      B2 Idle: -787772512
+      B9 Hit: 539030339
       B3 Idle: -989356230
       B9 Idle: -1325104840
-      B9 Hit: 539030339
       B7 Attack: -777234104
       B3 Attack: -1213679748
       B7 Hit: 577970006
@@ -942,7 +942,7 @@ TextureImporter:
       B6 Attack: -2085932002
       B8 Idle: 436394833
       B9 Attack: -1042963004
-      B1 Idle: -787772512
+      B1 Idle: -1909022529
   spritePackingTag: 
   pSDRemoveMatte: 0
   pSDShowRemoveMatteOption: 0

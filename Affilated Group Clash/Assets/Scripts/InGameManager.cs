@@ -202,6 +202,10 @@ public class InGameManager : MonoBehaviour
         else
             restartButton.SetActive(true);
 
+        // X Image
+        xObject[0].SetActive(false);
+        xObject[1].SetActive(false);
+
         // BGM
         SoundManager.instance.BgmPlay("Game");
     }
@@ -554,10 +558,12 @@ public class InGameManager : MonoBehaviour
         // Range
         ranText.text = $"RAN : {unitLogic.unitRange}";
         // Speed
+        string floatSpd = "";
         if (unitLogic.unitSpeed > 0)
-            spdText.text = $"SPD : {unitLogic.unitSpeed * 10}";
+            floatSpd = (unitLogic.unitSpeed * 10).ToString("F0");
         else
-            spdText.text = $"SPD : {unitLogic.unitSpeed * -10}";
+            floatSpd = (unitLogic.unitSpeed * -10).ToString("F0");
+        spdText.text = $"SPD : " + floatSpd;
 
         // 유닛이 죽으면 상세정보 초기화
         if (unitLogic.unitHp <= 0)
@@ -855,7 +861,7 @@ public class InGameManager : MonoBehaviour
                         image = unitPictureSprites[4];
                         break;
                 }
-                scaleNum = 0.18f;
+                scaleNum = 0.22f;
                 break;
             case 1:
                 switch (idx)
@@ -900,7 +906,7 @@ public class InGameManager : MonoBehaviour
                         image = unitPictureSprites[15];
                         break;
                 }
-                scaleNum = 0.22f;
+                scaleNum = 0.45f;
                 break;
             case 3:
                 switch (idx)
@@ -990,13 +996,13 @@ public class InGameManager : MonoBehaviour
                         skillText = "일반적인 탱커.";
                         break;
                     case 1:
-                        skillText = "공격에 적중당한 적 2초간 공격력 5 감소.\n(중첩불가)";
+                        skillText = "공격에 적중당한 적 2초간 공격력 3 감소.\n(디버프 중첩불가)";
                         break;
                     case 2:
                         skillText = "HP가 적어질수록 공격속도 증가.\n(공격속도 최대치 : 0.3)";
                         break;
                     case 3:
-                        skillText = "범위 내의 아군 전체에게 공격속도 2배 증가.\n(중첩불가)";
+                        skillText = "범위 내의 아군 전체에게 공격속도 2배 증가.\n(버프 중첩불가)";
                         break;
                     case 4:
                         skillText = "적 전체에게 피해를 입힘.\n(공격속도 고정)\n(중복 소환 불가)";
@@ -1013,13 +1019,13 @@ public class InGameManager : MonoBehaviour
                         skillText = "적에게 피해받을 때마다 적의 공격력의 절반만큼 피해를 되돌려줌.\n(근접 적만 해당)";
                         break;
                     case 2:
-                        skillText = "공격에 적중당한 적 2초간 공격속도 2배 감소.\n(중첩불가)";
+                        skillText = "공격에 적중당한 적 2초간 공격속도 2배 감소.\n(디버프 중첩불가)";
                         break;
                     case 3:
-                        skillText = "범위 내 아군 한명에게 10만큼 힐.\n(중복 소환 불가)";
+                        skillText = "범위 내 아군 한명에게 15만큼 힐.\n(중복 소환 불가)";
                         break;
                     case 4:
-                        skillText = "적을 킬하면 최대체력 +5, 공격력 +1, 공격속도 0.05만큼 증가\n(공격속도 최대치 : 0.3)";
+                        skillText = "적을 킬하면 최대체력 +5, 공격력 +2, 공격속도 0.05만큼 증가\n(공격속도 최대치 : 0.3)";
                         break;
                 }
                 break;
@@ -1030,19 +1036,19 @@ public class InGameManager : MonoBehaviour
                         skillText = "일반적인 전사.";
                         break;
                     case 1:
-                        skillText = "범위 내 아군 전체에게 이동속도 10 증가.\n(중첩불가)";
+                        skillText = "범위 내 아군 전체에게 공격범위 1 증가.\n(버프 중첩불가)";
                         break;
                     case 2:
                         skillText = "자신이 받는 모든 피격데미지가 3 감소되어 적용.";
                         break;
                     case 3:
-                        skillText = "광역 원거리 공격.";
+                        skillText = "광역으로 원거리 공격.";
                         break;
                     case 4:
                         skillText = "적이 본인과 근접범위까지 오면 백스탭. (쿨타임 4초)";
                         break;
                     case 5:
-                        skillText = "본인이 처음 공격하기 전까지 무적.";
+                        skillText = "체력이 50이하가 되면 공격속도가 절반이 되며, 5초간 모든 데미지를 받지 않습니다.\n(한번만 발동)";
                         break;
                 }
                 break;
@@ -1053,13 +1059,13 @@ public class InGameManager : MonoBehaviour
                         skillText = "일반적인 탱커.";
                         break;
                     case 1:
-                        skillText = "광역 근접 공격.";
-                        break;
-                    case 2:
                         skillText = "공격 시 본인의 공격력만큼 체력 흡혈.";
                         break;
+                    case 2:
+                        skillText = "광역으로 근접 공격.";
+                        break;
                     case 3:
-                        skillText = "4초마다 1코인씩 증가.\n(중복 소환 불가)";
+                        skillText = "3초마다 1코인씩 증가.\n(중복 소환 불가)";
                         break;
                     case 4:
                         skillText = "일반적인 원딜.\n(가장 긴 공격범위)";
@@ -1082,10 +1088,10 @@ public class InGameManager : MonoBehaviour
                         skillText = "공격할 때마다 공격속도 증가.\n(최대 0.3)\n(이동 시 초기화)";
                         break;
                     case 3:
-                        skillText = "범위 내 아군 전체에게 공격력 5 증가.\n(중첩불가)";
+                        skillText = "범위 내 아군 전체에게 공격력 5 증가.\n(버프 중첩불가)";
                         break;
                     case 4:
-                        skillText = "공격 시 체력 50이하 적은 확정 킬.";
+                        skillText = "공격 시 체력 30이하 적 처형.";
                         break;
                 }
                 break;
@@ -1096,16 +1102,16 @@ public class InGameManager : MonoBehaviour
                         skillText = "일반적인 전사.";
                         break;
                     case 1:
-                        skillText = "공격 시 적을 밀쳐냄.";
+                        skillText = "적에게 피격당해도 멈추지 않음.";
                         break;
                     case 2:
-                        skillText = "공격에 적중당한 적 2초간 이동속도 4 감소.\n(중첩불가)";
+                        skillText = "공격에 적중당한 적 2초간 이동속도 3 감소.\n(디버프 중첩불가)";
                         break;
                     case 3:
                         skillText = "범위 내 원거리 투사체 공격 무효.\n(광역공격 또는 기지의 공격은 해당하지 않음.)";
                         break;
                     case 4:
-                        skillText = "적 기지까지 이동할 동안 공격하지 않음. 피격당해도 멈추지 않음.";
+                        skillText = "적 기지까지 이동할 동안 공격하지 않음.";
                         break;
                 }
                 break;

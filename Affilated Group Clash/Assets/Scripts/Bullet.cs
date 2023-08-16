@@ -39,23 +39,23 @@ public class Bullet : MonoBehaviour
         if (isRotate)
             transform.Rotate(Vector3.forward * speed);
 
-        // Circle은 제외
-        if (unitDetail != UnitDetail.AtkUp || unitDetail != UnitDetail.AtkspdUp || unitDetail != UnitDetail.SpdUp || unitDetail != UnitDetail.Piano)
-        {
-            // 화면 밖으로 나갈 경우 제거
-            if (transform.position.x < -15 || transform.position.x > 15)
-                gameObject.SetActive(false);
-        }
+        // Circle은 제외 (화면밖으로 나갈 일이 있나?)
+        //if (unitDetail != UnitDetail.AtkUp || unitDetail != UnitDetail.AtkspdUp || unitDetail != UnitDetail.SpdUp || unitDetail != UnitDetail.Piano)
+        //{
+        //    // 화면 밖으로 나갈 경우 제거
+        //    if (transform.position.x < -15 || transform.position.x > 15)
+        //        gameObject.SetActive(false);
+        //}
 
-        // 2.5초넘게 날아가고 있으면 삭제 -> 오류는 없나?
-        DisableRoutine(2.5f);
+        // 아무리 길어도 1초(버그있으면 1.2~1.5초로 늘려보기)
+        StartCoroutine(DisableRoutine(1f));
     }
 
     void FixedUpdate()
     {
         // 광역공격 유닛, 아군 버프 유닛은 ScanEnemy없이 넘어감
         if (unitDetail == UnitDetail.Stick || unitDetail == UnitDetail.Bomb || unitDetail == UnitDetail.Wizard ||
-            unitDetail == UnitDetail.AtkUp || unitDetail == UnitDetail.AtkspdUp || unitDetail == UnitDetail.SpdUp || unitDetail == UnitDetail.Piano)
+            unitDetail == UnitDetail.AtkUp || unitDetail == UnitDetail.AtkspdUp || unitDetail == UnitDetail.RanUp || unitDetail == UnitDetail.Piano)
             return;
 
         // 공격하지 않는 Bullet인 경우 ScanEnemy없이 바로 제거
@@ -190,7 +190,15 @@ public class Bullet : MonoBehaviour
                     if (unitLogic.unitDetail == UnitDetail.Base)
                         unitLogic.DoHit(100);
                     else
-                        unitLogic.DoHit(unitLogic.unitMaxHp / 2);
+                    {
+                        // 적 최대체력이 짝수일 경우
+                        if (unitLogic.unitMaxHp % 2 == 0)
+                            unitLogic.DoHit(unitLogic.unitMaxHp / 2);
+                        // 적 최대체력이 홀수일 경우
+                        else
+                            unitLogic.DoHit(unitLogic.unitMaxHp / 2 + 1);
+
+                    }
                 }
                 else
                     unitLogic.DoHit(dmg);

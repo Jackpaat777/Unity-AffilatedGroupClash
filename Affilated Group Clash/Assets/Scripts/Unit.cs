@@ -17,7 +17,7 @@ public enum UnitDetail
     // Bullet A 사용 유닛
     Archer, Sniper, Farmer, Guitar, Singer, Bass, Base,
     // Bullet B 사용 유닛
-    Bomb, Stick, Vampire, Punch, Hammer, Devil, Heal, Wizard, AtkUp, AtkspdUp, SpdUp, Piano,
+    Bomb, Stick, Vampire, Punch, Hammer, Devil, Heal, Wizard, AtkUp, AtkspdUp, RanUp, Piano,
     Sword, Guard, Berserker, GrowUp, Air, Counter, Shield, Drum, Cat,
     CostUp
 }
@@ -35,7 +35,7 @@ public enum SkillSensor
     NONE,
     ATK,
     ATS,
-    SPD,
+    RAN,
 }
 
 public class Unit : MonoBehaviour
@@ -66,16 +66,18 @@ public class Unit : MonoBehaviour
     public SkillSensor skillSensor; // skillSensor를 통해 버프를 제어하므로 버프중첩이 안됨 -> 따로 bool변수로 제작?
     public bool isATSUp;
     public bool isATKUp;
-    public bool isSPDUp;
+    public bool isRANUp;
     public bool isAtkDebuff;
     public bool isAtsDebuff;
     public bool isSpdDebuff;
     public bool isNoDamage;
     public bool isBackStep;
+    public bool isBarrierOnce;
     public float atkDebuffTimer;
     public float atsDebuffTimer;
     public float spdDebuffTimer;
     public float backStepTimer;
+    public float barrierTimer;
     int farmerCount;
     int plusAtk;
 
@@ -84,7 +86,7 @@ public class Unit : MonoBehaviour
 
     GameObject atkSensor;
     GameObject atsSensor;
-    GameObject spdSensor;
+    GameObject ranSensor;
     GameObject bulSensor;
     Animator anim;
     Collider2D col;
@@ -114,6 +116,13 @@ public class Unit : MonoBehaviour
         if (unitType == UnitType.Base)
             return;
 
+        // 아군 소환유닛 정보 넘기기
+        //if (gameObject.layer == 8)
+        //{
+        //    InGameManager.instance.isUnitClick = true;
+        //    InGameManager.instance.unitObj = gameObject;
+        //}
+
         // 기본 세팅하기
         ResetSettings();
 
@@ -125,14 +134,6 @@ public class Unit : MonoBehaviour
 
         // 중복소환 방지
         SummonOnce();
-
-        // Barrier의 경우
-        isNoDamage = false;
-        if (unitDetail == UnitDetail.Hammer)
-        {
-            isNoDamage = true;
-            barrierSkillEffect.SetActive(true);
-        }
     }
     // ======================================================= OnEnable 정리용 함수
     void ResetSettings()
@@ -221,13 +222,10 @@ public class Unit : MonoBehaviour
             unitAtkSpeed *= 2;
             isATSUp = false;
         }
-        else if (skillSensor == SkillSensor.SPD)
+        else if (skillSensor == SkillSensor.RAN)
         {
-            if (gameObject.layer == 8)
-                unitSpeed -= 1f;
-            else if (gameObject.layer == 9)
-                unitSpeed += 1f;
-            isATKUp = false;
+            unitRange -= 1f;
+            isRANUp = false;
         }
 
         // 스탯 값 변화 유닛 초기화
@@ -239,18 +237,27 @@ public class Unit : MonoBehaviour
                 unitSpeed = -1.3f;
         }
 
-        if (unitDetail == UnitDetail.Guitar)
+        else if (unitDetail == UnitDetail.Guitar)
             unitAtkSpeed = 1.5f;
 
-        if (unitDetail == UnitDetail.Berserker)
+        else if (unitDetail == UnitDetail.Berserker)
             unitAtkSpeed = 1.5f;
 
-        if (unitDetail == UnitDetail.GrowUp)
+        else if (unitDetail == UnitDetail.GrowUp)
         {
             unitAtk = 10;
             unitAtkSpeed = 1.8f;
             unitMaxHp = 70;
             unitHp = 70;
+        }
+
+        // Hammer
+        else if (unitDetail == UnitDetail.Hammer)
+        {
+            unitAtkSpeed = 1.8f;
+            isBarrierOnce = true;
+            isNoDamage = false;
+            barrierSkillEffect.SetActive(false);
         }
     }
     void ResetSensor()
@@ -283,17 +290,17 @@ public class Unit : MonoBehaviour
                 atsSensor.gameObject.tag = "AtkSpd_UpR";
             }
         }
-        else if (unitDetail == UnitDetail.SpdUp)
+        else if (unitDetail == UnitDetail.RanUp)
         {
             if (gameObject.layer == 8)
             {
-                spdSensor = ObjectManager.instance.GetBullet(idx, transform.position + Vector3.left * 0.5f);
-                spdSensor.gameObject.tag = "Spd_UpB";
+                ranSensor = ObjectManager.instance.GetBullet(idx, transform.position + Vector3.left * 0.5f);
+                ranSensor.gameObject.tag = "Ran_UpB";
             }
             else if (gameObject.layer == 9)
             {
-                spdSensor = ObjectManager.instance.GetBullet(idx, transform.position + Vector3.right * 0.5f);
-                spdSensor.gameObject.tag = "Spd_UpR";
+                ranSensor = ObjectManager.instance.GetBullet(idx, transform.position + Vector3.right * 0.5f);
+                ranSensor.gameObject.tag = "Ran_UpR";
             }
         }
         else if (unitDetail == UnitDetail.Piano)
@@ -361,6 +368,8 @@ public class Unit : MonoBehaviour
         DevilHit();
         // BackStep
         BackStepTimer();
+        // Barrier
+        BarrierSkill();
         // 버프 유닛 (일정시간마다 공격모션)
         BuffUnit();
         // 디버프 상태에 걸렸을 때
@@ -402,11 +411,36 @@ public class Unit : MonoBehaviour
             }
         }
     }
+    void BarrierSkill()
+    {
+        if (unitDetail == UnitDetail.Hammer)
+        {
+            // 현재 체력이 50이하면 5초 무적, 공격속도 2배 증가 (한번만 발동)
+            if (unitHp <= 50 && isBarrierOnce)
+            {
+                isNoDamage = true;  // NoDamage가 True면 DoHit하지 않음
+                unitAtkSpeed = 0.9f;
+                barrierSkillEffect.SetActive(true);
+            }
+        }
+
+        if (isNoDamage)
+        {
+            barrierTimer += Time.deltaTime;
+            if (barrierTimer > 5f)
+            {
+                isBarrierOnce = false;
+                barrierSkillEffect.SetActive(false);
+                barrierTimer = 0;
+                isNoDamage = false;
+            }
+        }
+    }
     void BuffUnit()
     {
         // 특수유닛
         if (unitDetail == UnitDetail.CostUp || unitDetail == UnitDetail.Devil || unitDetail == UnitDetail.AtkUp ||
-            unitDetail == UnitDetail.AtkspdUp || unitDetail == UnitDetail.SpdUp || unitDetail == UnitDetail.Piano)
+            unitDetail == UnitDetail.AtkspdUp || unitDetail == UnitDetail.RanUp || unitDetail == UnitDetail.Piano)
         {
             // 센서 위치 조정
             if (unitDetail == UnitDetail.AtkUp)
@@ -423,12 +457,12 @@ public class Unit : MonoBehaviour
                 else if (gameObject.layer == 9)
                     atsSensor.transform.position = transform.position + Vector3.right * 0.5f;
             }
-            else if (unitDetail == UnitDetail.SpdUp)
+            else if (unitDetail == UnitDetail.RanUp)
             {
                 if (gameObject.layer == 8)
-                    spdSensor.transform.position = transform.position + Vector3.left * 0.5f;
+                    ranSensor.transform.position = transform.position + Vector3.left * 0.5f;
                 else if (gameObject.layer == 9)
-                    spdSensor.transform.position = transform.position + Vector3.right * 0.5f;
+                    ranSensor.transform.position = transform.position + Vector3.right * 0.5f;
             }
             else if (unitDetail == UnitDetail.Piano)
             {
@@ -527,15 +561,13 @@ public class Unit : MonoBehaviour
             }
         }
         // 스피드 버프
-        if (skillSensor == SkillSensor.SPD)
+        if (skillSensor == SkillSensor.RAN)
         {
-            if (!isSPDUp)
+            if (!isRANUp)
             {
-                if (gameObject.layer == 8)
-                    unitSpeed += 1f;
-                else if (gameObject.layer == 9)
-                    unitSpeed -= 1f;
-                isSPDUp = true;
+                // 사거리 증가
+                unitRange += 1f;
+                isRANUp = true;
             }
         }
         // 센서 밖
@@ -552,13 +584,10 @@ public class Unit : MonoBehaviour
                 unitAtkSpeed *= 2;
                 isATSUp = false;
             }
-            else if (isSPDUp)
+            else if (isRANUp)
             {
-                if (gameObject.layer == 8)
-                    unitSpeed -= 1f;
-                else if (gameObject.layer == 9)
-                    unitSpeed += 1f;
-                isSPDUp = false;
+                unitRange -= 1f;
+                isRANUp = false;
             }
         }
     }
@@ -579,8 +608,8 @@ public class Unit : MonoBehaviour
             // 앞에 아무도 없을 때
             if (!isFront)
             {
-                // Bomb와 Cat은 피격시 멈추지 않음
-                if (unitDetail == UnitDetail.Bomb || unitDetail == UnitDetail.Cat)
+                // Bomb와 Drum은 피격시 멈추지 않음
+                if (unitDetail == UnitDetail.Bomb || unitDetail == UnitDetail.Drum)
                 {
                     DoMove();
                 }
@@ -815,7 +844,7 @@ public class Unit : MonoBehaviour
                 enemyLogic.atsDebuffTimer = 0;
             }
         }
-        // Hammer는 공격 시 베리어 어택 True
+        // Hammer
         else if (unitDetail == UnitDetail.Hammer)
         {
             // 이펙트
@@ -823,18 +852,16 @@ public class Unit : MonoBehaviour
                 ObjectManager.instance.GetBullet(idx + ((int)UnitDetail.Base + 1) * 2, transform.position + Vector3.right * 0.5f);
             else if (gameObject.layer == 9)
                 ObjectManager.instance.GetBullet(idx + ((int)UnitDetail.Base + 1) * 2, transform.position + Vector3.left * 0.5f);
-            barrierSkillEffect.SetActive(false);
-            isNoDamage = false;
         }
-        // Drum은 적을 밀침
-        else if (unitDetail == UnitDetail.Drum)
-        {
-            // 적 밀치기 (최댓값 존재)
-            if (gameObject.layer == 8 && enemyLogic.transform.position.x < 10f)
-                enemyLogic.transform.Translate(Vector3.right * 0.5f);
-            else if (gameObject.layer == 9 && enemyLogic.transform.position.x > -10f)
-                enemyLogic.transform.Translate(Vector3.left * 0.5f);
-        }
+        //// Drum은 적을 밀침
+        //else if (unitDetail == UnitDetail.Drum)
+        //{
+        //    // 적 밀치기 (최댓값 존재)
+        //    if (gameObject.layer == 8 && enemyLogic.transform.position.x < 10f)
+        //        enemyLogic.transform.Translate(Vector3.right * 0.5f);
+        //    else if (gameObject.layer == 9 && enemyLogic.transform.position.x > -10f)
+        //        enemyLogic.transform.Translate(Vector3.left * 0.5f);
+        //}
 
         // 근접유닛이 Counter를 때리면 자신도 절반 데미지
         if (enemyLogic.unitDetail == UnitDetail.Counter)
@@ -1079,7 +1106,7 @@ public class Unit : MonoBehaviour
             return;
         }
 
-        // Barrier의 NoDamage가 켜져있으면 맞지않음
+        // Hammer의 경우
         if (isNoDamage)
             return;
 
@@ -1133,8 +1160,8 @@ public class Unit : MonoBehaviour
             atkSensor.SetActive(false);
         else if (unitDetail == UnitDetail.AtkspdUp)
             atsSensor.SetActive(false);
-        else if (unitDetail == UnitDetail.SpdUp)
-            spdSensor.SetActive(false);
+        else if (unitDetail == UnitDetail.RanUp)
+            ranSensor.SetActive(false);
         else if (unitDetail == UnitDetail.Piano)
             bulSensor.SetActive(false);
 
@@ -1209,10 +1236,10 @@ public class Unit : MonoBehaviour
                 skillSensor = SkillSensor.ATK;
         }
         // 이속 증가
-        if ((gameObject.layer == 8 && collision.gameObject.tag == "Spd_UpB") || (gameObject.layer == 9 && collision.gameObject.tag == "Spd_UpR"))
+        if ((gameObject.layer == 8 && collision.gameObject.tag == "Ran_UpB") || (gameObject.layer == 9 && collision.gameObject.tag == "Ran_UpR"))
         {
-            if (unitDetail != UnitDetail.SpdUp)
-                skillSensor = SkillSensor.SPD;
+            if (unitDetail != UnitDetail.RanUp)
+                skillSensor = SkillSensor.RAN;
         }
     }
 
@@ -1225,7 +1252,7 @@ public class Unit : MonoBehaviour
         // 내가 아군 센서에서 나갔을 때
         if ((gameObject.layer == 8 && collision.gameObject.tag == "AtkSpd_UpB") || (gameObject.layer == 9 && collision.gameObject.tag == "AtkSpd_UpR") ||
             (gameObject.layer == 8 && collision.gameObject.tag == "Atk_UpB") || (gameObject.layer == 9 && collision.gameObject.tag == "Atk_UpR") ||
-            (gameObject.layer == 8 && collision.gameObject.tag == "Spd_UpB") || (gameObject.layer == 9 && collision.gameObject.tag == "Spd_UpR"))
+            (gameObject.layer == 8 && collision.gameObject.tag == "Ran_UpB") || (gameObject.layer == 9 && collision.gameObject.tag == "Ran_UpR"))
         {
             // 버프 해제
             skillSensor = SkillSensor.NONE;

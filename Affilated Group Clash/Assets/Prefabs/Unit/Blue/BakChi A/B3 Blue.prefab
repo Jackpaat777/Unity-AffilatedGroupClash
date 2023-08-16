@@ -104,30 +104,33 @@ MonoBehaviour:
   unitName: "\uB098\uB9AC"
   unitType: 3
   unitDetail: 28
-  unitCost: 7
+  unitCost: 6
   unitMaxHp: 30
   unitHp: 30
   unitAtk: 0
-  unitAtkSpeed: 4
+  unitAtkSpeed: 3
   unitRange: 1.5
   unitSpeed: 1
   hpSlider: {fileID: 1731967136602990278}
   dustObject: {fileID: 7512215208594971985}
   unitState: 0
   isHeal: 0
+  attackTimer: 0
   skillSensor: 0
   isATSUp: 0
   isATKUp: 0
-  isSPDUp: 0
+  isRANUp: 0
   isAtkDebuff: 0
   isAtsDebuff: 0
   isSpdDebuff: 0
   isNoDamage: 0
   isBackStep: 0
+  isBarrierOnce: 0
   atkDebuffTimer: 0
   atsDebuffTimer: 0
   spdDebuffTimer: 0
   backStepTimer: 0
+  barrierTimer: 0
   growUpHand: {fileID: 0}
   barrierSkillEffect: {fileID: 0}
 --- !u!95 &845544070847494490

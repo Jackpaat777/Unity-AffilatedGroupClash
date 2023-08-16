@@ -250,7 +250,7 @@ public class GameManager : MonoBehaviour
                 Variables.teamBluePrefabs = ObjectManager.instance.bakChi_prefabs;
                 Variables.startBlueIdx = 0;
                 Variables.groupBlueNum = 6;
-                nBlueTeamNameText.text = "앙리 사루엔링 6세";
+                nBlueTeamNameText.text = "앙리사루엔링6세";
                 break;
             case "박취B":
                 Variables.teamBlueNum = 4;
@@ -335,7 +335,7 @@ public class GameManager : MonoBehaviour
                 Variables.teamRedPrefabs = ObjectManager.instance.bakChi_prefabs;
                 Variables.startRedIdx = 0;
                 Variables.groupRedNum = 6;
-                nRedTeamNameText.text = "앙리 사루엔링 6세";
+                nRedTeamNameText.text = "앙리사루엔링6세";
                 break;
             case "박취B":
                 Variables.teamRedNum = 4;
@@ -470,7 +470,7 @@ public class GameManager : MonoBehaviour
                 Variables.teamBluePrefabs = ObjectManager.instance.bakChi_prefabs;
                 Variables.startBlueIdx = 0;
                 Variables.groupBlueNum = 6;
-                sBlueTeamNameText.text = "앙리 사루엔링 6세";
+                sBlueTeamNameText.text = "앙리사루엔링6세";
                 break;
             case "박취B":
                 Variables.teamBlueNum = 4;
@@ -904,13 +904,13 @@ public class GameManager : MonoBehaviour
                         skillText = "일반적인 탱커.";
                         break;
                     case 1:
-                        skillText = "공격에 적중당한 적 2초간 공격력 5 감소.\n(중첩불가)";
+                        skillText = "공격에 적중당한 적 2초간 공격력 5 감소.\n(디버프 중첩불가)";
                         break;
                     case 2:
                         skillText = "HP가 적어질수록 공격속도 증가.\n(공격속도 최대치 : 0.3)";
                         break;
                     case 3:
-                        skillText = "범위 내의 아군 전체에게 공격속도 2배 증가.\n(중첩불가)";
+                        skillText = "범위 내의 아군 전체에게 공격속도 2배 증가.\n(버프 중첩불가)";
                         break;
                     case 4:
                         skillText = "적 전체에게 피해를 입힘.\n(공격속도 고정)\n(중복 소환 불가)";
@@ -927,13 +927,13 @@ public class GameManager : MonoBehaviour
                         skillText = "적에게 피해받을 때마다 적의 공격력의 절반만큼 피해를 되돌려줌.\n(근접 적만 해당)";
                         break;
                     case 2:
-                        skillText = "공격에 적중당한 적 2초간 공격속도 2배 감소.\n(중첩불가)";
+                        skillText = "공격에 적중당한 적 2초간 공격속도 2배 감소.\n(디버프 중첩불가)";
                         break;
                     case 3:
                         skillText = "범위 내 아군 한명에게 10만큼 힐.\n(중복 소환 불가)";
                         break;
                     case 4:
-                        skillText = "적을 킬하면 최대체력 +5, 공격력 +1, 공격속도 0.05만큼 증가\n(공격속도 최대치 : 0.3)";
+                        skillText = "적을 킬하면 최대체력 +5, 공격력 +2, 공격속도 0.05만큼 증가\n(공격속도 최대치 : 0.3)";
                         break;
                 }
                 break;
@@ -944,19 +944,19 @@ public class GameManager : MonoBehaviour
                         skillText = "일반적인 전사.";
                         break;
                     case 1:
-                        skillText = "범위 내 아군 전체에게 이동속도 10 증가.\n(중첩불가)";
+                        skillText = "범위 내 아군 전체에게 공격범위 1 증가.\n(버프 중첩불가)";
                         break;
                     case 2:
                         skillText = "자신이 받는 모든 피격데미지가 3 감소되어 적용.";
                         break;
                     case 3:
-                        skillText = "광역 원거리 공격.";
+                        skillText = "광역으로 원거리 공격.";
                         break;
                     case 4:
                         skillText = "적이 본인과 근접범위까지 오면 백스탭. (쿨타임 4초)";
                         break;
                     case 5:
-                        skillText = "본인이 처음 공격하기 전까지 무적.";
+                        skillText = "체력이 50이하가 되면 공격속도가 절반이 되며, 5초간 모든 데미지를 받지 않습니다.\n(한번만 발동)";
                         break;
                 }
                 break;
@@ -967,13 +967,13 @@ public class GameManager : MonoBehaviour
                         skillText = "일반적인 탱커.";
                         break;
                     case 1:
-                        skillText = "광역 근접 공격.";
-                        break;
-                    case 2:
                         skillText = "공격 시 본인의 공격력만큼 체력 흡혈.";
                         break;
+                    case 2:
+                        skillText = "광역으로 근접 공격.";
+                        break;
                     case 3:
-                        skillText = "4초마다 1코인씩 증가.\n(중복 소환 불가)";
+                        skillText = "3초마다 1코인씩 증가.\n(중복 소환 불가)";
                         break;
                     case 4:
                         skillText = "일반적인 원딜.\n(가장 긴 공격범위)";
@@ -996,10 +996,10 @@ public class GameManager : MonoBehaviour
                         skillText = "공격할 때마다 공격속도 증가.\n(최대 0.3)\n(이동 시 초기화)";
                         break;
                     case 3:
-                        skillText = "범위 내 아군 전체에게 공격력 5 증가.\n(중첩불가)";
+                        skillText = "범위 내 아군 전체에게 공격력 5 증가.\n(버프 중첩불가)";
                         break;
                     case 4:
-                        skillText = "공격 시 체력 50이하 적은 확정 킬.";
+                        skillText = "공격 시 체력 30이하 적 확정 킬.";
                         break;
                 }
                 break;
@@ -1010,16 +1010,16 @@ public class GameManager : MonoBehaviour
                         skillText = "일반적인 전사.";
                         break;
                     case 1:
-                        skillText = "공격 시 적을 밀쳐냄.";
+                        skillText = "적에게 피격당해도 멈추지 않음.";
                         break;
                     case 2:
-                        skillText = "공격에 적중당한 적 2초간 이동속도 4 감소.\n(중첩불가)";
+                        skillText = "공격에 적중당한 적 2초간 이동속도 3 감소.\n(디버프 중첩불가)";
                         break;
                     case 3:
                         skillText = "범위 내 원거리 투사체 공격 무효.\n(광역공격 또는 기지의 공격은 해당하지 않음.)";
                         break;
                     case 4:
-                        skillText = "적 기지까지 이동할 동안 공격하지 않음. 피격당해도 멈추지 않음.";
+                        skillText = "적 기지까지 이동할 동안 공격하지 않음.";
                         break;
                 }
                 break;
@@ -1103,16 +1103,16 @@ public class GameManager : MonoBehaviour
                         detailText = "억울한 듯한 말투를 가지고 있으며 눈물이 많은 소녀. 반응이 좋아 놀림받을 때가 많지만 가끔씩 날카로운 일침을 날리기도 한다.";
                         break;
                     case 1:
-                        detailText = "평소에는 과묵하며 소심하지만 실제로는 근력과 체력이 매우 강하다. 또한 가면을 쓰면 성격이 거칠어지는 모습을 보인다.";
+                        detailText = "미친듯한 하이텐션으로 가끔씩 약 처방이 필요하다고 한다. 상대방을 흡수하고 표절하는 것과 배신의 아이콘이라는 특징이 있다.";
                         break;
                     case 2:
-                        detailText = "미친듯한 하이텐션으로 가끔씩 약 처방이 필요하다고 한다. 상대방을 흡수하고 표절하는 것과 배신의 아이콘이라는 특징이 있다.";
+                        detailText = "평소에는 과묵하며 소심하지만 실제로는 근력과 체력이 매우 강하다. 또한 가면을 쓰면 성격이 거칠어지는 모습을 보인다.";
                         break;
                     case 3:
                         detailText = "돈 많은 재벌집 아가씨. 사립학교는 재미가 없어서 친구들을 만들기 위해 전학왔다. 남에게 공감하지 못하는 모습을 자주 보여준다.";
                         break;
                     case 4:
-                        detailText = "본명은 베르노아르시온느브리취더루왁. 나라의 공주이며 말끝에 \"노라\"를 붙이는 특이한 말투를 쓴다. 총을 굉장히 잘 쏜다.";
+                        detailText = "본명은 베르노아르시온느브리취더루왁. 어떤 나라의 공주이며 말끝에 \"노라\"를 붙이는 특이한 말투를 쓴다. 총을 굉장히 잘 쏜다.";
                         break;
                     case 5:
                         detailText = "잔잔하고 안정감있는 목소리에서 운전대를 잡으면 한순간에 폭주하는 반전매력을 가지고 있다. 자타공인 데드 아티스트.";

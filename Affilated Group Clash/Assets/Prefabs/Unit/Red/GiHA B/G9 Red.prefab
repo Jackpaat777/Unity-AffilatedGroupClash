@@ -325,11 +325,12 @@ MonoBehaviour:
   unitAtk: 10
   unitAtkSpeed: 1.8
   unitRange: 1.5
-  unitSpeed: -1.1
+  unitSpeed: -0.8
   hpSlider: {fileID: 2010000026788833226}
   dustObject: {fileID: 5630520036587094455}
   unitState: 0
   isHeal: 0
+  attackTimer: 0
   skillSensor: 0
   isATSUp: 0
   isATKUp: 0
@@ -339,10 +340,12 @@ MonoBehaviour:
   isSpdDebuff: 0
   isNoDamage: 0
   isBackStep: 0
+  isBarrierOnce: 0
   atkDebuffTimer: 0
   atsDebuffTimer: 0
   spdDebuffTimer: 0
   backStepTimer: 0
+  barrierTimer: 0
   growUpHand: {fileID: 7448809623229086941}
   barrierSkillEffect: {fileID: 0}
 --- !u!95 &3303643285092717066

@@ -5,12 +5,13 @@ TagManager:
   serializedVersion: 2
   tags:
   - Undefined
-  - Spd_UpR
   - AtkSpd_UpR
   - Atk_UpR
-  - Spd_UpB
   - AtkSpd_UpB
   - Atk_UpB
+  - Atk_Spd_UpR
+  - Ran_UpB
+  - Ran_UpR
   layers:
   - Default
   - TransparentFX
