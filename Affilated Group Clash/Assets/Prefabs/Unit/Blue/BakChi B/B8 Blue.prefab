@@ -368,7 +368,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 3
-  m_Sprite: {fileID: 436394833, guid: 4b69496437d406247b5c69afb9fddf6a, type: 3}
+  m_Sprite: {fileID: -1527169845, guid: 4b69496437d406247b5c69afb9fddf6a, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -394,30 +394,33 @@ MonoBehaviour:
   unitName: "\uAE40\uC138\uB178"
   unitType: 2
   unitDetail: 3
-  unitCost: 5
-  unitMaxHp: 50
-  unitHp: 50
-  unitAtk: 10
-  unitAtkSpeed: 1.5
+  unitCost: 4
+  unitMaxHp: 35
+  unitHp: 35
+  unitAtk: 4
+  unitAtkSpeed: 1.3
   unitRange: 2.5
   unitSpeed: 1.2
   hpSlider: {fileID: 5047452260557577650}
   dustObject: {fileID: 4345408320033680172}
   unitState: 0
   isHeal: 0
+  attackTimer: 0
   skillSensor: 0
   isATSUp: 0
   isATKUp: 0
-  isSPDUp: 0
+  isRANUp: 0
   isAtkDebuff: 0
   isAtsDebuff: 0
   isSpdDebuff: 0
   isNoDamage: 0
   isBackStep: 0
+  isBarrierOnce: 0
   atkDebuffTimer: 0
   atsDebuffTimer: 0
   spdDebuffTimer: 0
   backStepTimer: 0
+  barrierTimer: 0
   growUpHand: {fileID: 0}
   barrierSkillEffect: {fileID: 0}
 --- !u!95 &6896906502187519783

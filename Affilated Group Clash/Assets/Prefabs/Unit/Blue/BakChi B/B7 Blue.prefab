@@ -168,7 +168,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 3
-  m_Sprite: {fileID: -1847429857, guid: 4b69496437d406247b5c69afb9fddf6a, type: 3}
+  m_Sprite: {fileID: 2022170783, guid: 4b69496437d406247b5c69afb9fddf6a, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -195,12 +195,12 @@ MonoBehaviour:
   unitType: 2
   unitDetail: 2
   unitCost: 4
-  unitMaxHp: 50
-  unitHp: 50
-  unitAtk: 7
+  unitMaxHp: 40
+  unitHp: 40
+  unitAtk: 4
   unitAtkSpeed: 1.8
   unitRange: 2
-  unitSpeed: 1.3
+  unitSpeed: 1.4
   hpSlider: {fileID: 5781333460059840047}
   dustObject: {fileID: 5880349887070974045}
   unitState: 0
@@ -209,7 +209,7 @@ MonoBehaviour:
   skillSensor: 0
   isATSUp: 0
   isATKUp: 0
-  isSPDUp: 0
+  isRANUp: 0
   isAtkDebuff: 0
   isAtsDebuff: 0
   isSpdDebuff: 0

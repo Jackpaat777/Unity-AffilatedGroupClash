@@ -7,6 +7,7 @@ using Random = UnityEngine.Random;
 using Image = UnityEngine.UI.Image;
 using Slider = UnityEngine.UI.Slider;
 using Button = UnityEngine.UI.Button;
+using static UnityEditor.Experimental.GraphView.GraphView;
 
 public class InGameManager : MonoBehaviour
 {
@@ -582,38 +583,48 @@ public class InGameManager : MonoBehaviour
     // 업그레이드
     public void UpgradeBlueButton()
     {
-        // 코스트 사용
-        if (blueCost < blueMaxCost || baseBLevel == 2)
-            return;
-
-
-        blueCost -= blueMaxCost;
-
-        // 이펙트
-        blueUpgradeyEffect[baseBLevel].SetActive(true);
-        // Level Up
-        baseBLevel++;
-        // 스프라이트 변경 (초가집, 돌집, 빌딩)
-        baseBSpriteRen.sprite = baseBSprite[baseBLevel];
-
-        // Max 코스트 증가
-        blueMaxCost += 5;
-        // cost 텍스트 변경
-        if (baseBLevel == 2)
+        // 기지 업그레이드
+        if (baseBLevel < 2)
         {
-            blueUpgradeCostText.text = "-";
-            upgradeText.text = "Max";
-        }
-        else
-            blueUpgradeCostText.text = blueMaxCost.ToString();
-        //코스트 증가 속도 상승
-        costBlueUp -= 0.25f;
-        // 베이스 강화
-        baseB.unitAtk += 5;
-        baseB.unitAtkSpeed -= 0.2f;
+            // 코스트 사용
+            if (blueCost < blueMaxCost)
+                return;
 
-        // Sound
-        SoundManager.instance.SfxPlay("Upgrade");
+            blueCost -= blueMaxCost;
+            // 이펙트
+            blueUpgradeyEffect[baseBLevel].SetActive(true);
+            // Level Up
+            baseBLevel++;
+            // 스프라이트 변경 (초가집, 돌집, 빌딩)
+            baseBSpriteRen.sprite = baseBSprite[baseBLevel];
+
+            // Max 코스트 증가
+            //blueMaxCost += 5;
+
+            // cost 텍스트 변경
+            if (baseBLevel == 2)
+            {
+                blueUpgradeCostText.text = "10";
+                upgradeText.text = "Bomb";
+            }
+            else
+                blueUpgradeCostText.text = blueMaxCost.ToString();
+
+            //코스트 증가 속도 상승
+            costBlueUp -= 0.25f;
+            // 베이스 강화
+            baseB.unitAtk += 5;
+            baseB.unitAtkSpeed -= 0.2f;
+
+            // Sound
+            SoundManager.instance.SfxPlay("Upgrade");
+        }
+        // 업그레이드 끝난 뒤 버튼 역할 변경
+        else
+        {
+            // Bomb Button
+            Debug.Log("Bomb");
+        }
     }
     void UpgradeRed()
     {
@@ -623,7 +634,7 @@ public class InGameManager : MonoBehaviour
         redCost -= 10;
         redUpgradeyEffect[baseRLevel].SetActive(true);
         baseRLevel++;
-        redMaxCost += 5;
+        //redMaxCost += 5;
         costRedUp -= 0.25f;
         baseRSpriteRen.sprite = baseRSprite[baseRLevel];
 
@@ -633,6 +644,20 @@ public class InGameManager : MonoBehaviour
         isUpgradeTime = false;
         // Sound
         SoundManager.instance.SfxPlay("Upgrade");
+    }
+    void BlueBombButton(Transform targetTrans)
+    {
+        // 이펙트
+        GameObject bullet = ObjectManager.instance.GetBullet(14, Vector3.left * 11);
+
+        // Sound
+        SoundManager.instance.SfxPlay("Bomb");
+
+        // Bullet에 값 넘겨주기
+        Bullet bulletLogic = bullet.GetComponent<Bullet>();
+
+        bulletLogic.layer = 8;
+        bulletLogic.dmg = 50;
     }
     // 유닛 소환
     public void MakeBlueUnit(int idx)
@@ -996,7 +1021,7 @@ public class InGameManager : MonoBehaviour
                         skillText = "일반적인 탱커.";
                         break;
                     case 1:
-                        skillText = "공격에 적중당한 적 2초간 공격력 3 감소.\n(디버프 중첩불가)";
+                        skillText = "공격에 적중당한 적 2초간 공격력 절반 감소.\n(디버프 중첩불가)";
                         break;
                     case 2:
                         skillText = "HP가 적어질수록 공격속도 증가.\n(공격속도 최대치 : 0.3)";
@@ -1036,7 +1061,7 @@ public class InGameManager : MonoBehaviour
                         skillText = "일반적인 전사.";
                         break;
                     case 1:
-                        skillText = "범위 내 아군 전체에게 공격범위 1 증가.\n(버프 중첩불가)";
+                        skillText = "범위 내 아군 전체에게 공격범위 0.5 증가.\n(버프 중첩불가)\n(근접 제외)";
                         break;
                     case 2:
                         skillText = "자신이 받는 모든 피격데미지가 3 감소되어 적용.";
@@ -1059,7 +1084,7 @@ public class InGameManager : MonoBehaviour
                         skillText = "일반적인 탱커.";
                         break;
                     case 1:
-                        skillText = "공격 시 본인의 공격력만큼 체력 흡혈.";
+                        skillText = "공격 시 본인의 공격력만큼 체력 흡혈. 체력이 40이하가 되면 공격속도 증가.";
                         break;
                     case 2:
                         skillText = "광역으로 근접 공격.";
@@ -1082,7 +1107,7 @@ public class InGameManager : MonoBehaviour
                         skillText = "일반적인 탱커.";
                         break;
                     case 1:
-                        skillText = "3번째 공격마다 추가 데미지 +5.";
+                        skillText = "3번째 공격마다 추가 데미지 +2.";
                         break;
                     case 2:
                         skillText = "공격할 때마다 공격속도 증가.\n(최대 0.3)\n(이동 시 초기화)";

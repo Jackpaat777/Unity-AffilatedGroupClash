@@ -116,7 +116,7 @@ public class Bullet : MonoBehaviour
                     // 이미 디버프 중이면 발동하지 않음
                     if (!enemyLogic.isAtkDebuff)
                     {
-                        enemyLogic.unitAtk -= 3;
+                        enemyLogic.unitAtk /= 2;
                         enemyLogic.unitAtk = enemyLogic.unitAtk < 0 ? 0 : enemyLogic.unitAtk;
                         enemyLogic.isAtkDebuff = true;
                     }

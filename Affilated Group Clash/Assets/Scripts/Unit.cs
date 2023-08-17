@@ -194,7 +194,7 @@ public class Unit : MonoBehaviour
         // 변한 스탯 값 초기화
         if (isAtkDebuff)
         {
-            unitAtk += 3;
+            unitAtk *= 2;
             isAtkDebuff = false;
         }
         if (isAtsDebuff)
@@ -224,7 +224,7 @@ public class Unit : MonoBehaviour
         }
         else if (skillSensor == SkillSensor.RAN)
         {
-            unitRange -= 1f;
+            unitRange -= 0.5f;
             isRANUp = false;
         }
 
@@ -236,6 +236,9 @@ public class Unit : MonoBehaviour
             else if (gameObject.layer == 9)
                 unitSpeed = -1.3f;
         }
+
+        else if (unitDetail == UnitDetail.Vampire)
+            unitAtkSpeed = 1.5f;
 
         else if (unitDetail == UnitDetail.Guitar)
             unitAtkSpeed = 1.5f;
@@ -364,12 +367,11 @@ public class Unit : MonoBehaviour
         if (unitType == UnitType.Base)
             return;
 
-        // 상대팀 Devil의 공격
+        // Unit Own Skill
         DevilHit();
-        // BackStep
         BackStepTimer();
-        // Barrier
         BarrierSkill();
+        VampireSkill();
         // 버프 유닛 (일정시간마다 공격모션)
         BuffUnit();
         // 디버프 상태에 걸렸을 때
@@ -434,6 +436,17 @@ public class Unit : MonoBehaviour
                 barrierTimer = 0;
                 isNoDamage = false;
             }
+        }
+    }
+    void VampireSkill()
+    {
+        if (unitDetail == UnitDetail.Vampire)
+        {
+            // 현재 체력이 40이하면 공격속도 증가
+            if (unitHp <= 40)
+                unitAtkSpeed = 1f;
+            else
+                unitAtkSpeed = 1.5f;
         }
     }
     void BuffUnit()
@@ -509,7 +522,7 @@ public class Unit : MonoBehaviour
             atkDebuffTimer += Time.deltaTime;
             if (atkDebuffTimer > 2f)
             {
-                unitAtk += 3;
+                unitAtk *= 2;
                 isAtkDebuff = false;
             }
         }
@@ -563,10 +576,10 @@ public class Unit : MonoBehaviour
         // 스피드 버프
         if (skillSensor == SkillSensor.RAN)
         {
-            if (!isRANUp)
+            if (!isRANUp && unitType != UnitType.Warrior && unitType != UnitType.Tanker)
             {
                 // 사거리 증가
-                unitRange += 1f;
+                unitRange += 0.5f;
                 isRANUp = true;
             }
         }
@@ -586,7 +599,7 @@ public class Unit : MonoBehaviour
             }
             else if (isRANUp)
             {
-                unitRange -= 1f;
+                unitRange -= 0.5f;
                 isRANUp = false;
             }
         }
@@ -780,13 +793,18 @@ public class Unit : MonoBehaviour
 
         // Skill
         int idx = (int)unitDetail - (int)UnitDetail.Bomb;
-        // Vampire는 공격 시 체력 회복
+
+        //Vampire는 공격 시 체력 회복
         if (unitDetail == UnitDetail.Vampire)
         {
             // 회복 이펙트
             ObjectManager.instance.GetBullet(idx + ((int)UnitDetail.Base + 1) * 2, transform.position + Vector3.up * 0.5f);
             unitHp += unitAtk;
             unitHp = unitHp > unitMaxHp ? unitMaxHp : unitHp;
+
+            // 처음 적을 공격하면 적의 스킬을 그대로 가져오기
+            //unitType = enemyLogic.unitType;
+            //unitDetail = enemyLogic.unitDetail;
         }
         // Punch는 상대 체력이 50이하면 즉사시킴
         else if (unitDetail == UnitDetail.Punch)
@@ -922,7 +940,7 @@ public class Unit : MonoBehaviour
         // Skill
         if (unitDetail == UnitDetail.Guitar)
         {
-            unitAtkSpeed -= 0.05f;
+            unitAtkSpeed -= 0.1f;
             unitAtkSpeed = unitAtkSpeed < 0.3f ? 0.3f : unitAtkSpeed;
         }
         if (unitDetail == UnitDetail.Farmer)
@@ -932,7 +950,7 @@ public class Unit : MonoBehaviour
             {
                 SpriteRenderer spriteRen = bullet.GetComponent<SpriteRenderer>();
                 spriteRen.color = Color.red;
-                plusAtk = 5;
+                plusAtk = 2;
                 farmerCount = 0;
             }
             else
@@ -1033,26 +1051,21 @@ public class Unit : MonoBehaviour
         // Bullet
         int idx = ((int)unitDetail - (int)UnitDetail.Bomb) + ((int)UnitDetail.Base + 1) * 2;
 
-        if (gameObject.layer == 8)          // 블루 팀 유닛일 경우
+        // 힐
+        if (unitDetail == UnitDetail.Heal)
         {
+            allyLogic.unitHp += 5;
+            allyLogic.unitHp = allyLogic.unitHp > allyLogic.unitMaxHp ? allyLogic.unitMaxHp : allyLogic.unitHp;
+
+            // 이펙트
+            Vector3 vec = Vector3.zero;
+            if (gameObject.layer == 8)          // 블루 팀 유닛일 경우
+                vec = new Vector3(-0.5f, 0.5f);
+            else if (gameObject.layer == 9)     // 레드 팀 유닛일 경우
+                vec = new Vector3(0.5f, 0.5f);
+
             // 타겟을 기준으로 발사
-            if (unitDetail == UnitDetail.Heal)
-            {
-                allyLogic.unitHp += 15;
-                allyLogic.unitHp = allyLogic.unitHp > allyLogic.unitMaxHp ? allyLogic.unitMaxHp : allyLogic.unitHp;
-                Vector3 vec = new Vector3(-0.5f, 0.5f);
-                ObjectManager.instance.GetBullet(idx, allyLogic.transform.position + vec);
-            }
-        }
-        else if (gameObject.layer == 9)     // 레드 팀 유닛일 경우
-        {
-            if (unitDetail == UnitDetail.Heal)
-            {
-                allyLogic.unitHp += 15;
-                allyLogic.unitHp = allyLogic.unitHp > allyLogic.unitMaxHp ? allyLogic.unitMaxHp : allyLogic.unitHp;
-                Vector3 vec = new Vector3(0.5f, 0.5f);
-                ObjectManager.instance.GetBullet(idx, allyLogic.transform.position + vec);
-            }
+            ObjectManager.instance.GetBullet(idx, allyLogic.transform.position + vec);
         }
 
         // 버프 발동

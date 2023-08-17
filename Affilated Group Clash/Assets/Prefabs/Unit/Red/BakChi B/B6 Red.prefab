@@ -269,7 +269,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 2
-  m_Sprite: {fileID: 1140039426, guid: 4b69496437d406247b5c69afb9fddf6a, type: 3}
+  m_Sprite: {fileID: -946477536, guid: 4b69496437d406247b5c69afb9fddf6a, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 1
   m_FlipY: 0
@@ -298,7 +298,7 @@ MonoBehaviour:
   unitCost: 3
   unitMaxHp: 95
   unitHp: 95
-  unitAtk: 5
+  unitAtk: 2
   unitAtkSpeed: 1.8
   unitRange: 0.4
   unitSpeed: -1.2
@@ -310,7 +310,7 @@ MonoBehaviour:
   skillSensor: 0
   isATSUp: 0
   isATKUp: 0
-  isSPDUp: 0
+  isRANUp: 0
   isAtkDebuff: 0
   isAtsDebuff: 0
   isSpdDebuff: 0

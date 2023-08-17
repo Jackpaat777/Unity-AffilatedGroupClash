@@ -484,10 +484,10 @@ MonoBehaviour:
   unitName: "\uD789\uB0E5\uC774"
   unitType: 4
   unitDetail: 27
-  unitCost: 8
+  unitCost: 7
   unitMaxHp: 45
   unitHp: 45
-  unitAtk: 15
+  unitAtk: 14
   unitAtkSpeed: 0.7
   unitRange: 1
   unitSpeed: 2
@@ -499,7 +499,7 @@ MonoBehaviour:
   skillSensor: 0
   isATSUp: 0
   isATKUp: 0
-  isSPDUp: 0
+  isRANUp: 0
   isAtkDebuff: 0
   isAtsDebuff: 0
   isSpdDebuff: 0

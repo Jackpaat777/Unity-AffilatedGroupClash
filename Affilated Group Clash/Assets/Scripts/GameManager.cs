@@ -904,7 +904,7 @@ public class GameManager : MonoBehaviour
                         skillText = "일반적인 탱커.";
                         break;
                     case 1:
-                        skillText = "공격에 적중당한 적 2초간 공격력 5 감소.\n(디버프 중첩불가)";
+                        skillText = "공격에 적중당한 적 2초간 공격력 절반 감소.\n(디버프 중첩불가)";
                         break;
                     case 2:
                         skillText = "HP가 적어질수록 공격속도 증가.\n(공격속도 최대치 : 0.3)";
@@ -930,7 +930,7 @@ public class GameManager : MonoBehaviour
                         skillText = "공격에 적중당한 적 2초간 공격속도 2배 감소.\n(디버프 중첩불가)";
                         break;
                     case 3:
-                        skillText = "범위 내 아군 한명에게 10만큼 힐.\n(중복 소환 불가)";
+                        skillText = "범위 내 아군 한명에게 15만큼 힐.\n(중복 소환 불가)";
                         break;
                     case 4:
                         skillText = "적을 킬하면 최대체력 +5, 공격력 +2, 공격속도 0.05만큼 증가\n(공격속도 최대치 : 0.3)";
@@ -944,7 +944,7 @@ public class GameManager : MonoBehaviour
                         skillText = "일반적인 전사.";
                         break;
                     case 1:
-                        skillText = "범위 내 아군 전체에게 공격범위 1 증가.\n(버프 중첩불가)";
+                        skillText = "범위 내 아군 전체에게 공격범위 0.5 증가.\n(버프 중첩불가)\n(근접 제외)";
                         break;
                     case 2:
                         skillText = "자신이 받는 모든 피격데미지가 3 감소되어 적용.";
@@ -967,7 +967,7 @@ public class GameManager : MonoBehaviour
                         skillText = "일반적인 탱커.";
                         break;
                     case 1:
-                        skillText = "공격 시 본인의 공격력만큼 체력 흡혈.";
+                        skillText = "공격 시 본인의 공격력만큼 체력 흡혈. 체력이 40이하가 되면 공격속도 증가.";
                         break;
                     case 2:
                         skillText = "광역으로 근접 공격.";
@@ -990,7 +990,7 @@ public class GameManager : MonoBehaviour
                         skillText = "일반적인 탱커.";
                         break;
                     case 1:
-                        skillText = "3번째 공격마다 추가 데미지 +5.";
+                        skillText = "3번째 공격마다 추가 데미지 +2.";
                         break;
                     case 2:
                         skillText = "공격할 때마다 공격속도 증가.\n(최대 0.3)\n(이동 시 초기화)";
@@ -999,7 +999,7 @@ public class GameManager : MonoBehaviour
                         skillText = "범위 내 아군 전체에게 공격력 5 증가.\n(버프 중첩불가)";
                         break;
                     case 4:
-                        skillText = "공격 시 체력 30이하 적 확정 킬.";
+                        skillText = "공격 시 체력 30이하 적 처형.";
                         break;
                 }
                 break;
@@ -1129,7 +1129,7 @@ public class GameManager : MonoBehaviour
                         detailText = "지방에서 상경한 시골소녀로 구수한 사투리를 쓴다. 노래실력이 매우 좋으며 자칭 섹시호소인이지만 아무도 인정해주지 않는다.";
                         break;
                     case 2:
-                        detailText = "Say-No Crystal(줄여서 크짱)이라는 이름의 기타를 가진 소녀. 귀여움 뒤에는 파워풀한 연주실력을 가지고 있다.";
+                        detailText = "Say-No Crystal(줄여서 크짱)이라는 이름의 기타를 가진 소녀. 착한 심성과 귀여움 뒤에 파워풀한 연주실력을 가지고 있다.";
                         break;
                     case 3:
                         detailText = "봇치처럼 소심하지만 의외로 할말은 하는 성격이다. 인싸처럼 보이고 싶다는 이유로 고글을 착용하고 다닌다.";

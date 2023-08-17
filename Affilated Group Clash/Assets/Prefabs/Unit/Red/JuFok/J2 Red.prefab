@@ -206,9 +206,9 @@ MonoBehaviour:
   unitType: 1
   unitDetail: 25
   unitCost: 5
-  unitMaxHp: 105
-  unitHp: 105
-  unitAtk: 5
+  unitMaxHp: 100
+  unitHp: 100
+  unitAtk: 2
   unitAtkSpeed: 1.4
   unitRange: 0.5
   unitSpeed: -1.3
@@ -220,7 +220,7 @@ MonoBehaviour:
   skillSensor: 0
   isATSUp: 0
   isATKUp: 0
-  isSPDUp: 0
+  isRANUp: 0
   isAtkDebuff: 0
   isAtsDebuff: 0
   isSpdDebuff: 0
