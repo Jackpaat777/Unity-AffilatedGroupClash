@@ -25,10 +25,6 @@ public class ObjectManager : MonoBehaviour
     public GameObject[] bullet_prefabs;
     List<GameObject>[] bullet_pools;
 
-    [Header("---------------[Slider]")]
-    public GameObject[] hpSlider_prefabs;
-    List<GameObject>[] hpSlider_pools;
-
     void Awake()
     {
         instance = this;
@@ -39,7 +35,6 @@ public class ObjectManager : MonoBehaviour
         bakChi_pools = new List<GameObject>[bakChi_prefabs.Length];
         vBand_pools = new List<GameObject>[vBand_prefabs.Length];
         bullet_pools = new List<GameObject>[bullet_prefabs.Length];
-        hpSlider_pools = new List<GameObject>[hpSlider_prefabs.Length];
 
         // 각 리스트를 생성자를 통해 초기화
         for (int i = 0; i < giHa_pools.Length; i++)
@@ -52,8 +47,6 @@ public class ObjectManager : MonoBehaviour
             vBand_pools[i] = new List<GameObject>();
         for (int i = 0; i < bullet_pools.Length; i++)
             bullet_pools[i] = new List<GameObject>();
-        for (int i = 0; i < hpSlider_pools.Length; i++)
-            hpSlider_pools[i] = new List<GameObject>();
     }
 
     // ======================================================= 오브젝트 생성 함수

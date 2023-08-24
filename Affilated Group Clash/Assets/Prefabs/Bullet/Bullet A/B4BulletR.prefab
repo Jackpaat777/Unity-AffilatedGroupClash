@@ -49,7 +49,7 @@ MonoBehaviour:
   unitDetail: 0
   layer: 0
   dmg: 0
-  speed: -15
+  speed: -10
   isHit: 0
   isRotate: 0
   isNotAtk: 0

@@ -7,7 +7,7 @@ using Random = UnityEngine.Random;
 using Image = UnityEngine.UI.Image;
 using Slider = UnityEngine.UI.Slider;
 using Button = UnityEngine.UI.Button;
-using static UnityEditor.Experimental.GraphView.GraphView;
+using UnityEngine.UIElements;
 
 public class InGameManager : MonoBehaviour
 {
@@ -34,7 +34,9 @@ public class InGameManager : MonoBehaviour
 
     [Header("---------------[Pattern]")]
     public bool isUpgradeTime;
+    public bool isRedBomb;
     public int patternIdx;
+    public int blueUnitCount;
     public int[] patternCost;
     public int[] patternRatio;
     public int redUnitCount;
@@ -112,6 +114,9 @@ public class InGameManager : MonoBehaviour
     public TextMeshProUGUI unitSkillText;
 
     [Header("---------------[Result]")]
+    public bool onFire;
+    public int burstCount;
+    public float fireTimer;
     public GameObject overSet;
     public GameObject controlSet;
     public GameObject victoryObj;
@@ -119,6 +124,7 @@ public class InGameManager : MonoBehaviour
     public GameObject defeatObj;
     public GameObject nextBtn;
     public GameObject resetBtn;
+    public ParticleSystem[] burstObj;
 
     [Header("---------------[Double Spawn]")]
     public bool isDevilB;
@@ -287,21 +293,21 @@ public class InGameManager : MonoBehaviour
                 levelText.text = "쉬움";
                 break;
             case 2:
-                costRedUp = 1.75f;
+                costRedUp = 2.25f;
                 redUpgradeTime = 80;
-                spawnTimer = 1.5f;
+                spawnTimer = 2f;
                 levelText.text = "보통";
                 break;
             case 3:
-                costRedUp = 1.5f;
+                costRedUp = 2f;
                 redUpgradeTime = 60;
-                spawnTimer = 1f;
+                spawnTimer = 1.5f;
                 levelText.text = "어려움";
                 break;
             case 4:
-                costRedUp = 1.5f;
+                costRedUp = 2f;
                 redUpgradeTime = 60;
-                spawnTimer = 1f;
+                spawnTimer = 1.5f;
                 levelText.text = "매우어려움";
                 break;
         }
@@ -339,10 +345,10 @@ public class InGameManager : MonoBehaviour
         fadeAc.gameObject.SetActive(false);
 
         // 게임 설명 띄우기
-        if (!Variables.isFirstGame)
+        if (!Variables.isAlreadyGame)
         {
             DescriptionButton();
-            Variables.isFirstGame = true;
+            Variables.isAlreadyGame = true;
             PlayerPrefs.SetInt("First", 1);
         }
     }
@@ -350,7 +356,11 @@ public class InGameManager : MonoBehaviour
     void Update()
     {
         if (!isGameLive)
+        {
+            // FireWork
+            ExecuteFireWork();
             return;
+        }
 
         // Timer
         GameTimer();
@@ -360,6 +370,8 @@ public class InGameManager : MonoBehaviour
         DevilTimer();
         // Camera Move
         CameraMove();
+        // Red Level Up
+        RedLevelUp();
         // Red Upgrade;
         RedUpgrade();
         // Cost
@@ -374,6 +386,54 @@ public class InGameManager : MonoBehaviour
         StartCoroutine(Pattern(spawnTimer, patternIdx));
     }
     // ======================================================= Update 함수
+    void RedLevelUp()
+    {
+        switch (Variables.gameLevel)
+        {
+            case 2:
+                if (gameTimer < 40f)
+                {
+                    costRedUp = 2.25f;
+                    spawnTimer = 2f;
+                }
+                else if (gameTimer < 80f)
+                {
+                    costRedUp = 2f;
+                    spawnTimer = 1.75f;
+                }
+                else
+                    spawnTimer = 1.5f;
+                break;
+            case 3:
+                if (gameTimer < 40f)
+                {
+                    costRedUp = 2f;
+                    spawnTimer = 1.5f;
+                }
+                else if (gameTimer < 80f)
+                {
+                    costRedUp = 1.75f;
+                    spawnTimer = 1.2f;
+                }
+                else
+                    spawnTimer = 1f;
+                break;
+            case 4:
+                if (gameTimer < 30f)
+                {
+                    costRedUp = 2f;
+                    spawnTimer = 1.5f;
+                }
+                else if (gameTimer < 60f)
+                {
+                    costRedUp = 1.75f;
+                    spawnTimer = 1.2f;
+                }
+                else
+                    spawnTimer = 1f;
+                break;
+        }
+    }
     void GameTimer()
     {
         gameTimer += Time.deltaTime;
@@ -446,6 +506,16 @@ public class InGameManager : MonoBehaviour
             isUpgradeTime = true;
             UpgradeRed();
         }
+    }
+    void RedBomb()
+    {
+        if (blueUnitCount > 4)
+        {
+            isRedBomb = true;
+            RedBombButton();
+        }
+        else
+            isRedBomb = false;
     }
     void BlueCostUp()
     {
@@ -570,7 +640,21 @@ public class InGameManager : MonoBehaviour
         if (unitLogic.unitHp <= 0)
             isUnitClick = false;
     }
+    void ExecuteFireWork()
+    {
+        if (!onFire)
+            return;
 
+        fireTimer += Time.deltaTime;
+        if (fireTimer > 2f)
+        {
+            burstObj[burstCount].Play();
+            burstCount++;
+            burstCount = burstCount > 4 ? 0 : burstCount;
+
+            fireTimer = 0;
+        }
+    }
     // ======================================================= 인게임 버튼 함수
     public void CameraMoveButton(string type)
     {
@@ -595,17 +679,14 @@ public class InGameManager : MonoBehaviour
             blueUpgradeyEffect[baseBLevel].SetActive(true);
             // Level Up
             baseBLevel++;
-            // 스프라이트 변경 (초가집, 돌집, 빌딩)
+            // 스프라이트 변경 (집, 빌딩, 성)
             baseBSpriteRen.sprite = baseBSprite[baseBLevel];
-
-            // Max 코스트 증가
-            //blueMaxCost += 5;
 
             // cost 텍스트 변경
             if (baseBLevel == 2)
             {
-                blueUpgradeCostText.text = "10";
-                upgradeText.text = "Bomb";
+                blueUpgradeCostText.text = "-";
+                upgradeText.text = "Max";
             }
             else
                 blueUpgradeCostText.text = blueMaxCost.ToString();
@@ -613,8 +694,8 @@ public class InGameManager : MonoBehaviour
             //코스트 증가 속도 상승
             costBlueUp -= 0.25f;
             // 베이스 강화
-            baseB.unitAtk += 5;
-            baseB.unitAtkSpeed -= 0.2f;
+            baseB.unitAtk += 2;
+            baseB.unitAtkSpeed -= 0.1f;
 
             // Sound
             SoundManager.instance.SfxPlay("Upgrade");
@@ -623,7 +704,7 @@ public class InGameManager : MonoBehaviour
         else
         {
             // Bomb Button
-            Debug.Log("Bomb");
+            //BlueBombButton();
         }
     }
     void UpgradeRed()
@@ -631,24 +712,29 @@ public class InGameManager : MonoBehaviour
         // red는 7만 있어도 업그레이드 가능
         if (redCost < 7 || baseRLevel == 2)
             return;
-        redCost -= 10;
+        redCost -= 7;
         redUpgradeyEffect[baseRLevel].SetActive(true);
         baseRLevel++;
-        //redMaxCost += 5;
         costRedUp -= 0.25f;
         baseRSpriteRen.sprite = baseRSprite[baseRLevel];
 
-        baseR.unitAtk += 5;
-        baseR.unitAtkSpeed -= 0.2f;
+        baseR.unitAtk += 2;
+        baseR.unitAtkSpeed -= 0.1f;
 
         isUpgradeTime = false;
         // Sound
         SoundManager.instance.SfxPlay("Upgrade");
     }
-    void BlueBombButton(Transform targetTrans)
+    void BlueBombButton()
     {
+        if (blueCost < 6)
+            return;
+
+        // 코스트 소모
+        blueCost -= 6;
+
         // 이펙트
-        GameObject bullet = ObjectManager.instance.GetBullet(14, Vector3.left * 11);
+        GameObject bullet = ObjectManager.instance.GetBullet(14, Vector3.left * 9);
 
         // Sound
         SoundManager.instance.SfxPlay("Bomb");
@@ -656,8 +742,28 @@ public class InGameManager : MonoBehaviour
         // Bullet에 값 넘겨주기
         Bullet bulletLogic = bullet.GetComponent<Bullet>();
 
+        bulletLogic.unitDetail = UnitDetail.Bomb;
         bulletLogic.layer = 8;
-        bulletLogic.dmg = 50;
+    }
+    void RedBombButton()
+    {
+        if (redCost < 6)
+            return;
+
+        // 코스트 소모
+        redCost -= 6;
+
+        // 이펙트
+        GameObject bullet = ObjectManager.instance.GetBullet(14, Vector3.right * 9);
+
+        // Sound
+        SoundManager.instance.SfxPlay("Bomb");
+
+        // Bullet에 값 넘겨주기
+        Bullet bulletLogic = bullet.GetComponent<Bullet>();
+
+        bulletLogic.unitDetail = UnitDetail.Bomb;
+        bulletLogic.layer = 9;
     }
     // 유닛 소환
     public void MakeBlueUnit(int idx)
@@ -1024,7 +1130,7 @@ public class InGameManager : MonoBehaviour
                         skillText = "공격에 적중당한 적 2초간 공격력 절반 감소.\n(디버프 중첩불가)";
                         break;
                     case 2:
-                        skillText = "HP가 적어질수록 공격속도 증가.\n(공격속도 최대치 : 0.3)";
+                        skillText = "HP가 적어질수록 공격속도 증가.\n(공격속도 최대치 : 0.5)";
                         break;
                     case 3:
                         skillText = "범위 내의 아군 전체에게 공격속도 2배 증가.\n(버프 중첩불가)";
@@ -1050,7 +1156,7 @@ public class InGameManager : MonoBehaviour
                         skillText = "범위 내 아군 한명에게 15만큼 힐.\n(중복 소환 불가)";
                         break;
                     case 4:
-                        skillText = "적을 킬하면 최대체력 +5, 공격력 +2, 공격속도 0.05만큼 증가\n(공격속도 최대치 : 0.3)";
+                        skillText = "적을 킬하면 최대체력 +5, 공격력 +2, 공격속도 0.05만큼 증가\n(공격속도 최대치 : 0.5)";
                         break;
                 }
                 break;
@@ -1064,7 +1170,7 @@ public class InGameManager : MonoBehaviour
                         skillText = "범위 내 아군 전체에게 공격범위 0.5 증가.\n(버프 중첩불가)\n(근접 제외)";
                         break;
                     case 2:
-                        skillText = "자신이 받는 모든 피격데미지가 3 감소되어 적용.";
+                        skillText = "자신이 받는 모든 피격데미지가 2 감소되어 적용.\n(최소데미지 1)";
                         break;
                     case 3:
                         skillText = "광역으로 원거리 공격.";
@@ -1073,7 +1179,7 @@ public class InGameManager : MonoBehaviour
                         skillText = "적이 본인과 근접범위까지 오면 백스탭. (쿨타임 4초)";
                         break;
                     case 5:
-                        skillText = "체력이 50이하가 되면 공격속도가 절반이 되며, 5초간 모든 데미지를 받지 않습니다.\n(한번만 발동)";
+                        skillText = "체력이 50이하가 되면 공격속도가 절반이 되며, 3초간 모든 데미지를 받지 않습니다.\n(한번만 발동)";
                         break;
                 }
                 break;
@@ -1110,13 +1216,13 @@ public class InGameManager : MonoBehaviour
                         skillText = "3번째 공격마다 추가 데미지 +2.";
                         break;
                     case 2:
-                        skillText = "공격할 때마다 공격속도 증가.\n(최대 0.3)\n(이동 시 초기화)";
+                        skillText = "공격할 때마다 공격속도 증가.\n(공격속도 최대치 : 0.5)\n(이동 시 초기화)";
                         break;
                     case 3:
-                        skillText = "범위 내 아군 전체에게 공격력 5 증가.\n(버프 중첩불가)";
+                        skillText = "범위 내 아군 전체에게 공격력 4 증가.\n(버프 중첩불가)";
                         break;
                     case 4:
-                        skillText = "공격 시 체력 30이하 적 처형.";
+                        skillText = "공격 시 체력 20이하 적 처형.";
                         break;
                 }
                 break;
@@ -1130,13 +1236,13 @@ public class InGameManager : MonoBehaviour
                         skillText = "적에게 피격당해도 멈추지 않음.";
                         break;
                     case 2:
-                        skillText = "공격에 적중당한 적 2초간 이동속도 3 감소.\n(디버프 중첩불가)";
+                        skillText = "공격에 적중당한 적 2초간 이동속도 4 감소.\n(디버프 중첩불가)";
                         break;
                     case 3:
                         skillText = "범위 내 원거리 투사체 공격 무효.\n(광역공격 또는 기지의 공격은 해당하지 않음.)";
                         break;
                     case 4:
-                        skillText = "적 기지까지 이동할 동안 공격하지 않음.";
+                        skillText = "적 기지까지 이동할 동안 공격하지 않음.\n적에게 피격당해도 멈추지 않음.";
                         break;
                 }
                 break;
@@ -1192,7 +1298,7 @@ public class InGameManager : MonoBehaviour
             optionButton.interactable = true;
             teamBLogoButton.interactable = true;
             teamRLogoButton.interactable = true;
-            for (int i = 0; i < 7; i++)
+            for (int i = 0; i < 8; i++)
             {
                 // 사각형 다 끄기
                 descriptionRect[i].SetActive(false);
@@ -1215,7 +1321,7 @@ public class InGameManager : MonoBehaviour
         descriptionPage++;
 
         // 다봤으면 나가기
-        if (descriptionPage > 10)
+        if (descriptionPage > 11)
         {
             DescriptionButton();
             return;
@@ -1236,21 +1342,21 @@ public class InGameManager : MonoBehaviour
         else if (descriptionPage > 1)
         {
             // 사각형 키기 (마지막 페이지에는 사각형이 없으므로 못킴)
-            if (descriptionPage < 10)
+            if (descriptionPage < 11)
                 descriptionRect[descriptionPage - 2].SetActive(true);
 
             // 다음 버튼을 눌렀을 경우
             if (btnType == "Next")
             {
-                // 이전 사각형 끄기
+                // 이전 사각형 끄기(두번째 이상일 때)
                 if (descriptionPage > 2)
                     descriptionRect[descriptionPage - 3].SetActive(false);
             }
             // 이전버튼을 눌렀을 경우
             else if (btnType == "Prev")
             {
-                // 다음 사각형 끄기
-                if (descriptionPage < 9)
+                // 다음 사각형 끄기(10번째 이하일 때)
+                if (descriptionPage < 10)
                     descriptionRect[descriptionPage - 1].SetActive(false);
             }
         }
@@ -1282,19 +1388,22 @@ public class InGameManager : MonoBehaviour
                 break;
             case 6:
                 descriptionText.text = "<color=red>기지 업그레이드</color>입니다.\n\n기지는 스스로 일정 범위 내에서\n적을 인식해 공격합니다.\n\n" +
-                    "<color=red>B버튼</color>을 통해 코인을 소모하여\n코인 증가 속도, 기지의 공격력, 공격속도를 증가시킬 수 있으며,\n<color=red>최대 2번</color>까지 가능합니다.";
+                    "<color=red>B버튼</color>을 통해 코인을 소모하여\n코인 증가 속도, 기지의 공격력, 공격속도를 증가시킬 수 있습니다.";
                 break;
             case 7:
-                descriptionText.text = "이곳에서는 <color=red>현재 게임 난이도와\n양 팀의 남은 체력</color>을 확인하실 수 있습니다.\n\n" +
-                    "양 팀 모두 500으로 시작하며\n가장 먼저 체력이 0이 되는 팀이 패배합니다.\n\n그 아래에는 현재 게임 플레이 시간이 나옵니다.";
+                descriptionText.text = "기지 업그레이드는 <color=red>최대 2번</color>까지 가능하며,\n업그레이드가 최대인 경우 기지의 공격이 <color=red>광역 공격</color>으로 바뀝니다.";
                 break;
             case 8:
-                descriptionText.text = "<color=red>팀 로고를 클릭</color>하면 해당 <color=red>팀 멤버들에 대한\n정보를 확인</color>하실 수 있습니다.\n\n멤버의 스탯, 스킬에 대해 궁금하시다면\n팀 로고를 클릭해주세요!";
+                descriptionText.text = "이곳에서는 <color=red>현재 게임 난이도와\n양 팀의 남은 체력</color>을 확인하실 수 있습니다.\n\n" +
+                    "양 팀 모두 300으로 시작하며\n가장 먼저 체력이 0이 되는 팀이 패배합니다.\n\n그 아래에는 현재 게임 플레이 시간이 나옵니다.";
                 break;
             case 9:
-                descriptionText.text = "마지막으로 <color=red>ESC 또는 일시정지 버튼</color>을 눌러\n소리를 조절하거나 게임을 종료하실 수 있으며\n\n <color=red>물음표 버튼</color>을 누르면 게임설명을\n다시 확인하실 수 있습니다.";
+                descriptionText.text = "<color=red>팀 로고를 클릭</color>하면 해당 <color=red>팀 멤버들에 대한\n정보를 확인</color>하실 수 있습니다.\n\n멤버의 스탯, 스킬에 대해 궁금하시다면\n팀 로고를 클릭해주세요!";
                 break;
             case 10:
+                descriptionText.text = "마지막으로 <color=red>ESC 또는 일시정지 버튼</color>을 눌러\n소리를 조절하거나 게임을 종료하실 수 있으며\n\n <color=red>물음표 버튼</color>을 누르면 게임설명을\n다시 확인하실 수 있습니다.";
+                break;
+            case 11:
                 descriptionText.text = "그럼 재밌게 즐겨주세요!\n\n감사합니다!";
                 break;
         }
@@ -1322,6 +1431,7 @@ public class InGameManager : MonoBehaviour
     }
     public void RestartButton()
     {
+        isGameLive = false;
         Time.timeScale = 1;
         // Fade Out
         fadeAc.gameObject.SetActive(true);
@@ -1330,6 +1440,7 @@ public class InGameManager : MonoBehaviour
     }
     public void ResetButton()
     {
+        isGameLive = false;
         Time.timeScale = 1;
         // Fade Out
         fadeAc.gameObject.SetActive(true);
@@ -1466,15 +1577,14 @@ public class InGameManager : MonoBehaviour
                 }
                 else
                 {
+                    // 불꽃 시작
+                    onFire = true;
                     // Clear
                     clearObj.SetActive(true);
                     // 클리어
                     Variables.isStageClear[Variables.teamBlueNum] = true;
                     // 저장
                     PlayerPrefs.SetInt("Clear" + Variables.teamBlueNum, 1);
-
-                    // 업적획득 창
-
 
                     resetBtn.SetActive(true);
                 }
@@ -1501,7 +1611,6 @@ public class InGameManager : MonoBehaviour
         controlSet.SetActive(false);
         overSet.SetActive(true);
     }
-
     // ======================================================= COM 함수
     IEnumerator Pattern(float time, int typeNum)
     {

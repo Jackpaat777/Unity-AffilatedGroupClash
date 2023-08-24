@@ -26,7 +26,6 @@ public class Sensor : MonoBehaviour
         }
     }
 
-    // 아군 감지 트리거 (한명씩 인지)
     void OnTriggerStay2D(Collider2D collision)
     {
         // 게임 중에만 실행
@@ -60,5 +59,4 @@ public class Sensor : MonoBehaviour
 
         parent.isHeal = false;
     }
-
 }

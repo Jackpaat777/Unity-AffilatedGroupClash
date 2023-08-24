@@ -39,14 +39,6 @@ public class Bullet : MonoBehaviour
         if (isRotate)
             transform.Rotate(Vector3.forward * speed);
 
-        // Circle은 제외 (화면밖으로 나갈 일이 있나?)
-        //if (unitDetail != UnitDetail.AtkUp || unitDetail != UnitDetail.AtkspdUp || unitDetail != UnitDetail.SpdUp || unitDetail != UnitDetail.Piano)
-        //{
-        //    // 화면 밖으로 나갈 경우 제거
-        //    if (transform.position.x < -15 || transform.position.x > 15)
-        //        gameObject.SetActive(false);
-        //}
-
         // 아무리 길어도 1초(버그있으면 1.2~1.5초로 늘려보기)
         StartCoroutine(DisableRoutine(1f));
     }
@@ -54,7 +46,7 @@ public class Bullet : MonoBehaviour
     void FixedUpdate()
     {
         // 광역공격 유닛, 아군 버프 유닛은 ScanEnemy없이 넘어감
-        if (unitDetail == UnitDetail.Stick || unitDetail == UnitDetail.Bomb || unitDetail == UnitDetail.Wizard ||
+        if (unitDetail == UnitDetail.Stick || unitDetail == UnitDetail.Bomb || unitDetail == UnitDetail.Wizard || unitDetail == UnitDetail.BaseM ||
             unitDetail == UnitDetail.AtkUp || unitDetail == UnitDetail.AtkspdUp || unitDetail == UnitDetail.RanUp || unitDetail == UnitDetail.Piano)
             return;
 
@@ -147,7 +139,7 @@ public class Bullet : MonoBehaviour
     void ScanSensor()
     {
         // 베이스의 총알은 못막음
-        if (unitDetail == UnitDetail.Base)
+        if (unitDetail == UnitDetail.Base || unitDetail == UnitDetail.BaseM)
             return;
 
         Vector2 dir = Vector2.zero;
@@ -177,7 +169,7 @@ public class Bullet : MonoBehaviour
     void OnTriggerEnter2D(Collider2D collision)
     {
         // Wizard는 원거리이기 때문에 따로 분류(Destroy Bullet)
-        if (unitDetail == UnitDetail.Stick || unitDetail == UnitDetail.Wizard || unitDetail == UnitDetail.Bomb)
+        if (unitDetail == UnitDetail.Stick || unitDetail == UnitDetail.Wizard || unitDetail == UnitDetail.Bomb || unitDetail == UnitDetail.BaseM)
         {
             // 적군일 경우
             if ((layer == 8 && collision.gameObject.layer == 9) || (layer == 9 && collision.gameObject.layer == 8))

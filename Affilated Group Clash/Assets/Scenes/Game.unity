@@ -12465,7 +12465,7 @@ MonoBehaviour:
   - {fileID: 7232302517647043825, guid: 934af1273e05b1e48a4967e1e32db304, type: 3}
   - {fileID: 7232302517647043825, guid: 1a21a638e5d347e41a4e7b1afbd08057, type: 3}
   - {fileID: 7232302517647043825, guid: f111da86db9348348b3db044d5113d4d, type: 3}
-  hpSlider_prefabs: []
+  - {fileID: 7138916361236119448, guid: 3233a49a396306548b3ca9a051cfe061, type: 3}
 --- !u!4 &1036660437
 Transform:
   m_ObjectHideFlags: 0

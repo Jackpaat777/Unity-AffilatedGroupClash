@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 using Slider = UnityEngine.UI.Slider;
 
@@ -17,7 +18,7 @@ public enum UnitDetail
     // Bullet A 사용 유닛
     Archer, Sniper, Farmer, Guitar, Singer, Bass, Base,
     // Bullet B 사용 유닛
-    Bomb, Stick, Vampire, Punch, Hammer, Devil, Heal, Wizard, AtkUp, AtkspdUp, RanUp, Piano,
+    Bomb, Stick, Vampire, Punch, Hammer, Devil, Heal, Wizard, AtkUp, AtkspdUp, RanUp, Piano, BaseM,
     Sword, Guard, Berserker, GrowUp, Air, Counter, Shield, Drum, Cat,
     CostUp
 }
@@ -53,11 +54,13 @@ public class Unit : MonoBehaviour
     public float unitSpeed;
 
     [Header("---------------[Game]")]
+    public GameObject[] buffIcon; 
+    public GameObject[] debuffIcon; 
     public Slider hpSlider;
     public ParticleSystem dustObject;
     public UnitState unitState; // 유닛의 상태마다 다른 로직을 실행하도록
     public bool isHeal;         // 힐 관련 변수
-    public float attackTimer;          // 공속용 타이머
+    float attackTimer;          // 공속용 타이머
     float stopTimer;            // Move용 타이머
     bool isFront;               // Stop에서 Move로 가기 위한 변수
     bool isHit;
@@ -116,13 +119,6 @@ public class Unit : MonoBehaviour
         if (unitType == UnitType.Base)
             return;
 
-        // 아군 소환유닛 정보 넘기기
-        //if (gameObject.layer == 8)
-        //{
-        //    InGameManager.instance.isUnitClick = true;
-        //    InGameManager.instance.unitObj = gameObject;
-        //}
-
         // 기본 세팅하기
         ResetSettings();
 
@@ -145,7 +141,15 @@ public class Unit : MonoBehaviour
             transform.localPosition = Vector3.right * 11;
 
         // 체력 바
+        hpSlider.gameObject.SetActive(true);
         hpSlider.transform.position = Vector3.up * 2000;
+
+        // 버프, 디버프 UI 초기화
+        for (int i = 0; i < 3; i++)
+        {
+            buffIcon[i].SetActive(false);
+            debuffIcon[i].SetActive(false);
+        }
 
         // 타이머 초기화
         attackTimer = 0; stopTimer = 0; atkDebuffTimer = 0; atsDebuffTimer = 0; spdDebuffTimer = 0; backStepTimer = 0;
@@ -205,16 +209,16 @@ public class Unit : MonoBehaviour
         if (isSpdDebuff)
         {
             if (gameObject.layer == 8)
-                unitSpeed += 0.3f;
+                unitSpeed += 0.4f;
             else if (gameObject.layer == 9)
-                unitSpeed -= 0.3f;
+                unitSpeed -= 0.4f;
             isSpdDebuff = false;
         }
 
         // 모든 유닛에 적용
         if (skillSensor == SkillSensor.ATK)
         {
-            unitAtk -= 5;
+            unitAtk -= 4;
             isATKUp = false;
         }
         else if (skillSensor == SkillSensor.ATS)
@@ -238,7 +242,7 @@ public class Unit : MonoBehaviour
         }
 
         else if (unitDetail == UnitDetail.Vampire)
-            unitAtkSpeed = 1.5f;
+            unitAtkSpeed = 1.8f;
 
         else if (unitDetail == UnitDetail.Guitar)
             unitAtkSpeed = 1.5f;
@@ -361,11 +365,20 @@ public class Unit : MonoBehaviour
     {
         // 게임 종료
         if (!InGameManager.instance.isGameLive)
+        {
+            UnableUI();
             return;
+        }
 
         // Base 타입인 경우
         if (unitType == UnitType.Base)
+        {
+            if ((gameObject.layer == 8 && InGameManager.instance.baseBLevel == 2) || (gameObject.layer == 9 && InGameManager.instance.baseRLevel == 2))
+            {
+                unitDetail = UnitDetail.BaseM;
+            }
             return;
+        }
 
         // Unit Own Skill
         DevilHit();
@@ -380,7 +393,9 @@ public class Unit : MonoBehaviour
         BuffSensor();
         // 유닛 이동
         UnitMovement();
+        // UI 이동
         HpSlider();
+        BuffDebuffUI();
     }
     // ======================================================= Update 정리용 함수
     void DevilHit()
@@ -417,7 +432,7 @@ public class Unit : MonoBehaviour
     {
         if (unitDetail == UnitDetail.Hammer)
         {
-            // 현재 체력이 50이하면 5초 무적, 공격속도 2배 증가 (한번만 발동)
+            // 현재 체력이 50이하면 3초 무적, 공격속도 2배 증가 (한번만 발동)
             if (unitHp <= 50 && isBarrierOnce)
             {
                 isNoDamage = true;  // NoDamage가 True면 DoHit하지 않음
@@ -429,7 +444,8 @@ public class Unit : MonoBehaviour
         if (isNoDamage)
         {
             barrierTimer += Time.deltaTime;
-            if (barrierTimer > 5f)
+            // 무적끝나면 원래대로 돌려놓기
+            if (barrierTimer > 3f)
             {
                 isBarrierOnce = false;
                 barrierSkillEffect.SetActive(false);
@@ -444,9 +460,9 @@ public class Unit : MonoBehaviour
         {
             // 현재 체력이 40이하면 공격속도 증가
             if (unitHp <= 40)
-                unitAtkSpeed = 1f;
+                unitAtkSpeed = 1.3f;
             else
-                unitAtkSpeed = 1.5f;
+                unitAtkSpeed = 1.8f;
         }
     }
     void BuffUnit()
@@ -520,9 +536,11 @@ public class Unit : MonoBehaviour
         if (isAtkDebuff)
         {
             atkDebuffTimer += Time.deltaTime;
+            debuffIcon[0].SetActive(true);
             if (atkDebuffTimer > 2f)
             {
                 unitAtk *= 2;
+                debuffIcon[0].SetActive(false);
                 isAtkDebuff = false;
             }
         }
@@ -530,9 +548,11 @@ public class Unit : MonoBehaviour
         if (isAtsDebuff)
         {
             atsDebuffTimer += Time.deltaTime;
+            debuffIcon[1].SetActive(true);
             if (atsDebuffTimer > 2f)
             {
                 unitAtkSpeed /= 2;
+                debuffIcon[1].SetActive(false);
                 isAtsDebuff = false;
             }
         }
@@ -540,12 +560,14 @@ public class Unit : MonoBehaviour
         if (isSpdDebuff)
         {
             spdDebuffTimer += Time.deltaTime;
+            debuffIcon[2].SetActive(true);
             if (spdDebuffTimer > 2f)
             {
                 if (gameObject.layer == 8)
-                    unitSpeed += 0.3f;
+                    unitSpeed += 0.4f;
                 else if (gameObject.layer == 9)
-                    unitSpeed -= 0.3f;
+                    unitSpeed -= 0.4f;
+                debuffIcon[2].SetActive(false);
                 isSpdDebuff = false;
             }
         }
@@ -559,7 +581,7 @@ public class Unit : MonoBehaviour
             if (!isATKUp)
             {
                 // 공격력 증가
-                unitAtk += 5;
+                unitAtk += 4;
                 isATKUp = true;
             }
         }
@@ -573,10 +595,10 @@ public class Unit : MonoBehaviour
                 isATSUp = true;
             }
         }
-        // 스피드 버프
+        // 사거리 버프
         if (skillSensor == SkillSensor.RAN)
         {
-            if (!isRANUp && unitType != UnitType.Warrior && unitType != UnitType.Tanker)
+            if (!isRANUp)
             {
                 // 사거리 증가
                 unitRange += 0.5f;
@@ -589,17 +611,20 @@ public class Unit : MonoBehaviour
             // 버프 중인 경우 버프 해제 (한번만 실행)
             if (isATKUp)
             {
-                unitAtk -= 5;
+                unitAtk -= 4;
+                buffIcon[0].SetActive(false);
                 isATKUp = false;
             }
             else if (isATSUp)
             {
                 unitAtkSpeed *= 2;
+                buffIcon[1].SetActive(false);
                 isATSUp = false;
             }
             else if (isRANUp)
             {
                 unitRange -= 0.5f;
+                buffIcon[2].SetActive(false);
                 isRANUp = false;
             }
         }
@@ -621,8 +646,8 @@ public class Unit : MonoBehaviour
             // 앞에 아무도 없을 때
             if (!isFront)
             {
-                // Bomb와 Drum은 피격시 멈추지 않음
-                if (unitDetail == UnitDetail.Bomb || unitDetail == UnitDetail.Drum)
+                // Bomb와 Drum과 Cat은 피격시 멈추지 않음
+                if (unitDetail == UnitDetail.Bomb || unitDetail == UnitDetail.Drum || unitDetail == UnitDetail.Cat)
                 {
                     DoMove();
                 }
@@ -648,6 +673,40 @@ public class Unit : MonoBehaviour
         else if (gameObject.layer == 9)
             vec = new Vector3(0.5f, 1.3f);
         hpSlider.transform.position = Camera.main.WorldToScreenPoint(transform.position + vec);
+    }
+    void BuffDebuffUI()
+    {
+        // UI 이동
+        Vector3 buffVec = Vector3.zero;
+        Vector3 debuffVec = Vector3.zero;
+        if (gameObject.layer == 8)
+        {
+            buffVec = new Vector3(-0.7f, 1.8f);
+            debuffVec = new Vector3(-0.3f, 1.8f);
+        }
+        else if (gameObject.layer == 9)
+        {
+            buffVec = new Vector3(0.3f, 1.8f);
+            debuffVec = new Vector3(0.7f, 1.8f);
+        }
+
+        for (int i = 0; i < 3; i++)
+        {
+            buffIcon[i].transform.position = Camera.main.WorldToScreenPoint(transform.position + buffVec);
+            debuffIcon[i].transform.position = Camera.main.WorldToScreenPoint(transform.position + debuffVec);
+        }
+    }
+    void UnableUI()
+    {
+        if (hpSlider != null)
+        {
+            hpSlider.gameObject.SetActive(false);
+            for (int i = 0; i < 3; i++)
+            {
+                buffIcon[i].SetActive(false);
+                debuffIcon[i].SetActive(false);
+            }
+        }
     }
 
     void FixedUpdate()
@@ -690,7 +749,7 @@ public class Unit : MonoBehaviour
             Unit enemyLogic = rayHit.collider.gameObject.GetComponent<Unit>();
 
             // 광역 유닛의 경우 (Wizard는 Transform 변수 필요) (Stick은 Warrior지만 다른 함수 적용)
-            if (unitDetail == UnitDetail.Stick || unitDetail == UnitDetail.Bomb || unitDetail == UnitDetail.Wizard)
+            if (unitDetail == UnitDetail.Stick || unitDetail == UnitDetail.Bomb || unitDetail == UnitDetail.Wizard || unitDetail == UnitDetail.BaseM)
                 WideAttack(enemyLogic.transform);
 
             // 근접 유닛의 경우 (Unit 변수 필요)
@@ -698,7 +757,7 @@ public class Unit : MonoBehaviour
                 DirectAttack(enemyLogic);
 
             // 원거리 유닛의 경우 + Base의 경우
-            else if (unitType == UnitType.Ranger || unitType == UnitType.Base)
+            else if (unitType == UnitType.Ranger || unitDetail == UnitDetail.Base)
                 ShotAttack();
 
             // Cat의 경우
@@ -755,11 +814,11 @@ public class Unit : MonoBehaviour
     // ======================================================= 공격 함수
     void CatAttack(Unit enemyLogic)
     {
-        // Cat은 근접상대 무시
+        // Cat은 Base 전까지 무시
         if (unitDetail == UnitDetail.Cat)
         {
             // Base앞에선 멈춤
-            if (enemyLogic.unitDetail == UnitDetail.Base)
+            if (enemyLogic.unitType == UnitType.Base)
             {
                 // 멈춤
                 isFront = true;
@@ -801,21 +860,17 @@ public class Unit : MonoBehaviour
             ObjectManager.instance.GetBullet(idx + ((int)UnitDetail.Base + 1) * 2, transform.position + Vector3.up * 0.5f);
             unitHp += unitAtk;
             unitHp = unitHp > unitMaxHp ? unitMaxHp : unitHp;
-
-            // 처음 적을 공격하면 적의 스킬을 그대로 가져오기
-            //unitType = enemyLogic.unitType;
-            //unitDetail = enemyLogic.unitDetail;
         }
         // Punch는 상대 체력이 50이하면 즉사시킴
         else if (unitDetail == UnitDetail.Punch)
         {
             // Base는 해당안됨
-            if (enemyLogic.unitDetail != UnitDetail.Base)
+            if (enemyLogic.unitType != UnitType.Base)
             {
                 // 즉사
-                if (enemyLogic.unitHp <= 30)
+                if (enemyLogic.unitHp <= 20)
                 {
-                    enemyLogic.DoHit(30);
+                    enemyLogic.DoHit(20);
                     // 이펙트
                     if (gameObject.layer == 8)
                     {
@@ -840,14 +895,14 @@ public class Unit : MonoBehaviour
                 anim.SetTrigger("doAttackR");
 
             // Base는 해당안됨
-            if (enemyLogic.unitDetail != UnitDetail.Base)
+            if (enemyLogic.unitType != UnitType.Base)
             {
                 // 적의 HP가 내 공격력이하만큼 있으면 (죽을 경우 -> 상대방이 힐 유닛이면? 힐되기 전에 죽었을 듯)
                 if (enemyLogic.unitHp <= unitAtk)
                 {
                     unitAtk += 2;
                     unitAtkSpeed -= 0.05f;
-                    unitAtkSpeed = unitAtkSpeed < 0.3f ? 0.3f : unitAtkSpeed;
+                    unitAtkSpeed = unitAtkSpeed < 0.5f ? 0.5f : unitAtkSpeed;
                     unitMaxHp += 5;
                 }
             }
@@ -855,7 +910,7 @@ public class Unit : MonoBehaviour
         // Air는 공격 시 상대 공속 절반
         else if (unitDetail == UnitDetail.Air && !enemyLogic.isAtsDebuff)
         {
-            if (enemyLogic.unitDetail != UnitDetail.Base)
+            if (enemyLogic.unitType != UnitType.Base)
             {
                 enemyLogic.unitAtkSpeed *= 2;
                 enemyLogic.isAtsDebuff = true;
@@ -871,15 +926,6 @@ public class Unit : MonoBehaviour
             else if (gameObject.layer == 9)
                 ObjectManager.instance.GetBullet(idx + ((int)UnitDetail.Base + 1) * 2, transform.position + Vector3.left * 0.5f);
         }
-        //// Drum은 적을 밀침
-        //else if (unitDetail == UnitDetail.Drum)
-        //{
-        //    // 적 밀치기 (최댓값 존재)
-        //    if (gameObject.layer == 8 && enemyLogic.transform.position.x < 10f)
-        //        enemyLogic.transform.Translate(Vector3.right * 0.5f);
-        //    else if (gameObject.layer == 9 && enemyLogic.transform.position.x > -10f)
-        //        enemyLogic.transform.Translate(Vector3.left * 0.5f);
-        //}
 
         // 근접유닛이 Counter를 때리면 자신도 절반 데미지
         if (enemyLogic.unitDetail == UnitDetail.Counter)
@@ -941,7 +987,7 @@ public class Unit : MonoBehaviour
         if (unitDetail == UnitDetail.Guitar)
         {
             unitAtkSpeed -= 0.1f;
-            unitAtkSpeed = unitAtkSpeed < 0.3f ? 0.3f : unitAtkSpeed;
+            unitAtkSpeed = unitAtkSpeed < 0.5f ? 0.5f : unitAtkSpeed;
         }
         if (unitDetail == UnitDetail.Farmer)
         {
@@ -1016,7 +1062,7 @@ public class Unit : MonoBehaviour
                 SoundManager.instance.SfxPlay("Crash");
             }
             // 타겟를 기준으로 총알 발사
-            else if (unitDetail == UnitDetail.Wizard)
+            else if (unitDetail == UnitDetail.Wizard || unitDetail == UnitDetail.BaseM)
             {
                 if (gameObject.layer == 8)
                     bullet = ObjectManager.instance.GetBullet(idx, targetTrans.position + Vector3.right * 0.5f);
@@ -1024,7 +1070,10 @@ public class Unit : MonoBehaviour
                     bullet = ObjectManager.instance.GetBullet(idx, targetTrans.position + Vector3.left * 0.5f);
 
                 // Sound
-                SoundManager.instance.SfxPlay("Magic");
+                if (unitDetail == UnitDetail.Wizard)
+                    SoundManager.instance.SfxPlay("Magic");
+                else
+                    SoundManager.instance.SfxPlay("Base");
             }
 
             // Attack
@@ -1127,13 +1176,13 @@ public class Unit : MonoBehaviour
         {
             // 깎인체력 1 당 0.005씩 공속 증가
             unitAtkSpeed -= damage * 0.005f;
-            unitAtkSpeed = unitAtkSpeed < 0.3f ? 0.3f : unitAtkSpeed;
+            unitAtkSpeed = unitAtkSpeed < 0.5f ? 0.5f : unitAtkSpeed;
         }
         else if (unitDetail == UnitDetail.Shield)
         {
-            // 3데미지 감소
-            damage -= 3;
-            damage = damage < 0 ? 0 : damage;
+            // 2데미지 감소
+            damage -= 2;
+            damage = damage < 1 ? 1 : damage;
         }
 
         // Hit 로직
@@ -1234,25 +1283,34 @@ public class Unit : MonoBehaviour
         if (unitType == UnitType.Base)
             return;
 
-        // 공속증가
-        // Blue 팀 유닛이 Blue Buff Sensor와 닿았을 경우 || Red 팀 유닛이 Red Buff Sensor와 닿았을 경우
-        if ((gameObject.layer == 8 && collision.gameObject.tag == "AtkSpd_UpB") || (gameObject.layer == 9 && collision.gameObject.tag == "AtkSpd_UpR"))
-        {
-            // 버프 적용(버퍼 제외)
-            if (unitDetail != UnitDetail.AtkspdUp && unitDetail != UnitDetail.Devil)
-                skillSensor = SkillSensor.ATS;
-        }
         // 공격 증가
         if ((gameObject.layer == 8 && collision.gameObject.tag == "Atk_UpB") || (gameObject.layer == 9 && collision.gameObject.tag == "Atk_UpR"))
         {
             if (unitDetail != UnitDetail.AtkUp)
+            {
                 skillSensor = SkillSensor.ATK;
+                buffIcon[0].SetActive(true);
+            }
         }
-        // 이속 증가
+        // 공속증가
+        if ((gameObject.layer == 8 && collision.gameObject.tag == "AtkSpd_UpB") || (gameObject.layer == 9 && collision.gameObject.tag == "AtkSpd_UpR"))
+        {
+            // 버프 적용(버퍼 제외)
+            if (unitDetail != UnitDetail.AtkspdUp && unitDetail != UnitDetail.Devil)
+            {
+                skillSensor = SkillSensor.ATS;
+                buffIcon[1].SetActive(true);
+            }
+        }
+        // 사거리 증가
         if ((gameObject.layer == 8 && collision.gameObject.tag == "Ran_UpB") || (gameObject.layer == 9 && collision.gameObject.tag == "Ran_UpR"))
         {
-            if (unitDetail != UnitDetail.RanUp)
+            // 근접은 버프를 받지 않음
+            if (unitDetail != UnitDetail.RanUp && unitType != UnitType.Warrior && unitType != UnitType.Tanker)
+            {
                 skillSensor = SkillSensor.RAN;
+                buffIcon[2].SetActive(true);
+            }
         }
     }
 
