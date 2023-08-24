@@ -143,6 +143,7 @@ public class InGameManager : MonoBehaviour
     public Button optionButton;
     public Button teamBLogoButton;
     public Button teamRLogoButton;
+    public Button upgradeButton;
     public TextMeshProUGUI descriptionText;
     public GameObject descriptionPanel;
     public GameObject desPrevButton;
@@ -355,6 +356,9 @@ public class InGameManager : MonoBehaviour
 
     void Update()
     {
+        // Option
+        Option();
+
         if (!isGameLive)
         {
             // FireWork
@@ -378,7 +382,7 @@ public class InGameManager : MonoBehaviour
         BlueCostUp();
         RedCostUp();
         // KeyBoard
-        KeyBoard();
+        KeyBoardControl();
         // Unit Infomation
         UnitInfo();
 
@@ -541,7 +545,7 @@ public class InGameManager : MonoBehaviour
             costRTimer = 0;
         }
     }
-    void KeyBoard()
+    void KeyBoardControl()
     {
         // 키보드를 통한 이동
         if (Input.GetKey(KeyCode.RightArrow))
@@ -571,15 +575,6 @@ public class InGameManager : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.B))
             UpgradeBlueButton();
 
-        // 일시정지 버튼
-        if (Input.GetKeyDown(KeyCode.Escape))
-        {
-            if (Time.timeScale == 1)
-                OptionButton();
-            else
-                OptionOut();
-        }
-
         // red
         //if (Input.GetKeyDown(KeyCode.I))
         //    MakeRedUnit(0 + Variables.startRedIdx + Variables.groupRedNum);
@@ -593,6 +588,17 @@ public class InGameManager : MonoBehaviour
         //    MakeRedUnit(4 + Variables.startRedIdx + Variables.groupRedNum);
         //if (Input.GetKeyDown(KeyCode.L) && Variables.groupRedNum == 6)
         //    MakeRedUnit(5 + Variables.startRedIdx + Variables.groupRedNum);
+    }
+    void Option()
+    {
+        // 일시정지 버튼
+        if (Input.GetKeyDown(KeyCode.Escape))
+        {
+            if (optionPanel.activeSelf)
+                OptionOut();
+            else
+                OptionButton();
+        }
     }
     void UnitInfo()
     {
@@ -870,6 +876,7 @@ public class InGameManager : MonoBehaviour
     public void OptionButton()
     {
         optionPanel.SetActive(true);
+        isGameLive = false;
         Time.timeScale = 0;
         // Sound
         SoundManager.instance.SfxPlay("Button1");
@@ -877,6 +884,7 @@ public class InGameManager : MonoBehaviour
     public void OptionOut()
     {
         optionPanel.SetActive(false);
+        isGameLive = true;
         Time.timeScale = 1;
         // Sound
         SoundManager.instance.SfxPlay("Button1");
@@ -884,6 +892,7 @@ public class InGameManager : MonoBehaviour
     // 팀 로고 버튼
     public void TeamBLogoButton()
     {
+        isGameLive = false;
         // Time Stop
         Time.timeScale = 0;
 
@@ -911,6 +920,7 @@ public class InGameManager : MonoBehaviour
     }
     public void TeamRLogoButton()
     {
+        isGameLive = false;
         Time.timeScale = 0;
 
         for (int i = Variables.startRedIdx; i < Variables.startRedIdx + Variables.groupRedNum; i++)
@@ -1254,6 +1264,7 @@ public class InGameManager : MonoBehaviour
     {
         if (logoPage == 0)
         {
+            isGameLive = true;
             // Time Start
             Time.timeScale = 1;
             // 패널 끄기
@@ -1275,6 +1286,7 @@ public class InGameManager : MonoBehaviour
     {
         if (!descriptionPanel.activeSelf)
         {
+            isGameLive = false;
             // 멈춤
             Time.timeScale = 0;
             // 패널 켜기
@@ -1284,9 +1296,11 @@ public class InGameManager : MonoBehaviour
             optionButton.interactable = false;
             teamBLogoButton.interactable = false;
             teamRLogoButton.interactable = false;
+            upgradeButton.interactable = false;
         }
         else if (descriptionPanel.activeSelf)
         {
+            isGameLive = true;
             // 이미 켜져있는 경우 다시 끄기
             Time.timeScale = 1;
             // 초기화
@@ -1298,6 +1312,7 @@ public class InGameManager : MonoBehaviour
             optionButton.interactable = true;
             teamBLogoButton.interactable = true;
             teamRLogoButton.interactable = true;
+            upgradeButton.interactable = true;
             for (int i = 0; i < 8; i++)
             {
                 // 사각형 다 끄기

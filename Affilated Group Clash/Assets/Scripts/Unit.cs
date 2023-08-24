@@ -364,11 +364,9 @@ public class Unit : MonoBehaviour
     void Update()
     {
         // 게임 종료
+        ControlUI();
         if (!InGameManager.instance.isGameLive)
-        {
-            UnableUI();
             return;
-        }
 
         // Base 타입인 경우
         if (unitType == UnitType.Base)
@@ -696,15 +694,25 @@ public class Unit : MonoBehaviour
             debuffIcon[i].transform.position = Camera.main.WorldToScreenPoint(transform.position + debuffVec);
         }
     }
-    void UnableUI()
+    void ControlUI()
     {
-        if (hpSlider != null)
+        if (!InGameManager.instance.isGameLive)
         {
-            hpSlider.gameObject.SetActive(false);
-            for (int i = 0; i < 3; i++)
+            if (hpSlider != null)
             {
-                buffIcon[i].SetActive(false);
-                debuffIcon[i].SetActive(false);
+                hpSlider.gameObject.SetActive(false);
+                for (int i = 0; i < 3; i++)
+                {
+                    buffIcon[i].SetActive(false);
+                    debuffIcon[i].SetActive(false);
+                }
+            }
+        }
+        else
+        {
+            if (hpSlider != null)
+            {
+                hpSlider.gameObject.SetActive(true);
             }
         }
     }

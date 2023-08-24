@@ -49458,6 +49458,7 @@ MonoBehaviour:
   optionButton: {fileID: 1345098743}
   teamBLogoButton: {fileID: 727665146}
   teamRLogoButton: {fileID: 1358876971}
+  upgradeButton: {fileID: 1117363306}
   descriptionText: {fileID: 1578442908}
   descriptionPanel: {fileID: 2018246115}
   desPrevButton: {fileID: 1124055880}
