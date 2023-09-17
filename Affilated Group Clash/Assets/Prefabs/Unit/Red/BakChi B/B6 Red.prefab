@@ -454,11 +454,11 @@ MonoBehaviour:
   unitType: 1
   unitDetail: 21
   unitCost: 3
-  unitMaxHp: 95
-  unitHp: 95
+  unitMaxHp: 90
+  unitHp: 90
   unitAtk: 2
   unitAtkSpeed: 1.8
-  unitRange: 0.4
+  unitRange: 0.5
   unitSpeed: -1.2
   buffIcon:
   - {fileID: 5647557350463169889}

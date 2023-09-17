@@ -419,8 +419,8 @@ MonoBehaviour:
   unitHp: 30
   unitAtk: 0
   unitAtkSpeed: 1
-  unitRange: 2
-  unitSpeed: -1
+  unitRange: 2.5
+  unitSpeed: -1.2
   buffIcon:
   - {fileID: 3763626582949100892}
   - {fileID: 4565271219501096292}

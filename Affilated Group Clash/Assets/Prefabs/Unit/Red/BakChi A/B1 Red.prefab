@@ -871,10 +871,10 @@ MonoBehaviour:
   unitType: 0
   unitDetail: 9
   unitCost: 5
-  unitMaxHp: 80
-  unitHp: 80
-  unitAtk: 8
-  unitAtkSpeed: 1.8
+  unitMaxHp: 70
+  unitHp: 70
+  unitAtk: 6
+  unitAtkSpeed: 2
   unitRange: 0.7
   unitSpeed: -1.3
   buffIcon:

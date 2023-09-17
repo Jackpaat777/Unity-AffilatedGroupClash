@@ -613,12 +613,12 @@ MonoBehaviour:
   unitType: 4
   unitDetail: 12
   unitCost: 9
-  unitMaxHp: 35
-  unitHp: 35
-  unitAtk: 8
-  unitAtkSpeed: 2.5
+  unitMaxHp: 25
+  unitHp: 25
+  unitAtk: 4
+  unitAtkSpeed: 3
   unitRange: 2
-  unitSpeed: 0.6
+  unitSpeed: 1
   buffIcon:
   - {fileID: 7733352225971563086}
   - {fileID: 1826297531830340577}

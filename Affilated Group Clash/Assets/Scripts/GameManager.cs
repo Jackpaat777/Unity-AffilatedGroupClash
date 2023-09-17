@@ -743,7 +743,7 @@ public class GameManager : MonoBehaviour
         infoHpText.text = $"체력 : {infoUnit.unitMaxHp}";
         infoAtkText.text = $"공격 : {infoUnit.unitAtk}";
         infoAtsText.text = $"공격속도 : {infoUnit.unitAtkSpeed}";
-        infoRanText.text = $"공격범위 : {infoUnit.unitRange}";
+        infoRanText.text = $"공격범위 : {infoUnit.unitRange * 10}";
         infoSpdText.text = $"이동속도 : {infoUnit.unitSpeed * 10}";
         infoSkillText.text = UnitSkillText(infoPageIdx);
         infoDetailText.text = UnitDetailText(infoPageIdx);
@@ -910,10 +910,10 @@ public class GameManager : MonoBehaviour
                         skillText = "HP가 적어질수록 공격속도 증가.\n(공격속도 최대치 : 0.5)";
                         break;
                     case 3:
-                        skillText = "범위 내의 아군 전체에게 공격속도 2배 증가.\n(버프 중첩불가)";
+                        skillText = "범위 내의 아군 전체에게 공격속도 0.5만큼 버프.\n(버프 중첩불가)";
                         break;
                     case 4:
-                        skillText = "적 전체에게 피해를 입힘.\n(공격속도 고정)\n(중복 소환 불가)";
+                        skillText = "적 전체에게 피해를 입힘. 기지는 공격하지 못함.\n(공격속도 고정)\n(중복 소환 불가)";
                         break;
                 }
                 break;
@@ -927,7 +927,7 @@ public class GameManager : MonoBehaviour
                         skillText = "적에게 피해받을 때마다 적의 공격력의 절반만큼 피해를 되돌려줌.\n(근접 적만 해당)";
                         break;
                     case 2:
-                        skillText = "공격에 적중당한 적 2초간 공격속도 2배 감소.\n(디버프 중첩불가)";
+                        skillText = "공격에 적중당한 적 2초간 공격속도 0.5만큼 디버프.\n(디버프 중첩불가)";
                         break;
                     case 3:
                         skillText = "범위 내 아군 한명에게 15만큼 힐.\n(중복 소환 불가)";
@@ -944,7 +944,7 @@ public class GameManager : MonoBehaviour
                         skillText = "일반적인 전사.";
                         break;
                     case 1:
-                        skillText = "범위 내 아군 전체에게 공격범위 0.5 증가.\n(버프 중첩불가)\n(근접 제외)";
+                        skillText = "범위 내 아군 전체에게 공격범위 0.5 증가.\n(버프 중첩불가)";
                         break;
                     case 2:
                         skillText = "자신이 받는 모든 피격데미지가 2 감소되어 적용.\n(최소데미지 1)";
@@ -953,10 +953,10 @@ public class GameManager : MonoBehaviour
                         skillText = "광역으로 원거리 공격.";
                         break;
                     case 4:
-                        skillText = "적이 본인과 근접범위까지 오면 백스탭. (쿨타임 4초)";
+                        skillText = "적이 본인과 근접범위까지 오면 백스탭. (쿨타임 2.5초)";
                         break;
                     case 5:
-                        skillText = "체력이 50이하가 되면 공격속도가 절반이 되며, 3초간 모든 데미지를 받지 않습니다.\n(한번만 발동)";
+                        skillText = "체력이 40이하가 되면 공격속도가 증가하며, 3초간 모든 데미지를 받지 않음.\n(한번만 발동)";
                         break;
                 }
                 break;
@@ -967,7 +967,7 @@ public class GameManager : MonoBehaviour
                         skillText = "일반적인 탱커.";
                         break;
                     case 1:
-                        skillText = "공격 시 본인의 공격력만큼 체력 흡혈. 체력이 40이하가 되면 공격속도 증가.";
+                        skillText = "공격 시 본인의 공격력만큼 체력 흡혈. 체력이 30이하가 되면 공격속도 증가.";
                         break;
                     case 2:
                         skillText = "광역으로 근접 공격.";
@@ -993,7 +993,7 @@ public class GameManager : MonoBehaviour
                         skillText = "3번째 공격마다 추가 데미지 +2.";
                         break;
                     case 2:
-                        skillText = "공격할 때마다 공격속도 증가.\n(공격속도 최대치 : 0.5)\n(이동 시 초기화)";
+                        skillText = "공격할 때마다 공격속도 증가.\n(공격속도 최대치 : 0.7)\n(이동 시 초기화)";
                         break;
                     case 3:
                         skillText = "범위 내 아군 전체에게 공격력 4 증가.\n(버프 중첩불가)";

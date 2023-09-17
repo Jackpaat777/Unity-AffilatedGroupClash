@@ -119,6 +119,13 @@ public class Unit : MonoBehaviour
         if (unitType == UnitType.Base)
             return;
 
+        // 유닛 정보 넘기기
+        if (gameObject.layer == 8)
+        {
+            InGameManager.instance.isUnitClick = true;
+            InGameManager.instance.unitObj = gameObject;
+        }
+
         // 기본 세팅하기
         ResetSettings();
 
@@ -203,7 +210,7 @@ public class Unit : MonoBehaviour
         }
         if (isAtsDebuff)
         {
-            unitAtkSpeed /= 2;
+            unitAtkSpeed -= 0.5f;
             isAtsDebuff = false;
         }
         if (isSpdDebuff)
@@ -223,7 +230,7 @@ public class Unit : MonoBehaviour
         }
         else if (skillSensor == SkillSensor.ATS)
         {
-            unitAtkSpeed *= 2;
+            unitAtkSpeed += 0.5f;
             isATSUp = false;
         }
         else if (skillSensor == SkillSensor.RAN)
@@ -242,7 +249,7 @@ public class Unit : MonoBehaviour
         }
 
         else if (unitDetail == UnitDetail.Vampire)
-            unitAtkSpeed = 1.8f;
+            unitAtkSpeed = 2f;
 
         else if (unitDetail == UnitDetail.Guitar)
             unitAtkSpeed = 1.5f;
@@ -261,7 +268,7 @@ public class Unit : MonoBehaviour
         // Hammer
         else if (unitDetail == UnitDetail.Hammer)
         {
-            unitAtkSpeed = 1.8f;
+            unitAtkSpeed = 2f;
             isBarrierOnce = true;
             isNoDamage = false;
             barrierSkillEffect.SetActive(false);
@@ -410,8 +417,8 @@ public class Unit : MonoBehaviour
             // 이펙트
             int idx = (int)UnitDetail.Devil - (int)UnitDetail.Bomb + ((int)UnitDetail.Base + 1) * 2;
             ObjectManager.instance.GetBullet(idx, transform.position + vec);
-            // Hit >> 데미지 (5f)
-            DoHit(5);
+            // Hit >> 데미지 (4f)
+            DoHit(4);
         }
     }
     void BackStepTimer()
@@ -419,7 +426,7 @@ public class Unit : MonoBehaviour
         if (!isBackStep)
         {
             backStepTimer += Time.deltaTime;
-            if (backStepTimer > 4f)
+            if (backStepTimer > 2.5f)
             {
                 isBackStep = true;
                 backStepTimer = 0;
@@ -430,11 +437,11 @@ public class Unit : MonoBehaviour
     {
         if (unitDetail == UnitDetail.Hammer)
         {
-            // 현재 체력이 50이하면 3초 무적, 공격속도 2배 증가 (한번만 발동)
-            if (unitHp <= 50 && isBarrierOnce)
+            // 현재 체력이 30이하면 3초 무적, 공격속도 2배 증가 (한번만 발동)
+            if (unitHp <= 30 && isBarrierOnce)
             {
                 isNoDamage = true;  // NoDamage가 True면 DoHit하지 않음
-                unitAtkSpeed = 0.9f;
+                unitAtkSpeed = 1f;
                 barrierSkillEffect.SetActive(true);
             }
         }
@@ -456,11 +463,11 @@ public class Unit : MonoBehaviour
     {
         if (unitDetail == UnitDetail.Vampire)
         {
-            // 현재 체력이 40이하면 공격속도 증가
-            if (unitHp <= 40)
-                unitAtkSpeed = 1.3f;
+            // 현재 체력이 20이하면 공격속도 증가
+            if (unitHp <= 20)
+                unitAtkSpeed = 1f;
             else
-                unitAtkSpeed = 1.8f;
+                unitAtkSpeed = 2f;
         }
     }
     void BuffUnit()
@@ -549,7 +556,7 @@ public class Unit : MonoBehaviour
             debuffIcon[1].SetActive(true);
             if (atsDebuffTimer > 2f)
             {
-                unitAtkSpeed /= 2;
+                unitAtkSpeed -= 0.5f;
                 debuffIcon[1].SetActive(false);
                 isAtsDebuff = false;
             }
@@ -588,8 +595,8 @@ public class Unit : MonoBehaviour
         {
             if (!isATSUp)
             {
-                unitAtkSpeed /= 2;
-                unitAtkSpeed = unitAtkSpeed < 0.3f ? 0.3f : unitAtkSpeed;
+                unitAtkSpeed -= 0.5f;
+                unitAtkSpeed = unitAtkSpeed < 0.5f ? 0.5f : unitAtkSpeed;
                 isATSUp = true;
             }
         }
@@ -615,7 +622,7 @@ public class Unit : MonoBehaviour
             }
             else if (isATSUp)
             {
-                unitAtkSpeed *= 2;
+                unitAtkSpeed += 0.5f;
                 buffIcon[1].SetActive(false);
                 isATSUp = false;
             }
@@ -915,12 +922,12 @@ public class Unit : MonoBehaviour
                 }
             }
         }
-        // Air는 공격 시 상대 공속 절반
+        // Air는 공격 시 상대 공속 감소
         else if (unitDetail == UnitDetail.Air && !enemyLogic.isAtsDebuff)
         {
             if (enemyLogic.unitType != UnitType.Base)
             {
-                enemyLogic.unitAtkSpeed *= 2;
+                enemyLogic.unitAtkSpeed += 0.5f;
                 enemyLogic.isAtsDebuff = true;
                 enemyLogic.atsDebuffTimer = 0;
             }
@@ -995,7 +1002,7 @@ public class Unit : MonoBehaviour
         if (unitDetail == UnitDetail.Guitar)
         {
             unitAtkSpeed -= 0.1f;
-            unitAtkSpeed = unitAtkSpeed < 0.5f ? 0.5f : unitAtkSpeed;
+            unitAtkSpeed = unitAtkSpeed < 0.7f ? 0.7f : unitAtkSpeed;
         }
         if (unitDetail == UnitDetail.Farmer)
         {
@@ -1314,7 +1321,8 @@ public class Unit : MonoBehaviour
         if ((gameObject.layer == 8 && collision.gameObject.tag == "Ran_UpB") || (gameObject.layer == 9 && collision.gameObject.tag == "Ran_UpR"))
         {
             // 근접은 버프를 받지 않음
-            if (unitDetail != UnitDetail.RanUp && unitType != UnitType.Warrior && unitType != UnitType.Tanker)
+            //  && unitType != UnitType.Warrior && unitType != UnitType.Tanker
+            if (unitDetail != UnitDetail.RanUp)
             {
                 skillSensor = SkillSensor.RAN;
                 buffIcon[2].SetActive(true);

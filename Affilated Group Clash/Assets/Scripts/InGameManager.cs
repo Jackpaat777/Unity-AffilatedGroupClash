@@ -95,10 +95,10 @@ public class InGameManager : MonoBehaviour
     public int logoPage;
     public float scaleNum;
     public string teamType;
-    public GameObject teamPanel;
-    public GameObject teamLastButton;
-    public GameObject buttonGroupObj;
-    public GameObject InfoGroupObj;
+    public GameObject teamInfoPanel;
+    //public GameObject teamLastButton;
+    //public GameObject buttonGroupObj;
+    //public GameObject InfoGroupObj;
     public Image unitPictureImage;
     public Image[] unitButtonImage;
     public TextMeshProUGUI[] unitButtonNameText;
@@ -468,7 +468,7 @@ public class InGameManager : MonoBehaviour
         if (isDevilB)
         {
             devilBTimer += Time.deltaTime;
-            if (devilBTimer > 2.5f)
+            if (devilBTimer > 3f)
             {
                 isDevilBAttack = true;
                 devilBTimer = 0;
@@ -479,7 +479,7 @@ public class InGameManager : MonoBehaviour
         if (isDevilR)
         {
             devilRTimer += Time.deltaTime;
-            if (devilRTimer > 2.5f)
+            if (devilRTimer > 3f)
             {
                 isDevilRAttack = true;
                 devilRTimer = 0;
@@ -633,7 +633,7 @@ public class InGameManager : MonoBehaviour
         string floatAts = unitLogic.unitAtkSpeed.ToString("F1");
         atsText.text = $"ATS : " + floatAts;
         // Range
-        ranText.text = $"RAN : {unitLogic.unitRange}";
+        ranText.text = $"RAN : {unitLogic.unitRange * 10}";
         // Speed
         string floatSpd = "";
         if (unitLogic.unitSpeed > 0)
@@ -890,63 +890,57 @@ public class InGameManager : MonoBehaviour
         SoundManager.instance.SfxPlay("Button1");
     }
     // 팀 로고 버튼
-    public void TeamBLogoButton()
+    //public void TeamBLogoButton(int idx)
+    //{
+    //    isGameLive = false;
+    //    // Time Stop
+    //    Time.timeScale = 0;
+
+    //    // BlueTeam Setting
+    //    for (int i = Variables.startBlueIdx; i < Variables.startBlueIdx + Variables.groupBlueNum; i++)
+    //    {
+    //        Unit teamUnit = Variables.teamBluePrefabs[i].GetComponent<Unit>();
+    //        SpriteRenderer spriteRen = teamUnit.GetComponent<SpriteRenderer>();
+    //        // Image
+    //        unitButtonImage[i - Variables.startBlueIdx].sprite = spriteRen.sprite;
+    //        // Name
+    //        unitButtonNameText[i - Variables.startBlueIdx].text = teamUnit.unitName;
+    //    }
+    //    // 팀 타입 설정
+    //    teamType = "Blue";
+
+    //    // 패널 켜기
+    //    teamPanel.SetActive(true);
+    //}
+    //public void TeamRLogoButton()
+    //{
+    //    isGameLive = false;
+    //    Time.timeScale = 0;
+
+    //    for (int i = Variables.startRedIdx; i < Variables.startRedIdx + Variables.groupRedNum; i++)
+    //    {
+    //        Unit teamUnit = Variables.teamRedPrefabs[i].GetComponent<Unit>();
+    //        SpriteRenderer spriteRen = teamUnit.GetComponent<SpriteRenderer>();
+    //        // Image
+    //        unitButtonImage[i - Variables.startRedIdx].sprite = spriteRen.sprite;
+    //        // Name
+    //        unitButtonNameText[i - Variables.startRedIdx].text = teamUnit.unitName;
+    //    }
+    //    teamType = "Red";
+    //    if (Variables.groupRedNum == 5)
+    //        teamLastButton.SetActive(false);
+    //    else
+    //        teamLastButton.SetActive(true);
+    //    teamPanel.SetActive(true);
+    //}
+    public void UnitButton(int typeNum)
     {
         isGameLive = false;
         // Time Stop
         Time.timeScale = 0;
 
-        // BlueTeam Setting
-        for (int i = Variables.startBlueIdx; i < Variables.startBlueIdx + Variables.groupBlueNum; i++)
-        {
-            Unit teamUnit = Variables.teamBluePrefabs[i].GetComponent<Unit>();
-            SpriteRenderer spriteRen = teamUnit.GetComponent<SpriteRenderer>();
-            // Image
-            unitButtonImage[i - Variables.startBlueIdx].sprite = spriteRen.sprite;
-            // Name
-            unitButtonNameText[i - Variables.startBlueIdx].text = teamUnit.unitName;
-        }
-        // 팀 타입 설정
-        teamType = "Blue";
-
-        // 마지막 버튼
-        if (Variables.groupBlueNum == 5)
-            teamLastButton.SetActive(false);
-        else
-            teamLastButton.SetActive(true);
-
-        // 패널 켜기
-        teamPanel.SetActive(true);
-    }
-    public void TeamRLogoButton()
-    {
-        isGameLive = false;
-        Time.timeScale = 0;
-
-        for (int i = Variables.startRedIdx; i < Variables.startRedIdx + Variables.groupRedNum; i++)
-        {
-            Unit teamUnit = Variables.teamRedPrefabs[i].GetComponent<Unit>();
-            SpriteRenderer spriteRen = teamUnit.GetComponent<SpriteRenderer>();
-            // Image
-            unitButtonImage[i - Variables.startRedIdx].sprite = spriteRen.sprite;
-            // Name
-            unitButtonNameText[i - Variables.startRedIdx].text = teamUnit.unitName;
-        }
-        teamType = "Red";
-        if (Variables.groupRedNum == 5)
-            teamLastButton.SetActive(false);
-        else
-            teamLastButton.SetActive(true);
-        teamPanel.SetActive(true);
-    }
-    public void UnitButton(int typeNum)
-    {
         // 해당 버튼의 유닛 가져오기
-        Unit unitLogic = null;
-        if (teamType == "Blue")
-            unitLogic = Variables.teamBluePrefabs[Variables.startBlueIdx + typeNum].GetComponent<Unit>();
-        else if (teamType == "Red")
-            unitLogic = Variables.teamRedPrefabs[Variables.startRedIdx + typeNum].GetComponent<Unit>();
+        Unit unitLogic = Variables.teamBluePrefabs[Variables.startBlueIdx + typeNum].GetComponent<Unit>();
 
         // Left Panel
         unitPictureImage.sprite = UnitImage(typeNum);
@@ -960,25 +954,16 @@ public class InGameManager : MonoBehaviour
         unitHpText.text = $"체력 : {unitLogic.unitMaxHp}";
         unitAtkText.text = $"공격 : {unitLogic.unitAtk}";
         unitAtsText.text = $"공격속도 : {unitLogic.unitAtkSpeed}";
-        unitRanText.text = $"공격범위 : {unitLogic.unitRange}";
+        unitRanText.text = $"공격범위 : {unitLogic.unitRange * 10}";
         unitSpdText.text = $"이동속도 : {unitLogic.unitSpeed * 10}";
         unitSkillText.text =  UnitSkillText(teamType, typeNum);
 
-        // 페이지 업
-        logoPage++;
-        // 버튼 그룹 끄기
-        buttonGroupObj.SetActive(false);
-        // 인포 그룹 켜기
-        InfoGroupObj.SetActive(true);
+        // 패널 켜기
+        teamInfoPanel.SetActive(true);
     }
     Sprite UnitImage(int idx)
     {
-        int teamNum = 0;
-        if (teamType == "Blue")
-            teamNum = Variables.teamBlueNum;
-        else if (teamType == "Red")
-            teamNum = Variables.teamRedNum;
-
+        int teamNum = Variables.teamBlueNum;
         Sprite image = null;
 
         switch (teamNum)
@@ -1143,10 +1128,10 @@ public class InGameManager : MonoBehaviour
                         skillText = "HP가 적어질수록 공격속도 증가.\n(공격속도 최대치 : 0.5)";
                         break;
                     case 3:
-                        skillText = "범위 내의 아군 전체에게 공격속도 2배 증가.\n(버프 중첩불가)";
+                        skillText = "범위 내의 아군 전체에게 공격속도 0.5만큼 버프.\n(버프 중첩불가)";
                         break;
                     case 4:
-                        skillText = "적 전체에게 피해를 입힘.\n(공격속도 고정)\n(중복 소환 불가)";
+                        skillText = "적 전체에게 피해를 입힘. 기지는 공격하지 못함.\n(공격속도 고정)\n(중복 소환 불가)";
                         break;
                 }
                 break;
@@ -1160,7 +1145,7 @@ public class InGameManager : MonoBehaviour
                         skillText = "적에게 피해받을 때마다 적의 공격력의 절반만큼 피해를 되돌려줌.\n(근접 적만 해당)";
                         break;
                     case 2:
-                        skillText = "공격에 적중당한 적 2초간 공격속도 2배 감소.\n(디버프 중첩불가)";
+                        skillText = "공격에 적중당한 적 2초간 공격속도 0.5만큼 디버프.\n(디버프 중첩불가)";
                         break;
                     case 3:
                         skillText = "범위 내 아군 한명에게 15만큼 힐.\n(중복 소환 불가)";
@@ -1177,7 +1162,7 @@ public class InGameManager : MonoBehaviour
                         skillText = "일반적인 전사.";
                         break;
                     case 1:
-                        skillText = "범위 내 아군 전체에게 공격범위 0.5 증가.\n(버프 중첩불가)\n(근접 제외)";
+                        skillText = "범위 내 아군 전체에게 공격범위 5 증가.\n(버프 중첩불가)";
                         break;
                     case 2:
                         skillText = "자신이 받는 모든 피격데미지가 2 감소되어 적용.\n(최소데미지 1)";
@@ -1186,10 +1171,10 @@ public class InGameManager : MonoBehaviour
                         skillText = "광역으로 원거리 공격.";
                         break;
                     case 4:
-                        skillText = "적이 본인과 근접범위까지 오면 백스탭. (쿨타임 4초)";
+                        skillText = "적이 본인과 근접범위까지 오면 백스탭. (쿨타임 2.5초)";
                         break;
                     case 5:
-                        skillText = "체력이 50이하가 되면 공격속도가 절반이 되며, 3초간 모든 데미지를 받지 않습니다.\n(한번만 발동)";
+                        skillText = "체력이 40이하가 되면 공격속도가 증가하며, 3초간 모든 데미지를 받지 않음.\n(한번만 발동)";
                         break;
                 }
                 break;
@@ -1200,7 +1185,7 @@ public class InGameManager : MonoBehaviour
                         skillText = "일반적인 탱커.";
                         break;
                     case 1:
-                        skillText = "공격 시 본인의 공격력만큼 체력 흡혈. 체력이 40이하가 되면 공격속도 증가.";
+                        skillText = "공격 시 본인의 공격력만큼 체력 흡혈. 체력이 30이하가 되면 공격속도 증가.";
                         break;
                     case 2:
                         skillText = "광역으로 근접 공격.";
@@ -1226,7 +1211,7 @@ public class InGameManager : MonoBehaviour
                         skillText = "3번째 공격마다 추가 데미지 +2.";
                         break;
                     case 2:
-                        skillText = "공격할 때마다 공격속도 증가.\n(공격속도 최대치 : 0.5)\n(이동 시 초기화)";
+                        skillText = "공격할 때마다 공격속도 증가.\n(공격속도 최대치 : 0.7)\n(이동 시 초기화)";
                         break;
                     case 3:
                         skillText = "범위 내 아군 전체에게 공격력 4 증가.\n(버프 중첩불가)";
@@ -1262,24 +1247,11 @@ public class InGameManager : MonoBehaviour
     }
     public void BackLogoButton()
     {
-        if (logoPage == 0)
-        {
-            isGameLive = true;
-            // Time Start
-            Time.timeScale = 1;
-            // 패널 끄기
-            teamPanel.SetActive(false);
-        }
-        else if (logoPage == 1)
-        {
-            // 페이지 다운
-            logoPage--;
-            // 버튼 그룹 켜기
-            buttonGroupObj.SetActive(true);
-            // 인포 그룹 끄기
-            InfoGroupObj.SetActive(false);
-        }
-
+        isGameLive = true;
+        // Time Start
+        Time.timeScale = 1;
+        // 패널 끄기
+        teamInfoPanel.SetActive(false);
     }
     // 설명 버튼
     public void DescriptionButton()
@@ -1387,33 +1359,33 @@ public class InGameManager : MonoBehaviour
                 break;
             case 2:
                 descriptionText.text = "두번째는 <color=red>멤버 소환</color>입니다.\n\n이곳에는 해당 멤버을 뽑기 위한\n코인, 멤버의 타입이 적혀있습니다.\n\n" +
-                    "멤버를 소환하기 위해서는 해당하는\n<color=red>버튼을 클릭하거나 키보드를 눌러서 소환</color>하실 수 있습니다.\n\n모든 멤버는 <color=red>소환 이후 3초간 쿨타임</color>이 존재합니다.";
+                    "멤버를 소환하기 위해서는 해당하는\n<color=red>키보드를 눌러서 소환</color>하실 수 있습니다.\n\n모든 멤버는 <color=red>소환 이후 3초간 쿨타임</color>이 존재합니다.";
                 break;
             case 3:
+                descriptionText.text = "<color=red>멤버 버튼을 클릭</color>하면 해당 <color=red>멤버에 대한\n정보를 확인</color>하실 수 있습니다.\n\n멤버의 스탯, 스킬에 대해 궁금하시다면\n버튼을 클릭해주세요!";
+                break;
+            case 4:
                 descriptionText.text = "이 곳은 <color=red>멤버 상세정보</color>입니다.\n\n현재 <color=red>소환된 멤버를 클릭</color>하여 해당멤버의\n실시간 정보를 확인하실 수 있습니다!\n\n" +
                     "<color=blue>ATK</color>는 공격력, <color=blue>ATS</color>는 공격속도,\n<color=blue>RAN</color>은 공격범위, <color=blue>SPD</color>는 이동속도를 의미합니다.";
                 break;
-            case 4:
+            case 5:
                 descriptionText.text = "주의할 점으로 공격속도는 해당 수치만큼\n시간이 지나면 한 번 공격한다는 의미로,\n<color=red>수치가 낮을수록 공격속도가 빨라짐을 의미</color>합니다.\n\n" +
                     "(예시 : 공속 1.5는 1.5초당 한 번 공격함)";
                 break;
-            case 5:
+            case 6:
                 descriptionText.text = "다음으로 <color=red>현재 코인</color>입니다.\n\n코인이 부족하면 멤버를 소환할 수 없으며,\n코인은 자동으로 1씩 증가합니다.\n\n" +
                     "또한 최대보유량이 있기 때문에\n<color=red>최대보유량을 넘어서 코인을 보유할 수 없습니다.</color>";
                 break;
-            case 6:
-                descriptionText.text = "<color=red>기지 업그레이드</color>입니다.\n\n기지는 스스로 일정 범위 내에서\n적을 인식해 공격합니다.\n\n" +
-                    "<color=red>B버튼</color>을 통해 코인을 소모하여\n코인 증가 속도, 기지의 공격력, 공격속도를 증가시킬 수 있습니다.";
-                break;
             case 7:
-                descriptionText.text = "기지 업그레이드는 <color=red>최대 2번</color>까지 가능하며,\n업그레이드가 최대인 경우 기지의 공격이 <color=red>광역 공격</color>으로 바뀝니다.";
+                descriptionText.text = "<color=red>기지 업그레이드</color>입니다.\n\n기지는 스스로 일정 범위 내에서\n적을 인식해 공격합니다.\n\n" +
+                    "<color=red>B버튼</color>을 통해 코인을 소모하여\n<color=blue>코인 증가 속도, 기지의 공격력, 공격속도를 증가</color>시킬 수 있습니다.";
                 break;
             case 8:
-                descriptionText.text = "이곳에서는 <color=red>현재 게임 난이도와\n양 팀의 남은 체력</color>을 확인하실 수 있습니다.\n\n" +
-                    "양 팀 모두 300으로 시작하며\n가장 먼저 체력이 0이 되는 팀이 패배합니다.\n\n그 아래에는 현재 게임 플레이 시간이 나옵니다.";
+                descriptionText.text = "기지 업그레이드는 <color=red>최대 2번</color>까지 가능하며,\n업그레이드가 최대인 경우 기지의 공격이 <color=red>광역 공격</color>으로 바뀝니다.";
                 break;
             case 9:
-                descriptionText.text = "<color=red>팀 로고를 클릭</color>하면 해당 <color=red>팀 멤버들에 대한\n정보를 확인</color>하실 수 있습니다.\n\n멤버의 스탯, 스킬에 대해 궁금하시다면\n팀 로고를 클릭해주세요!";
+                descriptionText.text = "이곳에서는 <color=red>현재 게임 난이도와\n양 팀의 남은 체력</color>을 확인하실 수 있습니다.\n\n" +
+                    "양 팀 모두 300으로 시작하며\n가장 먼저 체력이 0이 되는 팀이 패배합니다.\n\n그 아래에는 현재 게임 플레이 시간이 나옵니다.";
                 break;
             case 10:
                 descriptionText.text = "마지막으로 <color=red>ESC 또는 일시정지 버튼</color>을 눌러\n소리를 조절하거나 게임을 종료하실 수 있으며\n\n <color=red>물음표 버튼</color>을 누르면 게임설명을\n다시 확인하실 수 있습니다.";
