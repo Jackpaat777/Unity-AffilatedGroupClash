@@ -115,19 +115,6 @@ public class Bullet : MonoBehaviour
                     // 타이머는 초기화
                     enemyLogic.atkDebuffTimer = 0;
                 }
-                // Bass에 맞으면 이속 감소 (1번만)
-                if (unitDetail == UnitDetail.Bass)
-                {
-                    if (!enemyLogic.isSpdDebuff)
-                    {
-                        if (enemyLogic.gameObject.layer == 8)
-                            enemyLogic.unitSpeed -= 0.3f;
-                        else if (enemyLogic.gameObject.layer == 9)
-                            enemyLogic.unitSpeed += 0.3f;
-                        enemyLogic.isSpdDebuff = true;
-                    }
-                    enemyLogic.spdDebuffTimer = 0;
-                }
             }
 
             // Destroy

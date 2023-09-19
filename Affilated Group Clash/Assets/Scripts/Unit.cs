@@ -72,7 +72,6 @@ public class Unit : MonoBehaviour
     public bool isRANUp;
     public bool isAtkDebuff;
     public bool isAtsDebuff;
-    public bool isSpdDebuff;
     public bool isNoDamage;
     public bool isBackStep;
     public bool isBarrierOnce;
@@ -213,14 +212,6 @@ public class Unit : MonoBehaviour
             unitAtkSpeed -= 0.5f;
             isAtsDebuff = false;
         }
-        if (isSpdDebuff)
-        {
-            if (gameObject.layer == 8)
-                unitSpeed += 0.4f;
-            else if (gameObject.layer == 9)
-                unitSpeed -= 0.4f;
-            isSpdDebuff = false;
-        }
 
         // 모든 유닛에 적용
         if (skillSensor == SkillSensor.ATK)
@@ -256,6 +247,12 @@ public class Unit : MonoBehaviour
 
         else if (unitDetail == UnitDetail.Berserker)
             unitAtkSpeed = 1.5f;
+
+        else if (unitDetail == UnitDetail.Bass)
+            unitAtk = 2;
+
+        else if (unitDetail == UnitDetail.Drum)
+            unitAtk = 6;
 
         else if (unitDetail == UnitDetail.GrowUp)
         {
@@ -390,6 +387,7 @@ public class Unit : MonoBehaviour
         BackStepTimer();
         BarrierSkill();
         VampireSkill();
+        DrumSkill();
         // 버프 유닛 (일정시간마다 공격모션)
         BuffUnit();
         // 디버프 상태에 걸렸을 때
@@ -417,7 +415,7 @@ public class Unit : MonoBehaviour
             // 이펙트
             int idx = (int)UnitDetail.Devil - (int)UnitDetail.Bomb + ((int)UnitDetail.Base + 1) * 2;
             ObjectManager.instance.GetBullet(idx, transform.position + vec);
-            // Hit >> 데미지 (4f)
+            // Hit
             DoHit(4);
         }
     }
@@ -426,7 +424,7 @@ public class Unit : MonoBehaviour
         if (!isBackStep)
         {
             backStepTimer += Time.deltaTime;
-            if (backStepTimer > 2.5f)
+            if (backStepTimer > 3f)
             {
                 isBackStep = true;
                 backStepTimer = 0;
@@ -465,16 +463,26 @@ public class Unit : MonoBehaviour
         {
             // 현재 체력이 20이하면 공격속도 증가
             if (unitHp <= 20)
-                unitAtkSpeed = 1f;
+                unitAtkSpeed = 1.5f;
             else
                 unitAtkSpeed = 2f;
+        }
+    }
+    void DrumSkill()
+    {
+        if (unitDetail == UnitDetail.Drum)
+        {
+            // 현재 체력이 30이하면 공격력 증가
+            if (unitHp <= 30)
+                unitAtk = 12;
+            else
+                unitAtk = 6;
         }
     }
     void BuffUnit()
     {
         // 특수유닛
-        if (unitDetail == UnitDetail.CostUp || unitDetail == UnitDetail.Devil || unitDetail == UnitDetail.AtkUp ||
-            unitDetail == UnitDetail.AtkspdUp || unitDetail == UnitDetail.RanUp || unitDetail == UnitDetail.Piano)
+        if (unitDetail == UnitDetail.CostUp || unitDetail == UnitDetail.AtkUp || unitDetail == UnitDetail.AtkspdUp || unitDetail == UnitDetail.RanUp)
         {
             // 센서 위치 조정
             if (unitDetail == UnitDetail.AtkUp)
@@ -498,13 +506,6 @@ public class Unit : MonoBehaviour
                 else if (gameObject.layer == 9)
                     ranSensor.transform.position = transform.position + Vector3.right * 0.5f;
             }
-            else if (unitDetail == UnitDetail.Piano)
-            {
-                if (gameObject.layer == 8)
-                    bulSensor.transform.position = transform.position + Vector3.left * 0.5f;
-                else if (gameObject.layer == 9)
-                    bulSensor.transform.position = transform.position + Vector3.right * 0.5f;
-            }
 
             // Attack Animation
             attackTimer += Time.deltaTime;
@@ -524,15 +525,19 @@ public class Unit : MonoBehaviour
                     // Sound
                     SoundManager.instance.SfxPlay("Coin");
                 }
-                else if (unitDetail == UnitDetail.Devil)
-                {
-                    SoundManager.instance.SfxPlay("Devil");
-                }
 
                 // Animation
                 anim.SetTrigger("doAttack");
                 attackTimer = 0;
             }
+        }
+        else if (unitDetail == UnitDetail.Piano)
+        {
+            // 센서 위치 조정
+            if (gameObject.layer == 8)
+                bulSensor.transform.position = transform.position + Vector3.left * 0.5f;
+            else if (gameObject.layer == 9)
+                bulSensor.transform.position = transform.position + Vector3.right * 0.5f;
         }
     }
     void DebuffTimer()
@@ -559,21 +564,6 @@ public class Unit : MonoBehaviour
                 unitAtkSpeed -= 0.5f;
                 debuffIcon[1].SetActive(false);
                 isAtsDebuff = false;
-            }
-        }
-        // 이속 디버프 (2초뒤에 다시 올림)
-        if (isSpdDebuff)
-        {
-            spdDebuffTimer += Time.deltaTime;
-            debuffIcon[2].SetActive(true);
-            if (spdDebuffTimer > 2f)
-            {
-                if (gameObject.layer == 8)
-                    unitSpeed += 0.4f;
-                else if (gameObject.layer == 9)
-                    unitSpeed -= 0.4f;
-                debuffIcon[2].SetActive(false);
-                isSpdDebuff = false;
             }
         }
     }
@@ -642,8 +632,15 @@ public class Unit : MonoBehaviour
             Vector3 nextMove = Vector3.right * unitSpeed * Time.deltaTime;
             transform.Translate(nextMove);
 
-            // attackTimer 초기화 -> CostUp, Devil 제외 모든 유닛은 멈춰있을 때만 공격모션 발동
-            if (unitDetail != UnitDetail.CostUp && unitDetail != UnitDetail.Devil)
+            // attackTimer 초기화 -> CostUp 제외 모든 유닛은 멈춰있을 때만 공격모션 발동
+            if (unitDetail == UnitDetail.Devil)
+            {
+                if (gameObject.layer == 8)
+                    InGameManager.instance.isDevilBStart = false;
+                else if (gameObject.layer == 9)
+                    InGameManager.instance.isDevilRStart = false;
+            }
+            if (unitDetail != UnitDetail.CostUp)
                 attackTimer = 0;
         }
         else if (unitState == UnitState.Idle || unitState == UnitState.Hit)
@@ -651,8 +648,8 @@ public class Unit : MonoBehaviour
             // 앞에 아무도 없을 때
             if (!isFront)
             {
-                // Bomb와 Drum과 Cat은 피격시 멈추지 않음
-                if (unitDetail == UnitDetail.Bomb || unitDetail == UnitDetail.Drum || unitDetail == UnitDetail.Cat)
+                // Bomb와 Cat은 피격시 멈추지 않음
+                if (unitDetail == UnitDetail.Bomb || unitDetail == UnitDetail.Cat)
                 {
                     DoMove();
                 }
@@ -779,8 +776,43 @@ public class Unit : MonoBehaviour
             else if (unitDetail == UnitDetail.Cat)
                 CatAttack(enemyLogic);
 
+            // Devil의 경우
+            else if (unitDetail == UnitDetail.Devil)
+            {
+                // 멈춤
+                isFront = true;
+                DoStop();
+
+                if (gameObject.layer == 8)
+                {
+                    InGameManager.instance.isDevilBStart = true;
+
+                    // 공격모션
+                    if (InGameManager.instance.isDevilBAttack)
+                    {
+                        // Anim
+                        anim.SetTrigger("doAttack");
+                        // Sound
+                        SoundManager.instance.SfxPlay("Devil");
+                    }
+                }
+                else if (gameObject.layer == 9)
+                {
+                    InGameManager.instance.isDevilRStart = true;
+
+                    // 공격모션
+                    if (InGameManager.instance.isDevilRAttack)
+                    {
+                        // Anim
+                        anim.SetTrigger("doAttack");
+                        // Sound
+                        SoundManager.instance.SfxPlay("Devil");
+                    }
+                }
+            }
+
             // 버퍼의 경우
-            else if (unitType == UnitType.Buffer || unitDetail == UnitDetail.Devil)
+            else if (unitType == UnitType.Buffer)
             {
                 // 멈춤 (공격X)
                 DoStop();
@@ -811,7 +843,7 @@ public class Unit : MonoBehaviour
             RaycastHit2D bombRayHit = Physics2D.Raycast(transform.position, dir, 1f, LayerMask.GetMask(enemyLayer));
             if (bombRayHit.collider != null)
             {
-                // 백스탭이 가능한 상태에서만 (2초 쿨타임)
+                // 백스탭이 가능한 상태에서만 (쿨타임)
                 if (isBackStep)
                 {
                     // 백스탭 실행 (제한거리 있음)
@@ -819,7 +851,7 @@ public class Unit : MonoBehaviour
                         transform.Translate(Vector3.left * 1f);
                     else if (gameObject.layer == 9 && transform.position.x < 10f)
                         transform.Translate(Vector3.right * 1f);
-                    // 2초간 백스탭 불가능
+                    // 쿨타임동안 백스탭 불가능
                     isBackStep = false;
                 }
             }
@@ -1021,6 +1053,11 @@ public class Unit : MonoBehaviour
                 plusAtk = 0;
             }
         }
+        if (unitDetail == UnitDetail.Bass)
+        {
+            unitAtk += 2;
+            unitAtk = unitAtk > 8 ? 8 : unitAtk;
+        }
 
         // Bullet에 값 넘겨주기
         BulletSetting(bullet, unitDetail, gameObject.layer, unitAtk + plusAtk);
@@ -1155,6 +1192,9 @@ public class Unit : MonoBehaviour
         // Guitar는 움직이면 공속 초기화
         if (unitDetail == UnitDetail.Guitar)
             unitAtkSpeed = 1.5f;
+        // Bass는 움직이면 공격력 초기화
+        else if (unitDetail == UnitDetail.Bass)
+            unitAtk = 2;
 
         unitState = UnitState.Move;
         anim.SetTrigger("doMove");
@@ -1248,6 +1288,7 @@ public class Unit : MonoBehaviour
             if (gameObject.layer == 8)
             {
                 InGameManager.instance.isDevilB = false;
+                InGameManager.instance.isDevilBStart = false;
                 InGameManager.instance.isDevilBAttack = false;
                 InGameManager.instance.devilBTimer = 0;
                 InGameManager.instance.xObject[1].SetActive(false);
@@ -1255,6 +1296,7 @@ public class Unit : MonoBehaviour
             else if(gameObject.layer == 9)
             {
                 InGameManager.instance.isDevilR = false;
+                InGameManager.instance.isDevilRStart = false;
                 InGameManager.instance.isDevilRAttack = false;
                 InGameManager.instance.devilRTimer = 0;
             }

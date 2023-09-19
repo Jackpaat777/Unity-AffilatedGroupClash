@@ -953,7 +953,7 @@ public class GameManager : MonoBehaviour
                         skillText = "광역으로 원거리 공격.";
                         break;
                     case 4:
-                        skillText = "적이 본인과 근접범위까지 오면 백스탭. (쿨타임 2.5초)";
+                        skillText = "적이 본인과 근접범위까지 오면 백스탭. (쿨타임 3초)";
                         break;
                     case 5:
                         skillText = "체력이 40이하가 되면 공격속도가 증가하며, 3초간 모든 데미지를 받지 않음.\n(한번만 발동)";
@@ -967,7 +967,7 @@ public class GameManager : MonoBehaviour
                         skillText = "일반적인 탱커.";
                         break;
                     case 1:
-                        skillText = "공격 시 본인의 공격력만큼 체력 흡혈. 체력이 30이하가 되면 공격속도 증가.";
+                        skillText = "공격 시 본인의 공격력만큼 체력 흡혈. 체력이 20이하가 되면 공격속도 증가.";
                         break;
                     case 2:
                         skillText = "광역으로 근접 공격.";
@@ -1010,13 +1010,13 @@ public class GameManager : MonoBehaviour
                         skillText = "일반적인 전사.";
                         break;
                     case 1:
-                        skillText = "적에게 피격당해도 멈추지 않음.";
-                        break;
-                    case 2:
                         skillText = "공격에 적중당한 적 2초간 이동속도 3 감소.\n(디버프 중첩불가)";
                         break;
+                    case 2:
+                        skillText = "범위 원거리 투사체 공격 무효.\n(광역공격 또는 기지의 공격은 해당하지 않음.)";
+                        break;
                     case 3:
-                        skillText = "범위 내 원거리 투사체 공격 무효.\n(광역공격 또는 기지의 공격은 해당하지 않음.)";
+                        skillText = "체력이 30이하가 되면 공격력 4 증가.";
                         break;
                     case 4:
                         skillText = "적 기지까지 이동할 동안 공격하지 않음.\n적에게 피격당해도 멈추지 않음.";
@@ -1146,13 +1146,13 @@ public class GameManager : MonoBehaviour
                         detailText = "나긋나긋한 기타리스트. 실용음악과를 나왔으며 뛰어난 실력때문에 V급밴드에 위장취업한 것이 아니냐는 말을 자주 듣는다.";
                         break;
                     case 1:
-                        detailText = "캐나다에서 온 드러머. 해외파답게 영어실력 좋다. 게으름과 귀차니즘이 심한 성격이지만 음악에 대한 연습은 꾸준히 한다.";
-                        break;
-                    case 2:
                         detailText = "비충베(비챤의 충실한 베이시스트). 겁도 많고 억까도 많지만 V급밴드에서 비타민같이 활기를 넣어주는 역할을 한다.";
                         break;
-                    case 3:
+                    case 2:
                         detailText = "성장형 초보 피아니스트. 실력파 부원들이 많아 열심히 노력하며 실력을 키우고 있다. 이름덕에 대상현이라고 불리고 있다.";
+                        break;
+                    case 3:
+                        detailText = "캐나다에서 온 드러머. 해외파답게 영어실력 좋다. 게으름과 귀차니즘이 심한 성격이지만 음악에 대한 연습은 꾸준히 한다.";
                         break;
                     case 4:
                         detailText = "V급밴드의 마스코트. 고양이지만 매우 똑똑하며 사람말을 한다는 소문이 있다. 예민한 성격때문에 갑자기 다가가면 도망간다.";

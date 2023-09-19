@@ -38,6 +38,11 @@ public class Sensor : MonoBehaviour
             if (unitDetail == UnitDetail.Heal)
             {
                 Unit unitLogic = collision.GetComponent<Unit>();
+
+                // 자기 자신은 힐 금지
+                if (unitLogic.unitDetail == UnitDetail.Heal)
+                    return;
+
                 // 아군의 체력이 닳았을 경우
                 if (unitLogic.unitHp < unitLogic.unitMaxHp)
                 {

@@ -30979,7 +30979,6 @@ MonoBehaviour:
   isRANUp: 0
   isAtkDebuff: 0
   isAtsDebuff: 0
-  isSpdDebuff: 0
   isNoDamage: 0
   isBackStep: 0
   isBarrierOnce: 0
@@ -35997,14 +35996,14 @@ MonoBehaviour:
   - {fileID: 949827446675404675, guid: 23f9cac8e0f7523498c7f24469a4ad94, type: 3}
   vBand_prefabs:
   - {fileID: 3303643285092717064, guid: 88f528cd14e48094aa7879ca431a6907, type: 3}
-  - {fileID: 3303643285092717064, guid: 4c850ed5b1095854bbee156001f0ecdb, type: 3}
   - {fileID: 3303643285092717064, guid: 458ade25688b0e8448df2f2593ebe561, type: 3}
   - {fileID: 3303643285092717064, guid: 6781f9828a4c52f43857907473ace082, type: 3}
+  - {fileID: 3303643285092717064, guid: 4c850ed5b1095854bbee156001f0ecdb, type: 3}
   - {fileID: 3303643285092717064, guid: ed421ecd5fba3794388ffb48f3272470, type: 3}
   - {fileID: 3303643285092717064, guid: 9cbbdd03601b4684c85a0d67c471fbb7, type: 3}
-  - {fileID: 3303643285092717064, guid: 58f07b08c8a839e4ca32b824561dcadd, type: 3}
   - {fileID: 3303643285092717064, guid: d88a555d0a7b3014da4636c2acd847b3, type: 3}
   - {fileID: 3303643285092717064, guid: 5f4891f9db3c8a3459f6282c90cc0f02, type: 3}
+  - {fileID: 3303643285092717064, guid: 58f07b08c8a839e4ca32b824561dcadd, type: 3}
   - {fileID: 3303643285092717064, guid: 6e012f36af88d8f42b8ddf83dbf0e54f, type: 3}
   bullet_prefabs:
   - {fileID: 7508681836831870246, guid: 06d32838efe212946b9276a31f313b1a, type: 3}
@@ -41286,7 +41285,6 @@ MonoBehaviour:
   isRANUp: 0
   isAtkDebuff: 0
   isAtsDebuff: 0
-  isSpdDebuff: 0
   isNoDamage: 0
   isBackStep: 0
   isBarrierOnce: 0
@@ -49277,9 +49275,9 @@ MonoBehaviour:
   - {fileID: 21300000, guid: 6c860351f0c05b349af83c0ee9401fd3, type: 3}
   - {fileID: 21300000, guid: 58f224dba025eb84c88eeb3567ac682d, type: 3}
   - {fileID: 21300000, guid: d135ef0619eee4c4b95fd0b962e46bbb, type: 3}
-  - {fileID: 21300000, guid: 62dbb85308d2ebd4cb8ae510ac5ca57d, type: 3}
   - {fileID: 21300000, guid: 8cab0d2ec63fe5c48b60717f0676918a, type: 3}
   - {fileID: 21300000, guid: 9c5e57d86eae76040aa39517bd01828b, type: 3}
+  - {fileID: 21300000, guid: 62dbb85308d2ebd4cb8ae510ac5ca57d, type: 3}
   - {fileID: 21300000, guid: 06a157fc39c213f42bf069f1f5999df9, type: 3}
   unitNameText: {fileID: 73189519}
   unitTypeText: {fileID: 1356146348}
@@ -49314,6 +49312,8 @@ MonoBehaviour:
   isHealR: 0
   devilBTimer: 0
   devilRTimer: 0
+  isDevilBStart: 0
+  isDevilRStart: 0
   isDevilBAttack: 0
   isDevilRAttack: 0
   descriptionPage: 0

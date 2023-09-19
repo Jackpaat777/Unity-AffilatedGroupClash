@@ -767,7 +767,7 @@ MonoBehaviour:
   unitMaxHp: 100
   unitHp: 100
   unitAtk: 2
-  unitAtkSpeed: 1.4
+  unitAtkSpeed: 1.5
   unitRange: 0.5
   unitSpeed: 1.6
   buffIcon:
@@ -788,7 +788,6 @@ MonoBehaviour:
   isRANUp: 0
   isAtkDebuff: 0
   isAtsDebuff: 0
-  isSpdDebuff: 0
   isNoDamage: 0
   isBackStep: 0
   isBarrierOnce: 0
