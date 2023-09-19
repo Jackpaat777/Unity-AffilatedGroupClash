@@ -249,7 +249,7 @@ public class Unit : MonoBehaviour
             unitAtkSpeed = 1.5f;
 
         else if (unitDetail == UnitDetail.Bass)
-            unitAtk = 2;
+            unitAtk = 4;
 
         else if (unitDetail == UnitDetail.Drum)
             unitAtk = 6;
@@ -1056,7 +1056,7 @@ public class Unit : MonoBehaviour
         if (unitDetail == UnitDetail.Bass)
         {
             unitAtk += 2;
-            unitAtk = unitAtk > 8 ? 8 : unitAtk;
+            unitAtk = unitAtk > 10 ? 10 : unitAtk;
         }
 
         // Bullet에 값 넘겨주기
@@ -1194,7 +1194,7 @@ public class Unit : MonoBehaviour
             unitAtkSpeed = 1.5f;
         // Bass는 움직이면 공격력 초기화
         else if (unitDetail == UnitDetail.Bass)
-            unitAtk = 2;
+            unitAtk = 4;
 
         unitState = UnitState.Move;
         anim.SetTrigger("doMove");

@@ -36,7 +36,6 @@ public class InGameManager : MonoBehaviour
     public bool isUpgradeTime;
     public bool isRedBomb;
     public int patternIdx;
-    public int blueUnitCount;
     public int[] patternCost;
     public int[] patternRatio;
     public int redUnitCount;
@@ -96,9 +95,6 @@ public class InGameManager : MonoBehaviour
     public float scaleNum;
     public string teamType;
     public GameObject teamInfoPanel;
-    //public GameObject teamLastButton;
-    //public GameObject buttonGroupObj;
-    //public GameObject InfoGroupObj;
     public Image unitPictureImage;
     public Image[] unitButtonImage;
     public TextMeshProUGUI[] unitButtonNameText;
@@ -520,19 +516,9 @@ public class InGameManager : MonoBehaviour
             UpgradeRed();
         }
     }
-    void RedBomb()
-    {
-        if (blueUnitCount > 4)
-        {
-            isRedBomb = true;
-            RedBombButton();
-        }
-        else
-            isRedBomb = false;
-    }
     void BlueCostUp()
     {
-        costText.text = $"{blueCost}/{blueMaxCost}";
+        costText.text = $"{blueCost}";
 
         costBTimer += Time.deltaTime;
         if (costBTimer > costBlueUp)
@@ -690,7 +676,6 @@ public class InGameManager : MonoBehaviour
                 return;
 
             blueCost -= 10;
-            blueMaxCost += 5;
             // 이펙트
             blueUpgradeyEffect[baseBLevel].SetActive(true);
             // Level Up
@@ -723,7 +708,6 @@ public class InGameManager : MonoBehaviour
         if (redCost < 7 || baseRLevel == 2)
             return;
         redCost -= 7;
-        redMaxCost += 5;
         redUpgradeyEffect[baseRLevel].SetActive(true);
         baseRLevel++;
         costRedUp -= 0.25f;
@@ -735,46 +719,6 @@ public class InGameManager : MonoBehaviour
         isUpgradeTime = false;
         // Sound
         SoundManager.instance.SfxPlay("Upgrade");
-    }
-    void BlueBombButton()
-    {
-        if (blueCost < 6)
-            return;
-
-        // 코스트 소모
-        blueCost -= 6;
-
-        // 이펙트
-        GameObject bullet = ObjectManager.instance.GetBullet(14, Vector3.left * 9);
-
-        // Sound
-        SoundManager.instance.SfxPlay("Bomb");
-
-        // Bullet에 값 넘겨주기
-        Bullet bulletLogic = bullet.GetComponent<Bullet>();
-
-        bulletLogic.unitDetail = UnitDetail.Bomb;
-        bulletLogic.layer = 8;
-    }
-    void RedBombButton()
-    {
-        if (redCost < 6)
-            return;
-
-        // 코스트 소모
-        redCost -= 6;
-
-        // 이펙트
-        GameObject bullet = ObjectManager.instance.GetBullet(14, Vector3.right * 9);
-
-        // Sound
-        SoundManager.instance.SfxPlay("Bomb");
-
-        // Bullet에 값 넘겨주기
-        Bullet bulletLogic = bullet.GetComponent<Bullet>();
-
-        bulletLogic.unitDetail = UnitDetail.Bomb;
-        bulletLogic.layer = 9;
     }
     // 유닛 소환
     public void MakeBlueUnit(int idx)
@@ -1378,12 +1322,11 @@ public class InGameManager : MonoBehaviour
                     "(예시 : 공속 1.5는 1.5초당 한 번 공격함)";
                 break;
             case 6:
-                descriptionText.text = "다음으로 <color=red>현재 코인</color>입니다.\n\n코인이 부족하면 멤버를 소환할 수 없으며,\n코인은 자동으로 1씩 증가합니다.\n\n" +
-                    "또한 최대보유량이 있기 때문에\n<color=red>최대보유량을 넘어서 코인을 보유할 수 없습니다.</color>";
+                descriptionText.text = "다음으로 <color=red>현재 코인</color>입니다.\n\n코인이 부족하면 멤버를 소환할 수 없으며,\n코인은 자동으로 1씩 증가합니다.";
                 break;
             case 7:
                 descriptionText.text = "<color=red>기지 업그레이드</color>입니다.\n\n기지는 스스로 일정 범위 내에서\n적을 인식해 공격합니다.\n\n" +
-                    "<color=red>B버튼</color>을 통해 10코인을 소모하여\n<color=blue>최대 코인 보유량, 코인 증가 속도, 기지의 공격력, 공격속도를 증가</color>시킬 수 있습니다.";
+                    "<color=red>B버튼</color>을 통해 10코인을 소모하여\n<color=blue>코인 증가 속도, 기지의 공격력, 공격속도를 증가</color>시킬 수 있습니다.";
                 break;
             case 8:
                 descriptionText.text = "기지 업그레이드는 <color=red>최대 2번</color>까지 가능하며,\n업그레이드가 최대인 경우 기지의 공격이 <color=red>광역 공격</color>으로 바뀝니다.";

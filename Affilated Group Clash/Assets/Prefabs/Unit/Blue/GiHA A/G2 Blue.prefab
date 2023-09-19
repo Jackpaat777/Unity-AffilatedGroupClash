@@ -333,8 +333,8 @@ MonoBehaviour:
   unitType: 0
   unitDetail: 22
   unitCost: 6
-  unitMaxHp: 80
-  unitHp: 80
+  unitMaxHp: 70
+  unitHp: 70
   unitAtk: 8
   unitAtkSpeed: 1.6
   unitRange: 0.7
