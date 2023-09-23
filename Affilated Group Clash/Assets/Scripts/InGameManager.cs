@@ -122,7 +122,7 @@ public class InGameManager : MonoBehaviour
     public GameObject resetBtn;
     public ParticleSystem[] burstObj;
 
-    [Header("---------------[Double Spawn]")]
+    [Header("---------------[Spawn]")]
     public bool isDevilB;
     public bool isDevilR;
     public bool isCostB;
@@ -135,6 +135,8 @@ public class InGameManager : MonoBehaviour
     public bool isDevilRStart;
     public bool isDevilBAttack;
     public bool isDevilRAttack;
+    public int[] spawnBlueData;
+    public int[] spawnRedData;
 
     [Header("---------------[Description]")]
     public int descriptionPage;
@@ -211,6 +213,10 @@ public class InGameManager : MonoBehaviour
         // X Image
         xObject[0].SetActive(false);
         xObject[1].SetActive(false);
+        xObject[2].SetActive(false);
+        xObject[3].SetActive(false);
+        xObject[4].SetActive(false);
+        xObject[5].SetActive(false);
 
         // BGM
         SoundManager.instance.BgmPlay("Game");
@@ -236,10 +242,10 @@ public class InGameManager : MonoBehaviour
                 break;
             case 2:
                 patternRatio[0] = 30;   // 30%
-                patternRatio[1] = 45;   // 15%
-                patternRatio[2] = 65;   // 20%
-                patternRatio[3] = 80;   // 15%
-                patternRatio[4] = 90;   // 10%  10%
+                patternRatio[1] = 50;   // 20%
+                patternRatio[2] = 65;   // 15%
+                patternRatio[3] = 75;   // 10%
+                patternRatio[4] = 90;   // 15%  10%
                 break;
             case 3:
                 patternRatio[0] = 25;   // 25%
@@ -734,6 +740,10 @@ public class InGameManager : MonoBehaviour
         if ((isDevilB && unitBLogic.unitDetail == UnitDetail.Devil) || (isCostB && unitBLogic.unitDetail == UnitDetail.CostUp) || (isHealB && unitBLogic.unitDetail == UnitDetail.Heal))
             return;
 
+        // 3명 제한
+        if (spawnBlueData[idx] == 3)
+            return;
+
         // Cost 감소
         blueCost -= unitBLogic.unitCost;
         if (blueCost < 0)
@@ -745,6 +755,10 @@ public class InGameManager : MonoBehaviour
         GetUnitObject(Variables.teamBlueNum, idx + Variables.startBlueIdx, unitB.transform.position);
         // 쿨타임 시작
         onCoolTime[idx] = true;
+        // 유닛 데이터
+        spawnBlueData[idx]++;
+        if (spawnBlueData[idx] == 3)
+            xObject[idx].SetActive(true);
 
         // Sound
         SoundManager.instance.SfxPlay("Buy");
@@ -753,16 +767,25 @@ public class InGameManager : MonoBehaviour
     {
         GameObject unitR = Variables.teamRedPrefabs[idx];
         Unit unitRLogic = unitR.GetComponent<Unit>();
+        int rand = Random.Range(0, Variables.groupRedNum);
 
         // 예외처리
         if ((isDevilR && unitRLogic.unitDetail == UnitDetail.Devil) || (isCostR && unitRLogic.unitDetail == UnitDetail.CostUp) || (isHealR && unitRLogic.unitDetail == UnitDetail.Heal))
         {
-            MakeRedUnit(idx - 1);
+            MakeRedUnit(rand);
             return;
         }
+        // 버퍼 소환 조건
         else if (redUnitCount < 2 && unitRLogic.unitType == UnitType.Buffer)
         {
-            MakeRedUnit(idx - 1);
+            MakeRedUnit(rand);
+            return;
+        }
+
+        // 3명 제한
+        if (spawnRedData[idx - Variables.startRedIdx - Variables.groupRedNum] == 3)
+        {
+            MakeRedUnit(rand);
             return;
         }
 
@@ -776,6 +799,8 @@ public class InGameManager : MonoBehaviour
         // 생성
         GetUnitObject(Variables.teamRedNum, idx, unitR.transform.position);
         redUnitCount++;
+        // 유닛 데이터
+        spawnRedData[idx - Variables.startRedIdx - Variables.groupRedNum]++;
 
         // Sound
         SoundManager.instance.SfxPlay("Buy");
@@ -838,50 +863,6 @@ public class InGameManager : MonoBehaviour
         // Sound
         SoundManager.instance.SfxPlay("Button1");
     }
-    // 팀 로고 버튼
-    //public void TeamBLogoButton(int idx)
-    //{
-    //    isGameLive = false;
-    //    // Time Stop
-    //    Time.timeScale = 0;
-
-    //    // BlueTeam Setting
-    //    for (int i = Variables.startBlueIdx; i < Variables.startBlueIdx + Variables.groupBlueNum; i++)
-    //    {
-    //        Unit teamUnit = Variables.teamBluePrefabs[i].GetComponent<Unit>();
-    //        SpriteRenderer spriteRen = teamUnit.GetComponent<SpriteRenderer>();
-    //        // Image
-    //        unitButtonImage[i - Variables.startBlueIdx].sprite = spriteRen.sprite;
-    //        // Name
-    //        unitButtonNameText[i - Variables.startBlueIdx].text = teamUnit.unitName;
-    //    }
-    //    // 팀 타입 설정
-    //    teamType = "Blue";
-
-    //    // 패널 켜기
-    //    teamPanel.SetActive(true);
-    //}
-    //public void TeamRLogoButton()
-    //{
-    //    isGameLive = false;
-    //    Time.timeScale = 0;
-
-    //    for (int i = Variables.startRedIdx; i < Variables.startRedIdx + Variables.groupRedNum; i++)
-    //    {
-    //        Unit teamUnit = Variables.teamRedPrefabs[i].GetComponent<Unit>();
-    //        SpriteRenderer spriteRen = teamUnit.GetComponent<SpriteRenderer>();
-    //        // Image
-    //        unitButtonImage[i - Variables.startRedIdx].sprite = spriteRen.sprite;
-    //        // Name
-    //        unitButtonNameText[i - Variables.startRedIdx].text = teamUnit.unitName;
-    //    }
-    //    teamType = "Red";
-    //    if (Variables.groupRedNum == 5)
-    //        teamLastButton.SetActive(false);
-    //    else
-    //        teamLastButton.SetActive(true);
-    //    teamPanel.SetActive(true);
-    //}
     public void UnitButton(int typeNum)
     {
         isGameLive = false;
@@ -1097,10 +1078,10 @@ public class InGameManager : MonoBehaviour
                         skillText = "공격에 적중당한 적 2초간 공격속도 0.5만큼 디버프.\n(디버프 중첩불가)";
                         break;
                     case 3:
-                        skillText = "범위 내 아군 한명에게 15만큼 힐.\n(중복 소환 불가)";
+                        skillText = "범위 내 아군 한명에게 5만큼 힐.\n(중복 소환 불가)";
                         break;
                     case 4:
-                        skillText = "적을 킬하면 최대체력 +5, 공격력 +2, 공격속도 0.05만큼 증가\n(공격속도 최대치 : 0.5)";
+                        skillText = "적을 킬하면 최대체력 +5, 공격력 +2, 공격속도 0.05만큼 증가\n(최대 5중첩)";
                         break;
                 }
                 break;
@@ -1111,7 +1092,7 @@ public class InGameManager : MonoBehaviour
                         skillText = "일반적인 전사.";
                         break;
                     case 1:
-                        skillText = "범위 내 아군 전체에게 공격범위 5 증가.\n(버프 중첩불가)";
+                        skillText = "범위 내 탱커 이동속도 2 증가, 전사 공격속도 0.2 증가, 원딜 공격력 2 증가.\n(버프 중첩불가)";
                         break;
                     case 2:
                         skillText = "자신이 받는 모든 피격데미지가 2 감소되어 적용.\n(최소데미지 1)";
@@ -1123,7 +1104,7 @@ public class InGameManager : MonoBehaviour
                         skillText = "적이 본인과 근접범위까지 오면 백스탭. (쿨타임 3초)";
                         break;
                     case 5:
-                        skillText = "체력이 40이하가 되면 공격속도가 증가하며, 3초간 모든 데미지를 받지 않음.\n(한번만 발동)";
+                        skillText = "체력이 40이하가 되면 3초간 모든 데미지를 받지 않음.\n(한번만 발동)";
                         break;
                 }
                 break;
@@ -1163,7 +1144,7 @@ public class InGameManager : MonoBehaviour
                         skillText = "공격할 때마다 공격속도 증가.\n(공격속도 최대치 : 0.7)\n(이동 시 초기화)";
                         break;
                     case 3:
-                        skillText = "범위 내 아군 전체에게 공격력 4 증가.\n(버프 중첩불가)";
+                        skillText = "범위 내 아군 전체 공격력 2 증가.\n(버프 중첩불가)";
                         break;
                     case 4:
                         skillText = "공격 시 체력 20이하 적 처형.";
@@ -1177,13 +1158,13 @@ public class InGameManager : MonoBehaviour
                         skillText = "일반적인 전사.";
                         break;
                     case 1:
-                        skillText = "공격할 때마다 공격력 2 증가\n(최대 3 중첩)\n(이동 시 초기화)";
+                        skillText = "공격할 때마다 공격력 2 증가\n(최대 2 중첩)\n(이동 시 초기화)";
                         break;
                     case 2:
                         skillText = "범위 원거리 투사체 공격 무효.\n(광역공격 또는 기지의 공격은 해당하지 않음.)";
                         break;
                     case 3:
-                        skillText = "체력이 30이하가 되면 공격력 4 증가.";
+                        skillText = "적 기지의 체력이 절반 이하일 때, 공격력, 공격속도 2배 버프";
                         break;
                     case 4:
                         skillText = "적 기지까지 이동할 동안 공격하지 않음.\n적에게 피격당해도 멈추지 않음.";
@@ -1308,7 +1289,7 @@ public class InGameManager : MonoBehaviour
                 break;
             case 2:
                 descriptionText.text = "두번째는 <color=red>멤버 소환</color>입니다.\n\n이곳에는 해당 멤버을 뽑기 위한\n코인, 멤버의 타입이 적혀있습니다.\n\n" +
-                    "멤버를 소환하기 위해서는 해당하는\n<color=red>키보드를 눌러서 소환</color>하실 수 있습니다.\n\n모든 멤버는 <color=red>소환 이후 3초간 쿨타임</color>이 존재합니다.";
+                    "멤버를 소환하기 위해서는 해당하는\n<color=red>키보드를 눌러서 소환</color>하실 수 있습니다.\n\n모든 멤버는 <color=red>최대 3명 소환가능하며 3초간 쿨타임</color>이 존재합니다.";
                 break;
             case 3:
                 descriptionText.text = "<color=red>멤버 버튼을 클릭</color>하면 해당 <color=red>멤버에 대한\n정보를 확인</color>하실 수 있습니다.\n\n멤버의 스탯, 스킬에 대해 궁금하시다면\n버튼을 클릭해주세요!";

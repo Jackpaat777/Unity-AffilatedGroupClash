@@ -445,9 +445,9 @@ MonoBehaviour:
   unitName: "\uC774\uC0C1\uD604"
   unitType: 1
   unitDetail: 18
-  unitCost: 4
-  unitMaxHp: 100
-  unitHp: 100
+  unitCost: 5
+  unitMaxHp: 80
+  unitHp: 80
   unitAtk: 2
   unitAtkSpeed: 1.8
   unitRange: 0.5

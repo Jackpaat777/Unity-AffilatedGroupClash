@@ -370,9 +370,9 @@ MonoBehaviour:
   unitType: 4
   unitDetail: 28
   unitCost: 7
-  unitMaxHp: 40
-  unitHp: 40
-  unitAtk: 8
+  unitMaxHp: 35
+  unitHp: 35
+  unitAtk: 6
   unitAtkSpeed: 0.8
   unitRange: 1.2
   unitSpeed: -2
@@ -394,7 +394,6 @@ MonoBehaviour:
   isRANUp: 0
   isAtkDebuff: 0
   isAtsDebuff: 0
-  isSpdDebuff: 0
   isNoDamage: 0
   isBackStep: 0
   isBarrierOnce: 0

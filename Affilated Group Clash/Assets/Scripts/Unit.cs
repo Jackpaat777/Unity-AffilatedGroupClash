@@ -1,4 +1,5 @@
 using System;
+using System.Xml.Linq;
 using UnityEngine;
 using Slider = UnityEngine.UI.Slider;
 
@@ -182,11 +183,11 @@ public class Unit : MonoBehaviour
             if (unitDetail == UnitDetail.Cat)
             {
                 if (Variables.gameLevel == 0)
-                    unitMaxHp = 45;
+                    unitMaxHp = 35;
                 else if (Variables.gameLevel == 4)
-                    unitMaxHp = 55;
+                    unitMaxHp = 45;
                 else
-                    unitMaxHp = 50;
+                    unitMaxHp = 40;
             }
             else
             {
@@ -216,7 +217,7 @@ public class Unit : MonoBehaviour
         // 모든 유닛에 적용
         if (skillSensor == SkillSensor.ATK)
         {
-            unitAtk -= 4;
+            unitAtk -= 2;
             isATKUp = false;
         }
         else if (skillSensor == SkillSensor.ATS)
@@ -226,7 +227,21 @@ public class Unit : MonoBehaviour
         }
         else if (skillSensor == SkillSensor.RAN)
         {
-            unitRange -= 0.5f;
+            if (unitType == UnitType.Tanker)
+            {
+                if (gameObject.layer == 8)
+                    unitSpeed -= 0.2f;
+                else if (gameObject.layer == 9)
+                    unitSpeed += 0.2f;
+            }
+            else if (unitType == UnitType.Warrior)
+            {
+                unitAtk -= 2;
+            }
+            else if (unitType == UnitType.Ranger)
+            {
+                unitAtkSpeed += 0.2f;
+            }
             isRANUp = false;
         }
 
@@ -243,29 +258,32 @@ public class Unit : MonoBehaviour
             unitAtkSpeed = 2f;
 
         else if (unitDetail == UnitDetail.Guitar)
-            unitAtkSpeed = 1.5f;
+            unitAtkSpeed = 1.6f;
 
         else if (unitDetail == UnitDetail.Berserker)
-            unitAtkSpeed = 1.5f;
+            unitAtkSpeed = 1.6f;
 
         else if (unitDetail == UnitDetail.Bass)
-            unitAtk = 4;
+            unitAtk = 2;
 
         else if (unitDetail == UnitDetail.Drum)
-            unitAtk = 6;
+        {
+            unitAtk = 4;
+            unitAtkSpeed = 2f;
+        }
 
         else if (unitDetail == UnitDetail.GrowUp)
         {
-            unitAtk = 10;
+            unitAtk = 8;
             unitAtkSpeed = 1.8f;
-            unitMaxHp = 70;
-            unitHp = 70;
+            unitMaxHp = 60;
+            unitHp = 60;
         }
 
         // Hammer
         else if (unitDetail == UnitDetail.Hammer)
         {
-            unitAtkSpeed = 2f;
+            unitAtkSpeed = 1.5f;
             isBarrierOnce = true;
             isNoDamage = false;
             barrierSkillEffect.SetActive(false);
@@ -336,7 +354,7 @@ public class Unit : MonoBehaviour
             if (gameObject.layer == 8)
             {
                 InGameManager.instance.isDevilB = true;
-                InGameManager.instance.xObject[1].SetActive(true);
+                InGameManager.instance.xObject[4].SetActive(true);
             }
             else if (gameObject.layer == 9)
                 InGameManager.instance.isDevilR = true;
@@ -347,7 +365,7 @@ public class Unit : MonoBehaviour
             if (gameObject.layer == 8)
             {
                 InGameManager.instance.isCostB = true;
-                InGameManager.instance.xObject[0].SetActive(true);
+                InGameManager.instance.xObject[3].SetActive(true);
             }
             else if (gameObject.layer == 9)
                 InGameManager.instance.isCostR = true;
@@ -358,7 +376,7 @@ public class Unit : MonoBehaviour
             if (gameObject.layer == 8)
             {
                 InGameManager.instance.isHealB = true;
-                InGameManager.instance.xObject[0].SetActive(true);
+                InGameManager.instance.xObject[3].SetActive(true);
             }
             else if (gameObject.layer == 9)
                 InGameManager.instance.isHealR = true;
@@ -439,7 +457,6 @@ public class Unit : MonoBehaviour
             if (unitHp <= 30 && isBarrierOnce)
             {
                 isNoDamage = true;  // NoDamage가 True면 DoHit하지 않음
-                unitAtkSpeed = 1f;
                 barrierSkillEffect.SetActive(true);
             }
         }
@@ -470,13 +487,21 @@ public class Unit : MonoBehaviour
     }
     void DrumSkill()
     {
-        if (unitDetail == UnitDetail.Drum)
+        if (gameObject.layer == 8)
         {
-            // 현재 체력이 30이하면 공격력 증가
-            if (unitHp <= 30)
-                unitAtk = 12;
-            else
-                unitAtk = 6;
+            if (InGameManager.instance.redHP < 150)
+            {
+                unitAtk = 8;
+                unitAtkSpeed = 1;
+            }
+        }
+        else if (gameObject.layer == 9)
+        {
+            if (InGameManager.instance.blueHP < 150)
+            {
+                unitAtk = 8;
+                unitAtkSpeed = 1;
+            }
         }
     }
     void BuffUnit()
@@ -576,7 +601,7 @@ public class Unit : MonoBehaviour
             if (!isATKUp)
             {
                 // 공격력 증가
-                unitAtk += 4;
+                unitAtk += 2;
                 isATKUp = true;
             }
         }
@@ -590,13 +615,26 @@ public class Unit : MonoBehaviour
                 isATSUp = true;
             }
         }
-        // 사거리 버프
+        // 랜덤 버프
         if (skillSensor == SkillSensor.RAN)
         {
             if (!isRANUp)
             {
-                // 사거리 증가
-                unitRange += 0.5f;
+                if (unitType == UnitType.Tanker)
+                {
+                    if (gameObject.layer == 8)
+                        unitSpeed += 0.2f;
+                    else if (gameObject.layer == 9)
+                        unitSpeed -= 0.2f;
+                }
+                else if (unitType == UnitType.Warrior)
+                {
+                    unitAtk += 2;
+                }
+                else if (unitType == UnitType.Ranger)
+                {
+                    unitAtkSpeed -= 0.2f;
+                }
                 isRANUp = true;
             }
         }
@@ -606,7 +644,7 @@ public class Unit : MonoBehaviour
             // 버프 중인 경우 버프 해제 (한번만 실행)
             if (isATKUp)
             {
-                unitAtk -= 4;
+                unitAtk -= 2;
                 buffIcon[0].SetActive(false);
                 isATKUp = false;
             }
@@ -618,7 +656,21 @@ public class Unit : MonoBehaviour
             }
             else if (isRANUp)
             {
-                unitRange -= 0.5f;
+                if (unitType == UnitType.Tanker)
+                {
+                    if (gameObject.layer == 8)
+                        unitSpeed -= 0.2f;
+                    else if (gameObject.layer == 9)
+                        unitSpeed += 0.2f;
+                }
+                else if (unitType == UnitType.Warrior)
+                {
+                    unitAtk -= 2;
+                }
+                else if (unitType == UnitType.Ranger)
+                {
+                    unitAtkSpeed += 0.2f;
+                }
                 buffIcon[2].SetActive(false);
                 isRANUp = false;
             }
@@ -905,7 +957,7 @@ public class Unit : MonoBehaviour
         {
             // 회복 이펙트
             ObjectManager.instance.GetBullet(idx + ((int)UnitDetail.Base + 1) * 2, transform.position + Vector3.up * 0.5f);
-            unitHp += unitAtk;
+            unitHp += unitAtk / 2;
             unitHp = unitHp > unitMaxHp ? unitMaxHp : unitHp;
         }
         // Punch는 상대 체력이 50이하면 즉사시킴
@@ -947,10 +999,13 @@ public class Unit : MonoBehaviour
                 // 적의 HP가 내 공격력이하만큼 있으면 (죽을 경우 -> 상대방이 힐 유닛이면? 힐되기 전에 죽었을 듯)
                 if (enemyLogic.unitHp <= unitAtk)
                 {
-                    unitAtk += 2;
-                    unitAtkSpeed -= 0.05f;
-                    unitAtkSpeed = unitAtkSpeed < 0.5f ? 0.5f : unitAtkSpeed;
-                    unitMaxHp += 5;
+                    if (unitAtk < 16)
+                    {
+                        unitAtk += 2;
+                        unitAtkSpeed -= 0.05f;
+                        unitAtkSpeed = unitAtkSpeed < 0.5f ? 0.5f : unitAtkSpeed;
+                        unitMaxHp += 5;
+                    }
                 }
             }
         }
@@ -1056,7 +1111,7 @@ public class Unit : MonoBehaviour
         if (unitDetail == UnitDetail.Bass)
         {
             unitAtk += 2;
-            unitAtk = unitAtk > 10 ? 10 : unitAtk;
+            unitAtk = unitAtk > 6 ? 6 : unitAtk;
         }
 
         // Bullet에 값 넘겨주기
@@ -1328,6 +1383,93 @@ public class Unit : MonoBehaviour
         if (gameObject.layer == 9)
             InGameManager.instance.redUnitCount--;
 
+        switch (unitName)
+        {
+            case "사쿠라":
+            case "레기":
+            case "제트":
+            case "코드짱":
+            case "채루미":
+            case "지니 영":
+                if (gameObject.layer == 8)
+                {
+                    InGameManager.instance.spawnBlueData[0]--;
+                    InGameManager.instance.xObject[0].SetActive(false);
+                }
+                else if (gameObject.layer == 9)
+                    InGameManager.instance.spawnRedData[0]--;
+                break;
+
+            case "푸푸링":
+            case "사월이":
+            case "코코미":
+            case "띠뜨띠뜨":
+            case "윤대대":
+            case "최나은":
+                if (gameObject.layer == 8)
+                {
+                    InGameManager.instance.spawnBlueData[1]--;
+                    InGameManager.instance.xObject[1].SetActive(false);
+                }
+                else if (gameObject.layer == 9)
+                    InGameManager.instance.spawnRedData[1]--;
+                break;
+
+            case "또니피앙":
+            case "김세노":
+            case "배춘희":
+            case "켄노":
+            case "오이쿤":
+            case "이상현":
+                if (gameObject.layer == 8)
+                {
+                    InGameManager.instance.spawnBlueData[2]--;
+                    InGameManager.instance.xObject[2].SetActive(false);
+                }
+                else if (gameObject.layer == 9)
+                    InGameManager.instance.spawnRedData[2]--;
+                break;
+
+            case "베이":
+            case "우앵두":
+            case "설권":
+            case "헉슬리 배":
+                if (gameObject.layer == 8)
+                {
+                    InGameManager.instance.spawnBlueData[3]--;
+                    InGameManager.instance.xObject[3].SetActive(false);
+                }
+                else if (gameObject.layer == 9)
+                    InGameManager.instance.spawnRedData[3]--;
+                break;
+
+            case "베르노":
+            case "백혜림":
+            case "연토리 뿡치":
+            case "흰젓가락":
+            case "힉냥이":
+                if (gameObject.layer == 8)
+                {
+                    InGameManager.instance.spawnBlueData[4]--;
+                    InGameManager.instance.xObject[4].SetActive(false);
+                }
+                else if (gameObject.layer == 9)
+                    InGameManager.instance.spawnRedData[4]--;
+                break;
+
+            case "엔야상":
+            case "앙수":
+                if (gameObject.layer == 8)
+                {
+                    InGameManager.instance.spawnBlueData[5]--;
+                    InGameManager.instance.xObject[5].SetActive(false);
+                }
+                else if (gameObject.layer == 9)
+                    InGameManager.instance.spawnRedData[5]--;
+                break;
+        }
+
+
         col.enabled = false;
         unitState = UnitState.Die;
         gameObject.SetActive(false);
@@ -1359,7 +1501,7 @@ public class Unit : MonoBehaviour
                 buffIcon[1].SetActive(true);
             }
         }
-        // 사거리 증가
+        // 랜덤 증가
         if ((gameObject.layer == 8 && collision.gameObject.tag == "Ran_UpB") || (gameObject.layer == 9 && collision.gameObject.tag == "Ran_UpR"))
         {
             // 근접은 버프를 받지 않음

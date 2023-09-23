@@ -930,10 +930,10 @@ public class GameManager : MonoBehaviour
                         skillText = "공격에 적중당한 적 2초간 공격속도 0.5만큼 디버프.\n(디버프 중첩불가)";
                         break;
                     case 3:
-                        skillText = "범위 내 아군 한명에게 15만큼 힐.\n(중복 소환 불가)";
+                        skillText = "범위 내 아군 한명에게 5만큼 힐.\n(중복 소환 불가)";
                         break;
                     case 4:
-                        skillText = "적을 킬하면 최대체력 +5, 공격력 +2, 공격속도 0.05만큼 증가\n(공격속도 최대치 : 0.5)";
+                        skillText = "적을 킬하면 최대체력 +5, 공격력 +2, 공격속도 0.05만큼 증가\n(최대 5중첩)";
                         break;
                 }
                 break;
@@ -944,7 +944,7 @@ public class GameManager : MonoBehaviour
                         skillText = "일반적인 전사.";
                         break;
                     case 1:
-                        skillText = "범위 내 아군 전체에게 공격범위 0.5 증가.\n(버프 중첩불가)";
+                        skillText = "범위 내 탱커 이동속도 2 증가, 전사 공격속도 0.2 증가, 원딜 공격력 2 증가.\n(버프 중첩불가)";
                         break;
                     case 2:
                         skillText = "자신이 받는 모든 피격데미지가 2 감소되어 적용.\n(최소데미지 1)";
@@ -956,7 +956,7 @@ public class GameManager : MonoBehaviour
                         skillText = "적이 본인과 근접범위까지 오면 백스탭. (쿨타임 3초)";
                         break;
                     case 5:
-                        skillText = "체력이 40이하가 되면 공격속도가 증가하며, 3초간 모든 데미지를 받지 않음.\n(한번만 발동)";
+                        skillText = "체력이 40이하가 되면 3초간 모든 데미지를 받지 않음.\n(한번만 발동)";
                         break;
                 }
                 break;
@@ -996,7 +996,7 @@ public class GameManager : MonoBehaviour
                         skillText = "공격할 때마다 공격속도 증가.\n(공격속도 최대치 : 0.7)\n(이동 시 초기화)";
                         break;
                     case 3:
-                        skillText = "범위 내 아군 전체에게 공격력 4 증가.\n(버프 중첩불가)";
+                        skillText = "범위 내 아군 전체 공격력 2 증가.\n(버프 중첩불가)";
                         break;
                     case 4:
                         skillText = "공격 시 체력 20이하 적 처형.";
@@ -1010,13 +1010,13 @@ public class GameManager : MonoBehaviour
                         skillText = "일반적인 전사.";
                         break;
                     case 1:
-                        skillText = "공격에 적중당한 적 2초간 이동속도 3 감소.\n(디버프 중첩불가)";
+                        skillText = "공격할 때마다 공격력 2 증가\n(최대 2 중첩)\n(이동 시 초기화)";
                         break;
                     case 2:
                         skillText = "범위 원거리 투사체 공격 무효.\n(광역공격 또는 기지의 공격은 해당하지 않음.)";
                         break;
                     case 3:
-                        skillText = "체력이 30이하가 되면 공격력 4 증가.";
+                        skillText = "적 기지의 체력이 절반 이하일 때, 공격력, 공격속도 2배 버프";
                         break;
                     case 4:
                         skillText = "적 기지까지 이동할 동안 공격하지 않음.\n적에게 피격당해도 멈추지 않음.";

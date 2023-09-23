@@ -521,11 +521,11 @@ MonoBehaviour:
   unitName: "\uD770\uC813\uAC00\uB77D"
   unitType: 2
   unitDetail: 0
-  unitCost: 6
+  unitCost: 1
   unitMaxHp: 40
   unitHp: 40
   unitAtk: 6
-  unitAtkSpeed: 1.7
+  unitAtkSpeed: 1.6
   unitRange: 2
   unitSpeed: 1.1
   buffIcon:
@@ -546,7 +546,6 @@ MonoBehaviour:
   isRANUp: 0
   isAtkDebuff: 0
   isAtsDebuff: 0
-  isSpdDebuff: 0
   isNoDamage: 0
   isBackStep: 0
   isBarrierOnce: 0

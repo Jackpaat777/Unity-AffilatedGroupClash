@@ -412,8 +412,8 @@ MonoBehaviour:
   unitCost: 6
   unitMaxHp: 60
   unitHp: 60
-  unitAtk: 8
-  unitAtkSpeed: 2
+  unitAtk: 6
+  unitAtkSpeed: 1.8
   unitRange: 1.5
   unitSpeed: 0.8
   buffIcon:
