@@ -39,6 +39,8 @@ public class InGameManager : MonoBehaviour
     public int[] patternCost;
     public int[] patternRatio;
     public int redUnitCount;
+    public int[] spawnBlueData;
+    public int[] spawnRedData;
 
     [Header("---------------[Base]")]
     public int baseBLevel;
@@ -135,8 +137,6 @@ public class InGameManager : MonoBehaviour
     public bool isDevilRStart;
     public bool isDevilBAttack;
     public bool isDevilRAttack;
-    public int[] spawnBlueData;
-    public int[] spawnRedData;
 
     [Header("---------------[Description]")]
     public int descriptionPage;
@@ -524,7 +524,7 @@ public class InGameManager : MonoBehaviour
     }
     void BlueCostUp()
     {
-        costText.text = $"{blueCost}";
+        costText.text = $"{blueCost}/{blueMaxCost}";
 
         costBTimer += Time.deltaTime;
         if (costBTimer > costBlueUp)
@@ -682,6 +682,7 @@ public class InGameManager : MonoBehaviour
                 return;
 
             blueCost -= 10;
+            blueMaxCost += 5;
             // 이펙트
             blueUpgradeyEffect[baseBLevel].SetActive(true);
             // Level Up
@@ -714,6 +715,7 @@ public class InGameManager : MonoBehaviour
         if (redCost < 7 || baseRLevel == 2)
             return;
         redCost -= 7;
+        redMaxCost += 5;
         redUpgradeyEffect[baseRLevel].SetActive(true);
         baseRLevel++;
         costRedUp -= 0.25f;
@@ -767,7 +769,17 @@ public class InGameManager : MonoBehaviour
     {
         GameObject unitR = Variables.teamRedPrefabs[idx];
         Unit unitRLogic = unitR.GetComponent<Unit>();
-        int rand = Random.Range(0, Variables.groupRedNum);
+        int rand = Random.Range(Variables.startRedIdx + Variables.groupRedNum, Variables.startRedIdx + Variables.groupRedNum + Variables.groupRedNum);
+
+        // 최대 유닛 개수 제한
+        if ((Variables.teamRedNum == 0 && redUnitCount == 13) ||
+            (Variables.teamRedNum == 1 && redUnitCount == 13) ||
+            (Variables.teamRedNum == 2 && redUnitCount == 18) ||
+            (Variables.teamRedNum == 3 && redUnitCount == 16) ||
+            (Variables.teamRedNum == 4 && redUnitCount == 15) ||
+            (Variables.teamRedNum == 5 && redUnitCount == 15))
+            return;
+
 
         // 예외처리
         if ((isDevilR && unitRLogic.unitDetail == UnitDetail.Devil) || (isCostR && unitRLogic.unitDetail == UnitDetail.CostUp) || (isHealR && unitRLogic.unitDetail == UnitDetail.Heal))
@@ -1307,7 +1319,7 @@ public class InGameManager : MonoBehaviour
                 break;
             case 7:
                 descriptionText.text = "<color=red>기지 업그레이드</color>입니다.\n\n기지는 스스로 일정 범위 내에서\n적을 인식해 공격합니다.\n\n" +
-                    "<color=red>B버튼</color>을 통해 10코인을 소모하여\n<color=blue>코인 증가 속도, 기지의 공격력, 공격속도를 증가</color>시킬 수 있습니다.";
+                    "<color=red>B버튼</color>을 통해 10코인을 소모하여\n<color=blue>최대 코인 보유량, 코인 증가 속도, 기지의 공격력, 공격속도를 증가</color>시킬 수 있습니다.";
                 break;
             case 8:
                 descriptionText.text = "기지 업그레이드는 <color=red>최대 2번</color>까지 가능하며,\n업그레이드가 최대인 경우 기지의 공격이 <color=red>광역 공격</color>으로 바뀝니다.";

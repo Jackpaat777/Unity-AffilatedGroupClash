@@ -274,7 +274,7 @@ public class Unit : MonoBehaviour
 
         else if (unitDetail == UnitDetail.GrowUp)
         {
-            unitAtk = 8;
+            unitAtk = 6;
             unitAtkSpeed = 1.8f;
             unitMaxHp = 60;
             unitHp = 60;
@@ -283,7 +283,6 @@ public class Unit : MonoBehaviour
         // Hammer
         else if (unitDetail == UnitDetail.Hammer)
         {
-            unitAtkSpeed = 1.5f;
             isBarrierOnce = true;
             isNoDamage = false;
             barrierSkillEffect.SetActive(false);

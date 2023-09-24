@@ -32774,7 +32774,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: 99999
+  m_text: 10/10
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8e4a4297914f15a46b4fb86862b81672, type: 2}
   m_sharedMaterial: {fileID: 8509065551311902124, guid: 8e4a4297914f15a46b4fb86862b81672, type: 2}
@@ -32808,7 +32808,7 @@ MonoBehaviour:
   m_fontSizeMin: 18
   m_fontSizeMax: 72
   m_fontStyle: 0
-  m_HorizontalAlignment: 2
+  m_HorizontalAlignment: 4
   m_VerticalAlignment: 512
   m_textAlignment: 65535
   m_characterSpacing: 0
@@ -49420,8 +49420,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   isGameLive: 0
-  blueMaxCost: 99999
-  redMaxCost: 99999
+  blueMaxCost: 10
+  redMaxCost: 10
   blueCost: 0
   redCost: 0
   gameTimer: 0
@@ -49454,6 +49454,8 @@ MonoBehaviour:
   patternCost: 000000000000000000000000000000000000000000000000
   patternRatio: 0000000000000000000000000000000000000000
   redUnitCount: 0
+  spawnBlueData: 000000000000000000000000000000000000000000000000
+  spawnRedData: 000000000000000000000000000000000000000000000000
   baseBLevel: 0
   baseRLevel: 0
   blueHP: 300
@@ -49627,8 +49629,6 @@ MonoBehaviour:
   isDevilRStart: 0
   isDevilBAttack: 0
   isDevilRAttack: 0
-  spawnBlueData: 000000000000000000000000000000000000000000000000
-  spawnRedData: 000000000000000000000000000000000000000000000000
   descriptionPage: 0
   optionButton: {fileID: 1345098743}
   teamBLogoButton: {fileID: 727665146}
