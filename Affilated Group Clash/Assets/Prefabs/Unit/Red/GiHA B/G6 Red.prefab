@@ -446,10 +446,10 @@ MonoBehaviour:
   unitType: 1
   unitDetail: 25
   unitCost: 4
-  unitMaxHp: 90
-  unitHp: 90
+  unitMaxHp: 85
+  unitHp: 85
   unitAtk: 2
-  unitAtkSpeed: 1.4
+  unitAtkSpeed: 1.6
   unitRange: 0.4
   unitSpeed: -1.6
   buffIcon:

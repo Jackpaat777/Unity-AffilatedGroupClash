@@ -5415,11 +5415,11 @@ MonoBehaviour:
   unitType: 3
   unitDetail: 13
   unitCost: 6
-  unitMaxHp: 35
-  unitHp: 35
+  unitMaxHp: 25
+  unitHp: 25
   unitAtk: 0
   unitAtkSpeed: 3
-  unitRange: 3
+  unitRange: 2.5
   unitSpeed: 1.2
   buffIcon:
   - {fileID: 814485497303529439}

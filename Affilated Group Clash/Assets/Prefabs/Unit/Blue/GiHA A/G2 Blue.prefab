@@ -332,11 +332,11 @@ MonoBehaviour:
   unitName: "\uBC30\uCD98\uD76C"
   unitType: 0
   unitDetail: 22
-  unitCost: 6
+  unitCost: 5
   unitMaxHp: 70
   unitHp: 70
   unitAtk: 8
-  unitAtkSpeed: 1.6
+  unitAtkSpeed: 1.7
   unitRange: 0.7
   unitSpeed: 1.4
   buffIcon:

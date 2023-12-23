@@ -529,7 +529,7 @@ MonoBehaviour:
   unitName: "\uC124\uAD8C"
   unitType: 2
   unitDetail: 14
-  unitCost: 1
+  unitCost: 6
   unitMaxHp: 50
   unitHp: 50
   unitAtk: 4

@@ -310,7 +310,7 @@ public class InGameManager : MonoBehaviour
                 levelText.text = "어려움";
                 break;
             case 4:
-                costRedUp = 2f;
+                costRedUp = 1.75f;
                 redUpgradeTime = 60;
                 spawnTimer = 1.5f;
                 levelText.text = "매우어려움";
@@ -479,7 +479,7 @@ public class InGameManager : MonoBehaviour
         if (isDevilBStart)
         {
             devilBTimer += Time.deltaTime;
-            if (devilBTimer > 2.5f)
+            if (devilBTimer > 3f)
             {
                 isDevilBAttack = true;
                 devilBTimer = 0;
@@ -490,7 +490,7 @@ public class InGameManager : MonoBehaviour
         if (isDevilRStart)
         {
             devilRTimer += Time.deltaTime;
-            if (devilRTimer > 2.5f)
+            if (devilRTimer > 3f)
             {
                 isDevilRAttack = true;
                 devilRTimer = 0;
@@ -1093,7 +1093,7 @@ public class InGameManager : MonoBehaviour
                         skillText = "범위 내 아군 한명에게 5만큼 힐.\n(중복 소환 불가)";
                         break;
                     case 4:
-                        skillText = "적을 킬하면 최대체력 +5, 공격력 +2, 공격속도 0.05만큼 증가\n(최대 5중첩)";
+                        skillText = "적을 킬하면 최대체력 +5, 공격력 +2, 공격속도 0.1만큼 증가\n(최대 5중첩)";
                         break;
                 }
                 break;
@@ -1104,10 +1104,10 @@ public class InGameManager : MonoBehaviour
                         skillText = "일반적인 전사.";
                         break;
                     case 1:
-                        skillText = "범위 내 탱커 이동속도 2 증가, 전사 공격속도 0.2 증가, 원딜 공격력 2 증가.\n(버프 중첩불가)";
+                        skillText = "자신이 받는 모든 피격데미지가 2 감소되어 적용.\n(최소데미지 1)";
                         break;
                     case 2:
-                        skillText = "자신이 받는 모든 피격데미지가 2 감소되어 적용.\n(최소데미지 1)";
+                        skillText = "범위 내 탱커 이동속도 2 증가, 전사 공격속도 0.2 증가, 원딜 공격력 2 증가.\n(버프 중첩불가)";
                         break;
                     case 3:
                         skillText = "광역으로 원거리 공격.";
@@ -1127,7 +1127,7 @@ public class InGameManager : MonoBehaviour
                         skillText = "일반적인 탱커.";
                         break;
                     case 1:
-                        skillText = "공격 시 본인의 공격력만큼 체력 흡혈. 체력이 20이하가 되면 공격속도 증가.";
+                        skillText = "공격 시 본인의 공격력의 절반만큼 체력 흡혈. 체력이 20이하가 되면 공격속도 0.5만큼 버프.";
                         break;
                     case 2:
                         skillText = "광역으로 근접 공격.";

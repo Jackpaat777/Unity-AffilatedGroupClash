@@ -484,7 +484,7 @@ MonoBehaviour:
   unitName: "\uC624\uC774\uCFE4"
   unitType: 3
   unitDetail: 17
-  unitCost: 1
+  unitCost: 5
   unitMaxHp: 25
   unitHp: 25
   unitAtk: 0

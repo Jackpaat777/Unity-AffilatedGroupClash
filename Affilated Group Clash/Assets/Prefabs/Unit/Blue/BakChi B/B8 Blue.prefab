@@ -631,7 +631,7 @@ MonoBehaviour:
   unitCost: 4
   unitMaxHp: 35
   unitHp: 35
-  unitAtk: 4
+  unitAtk: 6
   unitAtkSpeed: 1.6
   unitRange: 2.5
   unitSpeed: 1.2

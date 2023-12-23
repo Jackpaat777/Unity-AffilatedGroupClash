@@ -933,7 +933,7 @@ public class GameManager : MonoBehaviour
                         skillText = "범위 내 아군 한명에게 5만큼 힐.\n(중복 소환 불가)";
                         break;
                     case 4:
-                        skillText = "적을 킬하면 최대체력 +5, 공격력 +2, 공격속도 0.05만큼 증가\n(최대 5중첩)";
+                        skillText = "적을 킬하면 최대체력 +5, 공격력 +2, 공격속도 0.1만큼 증가\n(최대 5중첩)";
                         break;
                 }
                 break;
@@ -944,10 +944,10 @@ public class GameManager : MonoBehaviour
                         skillText = "일반적인 전사.";
                         break;
                     case 1:
-                        skillText = "범위 내 탱커 이동속도 2 증가, 전사 공격속도 0.2 증가, 원딜 공격력 2 증가.\n(버프 중첩불가)";
+                        skillText = "자신이 받는 모든 피격데미지가 2 감소되어 적용.\n(최소데미지 1)";
                         break;
                     case 2:
-                        skillText = "자신이 받는 모든 피격데미지가 2 감소되어 적용.\n(최소데미지 1)";
+                        skillText = "범위 내 탱커 이동속도 2 증가, 전사 공격속도 0.2 증가, 원딜 공격력 2 증가.\n(버프 중첩불가)";
                         break;
                     case 3:
                         skillText = "광역으로 원거리 공격.";
@@ -967,7 +967,7 @@ public class GameManager : MonoBehaviour
                         skillText = "일반적인 탱커.";
                         break;
                     case 1:
-                        skillText = "공격 시 본인의 공격력만큼 체력 흡혈. 체력이 20이하가 되면 공격속도 증가.";
+                        skillText = "공격 시 본인의 공격력의 절반만큼 체력 흡혈. 체력이 20이하가 되면 공격속도 0.5만큼 버프.";
                         break;
                     case 2:
                         skillText = "광역으로 근접 공격.";
@@ -1080,10 +1080,10 @@ public class GameManager : MonoBehaviour
                         detailText = "주폭소년단의 리더. 정열적이며 활기찬 성격덕분에 팀원들을 조율하거나 여러 활동에 참여하는 모습을 보인다.";
                         break;
                     case 1:
-                        detailText = "연하남 계열의 아이돌이지만 생각보다 많이 연하인 것이 특징. 상당히 많은 여성들이 오이쿤을 노리고 있다는 소문이 존재한다.";
+                        detailText = "쾌활한 학생회장 속성과 웃을 때 \"윤하하하\"하며 호탕하게 웃는 모습이 특징이다. 의외로 카사노바 기질이 있는 것 같다.";
                         break;
                     case 2:
-                        detailText = "쾌활한 학생회장 속성과 웃을 때 \"윤하하하\"하며 호탕하게 웃는 모습이 특징이다. 의외로 카사노바 기질이 있는 것 같다.";
+                        detailText = "연하남 계열의 아이돌이지만 생각보다 많이 연하인 것이 특징. 상당히 많은 여성들이 오이쿤을 노리고 있다는 소문이 존재한다.";
                         break;
                     case 3:
                         detailText = "몸이 안좋은 병약미소년. 빈혈이 심해서 갑자기 쓰러지기도 하지만 이런 모습덕에 팬들에게서 모성애를 자극시킨다.";

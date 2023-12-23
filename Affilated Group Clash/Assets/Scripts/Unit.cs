@@ -1,5 +1,6 @@
 using System;
 using System.Xml.Linq;
+using Unity.VisualScripting;
 using UnityEngine;
 using Slider = UnityEngine.UI.Slider;
 
@@ -101,7 +102,7 @@ public class Unit : MonoBehaviour
     }
 
     // 유닛을 클릭했을 때
-    void OnMouseDown()
+    void OnMouseEnter()
     {
         // Base 타입인 경우
         if (unitType == UnitType.Base)
@@ -261,10 +262,10 @@ public class Unit : MonoBehaviour
             unitAtkSpeed = 1.6f;
 
         else if (unitDetail == UnitDetail.Berserker)
-            unitAtkSpeed = 1.6f;
+            unitAtkSpeed = 1.7f;
 
         else if (unitDetail == UnitDetail.Bass)
-            unitAtk = 2;
+            unitAtk = 4;
 
         else if (unitDetail == UnitDetail.Drum)
         {
@@ -274,8 +275,8 @@ public class Unit : MonoBehaviour
 
         else if (unitDetail == UnitDetail.GrowUp)
         {
-            unitAtk = 6;
-            unitAtkSpeed = 1.8f;
+            unitAtk = 8;
+            unitAtkSpeed = 2f;
             unitMaxHp = 60;
             unitHp = 60;
         }
@@ -400,6 +401,7 @@ public class Unit : MonoBehaviour
         }
 
         // Unit Own Skill
+        DevilAttack();
         DevilHit();
         BackStepTimer();
         BarrierSkill();
@@ -418,6 +420,17 @@ public class Unit : MonoBehaviour
         BuffDebuffUI();
     }
     // ======================================================= Update 정리용 함수
+    void DevilAttack()
+    {
+        // 공격모션
+        if ((InGameManager.instance.isDevilBAttack && gameObject.layer == 8) || (InGameManager.instance.isDevilRAttack && gameObject.layer == 9))
+        {
+            // Anim
+            anim.SetTrigger("doAttack");
+            // Sound
+            SoundManager.instance.SfxPlay("Devil");
+        }
+    }
     void DevilHit()
     {
         if ((InGameManager.instance.isDevilBAttack && gameObject.layer == 9) || (InGameManager.instance.isDevilRAttack && gameObject.layer == 8))
@@ -610,7 +623,6 @@ public class Unit : MonoBehaviour
             if (!isATSUp)
             {
                 unitAtkSpeed -= 0.5f;
-                unitAtkSpeed = unitAtkSpeed < 0.5f ? 0.5f : unitAtkSpeed;
                 isATSUp = true;
             }
         }
@@ -650,6 +662,11 @@ public class Unit : MonoBehaviour
             else if (isATSUp)
             {
                 unitAtkSpeed += 0.5f;
+
+                // 버그 방지
+                if (unitDetail == UnitDetail.Berserker && unitAtkSpeed > 1.7f)
+                    unitAtkSpeed = 1.7f;
+
                 buffIcon[1].SetActive(false);
                 isATSUp = false;
             }
@@ -834,32 +851,11 @@ public class Unit : MonoBehaviour
                 isFront = true;
                 DoStop();
 
+                // Start Attack
                 if (gameObject.layer == 8)
-                {
                     InGameManager.instance.isDevilBStart = true;
-
-                    // 공격모션
-                    if (InGameManager.instance.isDevilBAttack)
-                    {
-                        // Anim
-                        anim.SetTrigger("doAttack");
-                        // Sound
-                        SoundManager.instance.SfxPlay("Devil");
-                    }
-                }
                 else if (gameObject.layer == 9)
-                {
                     InGameManager.instance.isDevilRStart = true;
-
-                    // 공격모션
-                    if (InGameManager.instance.isDevilRAttack)
-                    {
-                        // Anim
-                        anim.SetTrigger("doAttack");
-                        // Sound
-                        SoundManager.instance.SfxPlay("Devil");
-                    }
-                }
             }
 
             // 버퍼의 경우
@@ -1001,7 +997,7 @@ public class Unit : MonoBehaviour
                     if (unitAtk < 16)
                     {
                         unitAtk += 2;
-                        unitAtkSpeed -= 0.05f;
+                        unitAtkSpeed -= 0.1f;
                         unitAtkSpeed = unitAtkSpeed < 0.5f ? 0.5f : unitAtkSpeed;
                         unitMaxHp += 5;
                     }
@@ -1110,7 +1106,7 @@ public class Unit : MonoBehaviour
         if (unitDetail == UnitDetail.Bass)
         {
             unitAtk += 2;
-            unitAtk = unitAtk > 6 ? 6 : unitAtk;
+            unitAtk = unitAtk > 8 ? 8 : unitAtk;
         }
 
         // Bullet에 값 넘겨주기
@@ -1283,9 +1279,8 @@ public class Unit : MonoBehaviour
 
         if (unitDetail == UnitDetail.Berserker)
         {
-            // 깎인체력 1 당 0.005씩 공속 증가
-            unitAtkSpeed -= damage * 0.005f;
-            unitAtkSpeed = unitAtkSpeed < 0.5f ? 0.5f : unitAtkSpeed;
+            // 깎인체력 1 당 0.01씩 공속 증가
+            unitAtkSpeed -= damage * 0.01f;
         }
         else if (unitDetail == UnitDetail.Shield)
         {
@@ -1345,7 +1340,7 @@ public class Unit : MonoBehaviour
                 InGameManager.instance.isDevilBStart = false;
                 InGameManager.instance.isDevilBAttack = false;
                 InGameManager.instance.devilBTimer = 0;
-                InGameManager.instance.xObject[1].SetActive(false);
+                InGameManager.instance.xObject[4].SetActive(false);
             }
             else if(gameObject.layer == 9)
             {
@@ -1361,7 +1356,7 @@ public class Unit : MonoBehaviour
             if (gameObject.layer == 8)
             {
                 InGameManager.instance.isCostB = false;
-                InGameManager.instance.xObject[0].SetActive(false);
+                InGameManager.instance.xObject[3].SetActive(false);
             }
             else if (gameObject.layer == 9)
                 InGameManager.instance.isCostR = false;
@@ -1372,7 +1367,7 @@ public class Unit : MonoBehaviour
             if (gameObject.layer == 8)
             {
                 InGameManager.instance.isHealB = false;
-                InGameManager.instance.xObject[0].SetActive(false);
+                InGameManager.instance.xObject[3].SetActive(false);
             }
             else if (gameObject.layer == 9)
                 InGameManager.instance.isHealR = false;

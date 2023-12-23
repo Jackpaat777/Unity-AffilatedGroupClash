@@ -444,8 +444,8 @@ MonoBehaviour:
   unitMaxHp: 25
   unitHp: 25
   unitAtk: 4
-  unitAtkSpeed: 2.5
-  unitRange: 2
+  unitAtkSpeed: 3
+  unitRange: 1.8
   unitSpeed: -1
   buffIcon:
   - {fileID: 9156360115859449538}

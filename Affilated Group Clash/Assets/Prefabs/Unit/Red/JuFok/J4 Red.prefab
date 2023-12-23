@@ -198,7 +198,7 @@ MonoBehaviour:
   unitMaxHp: 40
   unitHp: 40
   unitAtk: 6
-  unitAtkSpeed: 1.6
+  unitAtkSpeed: 1.5
   unitRange: 2
   unitSpeed: -1.1
   buffIcon:

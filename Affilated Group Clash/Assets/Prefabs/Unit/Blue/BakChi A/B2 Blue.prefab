@@ -946,10 +946,10 @@ MonoBehaviour:
   unitName: "\uB610\uB2C8\uD53C\uC559"
   unitType: 0
   unitDetail: 8
-  unitCost: 6
+  unitCost: 5
   unitMaxHp: 75
   unitHp: 75
-  unitAtk: 6
+  unitAtk: 4
   unitAtkSpeed: 1.7
   unitRange: 1
   unitSpeed: 1.4
